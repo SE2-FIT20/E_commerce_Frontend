@@ -23,7 +23,6 @@ const Navbar = ({
 }) => {
   const { currentUser, setCurrentUser, setRole, BACKEND_URL } =
     useContext(AuthContext);
-
   const [openSetting, setOpenSetting] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
   const [openCartPreview, setOpenCartPreview] = useState(false);
@@ -41,7 +40,6 @@ const Navbar = ({
         );
         setProductResults(data.data.products);
         setStoreResults(data.data.stores);
-        console.log(1);
       } catch (error) {
         setOpenSearch(false);
       }

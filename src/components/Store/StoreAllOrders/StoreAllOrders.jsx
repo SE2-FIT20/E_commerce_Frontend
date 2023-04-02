@@ -22,7 +22,7 @@ const StoreAllOrders = () => {
   const [orderType, setOrderType] = useState(
     useHistory().location.pathname.split("/")[3]
   );
-
+  const [loading, setLoading] = useState(false);
   const pageIndex = Math.floor(useHistory().location.search.split("=")[1]);
   const [currentPage, setCurrentPage] = useState(pageIndex);
   const [orderPerPage, setOrderPerPage] = useState(3);
@@ -70,12 +70,15 @@ const StoreAllOrders = () => {
 
   const fetchOrders = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get(
         `${BACKEND_URL}/api/store/orders`,
         config
       );
       setOrders(data.data);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       toast({
         title: "An error occurred fetching orders",
         status: "error",
@@ -89,7 +92,6 @@ const StoreAllOrders = () => {
   useEffect(() => {
     fetchOrders();
   }, []);
-  console.log(orders);
 
   return (
     <div className="storeAllOrders">
@@ -148,145 +150,157 @@ const StoreAllOrders = () => {
             </li>
           </ul>
         </div>
-        <div className="storeOrders">
-          <table>
-            <thead>
-              <tr>
-                <th style={{ flex: "4", justifyContent: "flex-start" }}>
-                  Product
-                </th>
-                <th style={{ flex: "1.5" }}>Price</th>
-                <th style={{ flex: "0.5" }}>Quantity</th>
-                <th style={{ flex: "1.5" }}>Category</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {orders
-                .slice(orderIndexStart, orderIndexEnd + 1)
-                .map((order, i) => (
-                  <tr style={{ marginBottom: "25px" }}>
-                    <th className="orderInfo">
-                      <div className="customer">
-                        <img src={order.customer.avatar} alt="" />
-                        <h2>{order.customer.name}</h2>
-                      </div>
+        {loading && (
+          <div className="fullLoading">
+            <div className="lds-ellipsis">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        )}
+        {!loading && (
+          <div className="storeOrders">
+            <table>
+              <thead>
+                <tr>
+                  <th style={{ flex: "4", justifyContent: "flex-start" }}>
+                    Product
+                  </th>
+                  <th style={{ flex: "1.5" }}>Price</th>
+                  <th style={{ flex: "0.5" }}>Quantity</th>
+                  <th style={{ flex: "1.5" }}>Category</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {orders
+                  .slice(orderIndexStart, orderIndexEnd + 1)
+                  .map((order, i) => (
+                    <tr style={{ marginBottom: "25px" }} key={i}>
+                      <th className="orderInfo">
+                        <div className="customer">
+                          <img src={order.customer.avatar} alt="" />
+                          <h2>{order.customer.name}</h2>
+                        </div>
 
-                      <div className="orderRight">
-                        <div className="date">
-                          {formatTimestamp(order.createdAt)}
+                        <div className="orderRight">
+                          <div className="date">
+                            {formatTimestamp(order.createdAt)}
+                          </div>
+                          <div className="orderCode">
+                            <h2>Order Code:</h2>
+                            <span>{order.orderCode}</span>
+                          </div>
                         </div>
-                        <div className="orderCode">
-                          <h2>Order Code:</h2>
-                          <span>{order.orderCode}</span>
-                        </div>
-                      </div>
-                    </th>
-                    <th className="products">
-                      {order.items.map((item, i) => (
-                        <div className="productsInfo">
-                          <div
-                            style={{
-                              display: "flex",
-                              flex: "4",
-                              gap: "15px",
-                              alignItems: "flex-start",
-                              paddingTop: i === 0 && "10px",
-                              paddingBottom:
-                                i === order.items.length - 1 && "20px",
-                              paddingLeft: "15px",
-                              justifyContent: "flex-start",
-                            }}
-                          >
-                            <img
-                              src={item.product.images[0]}
-                              alt=""
-                              className="productImage"
-                            />
-                            <span
-                              className="productName"
-                              // onClick={() =>
-                              //   history.push(
-                              //     `/store/product/${order.items.product.id}`
-                              //   )
-                              // }
+                      </th>
+                      <th className="products">
+                        {order.items.map((item, i) => (
+                          <div className="productsInfo" key={i}>
+                            <div
+                              style={{
+                                display: "flex",
+                                flex: "4",
+                                gap: "15px",
+                                alignItems: "flex-start",
+                                paddingTop: i === 0 && "10px",
+                                paddingBottom:
+                                  i === order.items.length - 1 && "20px",
+                                paddingLeft: "15px",
+                                justifyContent: "flex-start",
+                              }}
                             >
-                              {item.product.name}
-                            </span>
+                              <img
+                                src={item.product.images[0]}
+                                alt=""
+                                className="productImage"
+                              />
+                              <span
+                                className="productName"
+                                // onClick={() =>
+                                //   history.push(
+                                //     `/store/product/${order.items.product.id}`
+                                //   )
+                                // }
+                              >
+                                {item.product.name}
+                              </span>
+                            </div>
+                            <div style={{ flex: "1.5" }}>
+                              <div className="container">
+                                <span className="price-symbol">₫</span>
+                                {formatNumber(item.product.price)}
+                              </div>
+                            </div>
+                            <div style={{ flex: "0.5" }}>
+                              <div className="container">
+                                {item.product.quantity}
+                              </div>
+                            </div>
+                            <div style={{ flex: "1.5" }}>
+                              <div className="container">
+                                {item.product.category}
+                              </div>
+                            </div>
+                            <div className="productButtons"></div>
                           </div>
-                          <div style={{ flex: "1.5" }}>
-                            <div className="container">
-                              <span className="price-symbol">₫</span>
-                              {formatNumber(item.product.price)}
+                        ))}
+                        <div className="total">
+                          <div className="totalContainer">
+                            <div className="totalPriceContainer">
+                              <span className="totalPriceTxt">Total: </span>
+                            </div>
+                            <div className="totalPriceRight">
+                              <div className="totalPrice">
+                                {formatNumber(order.totalPrice)}
+                              </div>
+                              <button className="button">Prepared</button>
                             </div>
                           </div>
-                          <div style={{ flex: "0.5" }}>
-                            <div className="container">
-                              {item.product.quantity}
-                            </div>
-                          </div>
-                          <div style={{ flex: "1.5" }}>
-                            <div className="container">
-                              {item.product.category}
-                            </div>
-                          </div>
-                          <div className="productButtons"></div>
                         </div>
-                      ))}
-                      <div className="total">
-                        <div className="totalContainer">
-                          <div className="totalPriceContainer">
-                            <span className="totalPriceTxt">Total: </span>
-                          </div>
-                          <div className="totalPriceRight">
-                            <div className="totalPrice">
-                              {formatNumber(order.totalPrice)}
-                            </div>
-                            <button className="button">Prepared</button>
-                          </div>
-                        </div>
-                      </div>
-                    </th>
-                  </tr>
-                ))}
+                      </th>
+                    </tr>
+                  ))}
 
-              <tr
-                style={{
-                  position: "absolute",
-                  left: "0px",
-                  bottom: "0px",
-                  paddingBottom: "15px",
-                  zIndex: "50",
-                  backgroundColor: "#fff",
-                }}
-              >
-                <td className="productNav">
-                  <div className="productNavBtn">
-                    <div className="prevBtn" onClick={handleClickPrev}>
-                      <FontAwesomeIcon icon={faChevronLeft} />
+                <tr
+                  style={{
+                    position: "absolute",
+                    left: "0px",
+                    bottom: "0px",
+                    paddingBottom: "15px",
+                    zIndex: "50",
+                    backgroundColor: "#fff",
+                  }}
+                >
+                  <td className="productNav">
+                    <div className="productNavBtn">
+                      <div className="prevBtn" onClick={handleClickPrev}>
+                        <FontAwesomeIcon icon={faChevronLeft} />
+                      </div>
+                      <span>{`${currentPage}/${
+                        numOfPages != 1 / 0 ? numOfPages : "1"
+                      }`}</span>
+                      <div className="nextBtn" onClick={handleClickNext}>
+                        <FontAwesomeIcon icon={faChevronRight} />
+                      </div>
                     </div>
-                    <span>{`${currentPage}/${
-                      numOfPages != 1 / 0 ? numOfPages : "1"
-                    }`}</span>
-                    <div className="nextBtn" onClick={handleClickNext}>
-                      <FontAwesomeIcon icon={faChevronRight} />
+                    <div className="productPerPage">
+                      <div className="productPerPageContainer">
+                        <input
+                          type="number"
+                          value={orderPerPage}
+                          onChange={handleChangeOrderPerPage}
+                        />
+                        <span>{`/page`}</span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="productPerPage">
-                    <div className="productPerPageContainer">
-                      <input
-                        type="number"
-                        value={orderPerPage}
-                        onChange={handleChangeOrderPerPage}
-                      />
-                      <span>{`/page`}</span>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

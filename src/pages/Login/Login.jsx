@@ -12,7 +12,7 @@ const Login = () => {
     email: "",
     password: "",
   });
-
+  const [loading, setLoading] = useState(false)
   const { setCurrentUser, setToken, setRole } = useContext(AuthContext);
   const toast = useToast();
   const history = useHistory();
@@ -29,6 +29,7 @@ const Login = () => {
   const login = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const response = await axios.post(
         "https://e-commerce-production-43d5.up.railway.app/api/auth/login",
         { email: credentials.email, password: credentials.password },
@@ -71,6 +72,7 @@ const Login = () => {
         history.push("/store/product/all?pages=1");
       }
     } catch (error) {
+      setLoading(false);
       toast({
         title: "An error occurred while trying to login",
         status: "error",
@@ -112,11 +114,23 @@ const Login = () => {
                 <div>
                   <div className="mt-3 d-flex justify-content-center gap-15 align-items-center">
                     <button
-                      className="button border-0"
+                      className="button"
                       type="submit"
                       onClick={login}
+                      style={{ padding: loading ? "10px 40px" : "13px 40px"}}
                     >
-                      Login
+                       {loading ? (
+                        <div className="loginLoading">
+                          <div class="lds-ring">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                          </div>
+                        </div>
+                      ) : (
+                        "Login"
+                      )}
                     </button>
                     <Link to="/register" className="button signup">
                       Sign Up

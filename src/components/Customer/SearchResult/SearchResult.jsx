@@ -40,7 +40,16 @@ const SearchResult = () => {
       }}
     >
       <div className="searchResultContainer">
-        {loading && <div className="lds-ring">Loading</div>}
+        {loading && (
+          <div className="fullLoading">
+            <div className="lds-ellipsis">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        )}
         {storeResults.length === 0 &&
           productResults.length === 0 &&
           !loading && (

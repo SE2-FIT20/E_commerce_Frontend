@@ -56,6 +56,12 @@
   background-color: #232f3e;
   color: white;
 }
+
+.partialLoading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 @media screen and (max-width: 1024px) {
   .featuredProduct ul li {
     max-width: 30%;

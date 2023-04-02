@@ -19,6 +19,7 @@ const Storepage = () => {
   const location = useLocation();
   const { BACKEND_URL, config } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [stockType, setStockType] = useState(
     useHistory().location.pathname.split("/")[3]
   );
@@ -70,12 +71,15 @@ const Storepage = () => {
 
   const fetchProducts = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get(
         `${BACKEND_URL}/api/store/products`,
         config
       );
       setProducts(data.data);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       toast({
         title: "An error occurred fetching products",
         status: "error",
@@ -146,128 +150,142 @@ const Storepage = () => {
             </li>
           </ul>
         </div>
-        <div className="storeProducts">
-          <table>
-            <thead>
-              <tr>
-                <th
+        {loading && (
+          <div className="fullLoading">
+            <div className="lds-ellipsis">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          </div>
+        )}
+        {!loading && (
+          <div className="storeProducts">
+            <table>
+              <thead>
+                <tr>
+                  <th
+                    style={{
+                      flex: "4",
+                      justifyContent: "flex-start",
+                      paddingLeft: "10px",
+                    }}
+                  >
+                    Product name
+                  </th>
+                  <th style={{ flex: "2" }}>Product category</th>
+                  <th style={{ flex: "2" }}>Price</th>
+                  <th>In stock</th>
+                  <th>Sales</th>
+                  <th>Operation</th>
+                </tr>
+              </thead>
+              <tbody>
+                {products
+                  .slice(productIndexStart, productIndexEnd + 1)
+                  .map((product, i) => (
+                    <tr key={i}>
+                      <th
+                        style={{
+                          display: "flex",
+                          flex: "4",
+                          gap: "15px",
+                          alignItems: "flex-start",
+                          justifyContent: "flex-start",
+                          paddingLeft: "10px",
+                        }}
+                      >
+                        <img
+                          src={product.images[0]}
+                          alt=""
+                          className="productImage"
+                        />
+                        <span
+                          className="productName"
+                          onClick={() =>
+                            history.push(`/store/product/${product.id}`)
+                          }
+                        >
+                          {product.name}
+                        </span>
+                      </th>
+                      <th style={{ flex: "2" }}>
+                        <div className="container"> {product.category}</div>
+                      </th>
+                      <th style={{ flex: "2" }}>
+                        <div className="container">
+                          <span className="price-symbol">₫</span>
+                          {formatNumber(product.price)}
+                        </div>
+                      </th>
+                      <th>
+                        <div className="container"> {product.quantity}</div>
+                      </th>
+                      <th>
+                        <div className="container">2</div>
+                      </th>
+                      <th>
+                        <div className="container productButtons">
+                          <FontAwesomeIcon
+                            icon={faPen}
+                            onClick={() =>
+                              history.push(
+                                `/store/product/update/${product.id}`
+                              )
+                            }
+                          />
+                          <FontAwesomeIcon
+                            icon={faTrash}
+                            onClick={() => {
+                              setOpenConfirmDelete(true);
+                              setProductToDelete(product.id);
+                            }}
+                          />
+                        </div>
+                      </th>
+                    </tr>
+                  ))}
+
+                <tr
                   style={{
-                    flex: "4",
-                    justifyContent: "flex-start",
-                    paddingLeft: "10px",
+                    position: "absolute",
+                    left: "0px",
+                    bottom: "0px",
+                    paddingBottom: "15px",
+                    zIndex: "50",
+                    backgroundColor: "#fff",
+                    padding: "15px 0",
                   }}
                 >
-                  Product name
-                </th>
-                <th style={{ flex: "2" }}>Product category</th>
-                <th style={{ flex: "2" }}>Price</th>
-                <th>In stock</th>
-                <th>Sales</th>
-                <th>Operation</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products
-                .slice(productIndexStart, productIndexEnd + 1)
-                .map((product, i) => (
-                  <tr key={i}>
-                    <th
-                      style={{
-                        display: "flex",
-                        flex: "4",
-                        gap: "15px",
-                        alignItems: "flex-start",
-                        justifyContent: "flex-start",
-                        paddingLeft: "10px",
-                      }}
-                    >
-                      <img
-                        src={product.images[0]}
-                        alt=""
-                        className="productImage"
-                      />
-                      <span
-                        className="productName"
-                        onClick={() =>
-                          history.push(`/store/product/${product.id}`)
-                        }
-                      >
-                        {product.name}
-                      </span>
-                    </th>
-                    <th style={{ flex: "2" }}>
-                      <div className="container"> {product.category}</div>
-                    </th>
-                    <th style={{ flex: "2" }}>
-                      <div className="container">
-                        <span className="price-symbol">₫</span>
-                        {formatNumber(product.price)}
+                  <td className="productNav">
+                    <div className="productNavBtn">
+                      <div className="prevBtn" onClick={handleClickPrev}>
+                        <FontAwesomeIcon icon={faChevronLeft} />
                       </div>
-                    </th>
-                    <th>
-                      <div className="container"> {product.quantity}</div>
-                    </th>
-                    <th>
-                      <div className="container">2</div>
-                    </th>
-                    <th>
-                      <div className="container productButtons">
-                        <FontAwesomeIcon
-                          icon={faPen}
-                          onClick={() =>
-                            history.push(`/store/product/update/${product.id}`)
-                          }
-                        />
-                        <FontAwesomeIcon
-                          icon={faTrash}
-                          onClick={() => {
-                            setOpenConfirmDelete(true);
-                            setProductToDelete(product.id);
-                          }}
-                        />
+                      <span>{`${currentPage}/${
+                        numOfPages !== 1 / 0 ? numOfPages : 1
+                      }`}</span>
+                      <div className="nextBtn" onClick={handleClickNext}>
+                        <FontAwesomeIcon icon={faChevronRight} />
                       </div>
-                    </th>
-                  </tr>
-                ))}
-
-              <tr
-                style={{
-                  position: "absolute",
-                  left: "0px",
-                  bottom: "0px",
-                  paddingBottom: "15px",
-                  zIndex: "50",
-                  backgroundColor: "#fff",
-                  padding: "15px 0",
-                }}
-              >
-                <td className="productNav">
-                  <div className="productNavBtn">
-                    <div className="prevBtn" onClick={handleClickPrev}>
-                      <FontAwesomeIcon icon={faChevronLeft} />
                     </div>
-                    <span>{`${currentPage}/${
-                      numOfPages !== 1 / 0 ? numOfPages : 1
-                    }`}</span>
-                    <div className="nextBtn" onClick={handleClickNext}>
-                      <FontAwesomeIcon icon={faChevronRight} />
+                    <div className="productPerPage">
+                      <div className="productPerPageContainer">
+                        <input
+                          type="number"
+                          value={productPerPage}
+                          onChange={handleChangeProductPerPage}
+                        />
+                        <span>{`/page`}</span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="productPerPage">
-                    <div className="productPerPageContainer">
-                      <input
-                        type="number"
-                        value={productPerPage}
-                        onChange={handleChangeProductPerPage}
-                      />
-                      <span>{`/page`}</span>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
       <div
         className={openConfirmDelete ? "confirmDelete" : "confirmDelete hide"}

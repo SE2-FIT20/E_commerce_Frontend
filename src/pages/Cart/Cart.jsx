@@ -9,19 +9,25 @@ import "./cart.css";
 import EmptyCart from "../../images/cart-empty.webp";
 
 const Cart = () => {
-  const [storeProducts, setStoreProducts] = useState([]);
   const { BACKEND_URL, config } = useContext(AuthContext);
+  const [storeProducts, setStoreProducts] = useState([]);
 
+  const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
-  const history = useHistory()
+  const history = useHistory();
   const fetchCart = async () => {
     try {
+      setLoading(true);
       const { data } = await axios.get(
         `${BACKEND_URL}/api/customer/cart`,
         config
       );
+
       setStoreProducts(data.data);
-    } catch (error) {}
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
   };
   useEffect(() => {
     fetchCart();
@@ -36,7 +42,17 @@ const Cart = () => {
       style={{ backgroundColor: storeProducts.length === 0 && "#fff" }}
     >
       <BreadCrumb title="Cart" />
-      {storeProducts.length > 0 && (
+      {loading && (
+        <div className="fullLoading">
+          <div className="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      )}
+      {storeProducts.length > 0 && !loading && (
         <div className="cartContainer">
           <div className="cartBody">
             {storeProducts &&
@@ -87,7 +103,7 @@ const Cart = () => {
           )}
         </div>
       )}
-      {storeProducts.length === 0 && (
+      {storeProducts.length === 0 && !loading && (
         <div className="cartContainer">
           <div className="emptyCart">
             <img src={EmptyCart} alt="" className="emptyCartImage" />
@@ -97,7 +113,14 @@ const Cart = () => {
                 Before proceed to checkout, you must add some products to your
                 cart. You will find a lot of interesting products on our page.
               </span>
-              <button className="button" onClick={() => {history.push(`/`)}}>Buy now</button>
+              <button
+                className="button"
+                onClick={() => {
+                  history.push(`/`);
+                }}
+              >
+                Buy now
+              </button>
             </div>
           </div>
         </div>
