@@ -1,0 +1,89 @@
+.storeLeftbar {
+  flex: 1.2;
+  height: auto;
+  background-color: #ffffff;
+  height: calc(100vh - 70px);
+  overflow-y: scroll;
+}
+
+.storeLeftbarContainer {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.storeLeftbarContainer > div {
+  cursor: pointer;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+
+}
+
+.storeLeftbarContainer > div .heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.storeLeftbarContainer > div .heading:hover span {
+  color: #3a9cc5;
+  font-weight: 600;
+}
+
+.openOption {
+  cursor: pointer;
+  transform: rotate(0deg);
+  transition: transform 0.25s ease-in-out;
+}
+
+.openOption.rotate {
+  transform: rotate(-180deg);
+  transition: transform 0.25s ease-in-out;
+}
+
+.storeLeftbarContainer .heading span {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.storeLeftbarContainer ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-top: 5px;
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+
+}
+
+.storeLeftbarContainer ul.selected {
+  max-height: 200px;
+  transition: max-height 0.25s ease-in-out;
+
+}
+
+.storeLeftbarContainer ul li {
+  list-style: none;
+  cursor: pointer;
+  padding: 5px 15px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.storeLeftbarContainer ul li:hover {
+  background-color: #F0F2F5;
+}
+
+.chosenOption {
+  color: #3a9cc5 !important;
+  font-weight: bold !important;
+}
+
+@media screen and (max-width: 600px) {
+  .storeLeftbar {
+    display: none;
+  }
+}

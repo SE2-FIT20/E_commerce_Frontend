@@ -1,0 +1,92 @@
+.categoryFilter {
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+.categoryFilter .categoryFilterContainer {
+}
+
+.categoryFilter .categoryFilterHeading {
+  font-size: 30px;
+  font-weight: 600;
+  padding-bottom: 20px;
+}
+
+.categoryFilter .categories {
+  position: relative;
+}
+
+.categoryFilter .categories ul {
+  /* display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  overflow: hidden; */
+  display: grid;
+  grid-template-columns: repeat(10, 20%);
+  overflow-x: scroll;
+
+}
+
+.categoryFilter .categories > div {
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  background-color: lightgray;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.categoryFilter .categories .prevBtn {
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  overflow: visible;
+  transform: translateY(-50%);
+}
+
+.categoryFilter .categories .nextBtn {
+  position: absolute;
+  top: 50%;
+  right: 0px;
+  transform: translateY(-50%);
+  padding: 0 !important;
+}
+
+.categoryFilter .categories ul li {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  list-style: none;
+  border: 1px solid lightgray;
+  padding: 5px;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #0C1D26;
+  border-radius: 15px;
+  height: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

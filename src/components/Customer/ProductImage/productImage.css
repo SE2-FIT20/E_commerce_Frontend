@@ -1,0 +1,98 @@
+.productLeft .productOtherImages {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  overflow: hidden;
+  width: 350px;
+  position: relative;
+}
+
+.productLeft .productOtherImage {
+  min-width: 66px;
+  min-height: 66px;
+  max-width: 66px;
+  max-height: 66px;
+  position: relative;
+}
+
+.productLeft .productOtherImage .unSelectedImage {
+  min-width: 66px;
+  min-height: 66px;
+  max-width: 66px;
+  max-height: 66px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.productLeft .productOtherImage .selectedImage {
+  min-width: 60px;
+  min-height: 60px;
+  max-width: 60px;
+  max-height: 60px;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.productLeft .prevBtn {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.productLeft .nextBtn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+  padding: 5px !important;
+}
+
+
+
+@media screen and (min-width: 1700px) {
+  .productLeft .productOtherImages {
+    width: 450px;
+  }
+
+  .productLeft .productOtherImage {
+    min-width: 86px;
+    min-height: 86px;
+    max-width: 86px;
+    max-height: 86px;
+    position: relative;
+  }
+  
+  .productLeft .productOtherImage .unSelectedImage {
+    min-width: 86px;
+    min-height: 86px;
+    max-width: 86px;
+    max-height: 86px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+
+  .productLeft .productOtherImage img:hover {
+    min-width: 80px;
+    min-height: 80px;
+    max-width: 80px;
+    max-height: 80px;
+  }
+
+  .productLeft .productOtherImage .selectedImage {
+    min-width: 80px;
+    min-height: 80px;
+    max-width: 80px;
+    max-height: 80px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+}

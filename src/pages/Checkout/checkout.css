@@ -1,0 +1,200 @@
+.checkout {
+  width: 100%;
+  background-color: #f5f5f5;
+  min-height: calc(100vh - 70px)
+}
+
+.checkoutContainer {
+  width: 80%;
+  margin: auto;
+  padding: 20px 0;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+}
+
+.checkout .deliveryLocation {
+  padding: 10px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #ffffff;
+}
+
+.checkout .deliveryTitle {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.checkout .deliveryTitle .locationIcon {
+  color: red;
+  font-size: 20px;
+}
+.checkout .deliveryTitle h2 {
+  font-size: 20px;
+  color: red;
+  font-weight: 500;
+}
+
+.checkout .customerLocationInfo {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.checkout .customerLocationInfo .customerName,
+.customerPhone {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.checkout .customerLocationInfo .defaultText {
+  font-size: 10px;
+  padding: 3px;
+  border: 1px solid red;
+  color: red;
+}
+
+.checkout .customerLocationInfo .changeLocationText {
+  color: #4080ee;
+  margin-left: 20px;
+}
+
+.checkout .checkoutProducts {
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+.checkout .shopInfo {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+.checkout .shopInfo .shopAvatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.checkout .shopInfo .shopName {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.checkout .shopInfo {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+.checkout table {
+  width: 100%;
+  margin-bottom: 15px;
+  border-bottom: 1px solid lightgray;
+}
+
+.checkout table thead {
+  margin-bottom: 15px;
+}
+
+.checkout table thead tr th {
+  font-size: 14px;
+  font-weight: normal;
+  color: #bbb;
+}
+
+.checkout table tbody {
+  display: flex;
+  flex-direction: column;
+}
+
+.checkout table tbody tr td {
+  display: flex;
+  align-items: center;
+  padding-bottom: 15px;
+}
+
+.checkout table tbody tr td img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+
+.checkout .deliveryOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid lightgray;
+  padding-bottom: 15px;
+}
+
+.checkout .deliveryOption .deliveryPartner {
+  display: flex;
+  align-items: flex-end;
+  gap: 20px;
+  
+}
+
+.checkout .deliveryOption .deliveryPartner .deliveryHeading {
+  color: #0c1d26;
+  font-weight: 500;
+}
+
+.checkout .deliveryOption .deliveryPartner .deliveryPartnerName {
+  font-size: 14px;
+}
+
+.checkout .deliveryOption .deliveryPartner .deliveryChangeText {
+  color: #4080ee;
+}
+
+.checkout .totalProductPrice {
+  padding-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.checkout .cartTotal {
+  background-color: #fff;
+}
+
+.checkout .cartTotalContainer {
+  padding: 20px;
+}
+
+.checkout .paymentMethod {
+  border-bottom: 1px solid lightgray;
+  padding-bottom: 15px;
+}
+
+.checkout .cartTotalPrice {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  flex-direction: column;
+  padding-top: 15px;
+}
+
+.checkout .cartTotalPrice div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 25px;
+}
+
+.checkout .cartTotalPrice button {
+  border-radius: 25px;
+  padding: 10px 30px;
+  background-color: #0c1d26;
+  color: #ffffff;
+}
+@media screen and (min-width: 1700px) {
+  .checkoutContainer {
+    width: 65%;
+  }
+}

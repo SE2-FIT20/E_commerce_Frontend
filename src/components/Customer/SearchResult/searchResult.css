@@ -1,0 +1,95 @@
+.searchResult {
+  width: 100%;
+  background-color: #F5F5F5;
+  height: calc(100vh - 70px);
+}
+
+.searchResultContainer {
+  width: 80%;
+  margin: auto;
+  padding: 20px 0;
+}
+
+.searchResult .store {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.searchResult .store > span {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.searchResult .singleStore {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.searchResult .singleStore li {
+  list-style: none;
+  display: flex;
+  background-color: #ffffff;
+  padding: 25px;
+  cursor: pointer;
+}
+
+.searchResult .singleStore li .storeLeft {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.searchResult .singleStore li .storeLeft img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.searchResult .store .showStoreButtons {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  align-self: center;
+  gap: 15px;
+  justify-content: center;
+}
+
+.searchResult .product {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.searchResult .product > span {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.searchResult .product ul {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.searchResult .noResult {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchResult .noResult img {
+  width: 400px;
+  height: 400px;
+  object-fit: contain;
+}
+
+.searchResult .noResult span {
+  font-size: 24px;
+  font-weight: 500;
+  margin-top: -40px;
+}

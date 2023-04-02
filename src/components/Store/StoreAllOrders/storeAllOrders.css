@@ -1,0 +1,272 @@
+.storeAllOrders {
+  width: 100%;
+  max-height: calc(100vh - 70px);
+  background-color: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: scroll;
+  position: relative;
+}
+
+.storeAllOrdersContainer {
+  background-color: #fff;
+  width: 70%;
+  border: 1px solid #ccc;
+  max-height: calc(100vh - 70px);
+
+  overflow-y: scroll;
+}
+
+.storeOrdersFilter {
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  padding: 0 30px;
+}
+
+.storeOrdersFilter ul {
+  display: flex;
+  gap: 5px;
+}
+
+.storeOrdersFilter ul li {
+  list-style: none;
+  cursor: pointer;
+  padding: 15px 20px;
+  cursor: pointer;
+}
+
+.active {
+  border-bottom: 3px solid #3a9cc5;
+  color: #3a9cc5;
+  font-weight: 500;
+}
+
+.storeAllOrders .storeOrders {
+  width: 100%;
+}
+
+.storeAllOrders table {
+  width: 100%;
+  height: 80%;
+
+  position: relative;
+}
+
+.storeAllOrders table thead,
+.tbody {
+  width: 100%;
+}
+
+.storeAllOrders table thead tr {
+  display: flex;
+  width: 100%;
+  padding: 15px 30px 15px 60px;
+  background-color: #f6f6f6;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 25px;
+}
+
+.storeAllOrders table thead tr th {
+  flex: 1;
+  font-size: 17px;
+  /* padding: 0 10px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.storeAllOrders table tbody {
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  min-height: 75vh;
+  max-height: 75vh;
+  margin-bottom: 15px;
+}
+
+.storeAllOrders table tbody tr {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+.storeAllOrders table tbody .orderInfo {
+  background-color: #f6f6f6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  margin: 0 25px;
+  border: 1px solid #ccc;
+  border-radius: 8px 8px 0 0;
+  border-bottom: none;
+}
+
+.storeAllOrders table tbody .orderInfo .customer {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.storeAllOrders table tbody .orderInfo .customer img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.storeAllOrders table tbody .orderInfo .orderRight {
+  display: flex;
+  gap: 50px;
+}
+
+.storeAllOrders table tbody .orderInfo .orderRight .orderCode {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.storeAllOrders table tbody tr .products {
+  border: 1px solid #ccc;
+  margin: 0 25px 30px 25px;
+  border-radius: 0 0 8px 8px;
+}
+
+.storeAllOrders table tbody tr .productsInfo {
+  display: flex;
+  padding: 10px 0;
+  background-color: #fff;
+}
+.storeAllOrders table tbody tr .productsInfo > div {
+  flex: 1;
+  font-weight: normal;
+  /* padding: 0 10px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.storeAllOrders table tbody tr .productsInfo > div .container {
+  border-left: 1px solid #ccc;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.storeAllOrders table tbody tr .productsInfo .productImage {
+  max-width: 60px;
+  max-height: 60px;
+  min-width: 60px;
+  min-height: 60px;
+  object-fit: cover;
+}
+
+.storeAllOrders table tbody tr .productButtons {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  /* justify-content: center; */
+}
+
+.storeAllOrders table tbody tr .products .total {
+  background-color: #fff;
+}
+
+.storeAllOrders table tbody tr .products .totalContainer {
+  border-top: 1px solid #ccc;
+  margin: 0 100px;
+  padding: 15px 0;
+  gap: 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.storeAllOrders table tbody tr .products .totalContainer .totalPriceRight {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.storeAllOrders .products .totalContainer .totalPriceRight .totalPrice {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.storeAllOrders table tbody tr .products .totalContainer span {
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.storeAllOrders table tbody tr .products .totalContainer .totalPriceTxt {
+  margin-right: 150px;
+}
+
+.storeAllOrders table tbody tr .products .totalContainer button {
+  width: 180px;
+  height: 50px;
+}
+
+.storeAllOrders .productNav {
+  width: 100%;
+  display: flex;
+  gap: 20px;
+}
+
+.storeAllOrders .productNav .productNavBtn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  cursor: pointer;
+}
+
+.storeAllOrders .productNav .productPerPage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.storeAllOrders .productNav .productPerPageContainer {
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.storeAllOrders .productNav .prevBtn,
+.nextBtn {
+  padding: 10px;
+}
+
+.storeAllOrders .productNav span {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.storeAllOrders .productNav input {
+  width: 20px;
+  height: 100%;
+}
+
+.storeAllOrders .productNav input:focus {
+  outline: none;
+}
+
+@media screen and (max-width: 1200px) {
+  .storeAllOrdersContainer {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .storeAllOrdersContainer {
+    width: 100%;
+  }
+}

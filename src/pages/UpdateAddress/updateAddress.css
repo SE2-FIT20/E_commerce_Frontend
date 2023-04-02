@@ -1,0 +1,136 @@
+.updateAddress {
+  background-color: #f5f5f7;
+  width: 100%;
+  padding: 20px 0;
+}
+
+.updateAddressContainer {
+  width: 80%;
+  margin: auto;
+  background-color: #ffffff;
+}
+
+.updateAddressTitle {
+  padding: 20px;
+  border-bottom: 1px solid lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.updateAddressTitle h2 {
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.updateAddressTitle .addNewAddressBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+  background-color: #003140;
+  color: #fff;
+  padding: 8px 12px;
+  font-weight: 500;
+}
+
+.updateAddressTitle .addNewAddressBtn:hover {
+  background-color: #00587c;
+  color: #fff;
+}
+
+.updateAddressTitle .addNewAddressContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.updateAddressTitle .addNewAddressInput {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+}
+
+.updateAddressTitle .addNewAddressInput input {
+  padding: 5px 10px 5px 5px;
+}
+
+.updateAddressTitle .addNewAddressInput input:focus {
+  outline: none;
+}
+.updateAddressTitle .addNewAddressInput span {
+  border-left: 1px solid #ccc;
+  padding-left: 10px;
+  font-size: 14px !important;
+}
+
+.updateAddressTitle .addNewAddressContainer span {
+  font-size: 11px;
+}
+
+.updateAddressTitle .addAddressOperations {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.updateAddressTitle .addAddressOperations button {
+  border-radius: 8px;
+  background-color: #003140;
+  color: #fff;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+
+.updateAddressBody {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  padding-top: 0;
+}
+
+.updateAddressBody ul {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+}
+
+.updateAddressBody ul li {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.addressLeft {
+}
+
+.addressRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.addressRight > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+  border-radius: 8px;
+  background-color: #003140;
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+@media screen and (min-width: 1200px) {
+  .updateAddressContainer {
+    width: 65% !important;
+  }
+}

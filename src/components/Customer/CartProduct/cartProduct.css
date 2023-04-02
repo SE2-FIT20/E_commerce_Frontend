@@ -1,0 +1,78 @@
+.cartBody tbody tr {
+  display: flex;
+  color: #1c1c1b;
+  font-size: 17px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid lightgray;
+  font-weight: 500;
+}
+
+.cartBody tbody .cartProductName {
+  display: flex;
+  gap: 15px;
+  flex: 3;
+  padding-right: 20px;
+}
+
+.cartBody tbody .cartProductName img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.cartBody tbody .cartProductName h2 {
+  font-size: 18px;
+}
+
+.cartBody tbody .cartProductPrice {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.cartBody tbody .cartProductTotal {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.cartBody tbody .cartProductQuantity {
+  display: flex;
+  align-items: center;
+  flex: 1.5;
+}
+
+.cartBody tbody .cartProductDelete {
+  flex: 0.5;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.cartBody tbody .productQuantityContainer {
+  display: flex;
+  border: 1px solid black;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+}
+
+.cartBody tbody .productQuantityContainer:hover {
+  cursor: pointer;
+}
+
+.cartBody tbody .productQuantityContainer .minus {
+  padding: 3px 12px;
+}
+
+.cartBody tbody .productQuantityContainer .plus {
+  padding: 3px 10px;
+}
+
+.cartBody tbody .productQuantityContainer .quantity {
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  padding: 3px 15px;
+}

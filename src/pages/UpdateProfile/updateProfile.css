@@ -1,0 +1,99 @@
+.updateProfile {
+  background-color: #f5f5f7;
+  width: 100%;
+  padding: 20px 0;
+}
+
+.updateProfileContainer {
+  width: 80%;
+  margin: auto; 
+  background-color: #ffffff;
+}
+
+.updateProfileTitle {
+  padding: 20px;
+  border-bottom: 1px solid lightgray;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.updateProfileBody {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+
+.updateProfileLeft {
+  flex: 7;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  border-right: 1px solid lightgray;
+  padding-right: 30px;
+}
+
+.updateProfileLeft tbody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.updateProfileLeft tr {
+  display: flex;
+  gap: 25px;
+}
+
+.updateProfileLeft tr .updateHeading {
+  width: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.updateProfileLeft tr td input {
+  border: 1px solid lightgray;
+  padding: 10px 150px 10px 10px;
+  border-radius: 8px;
+}
+
+.updateProfileLeft tr td input:focus {
+  outline: none;
+}
+
+.updateProfileLeft .saveBtn {
+  width: 130px;
+  background-color: #232f3e;
+  padding: 10px 15px;
+  color: white;
+  border-radius: 6px;
+  font-weight: 400;
+}
+
+.updateProfileRight {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.updateProfileRight img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.updateProfileRight .choosePictureBtn {
+  border: 1px solid lightgray;
+  padding: 5px;
+  cursor: pointer;
+}
+
+
+@media screen and (min-width: 1200px) {
+  .updateProfileContainer {
+    width: 65% !important;
+  }
+}

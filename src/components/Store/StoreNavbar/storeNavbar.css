@@ -1,0 +1,79 @@
+.storeNavbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 70px;
+  z-index: 999;
+}
+
+.storeNavbarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  background-color: #0C1D26;
+  padding: 10px;
+}
+
+.storeNavbarLeft {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 25px;
+}
+
+.storeNavbarLeft img {
+  width: 200px;
+  cursor: pointer;
+}
+
+.storeNavbarRight {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding-right: 50px;
+}
+
+.storeNavbarRight .storeInfo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.storeNavbarRight .storeInfo .storeImg {
+  width: 45px;
+  height: 45px;
+  position: relative;
+}
+
+.storeNavbarRight .storeInfo .storeImg:hover ul {
+  display: block;
+}
+
+.storeNavbarRight .storeInfo .storeImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.storeNavbarRight .storeInfo .storeImg ul {
+  left: 0;
+  position: absolute;
+}
+
+.storeNavbarRight .storeInfo span {
+  color: #ffffff;
+  font-size: 18px;
+}
+
+.storeNavbarRight .notification {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 25px;
+  cursor: pointer;
+}

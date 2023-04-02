@@ -1,0 +1,161 @@
+.cart {
+  background-color: #f5f5f7;
+  width: 100%;
+  min-height: calc(100vh - 70px);
+}
+
+.cartContainer {
+  width: 80%;
+  margin: auto;
+}
+
+.cartBody {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 20px 0;
+}
+
+.cartBody .cartStore {
+  background-color: #ffffff;
+  padding: 20px;
+
+}
+
+.cartBody table {
+  width: 100%;
+}
+
+.cartBody table thead,
+tbody {
+  width: 100%;
+}
+
+.cartBody .storeInfo {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.cartBody .storeInfo img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.cartBody .storeInfo h2 {
+  font-size: 18px;
+  font-weight: 500;
+}
+.cartBody .cartProductTitle {
+  width: 100%;
+  display: flex;
+  padding: 20px 0;
+  border-bottom: 1px solid lightgray;
+  color: #777777;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.cartBody .cartItems {
+  padding-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cart .cartTotalPrice {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 50px;
+}
+
+.cartTotalPrice .cartTotalPriceContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  padding-top: 15px;
+}
+
+.cartTotalPrice .subtotal {
+  font-size: 26px;
+  color: #1c1c1b;
+  font-weight: 600;
+}
+
+.cartTotalPrice span {
+  color: #1c1c1b;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.cartTotalPrice .checkoutBtn {
+  background-color: #232f3e;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 20px;
+  max-width: 120px;
+}
+.cartBody .cartProductName {
+  flex: 3;
+  padding-right: 20px;
+}
+
+.cartBody .cartProductPrice {
+  flex: 1;
+}
+
+.cartBody .cartProductQuantity {
+  flex: 1.5;
+}
+
+.cartBody .cartProductTotal {
+  flex: 1;
+}
+
+.cartBody .cartProductDelete {
+  flex: 0.5;
+}
+
+.cartContainer .emptyCart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-direction: column;
+}
+
+.cartContainer .emptyCart img {
+  width: 50%;
+}
+
+.cartContainer .emptyCart .emptyCartText {
+  position: absolute;
+  left: 0;
+  top: 55%;
+  background-color: #fff;
+  height: 50%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 50px;
+}
+
+.cartContainer .emptyCart .emptyCartText h2 {
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.cartContainer .emptyCart .emptyCartText span {
+  font-size: 15px;
+
+}
+
+
+@media screen and (min-width: 1700px) {
+  .cartContainer {
+    width: 65% !important;
+  }
+}

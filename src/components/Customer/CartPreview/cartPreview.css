@@ -1,0 +1,134 @@
+.cartPreview {
+  position: absolute;
+  top: 30px;
+  right: 0;
+  width: 450px;
+  background-color: #fff;
+  -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+  -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+  box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+  border-radius: 8px;
+  transform: scale(0);
+  transform-origin: center;
+  animation: scale-up 0.1s ease-in-out forwards;
+  display: none;
+}
+
+.cartPreviewContainer {
+  padding: 0;
+  position: relative;
+}
+
+.cartPreviewHeader {
+  padding: 10px;
+  color: #000;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.cartPreviewProducts ul {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.cartPreview .cartPreviewProducts ul li {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  cursor: pointer;
+}
+
+.cartPreview .cartPreviewProducts ul li:hover {
+  background-color: #F8F8F8;
+}
+
+.cartPreview .cartPreviewProducts ul li .cartProductLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0 10px 10px;
+}
+
+.cartPreview .cartPreviewProducts ul li img {
+  width: 45px;
+  height: 44px;
+  object-fit: cover;
+}
+
+.cartPreview .cartPreviewProducts ul li span {
+  color: #000;
+  align-self: flex-start;
+
+}
+
+.cartProductRight {
+  color: #000;
+  padding-right: 10px;
+}
+
+.seeCartBtn {
+  text-align: right;
+  padding: 0 10px 15px 0;
+}
+
+.seeCartBtn button {
+  border-radius: 0px !important;
+  padding: 8px 15px !important;
+}
+
+.cartPreviewContainer .emptyCart {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 8px 8px 0 0;
+}
+
+.cartPreviewContainer .emptyCartText {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: absolute;
+  height: 50%;
+  top: 55%;
+  left: 0;
+  z-index: 10;
+  background-color: #F8F8F8;
+  justify-content: center;
+  padding: 0 50px;
+  text-align: center;
+  border: 0 0 8px 8px;
+}
+
+.cartPreviewContainer .emptyCartText h2 {
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.cartPreviewContainer .emptyCartText span {
+  font-size: 15px;
+}
+
+.hide {
+  display: none;
+}
+
+@keyframes scale-up {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes scale-out {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0);
+  }
+}
