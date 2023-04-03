@@ -8,11 +8,13 @@ import axios from "axios";
 import BreadCrumb from "../../components/Customer/BreadCrumb/BreadCrumb";
 import "./checkout.css";
 import { useToast } from "@chakra-ui/react";
+import { useHistory } from "react-router-dom";
 
 const Checkout = () => {
   const { BACKEND_URL, config } = useContext(AuthContext);
   const [storeProducts, setStoreProducts] = useState([]);
-  const toast = useToast()
+  const toast = useToast();
+  const history = useHistory()
   const subTotalPrice = storeProducts.reduce((accumulator, currentValue) => {
     const itemTotal = currentValue.items.reduce((itemAccumulator, item) => {
       return itemAccumulator + item.product.price * item.quantity;
@@ -39,6 +41,7 @@ const Checkout = () => {
         isClosable: true,
         position: "bottom",
       });
+      history.push("/")
     } catch (error) {
       toast({
         title: "An error occurred checking out",

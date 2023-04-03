@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./register.css";
 import BreadCrumb from "../../components/Customer/BreadCrumb/BreadCrumb";
 import { Link, useHistory } from "react-router-dom";
@@ -7,9 +7,11 @@ import CustomerIcon from "../../images/customerIcon.png";
 import StoreIcon from "../../images/storeIcon.jpg";
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
+import { AuthContext } from "../../context/AuthContext";
 import { handleRegister } from "../../components/longFunctions";
 
 const Register = () => {
+  const { BACKEND_URL } = useContext(AuthContext);
   const [role, setRole] = useState("CUSTOMER");
   const [credentials, setCredentials] = useState({
     name: "",
@@ -19,11 +21,66 @@ const Register = () => {
   });
   const toast = useToast();
   const history = useHistory();
-
   const config = {
     headers: {
       "Content-type": "application/json",
     },
+  };
+  const handleRegister = async (
+    e,
+  ) => {
+    e.preventDefault();
+    if (
+      !credentials.name ||
+      !credentials.email ||
+      !credentials.password ||
+      !credentials.confirmPassword
+    ) {
+      return toast({
+        title: "Please enter all the fields!",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+    if (credentials.password !== credentials.confirmPassword) {
+      return toast({
+        title: "Passwords do not match!",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+    try {
+      await axios.post(
+        `${BACKEND_URL}/api/auth/register`,
+        {
+          name: credentials.name,
+          email: credentials.email,
+          password: credentials.password,
+          role: role,
+        },
+        config
+      );
+      toast({
+        title: "Register successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+      history.push("/login");
+    } catch (error) {
+      return toast({
+        title: "An error occured while trying to register",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
   };
 
   const handleChooseRole = (e) => {
@@ -42,7 +99,12 @@ const Register = () => {
         <div className="row">
           <div className="col-12">
             <div className="auth-card">
-              <h3 className="text-center mb-3" style={{ fontSize: "27px", fontWeight: "500"}}>Register</h3>
+              <h3
+                className="text-center mb-3"
+                style={{ fontSize: "27px", fontWeight: "500" }}
+              >
+                Register
+              </h3>
               <form action="" className="d-flex flex-column gap-15">
                 <input
                   type="text"
@@ -110,7 +172,14 @@ const Register = () => {
                     <button
                       className="button border-0"
                       onClick={(e) =>
-                        handleRegister(e, credentials, role, config, toast, history)
+                        handleRegister(
+                          e,
+                          credentials,
+                          role,
+                          config,
+                          toast,
+                          history
+                        )
                       }
                     >
                       Register
