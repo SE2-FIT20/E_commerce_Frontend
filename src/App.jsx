@@ -39,8 +39,9 @@ function App() {
     }
   };
   useEffect(() => {
-    fetchPreviewCart();
+    fetchPreviewCart()
   }, [history]);
+  // asda
   return (
     <div className="app">
       {role === "CUSTOMER" && (
