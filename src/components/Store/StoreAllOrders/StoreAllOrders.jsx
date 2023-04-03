@@ -169,9 +169,9 @@ const StoreAllOrders = () => {
                     Product
                   </th>
                   <th style={{ flex: "1.5" }}>Price</th>
-                  <th style={{ flex: "0.5" }}>Quantity</th>
+                  <th style={{ flex: "1.5" }}>Quantity</th>
                   <th style={{ flex: "1.5" }}>Category</th>
-                  <th></th>
+                  <th style={{ flex: "1.5" }}></th>
                 </tr>
               </thead>
               <tbody>
@@ -233,7 +233,7 @@ const StoreAllOrders = () => {
                                 {formatNumber(item.product.price)}
                               </div>
                             </div>
-                            <div style={{ flex: "0.5" }}>
+                            <div style={{ flex: "1" }}>
                               <div className="container">
                                 {item.product.quantity}
                               </div>

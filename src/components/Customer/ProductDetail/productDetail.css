@@ -18,25 +18,23 @@
 }
 
 .productLeft .productLeftContainer .productCurrentImage {
-  min-width: 350px !important;
-  max-width: 350px !important;
+  min-width: 350px;
+  max-width: 350px;
 
-  min-height: 350px !important;
-  max-height: 350px !important;
+  min-height: 350px;
+  max-height: 350px;
   cursor: pointer;
 }
 
 .productLeft .productLeftContainer .productCurrentImage img {
-  min-width: 350px !important;
-  max-width: 350px !important;
+  min-width: 350px;
+  max-width: 350px;
 
-  min-height: 350px !important;
-  max-height: 350px !important;
+  min-height: 350px;
+  max-height: 350px;
 
   object-fit: contain;
 }
-
-
 
 .productBody .productRight {
   flex: 6;
@@ -300,7 +298,7 @@
 
 .imageDisplayContainer {
   width: 65%;
-  height: 500px;  
+  height: 500px;
   background-color: white;
   display: flex;
   -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
@@ -361,17 +359,68 @@
   .productLeft .productLeftContainer .productCurrentImage {
     min-width: 450px !important;
     max-width: 450px !important;
-  
+
     min-height: 450px !important;
     max-height: 450px !important;
   }
-  
+
   .productLeft .productLeftContainer .productCurrentImage img {
     min-width: 450px !important;
     max-width: 450px !important;
-  
+
     min-height: 450px !important;
     max-height: 450px !important;
-  
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .productBody {
+    display: block;
+  }
+  .productLeft {
+    width: 100%;
+  }
+
+  .productLeftContainer {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .productCurrentImage {
+    min-width: 450px !important;
+    max-width: 450px !important;
+    min-height: 400px !important;
+    max-height: 400px !important;
+  }
+
+  .productCurrentImage img {
+    min-width: 450px !important;
+    max-width: 450px !important;
+    min-height: 400px !important;
+    max-height: 400px !important;
+  }
+  .productRight {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+
+  .productCurrentImage {
+    min-width: 350px !important;
+    max-width: 350px !important;
+    min-height: 300px !important;
+    max-height: 300px !important;
+  }
+
+  .productCurrentImage img {
+    min-width: 350px !important;
+    max-width: 350px !important;
+    min-height: 300px !important;
+    max-height: 300px !important;
+    object-fit: cover !important;
+  }
+  .productRight {
+    width: 100%;
   }
 }

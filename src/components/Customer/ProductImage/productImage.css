@@ -96,3 +96,81 @@
     cursor: pointer;
   }
 }
+
+@media screen and (max-width: 768px) {
+  .productLeft .productOtherImages {
+    width: 450px;
+  }
+
+  .productLeft .productOtherImage {
+    min-width: 86px;
+    min-height: 86px;
+    max-width: 86px;
+    max-height: 86px;
+    position: relative;
+  }
+
+  .productLeft .productOtherImage .unSelectedImage {
+    min-width: 86px;
+    min-height: 86px;
+    max-width: 86px;
+    max-height: 86px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+
+  .productLeft .productOtherImage img:hover {
+    min-width: 80px;
+    min-height: 80px;
+    max-width: 80px;
+    max-height: 80px;
+  }
+
+  .productLeft .productOtherImage .selectedImage {
+    min-width: 80px;
+    min-height: 80px;
+    max-width: 80px;
+    max-height: 80px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .productLeft .productOtherImages {
+    width: 350px;
+  }
+
+  .productLeft .productOtherImage {
+    min-width: 66px;
+    min-height: 66px;
+    max-width: 66px;
+    max-height: 66px;
+    position: relative;
+  }
+
+  .productLeft .productOtherImage .unSelectedImage {
+    min-width: 66px;
+    min-height: 66px;
+    max-width: 66px;
+    max-height: 66px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+
+  .productLeft .productOtherImage img:hover {
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 60px;
+    max-height: 60px;
+  }
+
+  .productLeft .productOtherImage .selectedImage {
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 60px;
+    max-height: 60px;
+    object-fit: cover;
+    cursor: pointer;
+  }
+}

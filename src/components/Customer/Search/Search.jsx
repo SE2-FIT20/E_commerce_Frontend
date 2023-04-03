@@ -103,7 +103,7 @@ const Search = ({ open, setOpen, keyword, setKeyword }) => {
                 >
                   <div className="searchStoreHeading">Stores</div>
                   {searchStores.slice(0, 4).map((store) => (
-                    <li key={store.id}>
+                    <li key={store.id} onClick={() => {history.push(`/store/${store.id}`); setOpen(false)}}>
                       <div className="searchStoreLeft">
                         <img src={store.avatar} alt="" />
                         <h2>{store.name}</h2>

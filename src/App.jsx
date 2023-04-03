@@ -22,11 +22,14 @@ import { AuthContext } from "./context/AuthContext";
 import SearchResult from "./components/Customer/SearchResult/SearchResult";
 import Store from "./components/Customer/Store/Store";
 import StoreAllOrders from "./components/Store/StoreAllOrders/StoreAllOrders";
+import NoInternet from "./images/no-internet.png";
 
 function App() {
   const { role, currentUser, BACKEND_URL, config } = useContext(AuthContext);
   const [cartProducts, setCartProducts] = useState([]);
+  const [error, setError] = useState(false);
   const history = useHistory();
+  console.log(error);
   const fetchPreviewCart = async () => {
     if (role === "CUSTOMER" && currentUser) {
       try {
@@ -35,16 +38,26 @@ function App() {
           config
         );
         setCartProducts(data.data);
-      } catch (error) {}
+        setError(false);
+      } catch (error) {
+        setError(true);
+      }
     }
   };
   useEffect(() => {
-    fetchPreviewCart()
+    fetchPreviewCart();
   }, [history]);
-  // asda
   return (
     <div className="app">
-      {role === "CUSTOMER" && (
+      {error && (
+        <div className="noInternet">
+          <img src={NoInternet} alt="" />
+          <div className="buttonContainer">
+            <button className="button" onClick={() => fetchPreviewCart()}>Try again</button>
+          </div>
+        </div>
+      )}
+      {role === "CUSTOMER" && !error && (
         <>
           <Navbar
             fetchPreviewCart={fetchPreviewCart}
@@ -70,19 +83,39 @@ function App() {
           </div>
         </>
       )}
-      {role === "STORE" && (
+      {role === "STORE" && !error && (
         <>
           <StoreNavbar />
           <div className="storeAppBody">
             <StoreLeftbar />
             <div className="storeAppContent">
               <Route path="/store/order/all" exact component={StoreAllOrders} />
-              <Route path="/store/order/pending" exact component={StoreAllOrders} />
+              <Route
+                path="/store/order/pending"
+                exact
+                component={StoreAllOrders}
+              />
 
-              <Route path="/store/order/ready" exact component={StoreAllOrders} />
-              <Route path="/store/order/delivering" exact component={StoreAllOrders} />
-              <Route path="/store/order/delivered" exact component={StoreAllOrders} />
-              <Route path="/store/order/cancelled" exact component={StoreAllOrders} />
+              <Route
+                path="/store/order/ready"
+                exact
+                component={StoreAllOrders}
+              />
+              <Route
+                path="/store/order/delivering"
+                exact
+                component={StoreAllOrders}
+              />
+              <Route
+                path="/store/order/delivered"
+                exact
+                component={StoreAllOrders}
+              />
+              <Route
+                path="/store/order/cancelled"
+                exact
+                component={StoreAllOrders}
+              />
 
               <Route
                 path="/store/product/all"

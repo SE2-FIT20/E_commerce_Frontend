@@ -13,7 +13,7 @@ const Login = () => {
     password: "",
   });
   const [loading, setLoading] = useState(false)
-  const { setCurrentUser, setToken, setRole } = useContext(AuthContext);
+  const { setCurrentUser, setToken, setRole, BACKEND_URL } = useContext(AuthContext);
   const toast = useToast();
   const history = useHistory();
   const config = {
@@ -31,7 +31,7 @@ const Login = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://e-commerce-production-43d5.up.railway.app/api/auth/login",
+        `${BACKEND_URL}/api/auth/login`,
         { email: credentials.email, password: credentials.password },
         config
       );
@@ -46,7 +46,7 @@ const Login = () => {
       setToken(token);
       if (response.data.data.role === "CUSTOMER") {
         const { data } = await axios.get(
-          `https://e-commerce-production-43d5.up.railway.app/api/customer/account`,
+          `${BACKEND_URL}/api/customer/account`,
           {
             headers: {
               "Content-type": "application/json",
@@ -59,7 +59,7 @@ const Login = () => {
         history.push("/");
       } else if (response.data.data.role === "STORE") {
         const { data } = await axios.get(
-          `https://e-commerce-production-43d5.up.railway.app/api/store/account`,
+          `${BACKEND_URL}/api/store/account`,
           {
             headers: {
               "Content-type": "application/json",
@@ -74,7 +74,7 @@ const Login = () => {
     } catch (error) {
       setLoading(false);
       toast({
-        title: "An error occurred while trying to login",
+        title: "Wrong username or password!",
         status: "error",
         duration: 3000,
         isClosable: true,

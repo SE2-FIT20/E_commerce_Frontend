@@ -54,7 +54,7 @@ const CartPreview = ({ open, setOpen, products }) => {
           </div>
         </div>
       )}
-      {currentUser && products.length === 0 && (
+      {((currentUser && products.length === 0) || (!currentUser))&& (
         <div className="cartPreviewContainer">
           <img src={EmptyCart} alt="" className="emptyCart" />
           <div className="emptyCartText">
@@ -66,11 +66,7 @@ const CartPreview = ({ open, setOpen, products }) => {
           </div>
         </div>
       )}
-      {!currentUser && (
-        <div className="cartPreviewContainer">
-          <h2>Login to see your cart</h2>
-        </div>
-      )}
+      
     </div>
   );
 };

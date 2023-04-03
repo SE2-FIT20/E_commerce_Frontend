@@ -23,8 +23,8 @@ const SingleProduct = ({ product }) => {
         )}`}</span>
 
         <span className="singleProductDesc">
-          {`${product.description.substring(0, 100)} ${
-            product.description.length > 100 ? "..." : ""
+          {`${product.description.substring(0, 60)}${
+            product.description.length > 60 ? "..." : ""
           }`}
         </span>
       </div>

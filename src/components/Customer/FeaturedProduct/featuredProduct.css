@@ -5,6 +5,8 @@
 .featuredProduct .featuredProductContainer {
 }
 
+
+
 .featuredProduct .featuredTitle {
   font-size: 30px;
   font-weight: 600;
@@ -13,7 +15,7 @@
 
 .featuredProduct ul {
   display: flex;
-  gap: 20px;
+  gap: 15px;
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 20px;

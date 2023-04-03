@@ -80,6 +80,7 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
     }
   };
   useEffect(() => {
+    // document.setTitle("MQSocial")
     const handleResize = () => {
       setMainImageWidth(mainImage?.current.offsetWidth);
     };
@@ -262,7 +263,7 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
           <div className="storeRight">
             <h3 className="storeName">{product.store.name}</h3>
             <div className="storeButtons">
-              <button className="visitStore">
+              <button className="visitStore" onClick={() => history.push(`/store/${product.store.id}`)}>
                 <FontAwesomeIcon icon={faShop} />
                 <span>Visit store</span>
               </button>

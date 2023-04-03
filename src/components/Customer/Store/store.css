@@ -1,0 +1,62 @@
+.store {
+  width: 100%;
+  height: calc(100vh - 70px);
+  overflow-y: scroll;
+  background-color: #F5F5F5;
+}
+
+.storeContainer {
+  padding: 20px;
+}
+
+.storeContainer .storeProducts {
+
+}
+
+.storeContainer .storeProducts .filterSection {
+  background-color: #EDEDED;
+  display: flex;
+  gap: 15px;
+  padding: 20px;
+  align-items: center;
+}
+
+.storeContainer .storeProducts .filterSection ul {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.filterSection ul li {
+  list-style: none;
+  background-color: #fff;
+  cursor: pointer;
+}
+.filterSection ul li button {
+  padding: 8px 15px;
+}
+
+.storeProductsDisplay {
+  padding-top: 20px;
+}
+
+.storeProductsDisplay ul {
+  width: 100%;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.storeProducts .selected {
+  background-color: #0C1D26 !important;
+  color: #fff;
+  font-weight: 500 !important;
+}
+
+@media screen and (min-width: 1500px) {
+  
+.storeProductsDisplay ul {
+  width: 80%;
+  margin: auto;
+}
+}

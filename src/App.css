@@ -83,6 +83,31 @@ a {
   background-color: #F0F2F5;
 }
 
+.noInternet {
+  width: 100vw;
+  height: calc(100vh - 70px);
+  position: relative;
+
+}
+
+
+.noInternet img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.noInternet .buttonContainer {
+  width: 50%;
+  height: 20%;
+  position: absolute;
+  background-color: #FFFFFF;
+  top: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
 .lds-ellipsis {
   display: inline-block;
   position: relative;

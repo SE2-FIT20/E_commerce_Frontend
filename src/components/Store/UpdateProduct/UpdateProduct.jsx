@@ -20,12 +20,12 @@ const UpdateProduct = () => {
     images: [],
     newImages: [],
   });
+  const [loading, setLoading] = useState(false);
   const toast = useToast();
   const history = useHistory();
   const location = useLocation();
   const productId = location.pathname.split("/")[4];
-  console.log(product);
-
+  console.log(product)
   const fetchProduct = async () => {
     try {
       const { data } = await axios.get(
@@ -51,6 +51,7 @@ const UpdateProduct = () => {
   const handleChange = (e) => {
     setProduct((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
+  console.log(product);
 
   return (
     <div className="updateProduct">
@@ -229,18 +230,33 @@ const UpdateProduct = () => {
                 <td style={{ justifySelf: "flex-start" }}>
                   <button
                     className="addBtn"
+                    style={{ padding: loading ? "11px 80px" : "13px 40px" }}
                     onClick={() =>
                       handleUpdateProduct(
                         product,
+                        productId,
                         BACKEND_URL,
+                        setLoading,
                         config,
                         toast,
                         history
                       )
                     }
                   >
-                    Update Product
+                    {loading ? (
+                      <div className="loginLoading">
+                        <div class="lds-ring">
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                        </div>
+                      </div>
+                    ) : (
+                      "Update Product"
+                    )}
                   </button>
+                 
                 </td>
               </tr>
             </tbody>

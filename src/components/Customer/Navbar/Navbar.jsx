@@ -122,7 +122,11 @@ const Navbar = ({
                 <img
                   src={cart}
                   alt="cart"
-                  onClick={() => (currentUser ? history.push("/cart") : null)}
+                  onClick={() => {
+                    currentUser
+                      ? history.push("/cart")
+                      : history.push("/login");
+                  }}
                 />
                 <CartPreview
                   open={openCartPreview}

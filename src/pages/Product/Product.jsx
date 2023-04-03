@@ -13,14 +13,17 @@ import ReactStars from "react-rating-stars-component";
 import { AuthContext } from "../../context/AuthContext";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import axios from "axios";
-import { useToast } from "@chakra-ui/react"
+import { useToast } from "@chakra-ui/react";
 import "./product.css";
 import ProductDetail from "../../components/Customer/ProductDetail/ProductDetail";
 import ProductReview from "../../components/Customer/ProductReview/ProductReview";
+import SingleProduct from "../../components/Customer/SingleProduct/SingleProduct";
 
 const Product = ({ fetchPreviewCart }) => {
   const { token, BACKEND_URL } = useContext(AuthContext);
   const [product, setProduct] = useState(null);
+  const [shopOtherProducts, setShopOtherProducts] = useState([1, 2, 3, 4, 5, 6, 7, 8]);
+  const [relatedProducts, setRelatedProducts] = useState([1, 2, 3, 4]);
   const location = useLocation();
   const productId = location.pathname.split("/")[2];
   const props = {
@@ -30,7 +33,6 @@ const Product = ({ fetchPreviewCart }) => {
     img: "https://cf.shopee.vn/file/sg-11134201-22110-5co0i2evafkve8",
   };
   const toast = useToast();
-
   const fetchProduct = async () => {
     try {
       const response = await axios.get(
@@ -49,10 +51,10 @@ const Product = ({ fetchPreviewCart }) => {
         duration: 3000,
         isClosable: true,
         position: "bottom",
-      })
+      });
     }
   };
-  console.log(product)
+  console.log(product);
 
   useEffect(() => {
     fetchProduct();
@@ -63,7 +65,12 @@ const Product = ({ fetchPreviewCart }) => {
       <BreadCrumb title="Product" />
 
       <div className="productContainer">
-        {product && <ProductDetail product={product} fetchPreviewCart={fetchPreviewCart}/>}
+        {product && (
+          <ProductDetail
+            product={product}
+            fetchPreviewCart={fetchPreviewCart}
+          />
+        )}
 
         {/* store Infomation */}
 
@@ -104,124 +111,32 @@ const Product = ({ fetchPreviewCart }) => {
           </div>
 
           {/* store other product */}
-          <div className="storeOtherProduct">
-            <div className="otherProductText">MQShop's other products</div>
-            <div className="storeOtherProductContainer">
-              <ul>
-                <li>
-                  <Link to="/product/1" className="singleProduct">
-                    <img
-                      src="https://cf.shopee.vn/file/sg-11134201-22110-5co0i2evafkve8"
-                      alt="product"
-                      className="productImage"
-                    />
-                    <div className="productTitle">
-                      <h2 className="productName">Sục siêu vip</h2>
-                      <span className="productCategory">Dép</span>
-                    </div>
-                    <span className="productPrice">20k</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <img
-                    src="https://cf.shopee.vn/file/sg-11134201-22110-5co0i2evafkve8"
-                    alt="product"
-                    className="productImage"
-                  />
-                  <div className="productTitle">
-                    <h2 className="productName">Sục siêu vip</h2>
-                    <span className="productCategory">Dép</span>
-                  </div>
-                  <span className="productPrice">20k</span>
-                </li>
-                <li>
-                  <img
-                    src="https://cf.shopee.vn/file/sg-11134201-22110-5co0i2evafkve8"
-                    alt="product"
-                    className="productImage"
-                  />
-                  <div className="productTitle">
-                    <h2 className="productName">Sục siêu vip</h2>
-                    <span className="productCategory">Dép</span>
-                  </div>
-                  <span className="productPrice">20k</span>
-                </li>
-                <li>
-                  <img
-                    src="https://cf.shopee.vn/file/sg-11134201-22110-5co0i2evafkve8"
-                    alt="product"
-                    className="productImage"
-                  />
-                  <div className="productTitle">
-                    <h2 className="productName">Sục siêu vip</h2>
-                    <span className="productCategory">Dép</span>
-                  </div>
-                  <span className="productPrice">20k</span>
-                </li>
-              </ul>
+          {product && (
+            <div className="storeOtherProduct">
+              <div className="otherProductText">MQShop's other products</div>
+              <div className="storeOtherProductContainer">
+                <ul>
+                  {shopOtherProducts.map((p) => (
+                    <SingleProduct product={product} />
+                  ))}
+                </ul>
+              </div>
             </div>
-          </div>
+          )}
 
+          {product && (
+            <div className="storeOtherProduct">
+              <div className="otherProductText">Related Products</div>
+              <div className="storeOtherProductContainer">
+                <ul>
+                  {shopOtherProducts.map((p) => (
+                    <SingleProduct product={product} />
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
           {/* related products */}
-          <div className="storeOtherProduct">
-            <div className="otherProductText">Related Products</div>
-            <div className="storeOtherProductContainer">
-              <ul>
-                <li>
-                  <Link to="/product/1" className="singleProduct">
-                    <img
-                      src="https://cf.shopee.vn/file/sg-11134201-22110-5co0i2evafkve8"
-                      alt="product"
-                      className="productImage"
-                    />
-                    <div className="productTitle">
-                      <h2 className="productName">Sục siêu vip</h2>
-                      <span className="productCategory">Dép</span>
-                    </div>
-                    <span className="productPrice">20k</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <img
-                    src="https://cf.shopee.vn/file/sg-11134201-22110-5co0i2evafkve8"
-                    alt="product"
-                    className="productImage"
-                  />
-                  <div className="productTitle">
-                    <h2 className="productName">Sục siêu vip</h2>
-                    <span className="productCategory">Dép</span>
-                  </div>
-                  <span className="productPrice">20k</span>
-                </li>
-                <li>
-                  <img
-                    src="https://cf.shopee.vn/file/sg-11134201-22110-5co0i2evafkve8"
-                    alt="product"
-                    className="productImage"
-                  />
-                  <div className="productTitle">
-                    <h2 className="productName">Sục siêu vip</h2>
-                    <span className="productCategory">Dép</span>
-                  </div>
-                  <span className="productPrice">20k</span>
-                </li>
-                <li>
-                  <img
-                    src="https://cf.shopee.vn/file/sg-11134201-22110-5co0i2evafkve8"
-                    alt="product"
-                    className="productImage"
-                  />
-                  <div className="productTitle">
-                    <h2 className="productName">Sục siêu vip</h2>
-                    <span className="productCategory">Dép</span>
-                  </div>
-                  <span className="productPrice">20k</span>
-                </li>
-              </ul>
-            </div>
-          </div>
         </div>
       </div>
     </div>

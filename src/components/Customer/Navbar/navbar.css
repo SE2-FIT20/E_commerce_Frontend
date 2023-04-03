@@ -164,3 +164,30 @@
   }
 }
 
+@media screen and (max-width: 768px) { 
+  .navbarContainer {
+    gap: 2px;
+  }
+
+  .navbarLogo {
+    padding-left: 10px;
+    padding-top: 4px;
+  }
+
+  /* .navbarSearch .input-group input {
+    display: none;
+  } */
+
+  .navbarSearch .input-group span {
+    border-radius: 5px !important;
+  }
+
+  .navbarMenu {
+    padding-right: 0;
+    justify-content: space-between;
+  }
+
+  .navbarMenu > div > a{
+    gap: 5px !important;
+  }
+}

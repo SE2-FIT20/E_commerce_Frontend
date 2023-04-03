@@ -2,7 +2,9 @@ import axios from "axios";
 
 export const handleUpdateProduct = async (
   product,
+  productId,
   BACKEND_URL,
+  setLoading,
   config,
   toast,
   history
@@ -15,6 +17,7 @@ export const handleUpdateProduct = async (
       data.append("upload_preset", "MQSocial");
       data.append("cloud_name", "dvvyj75uf");
       try {
+        setLoading(true);
         const response = await fetch(
           "https://api.cloudinary.com/v1_1/dvvyj75uf/image/upload",
           {
@@ -38,9 +41,9 @@ export const handleUpdateProduct = async (
     images = await Promise.all(promises);
     try {
       await axios.put(
-        `${BACKEND_URL}/api/stores/products`,
+        `${BACKEND_URL}/api/store/products`,
         {
-          productId: product.id,
+          productId: productId,
           name: product.name,
           price: product.price,
           description: product.description,
@@ -57,8 +60,10 @@ export const handleUpdateProduct = async (
         isClosable: true,
         position: "bottom",
       });
+      setLoading(false);
       history.push(`/store/product/all?page=1`);
     } catch (error) {
+      setLoading(false);
       toast({
         title: "Error uploading product!",
         status: "warning",
@@ -71,9 +76,9 @@ export const handleUpdateProduct = async (
   } else {
     try {
       await axios.put(
-        `${BACKEND_URL}/api/stores/products`,
+        `${BACKEND_URL}/api/store/products`,
         {
-          productId: product.id,
+          productId: productId,
           name: product.name,
           price: product.price,
           description: product.description,
@@ -84,12 +89,13 @@ export const handleUpdateProduct = async (
         config
       );
       toast({
-        title: "Upload product with images successfully!",
+        title: "Upload product without images successfully!",
         status: "success",
         duration: 5000,
         isClosable: true,
         position: "bottom",
       });
+      setLoading(false);
       history.push(`/store/product/all?page=1`);
     } catch (error) {
       toast({
@@ -99,6 +105,7 @@ export const handleUpdateProduct = async (
         isClosable: true,
         position: "bottom",
       });
+      setLoading(false);
       return;
     }
   }
