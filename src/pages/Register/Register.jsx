@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./register.css";
 import BreadCrumb from "../../components/Customer/BreadCrumb/BreadCrumb";
 import { Link, useHistory } from "react-router-dom";
@@ -11,7 +11,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { handleRegister } from "../../components/longFunctions";
 
 const Register = () => {
-  const { BACKEND_URL } = useContext(AuthContext);
+  const { BACKEND_URL, setCurrentUser, setToken } = useContext(AuthContext);
   const [role, setRole] = useState("CUSTOMER");
   const [credentials, setCredentials] = useState({
     name: "",
@@ -26,9 +26,7 @@ const Register = () => {
       "Content-type": "application/json",
     },
   };
-  const handleRegister = async (
-    e,
-  ) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     if (
       !credentials.name ||
@@ -71,7 +69,38 @@ const Register = () => {
         isClosable: true,
         position: "bottom",
       });
-      history.push("/login");
+      const response = await axios.post(
+        `${BACKEND_URL}/api/auth/login`,
+        { email: credentials.email, password: credentials.password },
+        config
+      );
+
+      const token = response.data.data.token;
+      setToken(token);
+      if (response.data.data.role === "CUSTOMER") {
+        const { data } = await axios.get(
+          `${BACKEND_URL}/api/customer/account`,
+          {
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setCurrentUser(data.data);
+        setRole("CUSTOMER");
+        history.push("/");
+      } else if (response.data.data.role === "STORE") {
+        const { data } = await axios.get(`${BACKEND_URL}/api/store/account`, {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setCurrentUser(data.data);
+        setRole("STORE");
+        history.push("/store/product/all?pages=1");
+      }
     } catch (error) {
       return toast({
         title: "An error occured while trying to register",
@@ -91,6 +120,10 @@ const Register = () => {
   const handleChange = (e) => {
     setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
+
+  useEffect(() => {
+    document.title = "Register | BazaarBay";
+  });
 
   return (
     <>

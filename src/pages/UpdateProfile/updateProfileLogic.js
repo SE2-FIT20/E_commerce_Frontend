@@ -13,7 +13,8 @@ export const handleUpdateProfile = async (
   userInfo,
   newAvatar,
   setCurrentUser,
-  token,
+  BACKEND_URL,
+  config,
   toast
 ) => {
   e.preventDefault();
@@ -29,71 +30,49 @@ export const handleUpdateProfile = async (
       .then((res) => res.json())
       .then((data) => {
         const newAvatar = data.url.toString();
-        return fetch(
-          `https://e-commerce-production-43d5.up.railway.app/api/customer/account`,
-          {
-            method: "put",
+        return fetch(`${BACKEND_URL}/api/customer/account`, {
+          method: "put",
 
-            headers: {
-              "Content-type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              ...userInfo,
-              phone: userInfo.phoneNumber,
-              avatar: newAvatar,
-            }),
-          }
-        );
+          config,
+          body: JSON.stringify({
+            ...userInfo,
+            phone: userInfo.phoneNumber,
+            avatar: newAvatar,
+          }),
+        });
       });
     toast({
-      title: "Update info successful",
+      title: "Update info with avatar successful",
       status: "success",
       duration: 3000,
       isClosable: true,
       position: "bottom",
     });
     const { data } = await axios.get(
-      `https://e-commerce-production-43d5.up.railway.app/api/customer/account`,
-      {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      `${BACKEND_URL}/api/customer/account`,
+      config
     );
     setCurrentUser(data.data);
   } else {
     try {
       await axios.put(
-        `https://e-commerce-production-43d5.up.railway.app/api/customer/account`,
+        `${BACKEND_URL}/api/customer/account`,
         {
           name: userInfo.name,
           phone: userInfo.phoneNumber,
         },
-
-        {
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        config
       );
       toast({
-        title: "Update info successful",
+        title: "Update info without avatar successful",
         status: "success",
         duration: 3000,
         isClosable: true,
         position: "bottom",
       });
       const { data } = await axios.get(
-        `https://e-commerce-production-43d5.up.railway.app/api/customer/account`,
-        {
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        `${BACKEND_URL}/api/customer/account`,
+        config
       );
       setCurrentUser(data.data);
     } catch (error) {

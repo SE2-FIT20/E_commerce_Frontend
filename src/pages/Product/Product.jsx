@@ -22,7 +22,9 @@ import SingleProduct from "../../components/Customer/SingleProduct/SingleProduct
 const Product = ({ fetchPreviewCart }) => {
   const { token, BACKEND_URL } = useContext(AuthContext);
   const [product, setProduct] = useState(null);
-  const [shopOtherProducts, setShopOtherProducts] = useState([1, 2, 3, 4, 5, 6, 7, 8]);
+  const [shopOtherProducts, setShopOtherProducts] = useState([
+    1, 2, 3, 4, 5, 6, 7, 8,
+  ]);
   const [relatedProducts, setRelatedProducts] = useState([1, 2, 3, 4]);
   const location = useLocation();
   const productId = location.pathname.split("/")[2];
@@ -59,6 +61,8 @@ const Product = ({ fetchPreviewCart }) => {
   useEffect(() => {
     fetchProduct();
   }, [location]);
+
+ 
 
   return (
     <div className="product">

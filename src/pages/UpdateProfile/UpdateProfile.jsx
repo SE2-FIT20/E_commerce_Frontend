@@ -10,7 +10,8 @@ import {
 } from "./updateProfileLogic.js";
 
 const UpdateProfile = () => {
-  const { currentUser, setCurrentUser, token } = useContext(AuthContext);
+  const { currentUser, setCurrentUser, BACKEND_URL, config } =
+    useContext(AuthContext);
   const [newAvatar, setNewAvatar] = useState(null);
 
   const [userInfo, setUserInfo] = useState({
@@ -75,7 +76,8 @@ const UpdateProfile = () => {
                           userInfo,
                           newAvatar,
                           setCurrentUser,
-                          token,
+                          BACKEND_URL,
+                          config,
                           toast
                         )
                       }
@@ -90,9 +92,7 @@ const UpdateProfile = () => {
           <div className="updateProfileRight">
             <img
               src={
-                !newAvatar
-                  ? currentUser.avatar
-                  : URL.createObjectURL(newAvatar)
+                !newAvatar ? currentUser.avatar : URL.createObjectURL(newAvatar)
               }
               alt=""
             />

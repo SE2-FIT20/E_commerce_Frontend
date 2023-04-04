@@ -19,7 +19,7 @@ import { useToast } from "@chakra-ui/react";
 import { AuthContext } from "../../../context/AuthContext";
 
 const ProductDetail = ({ product, fetchPreviewCart }) => {
-  const { BACKEND_URL, config } = useContext(AuthContext);
+  const { BACKEND_URL, config, currentUser } = useContext(AuthContext);
   const [quantity, setQuantity] = useState(1);
   const [mainImageWidth, setMainImageWidth] = useState(0);
 
@@ -95,6 +95,7 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
   useEffect(() => {
     setCurrentDisplayImage(currentImage);
     setCurrentImage(product.images[0]);
+    document.title = `${product.name} | BazaarBay`
   }, [product]);
 
   useEffect(() => {
@@ -200,7 +201,7 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
                     <th className="productContent productButtons">
                       <button
                         className="addToCartBtn"
-                        onClick={() => handleAddToCart(product.id)}
+                        onClick={() => { currentUser ? handleAddToCart(product.id) : history.push('/login')}}
                       >
                         <FontAwesomeIcon icon={faCartPlus} />
                         <span>Add to cart</span>

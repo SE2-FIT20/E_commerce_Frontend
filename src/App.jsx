@@ -47,6 +47,9 @@ function App() {
   useEffect(() => {
     fetchPreviewCart();
   }, [history]);
+  useEffect(() => {
+    document.title = role === "CUSTOMER" ? "BazaarBay" : " BazaarBay | Store";
+  }, [role])
   return (
     <div className="app">
       {error && (

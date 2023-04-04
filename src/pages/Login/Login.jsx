@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./login.css";
 import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
@@ -82,6 +82,10 @@ const Login = () => {
       });
     }
   };
+
+  useEffect(() => {
+    document.title = "Login | BazaarBay"
+  }, [])
 
   return (
     <div className="login">

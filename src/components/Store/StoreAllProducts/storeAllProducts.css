@@ -13,8 +13,92 @@
   background-color: #fff;
   width: 70%;
   height: calc(100vh - 70px);
-
   border: 1px solid #ccc;
+  position: relative;
+
+}
+
+.storeAllProducts .storeFilterOptions {
+  width: 100%;
+}
+
+.storeAllProducts .storeFilterOptionsContainer {
+  padding: 10px 20px;
+  display: flex;
+}
+
+.storeAllProducts .storeFilterOptionsContainer > div {
+  flex: 1;
+}
+
+.storeAllProducts .storeFilterOptions h2 {
+  font-size: 19px;
+  font-weight: 500;
+}
+
+
+.storeAllProducts .filterSelect {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.storeAllProducts .filterSelect .filterSelectItem {
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 90px;
+  font-size: 14px;
+}
+
+.storeAllProducts .filterSelect .filterSelectItem ul {
+  position: absolute;
+  top: 37px;
+  left: 0;
+  max-height: 0;
+  background-color: #fff;
+  width: 100%;
+  border-radius: 0 0 15px 15px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+  z-index: 20;
+}
+
+.storeAllProducts .filterSelect .filterSelectItem ul.open {
+  max-height: 200px;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.storeAllProducts .filterSelect .filterSelectItem ul li {
+  text-align: left;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.storeAllProducts .filterSelect .filterSelectItem ul li:hover {
+  background-color: #f0f2f5;
+}
+
+.storeAllProducts .selected {
+  background-color: #f0f2f5;
+}
+
+.openOption {
+  cursor: pointer;
+  transform: rotate(0deg);
+  transition: transform 0.25s ease-in-out;
+}
+
+.openOption.rotate {
+  transform: rotate(-180deg);
+  transition: transform 0.25s ease-in-out;
 }
 
 .storeProductsFilter {
@@ -42,7 +126,10 @@
 
 .storeAllProducts .storeProducts {
   width: 100%;
-  height: 90%;
+  height: fit-content;
+  max-height: 80%;
+  overflow-y: scroll;
+  padding-bottom: 10px;
 }
 
 .storeAllProducts table {
@@ -77,7 +164,6 @@
   flex-direction: column;
   min-height: 80vh;
   max-height: 80vh;
-  overflow-y: scroll;
   margin-bottom: 60px;
 }
 
@@ -121,13 +207,28 @@
 }
 
 .storeAllProducts .productNav {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  z-index: 20;
+  background-color: #fff;
+  height: 50px;
+  /* padding-bottom: 10px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.storeAllProducts .productNavContainer {
   width: 100%;
   display: flex;
   gap: 20px;
+  position: relative;
+  align-items: center;
+  justify-content: center;
 }
 
 .storeAllProducts .productNav .productNavBtn {
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -136,20 +237,67 @@
 }
 
 .storeAllProducts .productNav .productPerPage {
-  flex: 1;
   display: flex;
   align-items: center;
+  position: absolute;
+  right: 30px;
+  top: 0;
 }
 
 .storeAllProducts .productNav .productPerPageContainer {
-  display: flex;
-  align-items: center;
   border-radius: 6px;
   border: 1px solid #ccc;
   padding: 5px 10px;
   cursor: pointer;
+  position: relative;
+
 }
 
+.storeAllProducts .productNav .productPerPageOptions {
+  position: absolute;
+  left: 0;
+  bottom: 42px;
+  background-color: #fff;
+  z-index: 20;
+  border-radius: 15px 15px 0 0;
+  width: 100%;
+}
+
+.storeAllProducts .productNav .productPerPageButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.storeAllProducts .productNav .productPerPageButton span {
+  font-size: 15px;
+}
+
+.storeAllProducts .productNav .productPerPageOptions ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+
+}
+
+.storeAllProducts .productNav .productPerPageOptions ul.open {
+  max-height: 150px;
+  transition: max-height 0.25s ease-in-out;
+
+}
+
+.storeAllProducts .productNav .productPerPageOptions ul li {
+  width: 100%;
+  text-align: center;
+  padding: 5px 10px;
+}
+
+.storeAllProducts .productNav .productPerPageOptions ul li:hover {
+  background-color: #f5f5f5;
+}
 .storeAllProducts .productNav .prevBtn,
 .nextBtn {
   padding: 10px;
@@ -206,7 +354,7 @@
 }
 
 .hide {
-  display: none
+  display: none;
 }
 
 @media screen and (max-width: 1400px) {

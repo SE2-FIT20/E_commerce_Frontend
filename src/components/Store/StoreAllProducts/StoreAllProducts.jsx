@@ -3,52 +3,53 @@ import "./storeAllProducts.css";
 import DeadOfWinter from "../../../images/dowln.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faChevronDown,
   faChevronLeft,
   faChevronRight,
+  faChevronUp,
   faPen,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { useHistory, useLocation } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import axios from "axios";
-import { formatNumber } from "../../longFunctions";
-import { useToast } from "@chakra-ui/react";
+import { formatNumber, handleClickOutside } from "../../longFunctions";
+import { filter, useToast } from "@chakra-ui/react";
+import {
+  handleChangeProductPerPage,
+  handleChangeStockType,
+  handleClickPrev,
+  handleClickNext,
+  deleteProduct,
+} from "./storeAllProductsLogic";
 
 const Storepage = () => {
   const history = useHistory();
   const location = useLocation();
-  const { BACKEND_URL, config } = useContext(AuthContext);
+  const { BACKEND_URL, config, currentUser } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const [stockType, setStockType] = useState(
     useHistory().location.pathname.split("/")[3]
   );
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
+  const [openFilterOptions, setOpenFilterOptions] = useState(false);
+  const [openFilterOrder, setOpenFilterOrder] = useState(false);
   const [productToDelete, setProductToDelete] = useState(0);
   const pageIndex = Math.floor(useHistory().location.search.split("=")[1]);
   const [currentPage, setCurrentPage] = useState(pageIndex);
+  const [openProductPerPageOptions, setOpenProductPerPageOptions] =
+    useState(false);
   const [productPerPage, setProductPerPage] = useState(10);
-  const numOfPages = Math.ceil(products.length / productPerPage);
-  const productIndexStart = (currentPage - 1) * productPerPage;
-  const productIndexEnd = productIndexStart + productPerPage - 1;
-  const handleChangeProductPerPage = (e) => {
-    setProductPerPage(Math.floor(e.target.value));
-  };
+  const [totalPages, setTotalPages] = useState(0);
+  const [filterOption, setFilterOption] = useState("createdAt");
+  const [filterOrder, setFilterOrder] = useState("desc");
   const confirmDelete = useRef();
-
+  const filterOptionRef = useRef();
+  const filterOrderRef = useRef();
+  const productPerPageOptionRef = useRef();
   const toast = useToast();
-
-  const handleChangeStockType = (e) => {
-    setStockType(e.currentTarget.id);
-    history.push(`/store/product/${e.currentTarget.id}?pages=${currentPage}`);
-  };
-  const handleClickNext = () => {
-    setCurrentPage((prev) => (prev === numOfPages ? prev : prev + 1));
-  };
-
-  const handleClickPrev = () => {
-    setCurrentPage((prev) => (prev === 1 ? prev : prev - 1));
-  };
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -65,18 +66,20 @@ const Storepage = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [confirmDelete]);
-  useEffect(() => {
-    history.push(`/store/product/${stockType}?pages=${currentPage}`);
-  }, [currentPage]);
 
   const fetchProducts = async () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `${BACKEND_URL}/api/store/products`,
+        `${BACKEND_URL}/api/products?storeId=${
+          currentUser.id
+        }&elementsPerPage=${productPerPage}&page=${
+          currentPage - 1
+        }&filter=${filterOption}&sortBy=${filterOrder}`,
         config
       );
-      setProducts(data.data);
+      setProducts(data.data.content);
+      setTotalPages(data.data.totalPages);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -90,52 +93,193 @@ const Storepage = () => {
     }
   };
 
-  const deleteProduct = async () => {
-    try {
-      await axios.delete(
-        `${BACKEND_URL}/api/store/products/${productToDelete.toString()}`,
-        config
-      );
-      toast({
-        title: "Delete product successfully",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom",
-      });
-      setOpenConfirmDelete(false);
-      fetchProducts();
-    } catch (error) {
-      toast({
-        title: "An error occurred deleting products",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom",
-      });
+  const handleChooseFilterOption = (option) => {
+    setFilterOption(option);
+    setOpenFilterOptions(false);
+  };
+
+  const handleDisplayFilterOption = (option) => {
+    switch (option) {
+      case "name":
+        return "Name";
+      case "price":
+        return "Price";
+      case "quantity":
+        return "Quantity";
+      case "createdAt":
+        return "Date";
     }
   };
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [productPerPage, currentPage, filterOption, filterOrder]);
+
+  useEffect(() => {
+    history.push(`/store/product/${stockType}?pages=${currentPage}`);
+  }, [currentPage]);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        filterOptionRef.current &&
+        !filterOptionRef.current.contains(event.target)
+      ) {
+        setOpenFilterOptions(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [filterOptionRef]);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        filterOrderRef.current &&
+        !filterOrderRef.current.contains(event.target)
+      ) {
+        setOpenFilterOrder(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [filterOrderRef]);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        productPerPageOptionRef.current &&
+        !productPerPageOptionRef.current.contains(event.target)
+      ) {
+        setOpenProductPerPageOptions(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [productPerPageOptionRef]);
 
   return (
     <div className="storeAllProducts">
       <div className="storeAllProductsContainer">
+        <div className="storeFilterOptions">
+          <div className="storeFilterOptionsContainer">
+            <div className="filterSelect">
+              <h2>Filtered By</h2>
+              <div
+                className="filterSelectItem"
+                onClick={() => setOpenFilterOptions(!openFilterOptions)}
+                ref={filterOptionRef}
+              >
+                <span>{handleDisplayFilterOption(filterOption)}</span>
+                <FontAwesomeIcon
+                  icon={faChevronDown}
+                  className={
+                    openFilterOptions ? "openOption rotate" : "openOption"
+                  }
+                />
+                <ul
+                  className={
+                    openFilterOptions ? "filterOptions open" : "filterOptions"
+                  }
+                  style={{
+                    border: openFilterOptions ? "1px solid #ccc" : "none",
+                  }}
+                >
+                  <li
+                    onClick={() => handleChooseFilterOption("name")}
+                    className={filterOption === "name" ? "selected" : ""}
+                  >
+                    Name
+                  </li>
+                  <li
+                    onClick={() => handleChooseFilterOption("price")}
+                    className={filterOption === "price" ? "selected" : ""}
+                  >
+                    Price
+                  </li>
+                  <li
+                    onClick={() => handleChooseFilterOption("quantity")}
+                    className={filterOption === "quantity" ? "selected" : ""}
+                  >
+                    Quantity
+                  </li>
+                  <li
+                    onClick={() => handleChooseFilterOption("createdAt")}
+                    className={filterOption === "createdAt" ? "selected" : ""}
+                  >
+                    Date
+                  </li>
+                </ul>
+              </div>
+              <div
+                className="filterSelectItem"
+                style={{
+                  width: "fit-content",
+                }}
+                onClick={() => setOpenFilterOrder(!openFilterOrder)}
+                ref={filterOrderRef}
+              >
+                <span>{filterOrder === "asc" ? "A-Z" : "Z-A"}</span>
+                <FontAwesomeIcon
+                  icon={faChevronDown}
+                  className={
+                    openFilterOrder ? "openOption rotate" : "openOption"
+                  }
+                />
+                <ul
+                  className={
+                    openFilterOrder ? "filterOptions open" : "filterOptions"
+                  }
+                  style={{
+                    border: openFilterOrder ? "1px solid #ccc" : "none",
+                  }}
+                >
+                  <li
+                    onClick={() => setFilterOrder("asc")}
+                    className={filterOrder === "asc" ? "selected" : ""}
+                  >
+                    A-Z
+                  </li>
+                  <li
+                    onClick={() => setFilterOrder("desc")}
+                    className={filterOrder === "desc" ? "selected" : ""}
+                  >
+                    Z-A
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div>
+              <h2>Category</h2>
+            </div>
+          </div>
+        </div>
         <div className="storeProductsFilter">
           <ul>
             <li
               className={stockType === "all" ? "all active" : "all"}
               id="all"
-              onClick={handleChangeStockType}
+              onClick={(e) =>
+                handleChangeStockType(e, currentPage, setStockType, history)
+              }
             >
               All
             </li>
             <li
               className={stockType === "active" ? "inStock active" : "inStock"}
               id="active"
-              onClick={handleChangeStockType}
+              onClick={(e) =>
+                handleChangeStockType(e, currentPage, setStockType, history)
+              }
             >
               In stock
             </li>
@@ -144,7 +288,9 @@ const Storepage = () => {
                 stockType === "soldout" ? "outOfStock active" : "outOfStock"
               }
               id="soldout"
-              onClick={handleChangeStockType}
+              onClick={(e) =>
+                handleChangeStockType(e, currentPage, setStockType, history)
+              }
             >
               Out of stock
             </li>
@@ -182,111 +328,163 @@ const Storepage = () => {
                 </tr>
               </thead>
               <tbody>
-                {products
-                  .slice(productIndexStart, productIndexEnd + 1)
-                  .map((product, i) => (
-                    <tr key={i}>
-                      <th
-                        style={{
-                          display: "flex",
-                          flex: "4",
-                          gap: "15px",
-                          alignItems: "flex-start",
-                          justifyContent: "flex-start",
-                          paddingLeft: "10px",
-                        }}
+                {products.map((product, i) => (
+                  <tr key={i}>
+                    <th
+                      style={{
+                        display: "flex",
+                        flex: "4",
+                        gap: "15px",
+                        alignItems: "flex-start",
+                        justifyContent: "flex-start",
+                        paddingLeft: "10px",
+                      }}
+                    >
+                      <img
+                        src={product.images[0]}
+                        alt=""
+                        className="productImage"
+                      />
+                      <span
+                        className="productName"
+                        onClick={() =>
+                          history.push(`/store/product/${product.id}`)
+                        }
                       >
-                        <img
-                          src={product.images[0]}
-                          alt=""
-                          className="productImage"
-                        />
-                        <span
-                          className="productName"
+                        {product.name}
+                      </span>
+                    </th>
+                    <th style={{ flex: "2" }}>
+                      <div className="container"> {product.category}</div>
+                    </th>
+                    <th style={{ flex: "2" }}>
+                      <div className="container">
+                        <span className="price-symbol">₫</span>
+                        {formatNumber(product.price)}
+                      </div>
+                    </th>
+                    <th>
+                      <div className="container"> {product.quantity}</div>
+                    </th>
+                    <th>
+                      <div className="container">{product.sold}</div>
+                    </th>
+                    <th>
+                      <div className="container productButtons">
+                        <FontAwesomeIcon
+                          icon={faPen}
                           onClick={() =>
-                            history.push(`/store/product/${product.id}`)
+                            history.push(`/store/product/update/${product.id}`)
                           }
-                        >
-                          {product.name}
-                        </span>
-                      </th>
-                      <th style={{ flex: "2" }}>
-                        <div className="container"> {product.category}</div>
-                      </th>
-                      <th style={{ flex: "2" }}>
-                        <div className="container">
-                          <span className="price-symbol">₫</span>
-                          {formatNumber(product.price)}
-                        </div>
-                      </th>
-                      <th>
-                        <div className="container"> {product.quantity}</div>
-                      </th>
-                      <th>
-                        <div className="container">2</div>
-                      </th>
-                      <th>
-                        <div className="container productButtons">
-                          <FontAwesomeIcon
-                            icon={faPen}
-                            onClick={() =>
-                              history.push(
-                                `/store/product/update/${product.id}`
-                              )
-                            }
-                          />
-                          <FontAwesomeIcon
-                            icon={faTrash}
-                            onClick={() => {
-                              setOpenConfirmDelete(true);
-                              setProductToDelete(product.id);
-                            }}
-                          />
-                        </div>
-                      </th>
-                    </tr>
-                  ))}
-
-                <tr
-                  style={{
-                    position: "absolute",
-                    left: "0px",
-                    bottom: "0px",
-                    paddingBottom: "15px",
-                    zIndex: "50",
-                    backgroundColor: "#fff",
-                    padding: "15px 0",
-                  }}
-                >
-                  <td className="productNav">
-                    <div className="productNavBtn">
-                      <div className="prevBtn" onClick={handleClickPrev}>
-                        <FontAwesomeIcon icon={faChevronLeft} />
-                      </div>
-                      <span>{`${currentPage}/${
-                        numOfPages !== 1 / 0 ? numOfPages : 1
-                      }`}</span>
-                      <div className="nextBtn" onClick={handleClickNext}>
-                        <FontAwesomeIcon icon={faChevronRight} />
-                      </div>
-                    </div>
-                    <div className="productPerPage">
-                      <div className="productPerPageContainer">
-                        <input
-                          type="number"
-                          value={productPerPage}
-                          onChange={handleChangeProductPerPage}
                         />
-                        <span>{`/page`}</span>
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          onClick={() => {
+                            setOpenConfirmDelete(true);
+                            setProductToDelete(product.id);
+                          }}
+                        />
                       </div>
-                    </div>
-                  </td>
-                </tr>
+                    </th>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
         )}
+        <div className="productNav">
+          <div className="productNavContainer">
+            {" "}
+            <div className="productNavBtn">
+              <div
+                className="prevBtn"
+                onClick={() => handleClickPrev(setCurrentPage)}
+              >
+                <FontAwesomeIcon icon={faChevronLeft} />
+              </div>
+              <span>{`${currentPage}/${
+                totalPages !== 1 / 0 ? totalPages : 1
+              }`}</span>
+              <div
+                className="nextBtn"
+                onClick={() => handleClickNext(setCurrentPage, totalPages)}
+              >
+                <FontAwesomeIcon icon={faChevronRight} />
+              </div>
+            </div>
+            <div className="productPerPage">
+              <div className="productPerPageContainer">
+                <div
+                  className="productPerPageButton"
+                  onClick={() =>
+                    setOpenProductPerPageOptions(!openProductPerPageOptions)
+                  }
+                  ref={productPerPageOptionRef}
+                >
+                  <span>{`${productPerPage}/page`}</span>
+                  <FontAwesomeIcon
+                    icon={faChevronUp}
+                    className={
+                      openProductPerPageOptions
+                        ? "openOption rotate"
+                        : "openOption"
+                    }
+                  />
+                </div>
+
+                <div
+                  className={"productPerPageOptions"}
+                  style={{
+                    border: openProductPerPageOptions
+                      ? "1px solid #ccc"
+                      : "none",
+                  }}
+                >
+                  <ul className={openProductPerPageOptions ? "open" : ""}>
+                    <li
+                      onClick={() =>
+                        handleChangeProductPerPage(
+                          10,
+                          setProductPerPage,
+                          setOpenProductPerPageOptions
+                        )
+                      }
+                      className={productPerPage === 10 ? "selected" : ""}
+                    >
+                      10
+                    </li>
+                    <li
+                      onClick={() =>
+                        handleChangeProductPerPage(
+                          20,
+                          setProductPerPage,
+                          setOpenProductPerPageOptions
+                        )
+                      }
+                      className={productPerPage === 20 ? "selected" : ""}
+                    >
+                      20
+                    </li>
+                    <li
+                      onClick={() =>
+                        handleChangeProductPerPage(
+                          30,
+                          setProductPerPage,
+                          setOpenProductPerPageOptions
+                        )
+                      }
+                      className={productPerPage === 30 ? "selected" : ""}
+                    >
+                      30
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div
         className={openConfirmDelete ? "confirmDelete" : "confirmDelete hide"}
       >
@@ -297,9 +495,16 @@ const Storepage = () => {
           <div className="deleteBtnContainer">
             <button
               className="button"
-              onClick={() => {
-                deleteProduct();
-              }}
+              onClick={() =>
+                deleteProduct(
+                  productToDelete,
+                  fetchProducts,
+                  setOpenConfirmDelete,
+                  BACKEND_URL,
+                  config,
+                  toast
+                )
+              }
             >
               Yes
             </button>

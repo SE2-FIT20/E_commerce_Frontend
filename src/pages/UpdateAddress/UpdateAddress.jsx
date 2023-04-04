@@ -5,9 +5,11 @@ import { faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { AuthContext } from "../../context/AuthContext";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
+import Address from "../../components/Address/Address";
 
 const UpdateAddress = () => {
-  const { currentUser, setCurrentUser, config, BACKEND_URL } = useContext(AuthContext);
+  const { currentUser, setCurrentUser, config, BACKEND_URL } =
+    useContext(AuthContext);
   const [addressText, setAddressText] = useState("");
   const [addingNewAddress, setAddingNewAddress] = useState(false);
   const toast = useToast();
@@ -20,11 +22,15 @@ const UpdateAddress = () => {
     }
   };
 
-  const handleSave = async(e) => {
+  const handleSave = async (e) => {
     try {
-      await axios.put(`${BACKEND_URL}/api/customer/account`, {
-        addresses: [addressText, ...currentUser.addresses], 
-      }, config)
+      await axios.put(
+        `${BACKEND_URL}/api/customer/account`,
+        {
+          addresses: [addressText, ...currentUser.addresses],
+        },
+        config
+      );
 
       toast({
         title: "Add new address successful",
@@ -34,11 +40,12 @@ const UpdateAddress = () => {
         position: "bottom",
       });
       const { data } = await axios.get(
-        `https://e-commerce-production-43d5.up.railway.app/api/customer/account`,
+        `${BACKEND_URL}/api/customer/account`,
         config
       );
       setCurrentUser(data.data);
-      setAddressText("")
+      setAddingNewAddress(false);
+      setAddressText("");
     } catch (error) {
       toast({
         title: "An error occurred while trying to update profile",
@@ -48,13 +55,17 @@ const UpdateAddress = () => {
         position: "bottom",
       });
     }
-  }
+  };
 
-  const handleDelete = async(address) => {
+  const handleDelete = async (address) => {
     try {
-      await axios.put(`${BACKEND_URL}/api/customer/account`, {
-        addresses: currentUser.addresses.filter((item) => item !== address), 
-      }, config)
+      await axios.put(
+        `${BACKEND_URL}/api/customer/account`,
+        {
+          addresses: currentUser.addresses.filter((item) => item !== address),
+        },
+        config
+      );
 
       toast({
         title: "Delete address successful",
@@ -64,7 +75,7 @@ const UpdateAddress = () => {
         position: "bottom",
       });
       const { data } = await axios.get(
-        `https://e-commerce-production-43d5.up.railway.app/api/customer/account`,
+        `${BACKEND_URL}/api/customer/account`,
         config
       );
       setCurrentUser(data.data);
@@ -77,7 +88,7 @@ const UpdateAddress = () => {
         position: "bottom",
       });
     }
-  }
+  };
   const handleChange = (e) => {
     setAddressText(e.target.value);
   };
@@ -105,7 +116,7 @@ const UpdateAddress = () => {
                   onKeyDown={handleKeyDown}
                   onChange={handleChange}
                 />
-                <span>0/100</span>
+                <span>{`${addressText.length}/100`}</span>
               </div>
               <div className="addAddressOperations">
                 <span>Press Esc to cancel</span>
@@ -118,21 +129,15 @@ const UpdateAddress = () => {
           <ul>
             {currentUser.addresses.length > 0 &&
               currentUser.addresses.map((address, i) => (
-                <li ley={i}>
-                  <div className="addressLeft">
-                    <span>{address}</span>
-                  </div>
-                  <div className="addressRight">
-                    <div className="updateButton">
-                      <FontAwesomeIcon icon={faPen} />
-                    </div>
-                    <div className="deleteButton" onClick={() => handleDelete(address)}>
-                      <FontAwesomeIcon icon={faTrash} />
-                    </div>
-                  </div>
-                </li>
+                <Address
+                  address={address}
+                  i={i}
+                  handleDelete={handleDelete}
+                />
               ))}
-            {currentUser.addresses.length === 0 && <div>You don't have any address!</div>}
+            {currentUser.addresses.length === 0 && (
+              <div>You don't have any address!</div>
+            )}
           </ul>
         </div>
       </div>

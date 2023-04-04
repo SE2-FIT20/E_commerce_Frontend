@@ -22,7 +22,7 @@ const CartProduct = ({ product, productQuantity, fetchCart, setTotal }) => {
   };
 
   useEffect(() => {
-    setTotal((prev) => prev + (product.price * quantity) / 2);
+    setTotal((prev) => prev + (product.price * quantity));
   }, []);
   const handleProductQuantity = async (productId, productPrice, number) => {
     if (quantity + number === 0) number = 0;

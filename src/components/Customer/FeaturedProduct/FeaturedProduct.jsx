@@ -106,7 +106,10 @@ const FeaturedProduct = () => {
   };
   useEffect(() => {
     fetchProducts();
+    document.title = "BazaarBay"
   }, [pageNumber]);
+
+  
 
   return (
     <div className="featuredProduct" ref={featuredProduct}>

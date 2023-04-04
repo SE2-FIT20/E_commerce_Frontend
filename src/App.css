@@ -48,10 +48,10 @@ a {
 }
 
 .button {
-  border-radius: 8px;
+  border-radius: 20px;
   background-color: #003140;
   color: #fff;
-  padding: 8px 12px;
+  padding: 7px 19px;
   font-weight: 500;
 }
 .button:hover {
@@ -61,12 +61,14 @@ a {
 .app {
   overflow-x: hidden;
   width: 100%;
+
 }
 
 .app .appBody {
   position: absolute;
   top: 70px;
   width: 100%;
+  height: calc(100vh - 70px);
 }
 
 .app .storeAppBody {

@@ -11,10 +11,15 @@ import { useToast } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 
 const Checkout = () => {
-  const { BACKEND_URL, config } = useContext(AuthContext);
+  const { BACKEND_URL, config, currentUser } = useContext(AuthContext);
   const [storeProducts, setStoreProducts] = useState([]);
+  const [address, setAddress] = useState(
+    currentUser.addresses[currentUser.addresses.length - 1]
+  );
+  const [selectedAddress, setSelectedAddress] = useState(address);
+  const [openChooseAddress, setOpenChooseAddress] = useState(false);
   const toast = useToast();
-  const history = useHistory()
+  const history = useHistory();
   const subTotalPrice = storeProducts.reduce((accumulator, currentValue) => {
     const itemTotal = currentValue.items.reduce((itemAccumulator, item) => {
       return itemAccumulator + item.product.price * item.quantity;
@@ -41,7 +46,7 @@ const Checkout = () => {
         isClosable: true,
         position: "bottom",
       });
-      history.push("/")
+      history.push("/");
     } catch (error) {
       toast({
         title: "An error occurred checking out",
@@ -54,11 +59,15 @@ const Checkout = () => {
   };
   useEffect(() => {
     fetchCart();
+    document.title = "BazaarBay | Checkout"
   }, []);
 
   console.log(storeProducts);
   return (
-    <div className="checkout">
+    <div
+      className="checkout"
+      style={{ overflow: openChooseAddress ? "hidden" : "scroll" }}
+    >
       <BreadCrumb title="Cart / Checkout" />
       <div className="checkoutContainer">
         <div className="deliveryLocation">
@@ -67,13 +76,15 @@ const Checkout = () => {
             <h2>Delivery Location</h2>
           </div>
           <div className="customerLocationInfo">
-            <span className="customerName">Do Minh Quan</span>
-            <span className="customerPhone">0825134034</span>
-            <span className="customerLocation">
-              445 Au Co, Nhat Tan, Tay Ho, Ha Noi
-            </span>
-            <div className="defaultText">Default</div>
-            <span className="changeLocationText">Change</span>
+            <span className="customerName">{currentUser.name}</span>
+            <span className="customerPhone">{currentUser.phoneNumber}</span>
+            <span className="customerLocation">{address}</span>
+            <button
+              className="button"
+              onClick={() => setOpenChooseAddress(true)}
+            >
+              Change
+            </button>
           </div>
         </div>
         {storeProducts.map((product) => (
@@ -175,9 +186,39 @@ const Checkout = () => {
                   <h2>Total price:</h2>
                   <span style={{ fontSize: "25px" }}>480k</span>
                 </div>
-                <button onClick={handleCheckout}>Checkout</button>
+                <button className="checkoutButton" onClick={handleCheckout}>Checkout</button>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className={openChooseAddress ? "chooseAddress" : "chooseAddress hide"}
+      >
+        <div className="chooseAddressContainer">
+        <h2>My Address</h2>
+          <ul>
+            {currentUser.addresses.map((a, i) => (
+              <li
+                key={i}
+                className={a === selectedAddress ? "selected" : ""}
+                onClick={() => setSelectedAddress(a)}
+              >
+                {a}
+              </li>
+            ))}
+          </ul>
+          <div className="chooseAddressButtons">
+            <button
+              className="button"
+              onClick={() => setOpenChooseAddress(false)}
+            >
+              Cancel
+            </button>
+            <button className="button" onClick={() => {
+              setAddress(selectedAddress);
+              setOpenChooseAddress(false);
+            }}>Confirm</button>
           </div>
         </div>
       </div>

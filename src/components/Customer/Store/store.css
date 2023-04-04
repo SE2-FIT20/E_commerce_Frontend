@@ -21,7 +21,12 @@
   align-items: center;
 }
 
-.storeContainer .storeProducts .filterSection ul {
+.storeContainer .storeProducts .filterSection > span {
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.storeContainer .storeProducts .filterSection > ul {
   display: flex;
   gap: 15px;
   align-items: center;
@@ -34,6 +39,40 @@
 }
 .filterSection ul li button {
   padding: 8px 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.filterSection ul li button .filterOptions {
+  position: absolute;
+  top: 43px;
+  left: 0;
+  max-height: 0;
+  background-color: #fff;
+  width: 100%;
+  border-radius: 0 0 15px 15px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+}
+
+.filterSection ul li button .filterOptions.open {
+  max-height: 200px;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.filterSection ul li button .filterOptions li {
+  cursor: pointer;
+  width: 100%;
+  height: 30px
+}
+.filterSection ul li button .filterOptions li:hover {
+  background-color: #f0f2f5;
 }
 
 .storeProductsDisplay {

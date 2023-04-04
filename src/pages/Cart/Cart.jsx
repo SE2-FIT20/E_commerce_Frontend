@@ -31,7 +31,7 @@ const Cart = () => {
   };
   useEffect(() => {
     fetchCart();
-    // handleQuantityChange();
+    document.title = "Cart | BazaarBay "
   }, []);
 
   useEffect(() => {}, []);

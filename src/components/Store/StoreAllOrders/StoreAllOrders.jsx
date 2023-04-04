@@ -234,9 +234,7 @@ const StoreAllOrders = () => {
                               </div>
                             </div>
                             <div style={{ flex: "1" }}>
-                              <div className="container">
-                                {item.product.quantity}
-                              </div>
+                              <div className="container">{item.quantity}</div>
                             </div>
                             <div style={{ flex: "1.5" }}>
                               <div className="container">
@@ -253,6 +251,8 @@ const StoreAllOrders = () => {
                             </div>
                             <div className="totalPriceRight">
                               <div className="totalPrice">
+                                <span className="price-symbol">₫</span>
+
                                 {formatNumber(order.totalPrice)}
                               </div>
                               <button className="button">Prepared</button>
@@ -265,7 +265,7 @@ const StoreAllOrders = () => {
 
                 <tr
                   style={{
-                    position: "absolute",
+                    position: "sticky",
                     left: "0px",
                     bottom: "0px",
                     paddingBottom: "15px",
