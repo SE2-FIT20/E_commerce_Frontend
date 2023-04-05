@@ -170,6 +170,38 @@
   padding: 20px;
 }
 
+.checkout .cartTotalContainer tbody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.checkout .cartTotalContainer tbody tr {
+  display: flex;
+  gap: 100px;
+  justify-content: space-between;
+}
+
+.checkout .cartTotalContainer tbody tr .priceHeading {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.checkout .cartTotalContainer tbody tr .price {
+  display: flex;
+  justify-self: flex-end !important;
+}
+
+.checkout .cartTotalContainer tbody tr .price.totalPrice span {
+  font-size: 18px;
+  color: red;
+}
+
+.checkout .cartTotalContainer tbody tr .price.totalPrice {
+  font-size: 30px !important;
+  color: red;
+}
+
 .checkout .paymentMethod {
   border-bottom: 1px solid lightgray;
   padding-bottom: 15px;
@@ -203,13 +235,23 @@
   position: fixed;
   top: 0;
   left: 0;
-  display: flex;
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.4);
   z-index: 100;
+  opacity: 0; 
+  display: none;
 }
 
+.chooseAddress.open {
+  display: flex;
+  animation: fade-in 0.2s ease-in-out forwards;
+}
+
+.chooseAddress.close {
+  animation: fade-out 0.2s ease-in-out forwards;
+
+}
 .chooseAddressContainer {
   width: 500px;
   background-color: #fff;
@@ -260,8 +302,23 @@
   font-weight: 600;
 }
 
-.hide {
-  display: none;
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 @media screen and (min-width: 1700px) {
   .checkoutContainer {

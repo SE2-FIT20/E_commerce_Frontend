@@ -85,8 +85,7 @@ tbody {
 
 .cartTotalPrice span {
   color: #1c1c1b;
-  font-weight: 500;
-  font-size: 18px;
+  font-size: 14px;
 }
 
 .cartTotalPrice .checkoutBtn {
@@ -95,6 +94,11 @@ tbody {
   padding: 12px 25px;
   border-radius: 20px;
   max-width: 120px;
+  font-weight: 500;
+}
+
+.cartTotalPrice .checkoutBtn:hover {
+  background-color: #00587c;
 }
 .cartBody .cartProductName {
   flex: 3;

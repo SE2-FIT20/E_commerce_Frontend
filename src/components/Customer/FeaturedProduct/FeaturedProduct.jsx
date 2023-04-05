@@ -10,8 +10,12 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  handleDisplayCategoryImage,
+  handleDisplayCategoryName,
+} from "../CategoryFilter/categoryFilterLogic";
 
-const FeaturedProduct = () => {
+const FeaturedProduct = ({ category }) => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
@@ -23,7 +27,11 @@ const FeaturedProduct = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${BACKEND_URL}/api/products?page=${pageNumber - 1}&filter=createdAt&sortBy=desc`
+        `${BACKEND_URL}/api/products?page=${
+          pageNumber - 1
+        }&filter=createdAt&sortBy=desc&category=${
+          category === "all" ? "all" : category.toUpperCase()
+        }`
       );
       setProducts(response.data.data.content);
       setTotalPages(response.data.data.totalPages);
@@ -32,13 +40,15 @@ const FeaturedProduct = () => {
       setLoading(false);
     }
   };
+
+
   const pageNumberList = [];
   pageNumberList.push(
     <li
       key={1}
       onClick={() => {
-        setPageNumber(1);
         handleScroll();
+        setPageNumber(1);
       }}
     >
       <div className={pageNumber === 1 ? "currentPage" : ""}>{1}</div>
@@ -104,17 +114,22 @@ const FeaturedProduct = () => {
     setPageNumber((prev) => (prev === totalPages ? prev : prev + 1));
     handleScroll();
   };
+
+  const capitalize = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
   useEffect(() => {
     fetchProducts();
-    document.title = "BazaarBay"
-  }, [pageNumber]);
-
-  
+    document.title = "BazaarBay";
+  }, [pageNumber, category]);
 
   return (
     <div className="featuredProduct" ref={featuredProduct}>
       <div className="featuredProductContainer">
-        <div className="featuredTitle">Featured products</div>
+        {category === "all" && (
+          <div className="featuredTitle">Featured products</div>
+        )}
+        {category !== "all" && <div className="featuredTitle">{`${capitalize(category)}`}</div>}
         {loading && (
           <div className="partialLoading">
             <div className="lds-ellipsis">
@@ -129,7 +144,7 @@ const FeaturedProduct = () => {
           <>
             <ul>
               {products.map((product) => (
-                <SingleProduct product={product} key={product.id}/>
+                <SingleProduct product={product} key={product.id} />
               ))}
             </ul>
             <div className="productNav">

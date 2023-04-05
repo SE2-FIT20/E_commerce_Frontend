@@ -54,10 +54,7 @@ a {
   padding: 13px 33px;
   border-radius: 25px;
 }
-.button:hover {
-  background-color: var(--color-febd69);
-  color: #131921;
-}
+
 
 .chooseRoleSection {
   width: 100%;

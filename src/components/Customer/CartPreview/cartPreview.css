@@ -9,8 +9,8 @@
   box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
   border-radius: 8px;
   transform: scale(0);
-  transform-origin: center;
-  animation: scale-up 0.1s ease-in-out forwards;
+  transform-origin: top right;
+  animation: scale-up 0.15s ease-in-out forwards;
   display: none;
 }
 

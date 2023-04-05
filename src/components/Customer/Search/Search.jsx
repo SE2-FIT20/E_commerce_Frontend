@@ -44,7 +44,7 @@ const Search = ({ open, setOpen, keyword, setKeyword }) => {
     };
   }, [search]);
   return (
-    <div className={open ? "search" : "search hide"} ref={search}>
+    <div className={open ? "search open" : "search"} ref={search}>
       <div className="searchContainer">
         {loading && (
           <div className="partialLoading">

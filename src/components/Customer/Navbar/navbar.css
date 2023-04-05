@@ -125,7 +125,7 @@
   color: white;
   border-radius: 5px;
   transform: scale(0);
-  transform-origin: center;
+  transform-origin: top right;
   animation: scale-up 0.1s ease-in-out forwards;
   display: none;
 }
@@ -149,6 +149,7 @@
 
 .navbar .cartBtn {
   position: relative;
+  cursor: pointer;
 }
 
 .navbar .cartBtn:hover .cartPreview {

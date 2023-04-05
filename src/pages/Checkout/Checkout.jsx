@@ -59,7 +59,7 @@ const Checkout = () => {
   };
   useEffect(() => {
     fetchCart();
-    document.title = "BazaarBay | Checkout"
+    document.title = "Checkout | BazaarBay";
   }, []);
 
   console.log(storeProducts);
@@ -171,7 +171,32 @@ const Checkout = () => {
             </div>
             <div className="cartTotalPrice">
               <div className="cartTotalPriceContainer">
-                <div className="productPrice">
+                <table>
+                  <tbody>
+                    <tr>
+                      <td className="priceHeading">Product Price</td>
+                      <td className="price">
+                        <span className="price-symbol">₫</span>
+                        {formatNumber(subTotalPrice)}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="priceHeading">Shipment Fee</td>
+                      <td className="price">
+                        <span className="price-symbol">₫</span>
+                        {formatNumber(50000)}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td className="priceHeading">Total Price:</td>
+                      <td className="price totalPrice">
+                        <span className="price-symbol">₫</span>
+                        {formatNumber(subTotalPrice + 50000)}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                {/* <div className="productPrice">
                   <h2>Product price</h2>
                   <span>
                     <span className="price-symbol">₫</span>
@@ -180,23 +205,29 @@ const Checkout = () => {
                 </div>
                 <div className="shipmentFee">
                   <h2>Shipment fee</h2>
-                  <span>100k</span>
+                  <span>{formatNumber(50000)}</span>
                 </div>
                 <div className="totalPrice">
                   <h2>Total price:</h2>
-                  <span style={{ fontSize: "25px" }}>480k</span>
-                </div>
-                <button className="checkoutButton" onClick={handleCheckout}>Checkout</button>
+                  <span style={{ fontSize: "25px" }}>
+                    {formatNumber(subTotalPrice + 50000)}
+                  </span>
+                </div> */}
+                <button className="checkoutButton" onClick={handleCheckout}>
+                  Checkout
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div
-        className={openChooseAddress ? "chooseAddress" : "chooseAddress hide"}
+        className={
+          openChooseAddress ? "chooseAddress open" : "chooseAddress close"
+        }
       >
         <div className="chooseAddressContainer">
-        <h2>My Address</h2>
+          <h2>My Address</h2>
           <ul>
             {currentUser.addresses.map((a, i) => (
               <li
@@ -215,10 +246,15 @@ const Checkout = () => {
             >
               Cancel
             </button>
-            <button className="button" onClick={() => {
-              setAddress(selectedAddress);
-              setOpenChooseAddress(false);
-            }}>Confirm</button>
+            <button
+              className="button"
+              onClick={() => {
+                setAddress(selectedAddress);
+                setOpenChooseAddress(false);
+              }}
+            >
+              Confirm
+            </button>
           </div>
         </div>
       </div>
