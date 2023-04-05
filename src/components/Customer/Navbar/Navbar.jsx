@@ -173,6 +173,7 @@ const Navbar = ({
                       onClick={() => {
                         setCurrentUser(null);
                         setRole("CUSTOMER");
+                        
                       }}
                     >
                       Log out

@@ -23,7 +23,7 @@ const FeaturedProduct = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${BACKEND_URL}/api/products?page=${pageNumber - 1}`
+        `${BACKEND_URL}/api/products?page=${pageNumber - 1}&filter=createdAt&sortBy=desc`
       );
       setProducts(response.data.data.content);
       setTotalPages(response.data.data.totalPages);
@@ -129,7 +129,7 @@ const FeaturedProduct = () => {
           <>
             <ul>
               {products.map((product) => (
-                <SingleProduct product={product} />
+                <SingleProduct product={product} key={product.id}/>
               ))}
             </ul>
             <div className="productNav">

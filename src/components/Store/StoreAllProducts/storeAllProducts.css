@@ -357,6 +357,11 @@
   display: none;
 }
 
+.storeAllProducts .noItem {
+  object-fit: contain;
+  max-width: 50%;
+}
+
 @media screen and (max-width: 1400px) {
   .storeAllProducts table tbody {
     min-height: 55vh;

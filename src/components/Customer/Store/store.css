@@ -9,6 +9,21 @@
   padding: 20px;
 }
 
+.store .storeInfo {
+  padding-bottom: 20px;
+}
+
+.store .storeInfoLeft {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.store .storeInfoLeft img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .storeContainer .storeProducts {
 
 }

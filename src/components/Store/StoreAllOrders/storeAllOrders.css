@@ -14,8 +14,7 @@
   width: 70%;
   border: 1px solid #ccc;
   max-height: calc(100vh - 70px);
-
-  overflow-y: scroll;
+  position: relative;
   scrollbar-width: none; /* Hide scrollbar for Firefox */
   -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
 }
@@ -23,6 +22,77 @@
 .storeAllOrdersContainer::-webkit-scrollbar {
   width: 0 !important; /* Hide scrollbar for Chrome, Safari, and Opera */
   display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+}
+
+.storeAllOrders .storeFilterOptions {
+  width: 100%;
+}
+
+.storeAllOrders .storeFilterOptionsContainer {
+  padding: 10px 20px;
+  display: flex;
+}
+
+.storeAllOrders .storeFilterOptionsContainer > div {
+  flex: 1;
+}
+
+.storeAllOrders .storeFilterOptions h2 {
+  font-size: 19px;
+  font-weight: 500;
+}
+
+.storeAllOrders .filterSelect {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.storeAllOrders .filterSelect .filterSelectItem {
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 90px;
+  font-size: 14px;
+}
+
+.storeAllOrders .filterSelect .filterSelectItem ul {
+  position: absolute;
+  top: 37px;
+  left: 0;
+  max-height: 0;
+  background-color: #fff;
+  width: 100%;
+  border-radius: 0 0 15px 15px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+  z-index: 20;
+}
+
+.storeAllOrders .filterSelect .filterSelectItem ul.open {
+  max-height: 200px;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.storeAllOrders .filterSelect .filterSelectItem ul li {
+  text-align: left;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.storeAllOrders .filterSelect .filterSelectItem ul li:hover {
+  background-color: #f0f2f5;
+}
+
+.storeAllOrders .selected {
+  background-color: #f0f2f5;
 }
 
 .storeOrdersFilter {
@@ -88,7 +158,7 @@
   overflow-y: scroll;
   min-height: 75vh;
   max-height: 75vh;
-  margin-bottom: 15px;
+  padding-bottom: 25px;
 }
 
 .storeAllOrders table tbody tr {
@@ -216,14 +286,29 @@
   height: 50px;
 }
 
-.storeAllOrders .productNav {
+.storeAllOrders .orderNav {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  z-index: 20;
+  background-color: #fff;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.storeAllOrders .orderNavContainer {
   width: 100%;
   display: flex;
   gap: 20px;
+  position: relative;
+  align-items: center;
+  justify-content: center;
 }
 
-.storeAllOrders .productNav .productNavBtn {
-  flex: 1;
+.storeAllOrders .orderNav .orderNavBtn {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -231,38 +316,122 @@
   cursor: pointer;
 }
 
-.storeAllOrders .productNav .productPerPage {
-  flex: 1;
+.storeAllOrders .orderNav .orderPerPage {
   display: flex;
   align-items: center;
+  position: absolute;
+  right: 30px;
+  top: 0;
 }
 
-.storeAllOrders .productNav .productPerPageContainer {
-  display: flex;
-  align-items: center;
+.storeAllOrders .orderNav .orderPerPageContainer {
   border-radius: 6px;
   border: 1px solid #ccc;
   padding: 5px 10px;
   cursor: pointer;
+  position: relative;
 }
 
-.storeAllOrders .productNav .prevBtn,
+.storeAllOrders .orderNav .orderPerPageOptions {
+  position: absolute;
+  left: 0;
+  bottom: 42px;
+  background-color: #fff;
+  z-index: 20;
+  border-radius: 15px 15px 0 0;
+  width: 100%;
+}
+
+.storeAllOrders .orderNav .orderPerPageButton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.storeAllOrders .orderNav .orderPerPageButton span {
+  font-size: 15px;
+}
+
+.storeAllOrders .orderNav .orderPerPageOptions ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.storeAllOrders .orderNav .orderPerPageOptions ul.open {
+  max-height: 150px;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.storeAllOrders .orderNav .orderPerPageOptions ul li {
+  width: 100%;
+  text-align: center;
+  padding: 5px 10px;
+}
+
+.storeAllOrders .orderNav .orderPerPageOptions ul li:hover {
+  background-color: #f5f5f5;
+}
+.storeAllOrders .orderNav .prevBtn,
 .nextBtn {
   padding: 10px;
 }
 
-.storeAllOrders .productNav span {
+.storeAllOrders .orderNav span {
   font-size: 18px;
   font-weight: 500;
 }
 
-.storeAllOrders .productNav input {
+.storeAllOrders .orderNav input {
   width: 20px;
   height: 100%;
 }
 
-.storeAllOrders .productNav input:focus {
+.storeAllOrders .orderNav input:focus {
   outline: none;
+}
+
+.storeAllOrders .selected {
+  background-color: #f0f2f5;
+}
+
+.storeAllOrders .noItem {
+  min-width: 70%;
+  max-width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.storeAllOrders .noItem img {
+  object-fit: cover;
+}
+
+.storeAllOrders .noItem .noItemText {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #fff;
+  height: 40%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.storeAllOrders .noItem .noItemText h2 {
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.storeAllOrders .noItem .noItemText span {
+  font-size: 15px;
+  color: #ccc;
 }
 
 @media screen and (max-width: 1400px) {

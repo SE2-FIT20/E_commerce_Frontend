@@ -50,7 +50,6 @@ const Storepage = () => {
   const filterOrderRef = useRef();
   const productPerPageOptionRef = useRef();
   const toast = useToast();
-
   useEffect(() => {
     function handleClickOutside(event) {
       if (
@@ -70,16 +69,37 @@ const Storepage = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(
-        `${BACKEND_URL}/api/products?storeId=${
-          currentUser.id
-        }&elementsPerPage=${productPerPage}&page=${
-          currentPage - 1
-        }&filter=${filterOption}&sortBy=${filterOrder}`,
-        config
-      );
-      setProducts(data.data.content);
-      setTotalPages(data.data.totalPages);
+      if (stockType === "all") {
+        const { data } = await axios.get(
+          `${BACKEND_URL}/api/products?storeId=${
+            currentUser.id
+          }&elementsPerPage=${productPerPage}&page=${
+            currentPage - 1
+          }&filter=${filterOption}&sortBy=${filterOrder}`,
+          config
+        );
+        setProducts(data.data.content);
+        setTotalPages(data.data.totalPages);
+      } else if (stockType === "active") {
+        const { data } = await axios.get(
+          `${BACKEND_URL}/api/store/products-by-status?status=available&elementsPerPage=${productPerPage}&page=${
+            currentPage - 1
+          }&filter=${filterOption}&sortBy=${filterOrder}`,
+          config
+        );
+        setProducts(data.data.content);
+        setTotalPages(data.data.totalPages);
+      } else {
+        const { data } = await axios.get(
+          `${BACKEND_URL}/api/store/products-by-status?status=sold_out&elementsPerPage=${productPerPage}&page=${
+            currentPage - 1
+          }&filter=${filterOption}&sortBy=${filterOrder}`,
+          config
+        );
+        setProducts(data.data.content);
+        setTotalPages(data.data.totalPages);
+      }
+
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -313,18 +333,18 @@ const Storepage = () => {
                 <tr>
                   <th
                     style={{
-                      flex: "4",
+                      flex: "3.5",
                       justifyContent: "flex-start",
                       paddingLeft: "10px",
                     }}
                   >
                     Product name
                   </th>
-                  <th style={{ flex: "2" }}>Product category</th>
-                  <th style={{ flex: "2" }}>Price</th>
-                  <th>In stock</th>
-                  <th>Sales</th>
-                  <th>Operation</th>
+                  <th style={{ flex: "2" }}>Category</th>
+                  <th style={{ flex: "1.5" }}>Price</th>
+                  <th style={{ flex: "1.2" }}>In stock</th>
+                  <th style={{ flex: "1.2" }}>Sales</th>
+                  <th style={{ flex: "1.2" }}>Operation</th>
                 </tr>
               </thead>
               <tbody>
@@ -333,7 +353,7 @@ const Storepage = () => {
                     <th
                       style={{
                         display: "flex",
-                        flex: "4",
+                        flex: "3.5",
                         gap: "15px",
                         alignItems: "flex-start",
                         justifyContent: "flex-start",
@@ -357,19 +377,29 @@ const Storepage = () => {
                     <th style={{ flex: "2" }}>
                       <div className="container"> {product.category}</div>
                     </th>
-                    <th style={{ flex: "2" }}>
+                    <th style={{ flex: "1.5" }}>
                       <div className="container">
                         <span className="price-symbol">₫</span>
                         {formatNumber(product.price)}
                       </div>
                     </th>
-                    <th>
-                      <div className="container"> {product.quantity}</div>
+                    <th style={{ flex: "1.2" }}>
+                      <div
+                        className="container"
+                        style={{
+                          color: product.quantity === 0 ? "red" : "#000",
+                          fontWeight: product.quantity === 0 ? "600" : "normal"
+                        }}
+                      >
+                        {product.quantity === 0
+                          ? "Soldout"
+                          : product.quantity}
+                      </div>
                     </th>
-                    <th>
+                    <th style={{ flex: "1.2" }}>
                       <div className="container">{product.sold}</div>
                     </th>
-                    <th>
+                    <th style={{ flex: "1.2" }}>
                       <div className="container productButtons">
                         <FontAwesomeIcon
                           icon={faPen}
@@ -394,16 +424,15 @@ const Storepage = () => {
         )}
         <div className="productNav">
           <div className="productNavContainer">
-            {" "}
             <div className="productNavBtn">
               <div
                 className="prevBtn"
-                onClick={() => handleClickPrev(setCurrentPage)}
+                onClick={() => handleClickPrev(setCurrentPage, totalPages)}
               >
                 <FontAwesomeIcon icon={faChevronLeft} />
               </div>
               <span>{`${currentPage}/${
-                totalPages !== 1 / 0 ? totalPages : 1
+                totalPages !== 0 ? totalPages : 1
               }`}</span>
               <div
                 className="nextBtn"
@@ -446,7 +475,8 @@ const Storepage = () => {
                         handleChangeProductPerPage(
                           10,
                           setProductPerPage,
-                          setOpenProductPerPageOptions
+                          setOpenProductPerPageOptions,
+                          setCurrentPage
                         )
                       }
                       className={productPerPage === 10 ? "selected" : ""}
@@ -458,7 +488,8 @@ const Storepage = () => {
                         handleChangeProductPerPage(
                           20,
                           setProductPerPage,
-                          setOpenProductPerPageOptions
+                          setOpenProductPerPageOptions,
+                          setCurrentPage
                         )
                       }
                       className={productPerPage === 20 ? "selected" : ""}
@@ -470,7 +501,8 @@ const Storepage = () => {
                         handleChangeProductPerPage(
                           30,
                           setProductPerPage,
-                          setOpenProductPerPageOptions
+                          setOpenProductPerPageOptions,
+                          setCurrentPage
                         )
                       }
                       className={productPerPage === 30 ? "selected" : ""}
