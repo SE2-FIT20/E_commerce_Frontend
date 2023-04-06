@@ -96,7 +96,7 @@ const Product = ({ fetchPreviewCart }) => {
                 <ReactStars
                   count={5}
                   size={24}
-                  value={0}
+                  value={2}
                   edit={true}
                   activeColor="#ffd700"
                 />

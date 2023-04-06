@@ -10,6 +10,7 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { capitalize } from "../../longFunctions";
 import {
   handleDisplayCategoryImage,
   handleDisplayCategoryName,
@@ -115,9 +116,7 @@ const FeaturedProduct = ({ category }) => {
     handleScroll();
   };
 
-  const capitalize = (str) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  }
+  
   useEffect(() => {
     fetchProducts();
     document.title = "BazaarBay";

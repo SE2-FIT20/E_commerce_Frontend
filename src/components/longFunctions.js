@@ -39,3 +39,7 @@ export function handleClickOutside(event, setOpen, ref) {
     setOpen(false);
   }
 };
+
+export const capitalize = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

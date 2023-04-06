@@ -164,6 +164,18 @@ const Navbar = ({
                     </li>
                     <li
                       className="option"
+                      onClick={() => history.push("/account/order")}
+                    >
+                      My Order
+                    </li>
+                    <li
+                      className="option"
+                      onClick={() => history.push("/account/voucher")}
+                    >
+                      My Voucher
+                    </li>
+                    <li
+                      className="option"
                       onClick={() => history.push("/account/password")}
                     >
                       Change Password

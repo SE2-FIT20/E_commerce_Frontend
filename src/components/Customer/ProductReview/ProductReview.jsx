@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "./productReview.css";
 import ReactStars from "react-rating-stars-component";
+import { AuthContext } from "../../../context/AuthContext";
 
 const ProductReview = () => {
+  const { currentUser} = useContext(AuthContext)
   return (
     <li>
       <div className="reviewLeft">
         <img
-          src="https://scontent.fhan14-3.fna.fbcdn.net/v/t39.30808-6/273210834_3086464761611742_3914305251108406206_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=GpZUB-TOXNUAX9fnPSj&_nc_ht=scontent.fhan14-3.fna&oh=00_AfA92m10XiplbJb0QeM-d8Rw0HB1neXeo_mJdUsJfh3JqQ&oe=640D4AC3"
+          src={currentUser.avatar}
           alt=""
         />
       </div>
@@ -18,7 +20,7 @@ const ProductReview = () => {
             count={5}
             size={24}
             value={4}
-            edit={true}
+            edit={false}
             activeColor="#ffd700"
           />
         </div>

@@ -1,0 +1,99 @@
+.chooseCategory {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 100;
+}
+
+.chooseCategoryContainer {
+  max-height: 90%;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 30px;
+  position: relative;
+
+}
+
+.chooseCategory .title {
+  padding: 0 30px;
+}
+
+.chooseCategory .chooseCategoryTitle {
+  font-weight: 500;
+  font-size: 25px;
+  width: 100%;
+}
+
+.chooseCategory .closeButton {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  background-color: #f0f2f5;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.chooseCategory ul {
+  padding-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  overflow-y: scroll;
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none;
+}
+
+.chooseCategory ul li {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 20px;
+  border-radius: 15px;
+}
+
+.chooseCategory ul li:hover {
+  background-color: #f0f2f5;
+}
+
+.chooseCategory ul li span {
+  font-weight: 500;
+}
+
+.chooseCategory ul li .categoryImageBackground {
+  width: 50px;
+  height: 50px;
+  background-color: #f0f2f5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chooseCategory ul li img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+
+
+.hide {
+  display: none;
+}

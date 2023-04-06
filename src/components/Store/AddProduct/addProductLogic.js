@@ -36,6 +36,7 @@ export const handleAddProduct = async (product, BACKEND_URL, config, toast, hist
         `${BACKEND_URL}/api/store/products`,
         {
           ...product,
+          category: product.category.toUpperCase(),
           images,
         },
         config

@@ -7,6 +7,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import AddProductImage from "../AddProductImage/AddProductImage";
 import "./addProduct.css";
 import { handleAddProduct } from "./addProductLogic";
+import ChooseCategory from "../ChooseCategory/ChooseCategory";
 
 const AddProduct = () => {
   const { BACKEND_URL, config } = useContext(AuthContext);
@@ -18,12 +19,15 @@ const AddProduct = () => {
     description: "",
     images: [],
   });
+  const [openChooseCategory, setOpenChooseCategory] = useState(false);
   const toast = useToast();
   const history = useHistory();
 
   const handleChange = (e) => {
     setProduct((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
+
+  console.log(product.category)
 
   return (
     <div className="addProduct">
@@ -80,7 +84,9 @@ const AddProduct = () => {
                       type="text"
                       placeholder="Choose product category"
                       id="category"
-                      onChange={handleChange}
+                      
+                      value={product.category}
+                      onClick={() => setOpenChooseCategory(true)}
                     />
                   </div>
                 </td>
@@ -198,6 +204,11 @@ const AddProduct = () => {
           </table>
         </div>
       </div>
+      <ChooseCategory
+        open={openChooseCategory}
+        setOpen={setOpenChooseCategory}
+        setProduct={setProduct}
+      />
     </div>
   );
 };

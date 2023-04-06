@@ -108,7 +108,7 @@ const Cart = () => {
           <div className="emptyCart">
             <img src={EmptyCart} alt="" className="emptyCartImage" />
             <div className="emptyCartText">
-              <h2>Your cart is currently</h2>
+              <h2>Your cart is currently empty</h2>
               <span>
                 Before proceed to checkout, you must add some products to your
                 cart. You will find a lot of interesting products on our page.
