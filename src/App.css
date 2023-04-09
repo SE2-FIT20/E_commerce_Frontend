@@ -71,16 +71,15 @@ a {
   height: calc(100vh - 70px);
 }
 
-.app .storeAppBody {
+.app .storeAppBody,.adminAppBody {
   display: flex;
   position: absolute;
   top: 70px;
   background-color: #f0f2f5;
-
   width: 100%;
 }
 
-.app .storeAppContent {
+.app .storeAppContent,.adminAppContent {
   flex: 7;
   background-color: #F0F2F5;
 }

@@ -7,16 +7,16 @@ import {
   faChevronRight,
   faMessage,
   faShop,
-  faStar,
-  faStarHalfStroke,
 } from "@fortawesome/free-solid-svg-icons";
 import "./productDetail.css";
 import ProductImage from "../ProductImage/ProductImage";
 import { useHistory } from "react-router-dom";
 import { formatNumber } from "../../longFunctions";
 import axios from "axios";
+import ReactStars from "react-rating-stars-component";
 import { useToast } from "@chakra-ui/react";
 import { AuthContext } from "../../../context/AuthContext";
+import { capitalize } from "../../longFunctions";
 
 const ProductDetail = ({ product, fetchPreviewCart }) => {
   const { BACKEND_URL, config, currentUser } = useContext(AuthContext);
@@ -47,7 +47,6 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
       prev === product.images.length - 5 ? product.images.length - 5 : prev + 1
     );
   };
-
 
   const handleAddToCart = async (productId) => {
     try {
@@ -95,7 +94,7 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
   useEffect(() => {
     setCurrentDisplayImage(currentImage);
     setCurrentImage(product.images[0]);
-    document.title = `${product.name} | BazaarBay`
+    document.title = `${product.name} | BazaarBay`;
   }, [product]);
 
   useEffect(() => {
@@ -156,7 +155,19 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
           <div className="productRightContainer">
             <div className="productName">
               <h2>{product.name}</h2>
+              <div className="productReviewInfo">
+                <ReactStars
+                  count={5}
+                  size={24}
+                  value={5}
+                  edit={false}
+                  activeColor="#0C1D26"
+                  classNames="reviewStar"
+                />
+                <span className="reviewCount">100 reviews</span>
+              </div>
             </div>
+
             <div className="productPrice">
               <div className="price">
                 <span className="price-symbol">₫</span>
@@ -169,15 +180,15 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
                 <tbody>
                   <tr>
                     <th className="productHeading">Category</th>
-                    <th className="productContent">{product.category}</th>
+                    <th className="productContent">{capitalize(product.category.toLowerCase())}</th>
+                  </tr>
+                  <tr>
+                    <th className="productHeading">Sold </th>
+                    <th className="productContent">{product.quantity}</th>
                   </tr>
                   <tr>
                     <th className="productHeading">In stock </th>
                     <th className="productContent">{product.quantity}</th>
-                  </tr>
-                  <tr>
-                    <th className="productHeading">Size </th>
-                    <th className="productContent">XL</th>
                   </tr>
                   <tr>
                     <th className="productHeading">Quantity </th>
@@ -201,7 +212,11 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
                     <th className="productContent productButtons">
                       <button
                         className="addToCartBtn"
-                        onClick={() => { currentUser ? handleAddToCart(product.id) : history.push('/login')}}
+                        onClick={() => {
+                          currentUser
+                            ? handleAddToCart(product.id)
+                            : history.push("/login");
+                        }}
                       >
                         <FontAwesomeIcon icon={faCartPlus} />
                         <span>Add to cart</span>
@@ -264,7 +279,10 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
           <div className="storeRight">
             <h3 className="storeName">{product.store.name}</h3>
             <div className="storeButtons">
-              <button className="visitStore" onClick={() => history.push(`/store/${product.store.id}`)}>
+              <button
+                className="visitStore"
+                onClick={() => history.push(`/store/${product.store.id}`)}
+              >
                 <FontAwesomeIcon icon={faShop} />
                 <span>Visit store</span>
               </button>
@@ -278,7 +296,12 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
       </div>
       <div className="productDesc">
         <span className="descText">Description</span>
-        <div className="productDescContainer">{product.description}</div>
+        <div
+          className="productDescContainer"
+          style={{ whiteSpace: "pre-wrap" }}
+        >
+          {product.description}
+        </div>
       </div>
     </div>
   );

@@ -164,7 +164,7 @@ const Navbar = ({
                     </li>
                     <li
                       className="option"
-                      onClick={() => history.push("/account/order")}
+                      onClick={() => history.push("/account/order/all?pages=1")}
                     >
                       My Order
                     </li>
@@ -185,7 +185,7 @@ const Navbar = ({
                       onClick={() => {
                         setCurrentUser(null);
                         setRole("CUSTOMER");
-                        
+                        history.push("/")
                       }}
                     >
                       Log out

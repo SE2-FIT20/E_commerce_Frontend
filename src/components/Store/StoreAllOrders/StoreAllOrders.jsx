@@ -28,6 +28,12 @@ import { useToast } from "@chakra-ui/react";
 const StoreAllOrders = () => {
   const history = useHistory();
   const location = useLocation();
+  const today = new Date();
+  const dateStr = "1/1/2023";
+  const [month, day, year] = dateStr.split("/");
+  const date = new Date(`${year}-${month}-${day}`);
+  const formattedDateFrom = date.toISOString().substring(0, 10);
+  const formattedDateTo = today.toISOString().substring(0, 10);
   const { BACKEND_URL, config } = useContext(AuthContext);
   const [orders, setOrders] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
@@ -43,6 +49,8 @@ const StoreAllOrders = () => {
   const [openFilterOptions, setOpenFilterOptions] = useState(false);
   const [filterOption, setFilterOption] = useState("createdAt");
   const [filterOrder, setFilterOrder] = useState("desc");
+  const [dateFrom, setDateFrom] = useState(formattedDateFrom);
+  const [dateTo, setDateTo] = useState(formattedDateTo);
   const toast = useToast();
   const filterOptionRef = useRef();
   const filterOrderRef = useRef();
@@ -72,7 +80,7 @@ const StoreAllOrders = () => {
       const { data } = await axios.get(
         `${BACKEND_URL}/api/store/orders?elementsPerPage=${orderPerPage}&page=${
           currentPage - 1
-        }&status=${orderType}&sortBy=${filterOrder}`,
+        }&status=${orderType}&sortBy=${filterOrder}&from=${dateFrom}&to=${dateTo}`,
         config
       );
       setOrders(data.data.content);
@@ -92,7 +100,15 @@ const StoreAllOrders = () => {
 
   useEffect(() => {
     fetchOrders();
-  }, [orderPerPage, currentPage, orderType, filterOption, filterOrder]);
+  }, [
+    orderPerPage,
+    currentPage,
+    orderType,
+    filterOption,
+    filterOrder,
+    dateFrom,
+    dateTo,
+  ]);
   return (
     <div className="storeAllOrders">
       <div className="storeAllOrdersContainer">
@@ -172,8 +188,28 @@ const StoreAllOrders = () => {
                 </ul>
               </div>
             </div>
-            <div>
-              <h2>Category</h2>
+            <div className="filterByDate">
+              <h2>Order Date</h2>
+              <div className="inputDateContainer">
+                <div className="from">
+                  <span>From: </span>
+                  <input
+                    type="date"
+                    className="dateFrom"
+                    value={dateFrom}
+                    onChange={(e) => setDateFrom(e.target.value)}
+                  />
+                </div>
+                <div className="to">
+                  <span>To: </span>
+                  <input
+                    type="date"
+                    className="dateTo"
+                    value={dateTo}
+                    onChange={(e) => setDateTo(e.target.value)}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -365,12 +401,14 @@ const StoreAllOrders = () => {
                   }}
                 >
                   <tr className="noItem">
-                    <img src={NoItem} alt="" className="noItem" />
+                    <th>
+                      <img src={NoItem} alt="" className="noItem" />
 
-                    <div className="noItemText">
-                      <h2>No Items Found!</h2>
-                      <span>Sorry... No items found inside your card</span>
-                    </div>
+                      <div className="noItemText">
+                        <h2>No Items Found!</h2>
+                        <span>Sorry... No items found inside your card</span>
+                      </div>
+                    </th>
                   </tr>
                 </tbody>
               )}
@@ -382,7 +420,7 @@ const StoreAllOrders = () => {
             <div className="orderNavContainer">
               <div className="orderNavBtn">
                 <div
-                  className="prevBtn"
+                  className="prevButton"
                   onClick={() => handleClickPrev(setCurrentPage)}
                 >
                   <FontAwesomeIcon icon={faChevronLeft} />
@@ -391,7 +429,7 @@ const StoreAllOrders = () => {
                   totalPages !== 0 ? totalPages : 1
                 }`}</span>
                 <div
-                  className="nextBtn"
+                  className="nextButton"
                   onClick={() => handleClickNext(setCurrentPage, totalPages)}
                 >
                   <FontAwesomeIcon icon={faChevronRight} />

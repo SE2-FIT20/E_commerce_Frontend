@@ -49,9 +49,7 @@ const ChooseCategory = ({ open, setOpen, setProduct }) => {
       <div className="chooseCategoryContainer" ref={chooseCategory}>
         <div className="title">
           <h2 className="chooseCategoryTitle">Choose your category</h2>
-          <div className="closeButton" onClick={() => setOpen(false)}>
-            <FontAwesomeIcon icon={faTimes} />
-          </div>
+      
         </div>
         <ul>
           {categories.map((category, i) => (
@@ -61,10 +59,11 @@ const ChooseCategory = ({ open, setOpen, setProduct }) => {
                 handleChooseCategory(capitalize(category.toLowerCase()))
               }
             >
-              <span>{capitalize(category.toLowerCase())}</span>
               <div className="categoryImageBackground">
                 <img src={handleDisplayCategoryImage(category)} alt="" />
               </div>
+              <span>{capitalize(category.toLowerCase())}</span>
+
             </li>
           ))}
         </ul>

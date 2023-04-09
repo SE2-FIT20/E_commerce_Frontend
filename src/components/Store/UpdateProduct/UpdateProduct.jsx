@@ -7,7 +7,10 @@ import { useHistory, useLocation } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import AddProductImage from "../AddProductImage/AddProductImage";
 import "./updateProduct.css";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import { handleUpdateProduct } from "./updateProductLogic";
+import ChooseCategory from "../ChooseCategory/ChooseCategory";
 
 const UpdateProduct = () => {
   const { BACKEND_URL, config } = useContext(AuthContext);
@@ -25,6 +28,7 @@ const UpdateProduct = () => {
   const history = useHistory();
   const location = useLocation();
   const productId = location.pathname.split("/")[4];
+  const [openChooseCategory, setOpenChooseCategory] = useState(false);
   console.log(product)
   const fetchProduct = async () => {
     try {
@@ -111,7 +115,7 @@ const UpdateProduct = () => {
                       placeholder="Choose product category"
                       id="category"
                       value={product.category}
-                      onChange={handleChange}
+                      onClick={() => setOpenChooseCategory(true)}
                     />
                   </div>
                 </td>
@@ -154,12 +158,20 @@ const UpdateProduct = () => {
                   >
                     <textarea
                       type="text"
+                      wrap="soft"
                       placeholder="Your product description"
                       id="description"
                       maxLength={1000}
                       onChange={handleChange}
                       value={product.description}
                     />
+                    {/* <ReactQuill
+                      value={product.description}
+                      onChange={handleChange}
+                      id="description"
+
+                    /> */}
+
                     <span className="textareaCharacter">{`${product.description.length}/1000`}</span>
                   </div>
                 </td>
@@ -256,13 +268,17 @@ const UpdateProduct = () => {
                       "Update Product"
                     )}
                   </button>
-                 
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+      <ChooseCategory
+        open={openChooseCategory}
+        setOpen={setOpenChooseCategory}
+        setProduct={setProduct}
+      />
     </div>
   );
 };

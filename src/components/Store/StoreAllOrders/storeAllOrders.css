@@ -95,6 +95,31 @@
   background-color: #f0f2f5;
 }
 
+.storeAllOrders .filterByDate {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.storeAllOrders .filterByDate .inputDateContainer {
+  display: flex;
+  gap: 5px;
+}
+
+.storeAllOrders .filterByDate .inputDateContainer > div{
+  border: 0.5px solid #ccc;
+  padding: 5px 15px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.storeAllOrders .filterByDate .inputDateContainer input:focus {
+  outline: none;
+}
+
 .storeOrdersFilter {
   width: 100%;
   border-bottom: 1px solid #ccc;

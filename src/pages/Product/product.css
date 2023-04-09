@@ -97,22 +97,7 @@
   color: #ffffff;
 }
 
-.storeOtherProduct {
-  padding: 20px 0;
-}
 
-.storeOtherProduct .otherProductText {
-  font-size: 26px;
-  font-weight: 600;
-}
-
-.storeOtherProduct ul {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  flex-wrap: wrap;
-}
 
 /* 
 .singleProduct {
@@ -127,7 +112,7 @@
 
 @media screen and (min-width: 1700px) {
   .productContainer {
-    width: 70% !important;
+    width: 65% !important;
   }
 }
 

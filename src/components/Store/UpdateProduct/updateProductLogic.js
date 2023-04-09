@@ -40,17 +40,20 @@ export const handleUpdateProduct = async (
     });
     images = await Promise.all(promises);
     try {
+      const data =  {
+        productId: productId,
+        name: product.name,
+        price: product.price,
+        description: product.description,
+        quantity: product.quantity,
+        category: product.category.toUpperCase(),
+        images: [...product.images, ...images],
+      };
+      const payload = JSON.stringify(data, null, 2);
+
       await axios.put(
         `${BACKEND_URL}/api/store/products`,
-        {
-          productId: productId,
-          name: product.name,
-          price: product.price,
-          description: product.description,
-          quantity: product.quantity,
-          category: product.category,
-          images: [...product.images, ...images],
-        },
+        payload,
         config
       );
       toast({
@@ -83,7 +86,7 @@ export const handleUpdateProduct = async (
           price: product.price,
           description: product.description,
           quantity: product.quantity,
-          category: product.category,
+          category: product.category.toUpperCase(),
           images: product.images,
         },
         config

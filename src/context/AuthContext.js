@@ -23,7 +23,6 @@ export const AuthContextProvider = ({ children }) => {
   const history = useHistory();
 
   useEffect(() => {
-    if (!currentUser) history.push("/");
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
   }, [currentUser]);
 

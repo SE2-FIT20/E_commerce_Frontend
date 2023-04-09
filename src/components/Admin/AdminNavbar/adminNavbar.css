@@ -1,0 +1,79 @@
+.adminNavbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 70px;
+  z-index: 999;
+}
+
+.adminNavbarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  background-color: #0C1D26;
+  padding: 10px;
+}
+
+.adminNavbarLeft {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 25px;
+}
+
+.adminNavbarLeft img {
+  width: 200px;
+  cursor: pointer;
+}
+
+.adminNavbarRight {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding-right: 50px;
+}
+
+.adminNavbarRight .adminInfo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.adminNavbarRight .adminInfo .adminImg {
+  width: 45px;
+  height: 45px;
+  position: relative;
+}
+
+.adminNavbarRight .adminInfo .adminImg:hover ul {
+  display: block;
+}
+
+.adminNavbarRight .adminInfo .adminImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.adminNavbarRight .adminInfo .adminImg ul {
+  left: 0;
+  position: absolute;
+}
+
+.adminNavbarRight .adminInfo span {
+  color: #ffffff;
+  font-size: 18px;
+}
+
+.adminNavbarRight .notification {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 25px;
+  cursor: pointer;
+}

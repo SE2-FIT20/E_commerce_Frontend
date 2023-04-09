@@ -44,7 +44,7 @@ const Login = () => {
       });
       const token = response.data.data.token;
       setToken(token);
-      if (response.data.data.role === "CUSTOMER") {
+      if (response.data.data.role === "CUSTOMERR") {
         const { data } = await axios.get(
           `${BACKEND_URL}/api/customer/account`,
           {
@@ -70,6 +70,19 @@ const Login = () => {
         setCurrentUser(data.data);
         setRole("STORE")
         history.push("/store/product/all?pages=1");
+      } else if (response.data.data.role === "CUSTOMER") {
+        const { data } = await axios.get(
+          `${BACKEND_URL}/api/customer/account`,
+          {
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setCurrentUser(data.data);
+        setRole("ADMIN")
+        history.push("/admin/");
       }
     } catch (error) {
       setLoading(false);

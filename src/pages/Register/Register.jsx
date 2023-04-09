@@ -5,6 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 import Container from "../../components/Customer/Container/Container";
 import CustomerIcon from "../../images/customerIcon.png";
 import StoreIcon from "../../images/storeIcon.jpg";
+import DeliveryIcon from "../../images/deliveryIcon.png"
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
@@ -197,6 +198,19 @@ const Register = () => {
                         src={StoreIcon}
                       ></img>
                       <div className="roleDesc">Store</div>
+                    </div>
+                    <div
+                      className="roleItem"
+                      id="DELIVERY"
+                      onClick={(e) => handleChooseRole(e)}
+                    >
+                      <img
+                        className={
+                          role === "DELIVERY" ? "storeImg selected" : "storeImg"
+                        }
+                        src={DeliveryIcon}
+                      ></img>
+                      <div className="roleDesc">Delivery</div>
                     </div>
                   </div>
                 </div>

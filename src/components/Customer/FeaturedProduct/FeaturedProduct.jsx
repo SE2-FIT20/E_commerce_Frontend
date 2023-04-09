@@ -32,7 +32,7 @@ const FeaturedProduct = ({ category }) => {
           pageNumber - 1
         }&filter=createdAt&sortBy=desc&category=${
           category === "all" ? "all" : category.toUpperCase()
-        }`
+        }&status=AVAILABLE`
       );
       setProducts(response.data.data.content);
       setTotalPages(response.data.data.totalPages);
@@ -142,7 +142,7 @@ const FeaturedProduct = ({ category }) => {
         {!loading && (
           <>
             <ul>
-              {products.map((product) => (
+              {products.filter(product => product.quantity !== 0).map((product) => (
                 <SingleProduct product={product} key={product.id} />
               ))}
             </ul>

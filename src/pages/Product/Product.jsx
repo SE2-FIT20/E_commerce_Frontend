@@ -17,7 +17,7 @@ import { useToast } from "@chakra-ui/react";
 import "./product.css";
 import ProductDetail from "../../components/Customer/ProductDetail/ProductDetail";
 import ProductReview from "../../components/Customer/ProductReview/ProductReview";
-import SingleProduct from "../../components/Customer/SingleProduct/SingleProduct";
+import OtherProducts from "../../components/Customer/OtherProducts/OtherProducts";
 
 const Product = ({ fetchPreviewCart }) => {
   const { token, BACKEND_URL } = useContext(AuthContext);
@@ -56,7 +56,29 @@ const Product = ({ fetchPreviewCart }) => {
       });
     }
   };
-  console.log(product);
+  
+  // const fetchStoreProduct = async () => {
+  //   try {
+  //     const response = await axios.get(
+  //       `${BACKEND_URL}/api/products?storId=${produc}`,
+  //       {
+  //         headers: {
+  //           "Content-type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     setProduct(response.data.data);
+  //   } catch (error) {
+  //     toast({
+  //       title: "An error occurred fetching product",
+  //       status: "error",
+  //       duration: 3000,
+  //       isClosable: true,
+  //       position: "bottom",
+  //     });
+  //   }
+  // }
 
   useEffect(() => {
     fetchProduct();
@@ -115,20 +137,9 @@ const Product = ({ fetchPreviewCart }) => {
           </div>
 
           {/* store other product */}
-          {product && (
-            <div className="storeOtherProduct">
-              <div className="otherProductText">MQShop's other products</div>
-              <div className="storeOtherProductContainer">
-                <ul>
-                  {shopOtherProducts.map((p) => (
-                    <SingleProduct product={product} />
-                  ))}
-                </ul>
-              </div>
-            </div>
-          )}
+          <OtherProducts product={product}/>
 
-          {product && (
+          {/* {product && (
             <div className="storeOtherProduct">
               <div className="otherProductText">Related Products</div>
               <div className="storeOtherProductContainer">
@@ -139,7 +150,7 @@ const Product = ({ fetchPreviewCart }) => {
                 </ul>
               </div>
             </div>
-          )}
+          )} */}
           {/* related products */}
         </div>
       </div>

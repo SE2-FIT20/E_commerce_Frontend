@@ -71,7 +71,8 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 50px 0 50px;
+  gap: 15px;
+  padding: 20px 30px 0 30px;
 }
 
 .chooseRoleSection .chooseRoleImages .roleItem {

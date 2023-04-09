@@ -23,6 +23,10 @@ import SearchResult from "./components/Customer/SearchResult/SearchResult";
 import Store from "./components/Customer/Store/Store";
 import StoreAllOrders from "./components/Store/StoreAllOrders/StoreAllOrders";
 import NoInternet from "./images/no-internet.png";
+import Order from "./pages/Order/Order";
+import AdminNavbar from "./components/Admin/AdminNavbar/AdminNavbar";
+import AdminLeftbar from "./components/Admin/AdminLeftbar/AdminLeftbar";
+import AdminAllUsers from "./components/Admin/AdminAllUsers/AdminAllUsers";
 
 function App() {
   const { role, currentUser, BACKEND_URL, config } = useContext(AuthContext);
@@ -48,15 +52,25 @@ function App() {
     fetchPreviewCart();
   }, [history]);
   useEffect(() => {
-    document.title = role === "CUSTOMER" ? "BazaarBay" : " BazaarBay | Store";
-  }, [role])
+    if (role === "CUSTOMER") {
+      document.title = " BazaarBay";
+    } else if (role === "STORE") {
+      document.title = " BazaarBay | Store";
+    } else if (role === "ADMIN") {
+      document.title = "BazaarBay | Admin";
+    } else {
+      document.title = "BazaarBay | Delivery";
+    }
+  }, [role]);
   return (
     <div className="app">
       {error && (
         <div className="noInternet">
           <img src={NoInternet} alt="" />
           <div className="buttonContainer">
-            <button className="button" onClick={() => fetchPreviewCart()}>Try again</button>
+            <button className="button" onClick={() => fetchPreviewCart()}>
+              Try again
+            </button>
           </div>
         </div>
       )}
@@ -83,6 +97,7 @@ function App() {
             <Route path="/account/address" component={UpdateAddress} />
             <Route path="/account/profile" component={UpdateProfile} />
             <Route path="/account/password" component={UpdatePassword} />
+            <Route path="/account/order/:status" component={Order} />
           </div>
         </>
       )}
@@ -94,44 +109,12 @@ function App() {
             <div className="storeAppContent">
               <Route path="/store/order/all" exact component={StoreAllOrders} />
               <Route
-                path="/store/order/pending"
-                exact
-                component={StoreAllOrders}
-              />
-
-              <Route
-                path="/store/order/ready"
+                path="/store/order/:status"
                 exact
                 component={StoreAllOrders}
               />
               <Route
-                path="/store/order/delivering"
-                exact
-                component={StoreAllOrders}
-              />
-              <Route
-                path="/store/order/delivered"
-                exact
-                component={StoreAllOrders}
-              />
-              <Route
-                path="/store/order/cancelled"
-                exact
-                component={StoreAllOrders}
-              />
-
-              <Route
-                path="/store/product/all"
-                exact
-                component={StoreAllProducts}
-              />
-              <Route
-                path="/store/product/active"
-                exact
-                component={StoreAllProducts}
-              />
-              <Route
-                path="/store/product/soldout"
+                path="/store/product/:status"
                 exact
                 component={StoreAllProducts}
               />
@@ -142,11 +125,21 @@ function App() {
                 exact
                 component={UpdateProduct}
               />
-
               <Route path="/cart" component={Cart} />
               <Route path="/checkout" component={Checkout} />
               <Route path="/account/profile" component={UpdateProfile} />
               <Route path="/account/password" component={UpdatePassword} />
+            </div>
+          </div>
+        </>
+      )}
+      {role === "ADMIN" && !error && (
+        <>
+          <AdminNavbar />
+          <div className="adminAppBody">
+            <AdminLeftbar />
+            <div className="adminAppContent">
+              <Route path="/admin/users/:userType" exact component={AdminAllUsers} />
             </div>
           </div>
         </>

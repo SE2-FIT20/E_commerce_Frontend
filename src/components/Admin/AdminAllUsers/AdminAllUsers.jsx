@@ -1,34 +1,36 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import "./storeAllProducts.css";
+import "./adminAllUsers.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronDown,
   faChevronLeft,
   faChevronRight,
   faChevronUp,
+  faLock,
+  faLockOpen,
   faPen,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import axios from "axios";
-import { formatNumber, handleClickOutside } from "../../longFunctions";
-import { filter, useToast } from "@chakra-ui/react";
+import { formatNumber } from "../../longFunctions";
+import { useToast } from "@chakra-ui/react";
 import {
   handleChangeProductPerPage,
-  handleChangeStockType,
+  handleChangeUserType,
   handleClickPrev,
   handleClickNext,
   deleteProduct,
-} from "./storeAllProductsLogic";
+} from "./adminAllUsersLogic";
 
-const Storepage = () => {
+const AdminAllUsers = () => {
   const history = useHistory();
   const { BACKEND_URL, config, currentUser } = useContext(AuthContext);
-  const [products, setProducts] = useState([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const [stockType, setStockType] = useState(
+  const [userType, setUserType] = useState(
     useHistory().location.pathname.split("/")[3]
   );
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
@@ -67,7 +69,7 @@ const Storepage = () => {
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      if (stockType === "all") {
+      if (userType === "all") {
         const { data } = await axios.get(
           `${BACKEND_URL}/api/products?storeId=${
             currentUser.id
@@ -76,16 +78,16 @@ const Storepage = () => {
           }&filter=${filterOption}&sortBy=${filterOrder}&status=ALL`,
           config
         );
-        setProducts(data.data.content);
+        setUsers(data.data.content);
         setTotalPages(data.data.totalPages);
-      } else if (stockType === "active") {
+      } else if (userType === "active") {
         const { data } = await axios.get(
           `${BACKEND_URL}/api/products?status=available&elementsPerPage=${productPerPage}&page=${
             currentPage - 1
           }&filter=${filterOption}&sortBy=${filterOrder}`,
           config
         );
-        setProducts(data.data.content);
+        setUsers(data.data.content);
         setTotalPages(data.data.totalPages);
       } else {
         const { data } = await axios.get(
@@ -94,7 +96,7 @@ const Storepage = () => {
           }&filter=${filterOption}&sortBy=${filterOrder}`,
           config
         );
-        setProducts(data.data.content);
+        setUsers(data.data.content);
         setTotalPages(data.data.totalPages);
       }
 
@@ -120,10 +122,6 @@ const Storepage = () => {
     switch (option) {
       case "name":
         return "Name";
-      case "price":
-        return "Price";
-      case "quantity":
-        return "Quantity";
       case "createdAt":
         return "Date";
     }
@@ -131,11 +129,7 @@ const Storepage = () => {
 
   useEffect(() => {
     fetchProducts();
-  }, [productPerPage, currentPage, filterOption, filterOrder, stockType]);
-
-  useEffect(() => {
-    history.push(`/store/product/${stockType}?pages=${currentPage}`);
-  }, [currentPage]);
+  }, [productPerPage, currentPage, filterOption, filterOrder, userType]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -186,10 +180,10 @@ const Storepage = () => {
   }, [productPerPageOptionRef]);
 
   return (
-    <div className="storeAllProducts">
-      <div className="storeAllProductsContainer">
-        <div className="storeFilterOptions">
-          <div className="storeFilterOptionsContainer">
+    <div className="adminAllUsers">
+      <div className="adminAllUsersContainer">
+        <div className="adminFilterOptions">
+          <div className="adminFilterOptionsContainer">
             <div className="filterSelect">
               <h2>Filtered By</h2>
               <div
@@ -217,18 +211,6 @@ const Storepage = () => {
                     className={filterOption === "name" ? "selected" : ""}
                   >
                     Name
-                  </li>
-                  <li
-                    onClick={() => handleChooseFilterOption("price")}
-                    className={filterOption === "price" ? "selected" : ""}
-                  >
-                    Price
-                  </li>
-                  <li
-                    onClick={() => handleChooseFilterOption("quantity")}
-                    className={filterOption === "quantity" ? "selected" : ""}
-                  >
-                    Quantity
                   </li>
                   <li
                     onClick={() => handleChooseFilterOption("createdAt")}
@@ -281,36 +263,49 @@ const Storepage = () => {
             </div>
           </div>
         </div>
-        <div className="storeProductsFilter">
+        <div className="adminUsersFilter">
           <ul>
             <li
-              className={stockType === "all" ? "all active" : "all"}
+              className={userType === "all" ? "all active" : "all"}
               id="all"
               onClick={(e) =>
-                handleChangeStockType(e, currentPage, setStockType, history)
+                handleChangeUserType(e, currentPage, setUserType, history)
               }
             >
               All
             </li>
             <li
-              className={stockType === "active" ? "inStock active" : "inStock"}
+              className={
+                userType === "customers" ? "inStock active" : "inStock"
+              }
               id="active"
               onClick={(e) =>
-                handleChangeStockType(e, currentPage, setStockType, history)
+                handleChangeUserType(e, currentPage, setUserType, history)
               }
             >
-              In stock
+              Customers
             </li>
             <li
               className={
-                stockType === "soldout" ? "outOfStock active" : "outOfStock"
+                userType === "stores" ? "outOfStock active" : "outOfStock"
               }
               id="soldout"
               onClick={(e) =>
-                handleChangeStockType(e, currentPage, setStockType, history)
+                handleChangeUserType(e, currentPage, setUserType, history)
               }
             >
-              Out of stock
+              Stores
+            </li>
+            <li
+              className={
+                userType === "delivery" ? "outOfStock active" : "outOfStock"
+              }
+              id="soldout"
+              onClick={(e) =>
+                handleChangeUserType(e, currentPage, setUserType, history)
+              }
+            >
+              Delivery Partners
             </li>
           </ul>
         </div>
@@ -325,101 +320,169 @@ const Storepage = () => {
           </div>
         )}
         {!loading && (
-          <div className="storeProducts">
+          <div className="adminProducts">
             <table>
               <thead>
                 <tr>
+                  <th style={{ flex: "0.4" }}>ID</th>
                   <th
                     style={{
-                      flex: "3.5",
-                      justifyContent: "flex-start",
-                      paddingLeft: "10px",
+                      flex: "2.5",
                     }}
                   >
-                    Product name
+                    Name
                   </th>
-                  <th style={{ flex: "2" }}>Category</th>
-                  <th style={{ flex: "1.5" }}>Price</th>
-                  <th style={{ flex: "1.2" }}>In stock</th>
-                  <th style={{ flex: "1.2" }}>Sales</th>
-                  <th style={{ flex: "1.2" }}>Operation</th>
+                  <th
+                    style={{
+                      flex: "2.5",
+                    }}
+                  >
+                    Email
+                  </th>
+                  <th
+                    style={{
+                      flex: "2",
+                    }}
+                  >
+                    Password
+                  </th>
+                  <th
+                    style={{
+                      flex: "2",
+                    }}
+                  >
+                    Addresses
+                  </th>
+                  <th>Role</th>
+                  <th>Locked</th>
+                  <th>Operation</th>
                 </tr>
               </thead>
               <tbody>
-                {products.map((product, i) => (
-                  <tr key={i}>
-                    <th
+                <tr>
+                  <th style={{ flex: "0.4" }}>1</th>
+                  <th
+                    style={{
+                      flex: "2.5",
+                    }}
+                  >
+                    <div
+                      className="container"
                       style={{
-                        display: "flex",
-                        flex: "3.5",
-                        gap: "15px",
-                        alignItems: "flex-start",
                         justifyContent: "flex-start",
-                        paddingLeft: "10px",
+                        paddingLeft: "20px",
+                        display: "flex",
+                        gap: "10px",
                       }}
                     >
                       <img
-                        src={product.images[0]}
+                        src={currentUser.avatar}
+                        className="userImage"
                         alt=""
-                        className="productImage"
                       />
-                      <span
-                        className="productName"
-                        onClick={() =>
-                          history.push(`/store/product/${product.id}`)
-                        }
-                      >
-                        {product.name}
-                      </span>
-                    </th>
-                    <th style={{ flex: "2" }}>
-                      <div className="container"> {product.category}</div>
-                    </th>
-                    <th style={{ flex: "1.5" }}>
-                      <div className="container">
-                        <span className="price-symbol">₫</span>
-                        {formatNumber(product.price)}
+                      <span>Do Minhasjdahdj kashdjkashdkajsd</span>
+                    </div>
+                  </th>
+                  <th
+                    style={{
+                      flex: "2.5",
+                    }}
+                  >
+                    <div className="container">steaky3798213@gmail.com</div>
+                  </th>
+                  <th
+                    style={{
+                      flex: "2",
+                    }}
+                  >
+                    <div className="container">12345678910JQKA</div>
+                  </th>
+                  <th
+                    style={{
+                      flex: "2",
+                    }}
+                  >
+                    <div className="container"> {currentUser.addresses[0]}</div>
+                  </th>
+                  <th>
+                    <div className="container">CUSTOMER</div>
+                  </th>
+                  <th>
+                    <div className="container">1</div>
+                  </th>
+                  <th>
+                    <div className="container">
+                      <div className="userOperationIcon">
+                        <FontAwesomeIcon icon={faLock} />
                       </div>
-                    </th>
-                    <th style={{ flex: "1.2" }}>
-                      <div
-                        className="container"
-                        style={{
-                          color: product.quantity === 0 ? "red" : "#000",
-                          fontWeight: product.quantity === 0 ? "600" : "normal",
-                        }}
-                      >
-                        {product.quantity === 0 ? "Soldout" : product.quantity}
+                      <div className="userOperationIcon">
+                        <FontAwesomeIcon icon={faLockOpen} />
                       </div>
-                    </th>
-                    <th style={{ flex: "1.2" }}>
-                      <div className="container">{product.sold}</div>
-                    </th>
-                    <th style={{ flex: "1.2" }}>
-                      <div className="container productButtons">
-                        <div className="productButtonContainer">
-                          <FontAwesomeIcon
-                            icon={faPen}
-                            onClick={() =>
-                              history.push(
-                                `/store/product/update/${product.id}`
-                              )
-                            }
-                          />
-                        </div>
-                        <div className="productButtonContainer">
-                          <FontAwesomeIcon
-                            icon={faTrash}
-                            onClick={() => {
-                              setOpenConfirmDelete(true);
-                              setProductToDelete(product.id);
-                            }}
-                          />
-                        </div>
+                    </div>
+                  </th>
+                </tr>
+                <tr>
+                  <th style={{ flex: "0.4" }}>1</th>
+                  <th
+                    style={{
+                      flex: "2.5",
+                    }}
+                  >
+                    <div
+                      className="container"
+                      style={{
+                        justifyContent: "flex-start",
+                        paddingLeft: "20px",
+                        display: "flex",
+                        gap: "10px",
+                      }}
+                    >
+                      <img
+                        src={currentUser.avatar}
+                        className="userImage"
+                        alt=""
+                      />
+                      <span>Do Minhasjdahdj kashdjkashdkajsd</span>
+                    </div>
+                  </th>
+                  <th
+                    style={{
+                      flex: "2.5",
+                    }}
+                  >
+                    <div className="container">steaky3798213@gmail.com</div>
+                  </th>
+                  <th
+                    style={{
+                      flex: "2",
+                    }}
+                  >
+                    <div className="container">12345678910JQKA</div>
+                  </th>
+                  <th
+                    style={{
+                      flex: "2",
+                    }}
+                  >
+                    <div className="container"> {currentUser.addresses[0]}</div>
+                  </th>
+                  <th>
+                    <div className="container">CUSTOMER</div>
+                  </th>
+                  <th>
+                    <div className="container">1</div>
+                  </th>
+                  <th>
+                    <div className="container">
+                      <div className="userOperationIcon">
+                        <FontAwesomeIcon icon={faLock} />
                       </div>
-                    </th>
-                  </tr>
-                ))}
+                      <div className="userOperationIcon">
+                        <FontAwesomeIcon icon={faLockOpen} />
+                      </div>
+                    </div>
+                  </th>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -555,4 +618,4 @@ const Storepage = () => {
   );
 };
 
-export default Storepage;
+export default AdminAllUsers;

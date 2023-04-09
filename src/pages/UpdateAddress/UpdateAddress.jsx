@@ -5,7 +5,7 @@ import { faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { AuthContext } from "../../context/AuthContext";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
-import Address from "../../components/Address/Address";
+import Address from "../../components/Customer/Address/Address";
 
 const UpdateAddress = () => {
   const { currentUser, setCurrentUser, config, BACKEND_URL } =

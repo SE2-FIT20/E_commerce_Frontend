@@ -1,24 +1,26 @@
-import React, { useContext, useState } from "react";
-import "./storeNavbar.css";
+import React from 'react'
 import logo from "../../../images/image-removebg-preview.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
-import { AuthContext } from "../../../context/AuthContext";
-import { useHistory } from "react-router-dom";
+import { useState } from 'react';
+import { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import { AuthContext } from '../../../context/AuthContext';
+import "./adminNavbar.css"
 
-const StoreNavbar = () => {
+const AdminNavbar = () => {
   const { currentUser, setRole, setCurrentUser } = useContext(AuthContext);
   const [openSetting, setOpenSetting] = useState(false);
   const history = useHistory();
   return (
-    <div className="storeNavbar">
-      <div className="storeNavbarContainer">
-        <div className="storeNavbarLeft">
-          <img src={logo} alt="" onClick={() => history.push(`/store/product/all?pages=1`)}/>
+    <div className="adminNavbar">
+      <div className="adminNavbarContainer">
+        <div className="adminNavbarLeft">
+          <img src={logo} alt="" onClick={() => history.push(`/admin/product/all?pages=1`)}/>
         </div>
-        <div className="storeNavbarRight">
-          <div className="storeInfo">
-            <div className="storeImg">
+        <div className="adminNavbarRight">
+          <div className="adminInfo">
+            <div className="adminImg">
               <img
                 src={currentUser.avatar}
                 alt=""
@@ -34,7 +36,7 @@ const StoreNavbar = () => {
                   className="option"
                   onClick={() => history.push("/account/profile")}
                 >
-                  My Store
+                  My admin
                 </li>
                 <li
                   className="option"
@@ -64,6 +66,6 @@ const StoreNavbar = () => {
       </div>
     </div>
   );
-};
+}
 
-export default StoreNavbar;
+export default AdminNavbar

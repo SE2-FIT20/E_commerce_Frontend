@@ -23,24 +23,16 @@ export const handleUpdateProfile = async (
     formData.append("file", newAvatar);
     formData.append("upload_preset", "BazaarBay");
     formData.append("cloud_name", "dvvyj75uf");
-    fetch("https://api.cloudinary.com/v1_1/dvvyj75uf/image/upload", {
-      method: "post",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        const newAvatar = data.url.toString();
-        return fetch(`${BACKEND_URL}/api/customer/account`, {
-          method: "put",
-
-          config,
-          body: JSON.stringify({
-            ...userInfo,
-            phone: userInfo.phoneNumber,
-            avatar: newAvatar,
-          }),
-        });
-      });
+    try {
+      const res = await axios.post("https://api.cloudinary.com/v1_1/dvvyj75uf/image/upload", formData);
+      const newAvatar = res.data.url.toString();
+      await axios.put(`${BACKEND_URL}/api/customer/account`, {
+        ...userInfo,
+        phone: userInfo.phoneNumber,
+        avatar: newAvatar,
+      }, config);
+    } catch (error) {
+    }
     toast({
       title: "Update info with avatar successful",
       status: "success",

@@ -16,10 +16,9 @@
   background-color: #fff;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 15px 30px;
+  padding: 15px 20px;
   position: relative;
-
+  border-radius: 5px;
 }
 
 .chooseCategory .title {
@@ -47,7 +46,7 @@
 }
 
 .chooseCategory ul {
-  padding-top: 15px;
+  padding: 15px 30px 0 30px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -59,8 +58,7 @@
 .chooseCategory ul li {
   list-style: none;
   display: flex;
-  justify-content: space-between;
-  gap: 15px;
+  gap: 20px;
   align-items: center;
   cursor: pointer;
   padding: 0 20px;
@@ -73,11 +71,12 @@
 
 .chooseCategory ul li span {
   font-weight: 500;
+  font-size: 15px;
 }
 
 .chooseCategory ul li .categoryImageBackground {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background-color: #f0f2f5;
   border-radius: 50%;
   display: flex;
@@ -86,8 +85,8 @@
 }
 
 .chooseCategory ul li img {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   object-fit: cover;
   border-radius: 50%;
 }

@@ -9,7 +9,7 @@ const ProductReview = () => {
     <li>
       <div className="reviewLeft">
         <img
-          src={currentUser.avatar}
+          src={currentUser? currentUser.avatar : ""}
           alt=""
         />
       </div>
