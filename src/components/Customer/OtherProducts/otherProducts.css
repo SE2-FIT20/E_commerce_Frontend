@@ -6,6 +6,7 @@
 .storeOtherProduct .otherProductText {
   font-size: 26px;
   font-weight: 600;
+  padding-bottom: 10px;
 }
 
 .storeOtherProductContainer {

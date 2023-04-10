@@ -158,3 +158,9 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+@media screen and (max-width: 1500px) {
+  .categoryFilter .categories ul {
+    width: 1000px;
+  }
+}

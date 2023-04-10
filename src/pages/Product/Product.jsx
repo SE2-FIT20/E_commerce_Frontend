@@ -1,17 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import BreadCrumb from "../../components/Customer/BreadCrumb/BreadCrumb";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCartPlus,
-  faMessage,
-  faShop,
-  faStar,
-  faStarHalfStroke,
-} from "@fortawesome/free-solid-svg-icons";
-import ReactImageZoom from "react-image-zoom";
 import ReactStars from "react-rating-stars-component";
 import { AuthContext } from "../../context/AuthContext";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import "./product.css";
@@ -20,12 +11,10 @@ import ProductReview from "../../components/Customer/ProductReview/ProductReview
 import OtherProducts from "../../components/Customer/OtherProducts/OtherProducts";
 
 const Product = ({ fetchPreviewCart }) => {
-  const { token, BACKEND_URL } = useContext(AuthContext);
+  const { BACKEND_URL } = useContext(AuthContext);
   const [product, setProduct] = useState(null);
-  const [shopOtherProducts, setShopOtherProducts] = useState([
-    1, 2, 3, 4, 5, 6, 7, 8,
-  ]);
-  const [relatedProducts, setRelatedProducts] = useState([1, 2, 3, 4]);
+  const [reviews, setReviews] = useState([]);
+
   const location = useLocation();
   const productId = location.pathname.split("/")[2];
   const props = {
@@ -56,35 +45,29 @@ const Product = ({ fetchPreviewCart }) => {
       });
     }
   };
-  
-  // const fetchStoreProduct = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       `${BACKEND_URL}/api/products?storId=${produc}`,
-  //       {
-  //         headers: {
-  //           "Content-type": "application/json",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //     setProduct(response.data.data);
-  //   } catch (error) {
-  //     toast({
-  //       title: "An error occurred fetching product",
-  //       status: "error",
-  //       duration: 3000,
-  //       isClosable: true,
-  //       position: "bottom",
-  //     });
-  //   }
-  // }
+  const fetchReviews = async () => {
+    try {
+      const { data } = await axios.get(
+        `${BACKEND_URL}/api/reviews/${productId}`
+      );
+      setReviews(data.data);
+    } catch (error) {
+      toast({
+        title: "An error occurred fetching product reviews",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  };
 
   useEffect(() => {
     fetchProduct();
+    fetchReviews();
   }, [location]);
 
- 
+  console.log(reviews);
 
   return (
     <div className="product">
@@ -107,7 +90,9 @@ const Product = ({ fetchPreviewCart }) => {
           <div className="productReviewContainer">
             <div className="customerReviews">
               <ul>
-                <ProductReview />
+                {reviews.map((review) => (
+                  <ProductReview review={review} />
+                ))}
               </ul>
             </div>
 
@@ -137,7 +122,7 @@ const Product = ({ fetchPreviewCart }) => {
           </div>
 
           {/* store other product */}
-          <OtherProducts product={product}/>
+          <OtherProducts product={product} />
 
           {/* {product && (
             <div className="storeOtherProduct">

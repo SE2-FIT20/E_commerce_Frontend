@@ -33,7 +33,7 @@
 
 .customerReviews ul {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 10px;
   border-bottom: 1px solid lightgray;
   padding-bottom: 25px;

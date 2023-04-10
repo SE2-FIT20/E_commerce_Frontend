@@ -33,7 +33,6 @@ function App() {
   const [cartProducts, setCartProducts] = useState([]);
   const [error, setError] = useState(false);
   const history = useHistory();
-  console.log(error);
   const fetchPreviewCart = async () => {
     if (role === "CUSTOMER" && currentUser) {
       try {
@@ -107,7 +106,6 @@ function App() {
           <div className="storeAppBody">
             <StoreLeftbar />
             <div className="storeAppContent">
-              <Route path="/store/order/all" exact component={StoreAllOrders} />
               <Route
                 path="/store/order/:status"
                 exact

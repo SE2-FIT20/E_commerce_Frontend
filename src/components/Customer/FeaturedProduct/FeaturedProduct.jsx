@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState, useEffect, useContext, useRef } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import "./featuredProduct.css";
 import { formatNumber } from "../../longFunctions";
@@ -16,14 +16,15 @@ import {
   handleDisplayCategoryName,
 } from "../CategoryFilter/categoryFilterLogic";
 
-const FeaturedProduct = ({ category }) => {
+const FeaturedProduct = ({ category, setCategory }) => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(100);
-  const history = useHistory();
   const { BACKEND_URL, currentUser } = useContext(AuthContext);
   const featuredProduct = useRef();
+  const location = useLocation();
+  const currentCategory = location.search.split("=")[1];
   const fetchProducts = async () => {
     try {
       setLoading(true);
@@ -116,6 +117,10 @@ const FeaturedProduct = ({ category }) => {
     handleScroll();
   };
 
+
+  useEffect(() => {
+    setCategory(currentCategory);
+  }, [])
   
   useEffect(() => {
     fetchProducts();

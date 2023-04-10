@@ -1,6 +1,6 @@
 .storeAllOrders {
   width: 100%;
-  max-height: calc(100vh - 70px);
+  max-height: calc(100vh - 50px);
   background-color: #f0f2f5;
   display: flex;
   align-items: center;
@@ -13,7 +13,7 @@
   background-color: #fff;
   width: 70%;
   border: 1px solid #ccc;
-  max-height: calc(100vh - 70px);
+  max-height: calc(100vh - 50px);
   position: relative;
   scrollbar-width: none; /* Hide scrollbar for Firefox */
   -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
@@ -312,7 +312,7 @@
 }
 
 .storeAllOrders .orderNav {
-  position: absolute;
+  position: sticky;
   bottom: 0px;
   left: 0;
   z-index: 20;

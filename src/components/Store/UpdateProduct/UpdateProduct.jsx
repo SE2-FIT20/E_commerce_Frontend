@@ -7,8 +7,6 @@ import { useHistory, useLocation } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import AddProductImage from "../AddProductImage/AddProductImage";
 import "./updateProduct.css";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import { handleUpdateProduct } from "./updateProductLogic";
 import ChooseCategory from "../ChooseCategory/ChooseCategory";
 
@@ -161,7 +159,7 @@ const UpdateProduct = () => {
                       wrap="soft"
                       placeholder="Your product description"
                       id="description"
-                      maxLength={1000}
+                      maxLength={10000}
                       onChange={handleChange}
                       value={product.description}
                     />
@@ -172,7 +170,7 @@ const UpdateProduct = () => {
 
                     /> */}
 
-                    <span className="textareaCharacter">{`${product.description.length}/1000`}</span>
+                    <span className="textareaCharacter">{`${product.description.length}/10000`}</span>
                   </div>
                 </td>
               </tr>

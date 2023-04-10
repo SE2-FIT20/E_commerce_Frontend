@@ -199,20 +199,7 @@ const Register = () => {
                       ></img>
                       <div className="roleDesc">Store</div>
                     </div>
-                    <div
-                      className="roleItem"
-                      id="DELIVERY"
-                      onClick={(e) => handleChooseRole(e)}
-                    >
-                      <img
-                        className={
-                          role === "DELIVERY" ? "storeImg selected" : "storeImg"
-                        }
-                        src={DeliveryIcon}
-                      ></img>
-                      <div className="roleDesc">Delivery</div>
-                    </div>
-                  </div>
+                 </div>
                 </div>
                 <div>
                   <div className="mt-3 d-flex justify-content-center gap-15 align-items-center">

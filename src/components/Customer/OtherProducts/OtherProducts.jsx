@@ -25,7 +25,6 @@ const OtherProducts = ({ product }) => {
   const toast = useToast();
   const [maxWidth1, setMaxWidth1] = useState(0);
   const [maxWidth2, setMaxWidth2] = useState(0);
-  console.log(product);
   const storeOtherProductsRef = useRef(null);
   const relatedProductsRef = useRef(null);
   const fetchStoreOtherProducts = async () => {
@@ -96,7 +95,7 @@ const OtherProducts = ({ product }) => {
               .filter((p) => p.id !== product.id)
               .filter((p) => p.quantity !== 0)
               .map((product) => (
-                <SingleProduct product={product} />
+                <SingleProduct product={product} key={product.id}/>
               ))}
           </ul>
         </div>
@@ -127,7 +126,7 @@ const OtherProducts = ({ product }) => {
               .filter((p) => p.quantity !== 0)
 
               .map((product) => (
-                <SingleProduct product={product} />
+                <SingleProduct product={product} key={product.id}/>
               ))}
           </ul>
         </div>

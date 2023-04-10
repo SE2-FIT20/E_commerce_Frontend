@@ -2,7 +2,7 @@
   flex: 1.2;
   height: auto;
   background-color: #ffffff;
-  height: calc(100vh - 70px);
+  height: calc(100vh - 55px);
   overflow-y: scroll;
 }
 

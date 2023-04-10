@@ -128,12 +128,13 @@ const AddProduct = () => {
                   >
                     <textarea
                       type="text"
+                      wrap="soft"
                       placeholder="Your product description"
                       id="description"
-                      maxLength={1000}
+                      maxLength={10000}
                       onChange={handleChange}
                     />
-                    <span className="textareaCharacter">{`${product.description.length}/1000`}</span>
+                    <span className="textareaCharacter">{`${product.description.length}/10000`}</span>
                   </div>
                 </td>
               </tr>

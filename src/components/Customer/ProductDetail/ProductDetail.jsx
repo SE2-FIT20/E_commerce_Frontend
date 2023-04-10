@@ -134,7 +134,7 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
                   <ProductImage
                     image={image}
                     setCurrentImage={setCurrentImage}
-                    index={i}
+                    key={i}
                     selected={currentImage === image}
                   />
                 ))}

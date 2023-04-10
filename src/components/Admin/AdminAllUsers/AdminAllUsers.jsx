@@ -41,7 +41,7 @@ const AdminAllUsers = () => {
   const [currentPage, setCurrentPage] = useState(pageIndex);
   const [openProductPerPageOptions, setOpenProductPerPageOptions] =
     useState(false);
-  const [productPerPage, setProductPerPage] = useState(10);
+  const [userPerPage, setUserPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
   const [filterOption, setFilterOption] = useState("createdAt");
   const [filterOrder, setFilterOrder] = useState("desc");
@@ -66,34 +66,26 @@ const AdminAllUsers = () => {
     };
   }, [confirmDelete]);
 
-  const fetchProducts = async () => {
+  const fetchUsers = async () => {
     try {
       setLoading(true);
       if (userType === "all") {
         const { data } = await axios.get(
-          `${BACKEND_URL}/api/products?storeId=${
-            currentUser.id
-          }&elementsPerPage=${productPerPage}&page=${
-            currentPage - 1
-          }&filter=${filterOption}&sortBy=${filterOrder}&status=ALL`,
+          `${BACKEND_URL}/api/admin/manage-accounts?page=0&elementPerPage=20&role=CUSTOMER&sortBy=asc&filter=name&status=UNLOCKED`,
           config
         );
         setUsers(data.data.content);
         setTotalPages(data.data.totalPages);
       } else if (userType === "active") {
         const { data } = await axios.get(
-          `${BACKEND_URL}/api/products?status=available&elementsPerPage=${productPerPage}&page=${
-            currentPage - 1
-          }&filter=${filterOption}&sortBy=${filterOrder}`,
+          ``,
           config
         );
         setUsers(data.data.content);
         setTotalPages(data.data.totalPages);
       } else {
         const { data } = await axios.get(
-          `${BACKEND_URL}/api/products?status=sold_out&elementsPerPage=${productPerPage}&page=${
-            currentPage - 1
-          }&filter=${filterOption}&sortBy=${filterOrder}`,
+          ``,
           config
         );
         setUsers(data.data.content);
@@ -128,8 +120,8 @@ const AdminAllUsers = () => {
   };
 
   useEffect(() => {
-    fetchProducts();
-  }, [productPerPage, currentPage, filterOption, filterOrder, userType]);
+    fetchUsers();
+  }, [userPerPage, currentPage, filterOption, filterOrder, userType]);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -339,13 +331,7 @@ const AdminAllUsers = () => {
                   >
                     Email
                   </th>
-                  <th
-                    style={{
-                      flex: "2",
-                    }}
-                  >
-                    Password
-                  </th>
+
                   <th
                     style={{
                       flex: "2",
@@ -390,13 +376,7 @@ const AdminAllUsers = () => {
                   >
                     <div className="container">steaky3798213@gmail.com</div>
                   </th>
-                  <th
-                    style={{
-                      flex: "2",
-                    }}
-                  >
-                    <div className="container">12345678910JQKA</div>
-                  </th>
+
                   <th
                     style={{
                       flex: "2",
@@ -452,13 +432,7 @@ const AdminAllUsers = () => {
                   >
                     <div className="container">steaky3798213@gmail.com</div>
                   </th>
-                  <th
-                    style={{
-                      flex: "2",
-                    }}
-                  >
-                    <div className="container">12345678910JQKA</div>
-                  </th>
+
                   <th
                     style={{
                       flex: "2",
@@ -515,7 +489,7 @@ const AdminAllUsers = () => {
                   }
                   ref={productPerPageOptionRef}
                 >
-                  <span>{`${productPerPage}/page`}</span>
+                  <span>{`${userPerPage}/page`}</span>
                   <FontAwesomeIcon
                     icon={faChevronUp}
                     className={
@@ -539,12 +513,12 @@ const AdminAllUsers = () => {
                       onClick={() =>
                         handleChangeProductPerPage(
                           10,
-                          setProductPerPage,
+                          setUserPerPage,
                           setOpenProductPerPageOptions,
                           setCurrentPage
                         )
                       }
-                      className={productPerPage === 10 ? "selected" : ""}
+                      className={userPerPage === 10 ? "selected" : ""}
                     >
                       10
                     </li>
@@ -552,12 +526,12 @@ const AdminAllUsers = () => {
                       onClick={() =>
                         handleChangeProductPerPage(
                           20,
-                          setProductPerPage,
+                          setUserPerPage,
                           setOpenProductPerPageOptions,
                           setCurrentPage
                         )
                       }
-                      className={productPerPage === 20 ? "selected" : ""}
+                      className={userPerPage === 20 ? "selected" : ""}
                     >
                       20
                     </li>
@@ -565,12 +539,12 @@ const AdminAllUsers = () => {
                       onClick={() =>
                         handleChangeProductPerPage(
                           30,
-                          setProductPerPage,
+                          setUserPerPage,
                           setOpenProductPerPageOptions,
                           setCurrentPage
                         )
                       }
-                      className={productPerPage === 30 ? "selected" : ""}
+                      className={userPerPage === 30 ? "selected" : ""}
                     >
                       30
                     </li>
@@ -590,21 +564,7 @@ const AdminAllUsers = () => {
             <span>Are you sure you want to delete this product?</span>
           </div>
           <div className="deleteBtnContainer">
-            <button
-              className="button"
-              onClick={() =>
-                deleteProduct(
-                  productToDelete,
-                  fetchProducts,
-                  setOpenConfirmDelete,
-                  BACKEND_URL,
-                  config,
-                  toast
-                )
-              }
-            >
-              Yes
-            </button>
+            <button className="button">Yes</button>
             <button
               className="button"
               onClick={() => setOpenConfirmDelete(false)}

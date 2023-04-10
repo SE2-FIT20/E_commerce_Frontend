@@ -17,11 +17,14 @@ const Search = ({ open, setOpen, keyword, setKeyword }) => {
   const handleSearch = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(
-        `${BACKEND_URL}/api/search?keyword=${keyword.replace(/\s/g, "")}`
+      const response1 = await axios.get(
+        `${BACKEND_URL}/api/search-products?keyword=${keyword}`
       );
-      setSearchProducts(data.data.products);
-      setSearchStores(data.data.stores);
+      const response2 = await axios.get(
+        `${BACKEND_URL}/api/search-stores?keyword=${keyword.replace(/\s/g, "")}`
+      );
+      setSearchProducts(response1.data.data.content);
+      setSearchStores(response2.data.data.content);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -48,7 +51,7 @@ const Search = ({ open, setOpen, keyword, setKeyword }) => {
       <div className="searchContainer">
         {loading && (
           <div className="partialLoading">
-            <div class="lds-ring" style={{ paddingTop: "10px" }}>
+            <div className="lds-ring" style={{ paddingTop: "10px" }}>
               <div></div>
               <div></div>
               <div></div>

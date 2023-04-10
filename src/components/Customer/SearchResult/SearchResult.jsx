@@ -3,6 +3,11 @@ import { useHistory, useLocation } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import SingleProduct from "../SingleProduct/SingleProduct";
 import "./searchResult.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 import NoResult from "../../../images/no-result-image.jpg";
 import axios from "axios";
 
@@ -14,23 +19,95 @@ const SearchResult = () => {
   const [productResults, setProductResults] = useState([]);
   const [storeResults, setStoreResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
+
+  const [totalPages, setTotalPages] = useState(100);
+  console.log(pageNumber)
   const fetchSearchResult = async () => {
     setLoading(true);
     try {
-      const { data } = await axios.get(
-        `${BACKEND_URL}/api/search?keyword=${keyword.replace(/\s/g, "")}`
+      const response1 = await axios.get(
+        `${BACKEND_URL}/api/search-products?keyword=${keyword.replace(/\s/g, "")}&elementsPerPage=10&page=${pageNumber - 1}`
       );
-      setProductResults(data.data.products);
-      setStoreResults(data.data.stores);
+      const response2 = await axios.get(
+        `${BACKEND_URL}/api/search-stores?keyword=${keyword.replace(/\s/g, "")}`
+      );
+      setProductResults(response1.data.data.content);
+      setStoreResults(response2.data.data.content);
+      setTotalPages(response1.data.data.totalPages)
       setLoading(false);
     } catch (error) {
       setLoading(false);
     }
   };
 
+  const pageNumberList = [];
+  pageNumberList.push(
+    <li
+      key={1}
+      onClick={() => {
+        setPageNumber(1);
+      }}
+    >
+      <div className={pageNumber === 1 ? "currentPage" : ""}>{1}</div>
+    </li>
+  );
+
+  // add middle pages
+  // add middle pages
+  for (let i = 2; i < totalPages; i++) {
+    if (
+      i === pageNumber ||
+      i === pageNumber - 1 ||
+      i === pageNumber + 1 ||
+      i === 1 ||
+      i === totalPages
+    ) {
+      pageNumberList.push(
+        <li
+          key={i}
+          onClick={() => {
+            setPageNumber(i);
+          }}
+        >
+          <div className={pageNumber === i ? "currentPage" : ""}>{i}</div>
+        </li>
+      );
+    } else if (
+      (i === pageNumber - 2 && pageNumber > 3) ||
+      (i === pageNumber + 2 && pageNumber < totalPages - 2)
+    ) {
+      pageNumberList.push(<li key={i}>...</li>);
+    }
+  }
+
+  // add last page
+  totalPages > 1 &&
+    pageNumberList.push(
+      <li
+        key={totalPages}
+        onClick={() => {
+          setPageNumber(totalPages);
+        }}
+      >
+        <div className={pageNumber === totalPages ? "currentPage" : ""}>
+          {totalPages}
+        </div>
+      </li>
+    );
+
+
+  const handleClickPrev = () => {
+    setPageNumber((prev) => (prev === 1 ? 1 : prev - 1));
+  };
+
+  const handleClickNext = () => {
+    setPageNumber((prev) => (prev === totalPages ? prev : prev + 1));
+  };
+
   useEffect(() => {
     fetchSearchResult();
-  }, [keyword]);
+  }, [keyword, pageNumber]);
   return (
     <div
       className="searchResult"
@@ -105,6 +182,23 @@ const SearchResult = () => {
                 <SingleProduct product={product} />
               ))}
             </ul>
+            <div className="productNav">
+              <ul>
+                <li>
+                  <button className="button" onClick={() => handleClickPrev()}>
+                    <FontAwesomeIcon icon={faChevronLeft} />
+                    <span>Previous</span>
+                  </button>
+                </li>
+                {pageNumberList}
+                <li>
+                  <button className="button" onClick={() => handleClickNext()}>
+                    <span>Next</span>
+                    <FontAwesomeIcon icon={faChevronRight} />
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
         )}
       </div>

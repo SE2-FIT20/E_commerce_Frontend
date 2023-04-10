@@ -1,0 +1,25 @@
+.customerReviews ul li {
+  display: flex;
+  gap: 15px;
+}
+
+.customerReviews ul li .reviewLeft img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.customerReviews .customerImages {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 15px;
+}
+
+.customerReviews .customerImages img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  cursor: pointer;
+}

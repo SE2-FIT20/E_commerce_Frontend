@@ -12,18 +12,17 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false)
-  const { setCurrentUser, setToken, setRole, BACKEND_URL } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+  const { setCurrentUser, setToken, setRole, BACKEND_URL, config } =
+    useContext(AuthContext);
   const toast = useToast();
   const history = useHistory();
-  const config = {
-    headers: {
-      "Content-type": "application/json",
-    },
-  };
 
   const handleChange = (e) => {
-    setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value.trim() }));
+    setCredentials((prev) => ({
+      ...prev,
+      [e.target.id]: e.target.value.trim(),
+    }));
   };
 
   const login = async (e) => {
@@ -33,8 +32,13 @@ const Login = () => {
       const response = await axios.post(
         `${BACKEND_URL}/api/auth/login`,
         { email: credentials.email, password: credentials.password },
-        config
+        {
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
       );
+      console.log("before toast");
       toast({
         title: "Login successful",
         status: "success",
@@ -43,46 +47,61 @@ const Login = () => {
         position: "bottom",
       });
       const token = response.data.data.token;
-      setToken(token);
-      if (response.data.data.role === "CUSTOMERR") {
-        const { data } = await axios.get(
-          `${BACKEND_URL}/api/customer/account`,
-          {
-            headers: {
-              "Content-type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        setCurrentUser(data.data);
-        setRole("CUSTOMER")
-        history.push("/");
+      console.log("after setting token");
+      // setToken(token);
+      console.log("aftetr setting token");
+      console.log(response.data.data.role);
+      if (response.data.data.role === "CUSTOMER") {
+        console.log("hihi");
+        console.log(config);
+        setTimeout(async () => {
+          const { data } = await axios.get(
+              `https://e-commerce-production-5a62.up.railway.app/api/customer/cart`,
+              {
+                headers: {
+                  "Content-type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+            setCurrentUser(data.data);
+            setRole("CUSTOMER");
+            history.push("/");
+        }, 2000)
+
+        // const { data } = await axios.get(
+        //   `https://e-commerce-production-5a62.up.railway.app/api/customer/account`,
+        //   {
+        //     headers: {
+        //       "Content-type": "application/json",
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //   }
+        // );
+        // setCurrentUser(data.data);
+        // setRole("CUSTOMER");
+        // history.push("/");
       } else if (response.data.data.role === "STORE") {
-        const { data } = await axios.get(
-          `${BACKEND_URL}/api/store/account`,
-          {
-            headers: {
-              "Content-type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const { data } = await axios.get(`${BACKEND_URL}/api/store/account`, {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setCurrentUser(data.data);
-        setRole("STORE")
+        setRole("STORE");
+
         history.push("/store/product/all?pages=1");
-      } else if (response.data.data.role === "CUSTOMER") {
-        const { data } = await axios.get(
-          `${BACKEND_URL}/api/customer/account`,
-          {
-            headers: {
-              "Content-type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+      } else if (response.data.data.role === "ADMIN") {
+        const { data } = await axios.get(`${BACKEND_URL}/api/admin/account`, {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setCurrentUser(data.data);
-        setRole("ADMIN")
-        history.push("/admin/");
+        setRole("ADMIN");
+        history.push("/admin/users/all?pages=1");
       }
     } catch (error) {
       setLoading(false);
@@ -97,8 +116,8 @@ const Login = () => {
   };
 
   useEffect(() => {
-    document.title = "Login | BazaarBay"
-  }, [])
+    document.title = "Login | BazaarBay";
+  }, []);
 
   return (
     <div className="login">
@@ -134,9 +153,9 @@ const Login = () => {
                       className="button"
                       type="submit"
                       onClick={login}
-                      style={{ padding: loading ? "10px 40px" : "13px 40px"}}
+                      style={{ padding: loading ? "10px 40px" : "13px 40px" }}
                     >
-                       {loading ? (
+                      {loading ? (
                         <div className="loginLoading">
                           <div class="lds-ring">
                             <div></div>

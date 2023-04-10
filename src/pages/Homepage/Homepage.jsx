@@ -19,7 +19,7 @@ const Homepage = () => {
       <div className="homepageContainer">
         <div className="homepageBody">
           <CategoryFilter />
-          <FeaturedProduct category={category} />
+          <FeaturedProduct category={category} setCategory={setCategory}/>
           <Footer />
         </div>
       </div>

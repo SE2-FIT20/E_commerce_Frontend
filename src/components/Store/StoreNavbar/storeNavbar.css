@@ -3,7 +3,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  height: 70px;
+  height: 55px;
   z-index: 999;
 }
 
@@ -25,6 +25,7 @@
 
 .storeNavbarLeft img {
   width: 200px;
+  padding: 10px;
   cursor: pointer;
 }
 
@@ -42,8 +43,8 @@
 }
 
 .storeNavbarRight .storeInfo .storeImg {
-  width: 45px;
-  height: 45px;
+  width: 35px;
+  height: 35px;
   position: relative;
 }
 
@@ -66,7 +67,7 @@
 
 .storeNavbarRight .storeInfo span {
   color: #ffffff;
-  font-size: 18px;
+  font-size: 15px;
 }
 
 .storeNavbarRight .notification {
@@ -74,6 +75,6 @@
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 25px;
+  font-size: 20px;
   cursor: pointer;
 }

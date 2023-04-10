@@ -12,13 +12,14 @@ import {
   handleDisplayCategoryImage,
 } from "./categoryFilterLogic";
 import { AuthContext } from "../../../context/AuthContext";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 const CategoryFilter = () => {
   const { BACKEND_URL } = useContext(AuthContext);
   const [left, setLeft] = useState(0);
   const [loading, setLoading] = useState(false);
   const categoryList = useRef();
+
   // categoryList && console.log(categoryList.current.offsetWidth)
   // const categoryWidth = categoryList.current && categoryList.current.offsetWidth;
   const [categories, setCategories] = useState([]);
@@ -34,6 +35,7 @@ const CategoryFilter = () => {
     }
   };
 
+
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -41,7 +43,7 @@ const CategoryFilter = () => {
   return (
     <div className="categoryFilter">
       <div className="categoryFilterContainer">
-        <div className="categoryFilterHeading">Filter by categories</div>
+        <div className="categoryFilterHeading">Category</div>
         {!loading && (
           <div className="categories">
             <ul
