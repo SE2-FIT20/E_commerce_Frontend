@@ -20,9 +20,7 @@ const SearchResult = () => {
   const [storeResults, setStoreResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
-
   const [totalPages, setTotalPages] = useState(100);
-  console.log(pageNumber)
   const fetchSearchResult = async () => {
     setLoading(true);
     try {

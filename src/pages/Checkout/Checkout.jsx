@@ -1,10 +1,10 @@
 import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { formatNumber } from "../../components/longFunctions";
 import axios from "axios";
-
+import WarningIcon from "../../images/warning-icon.png";
 import BreadCrumb from "../../components/Customer/BreadCrumb/BreadCrumb";
 import "./checkout.css";
 import { useToast } from "@chakra-ui/react";
@@ -13,11 +13,20 @@ import { useHistory } from "react-router-dom";
 const Checkout = () => {
   const { BACKEND_URL, config, currentUser } = useContext(AuthContext);
   const [storeProducts, setStoreProducts] = useState([]);
+  const [deliveryPartners, setDeliveryPartners] = useState([]);
   const [address, setAddress] = useState(
     currentUser.addresses[currentUser.addresses.length - 1]
   );
   const [selectedAddress, setSelectedAddress] = useState(address);
+  const [selectedDeliveryPartnerId, setSelectedDeliveryPartnerId] =
+    useState(37);
+  const [openProvideInfo, setOpenProvideInfo] = useState(false);
   const [openChooseAddress, setOpenChooseAddress] = useState(false);
+  const [openChooseDeliveryPartner, setOpenChooseDeliveryPartner] =
+    useState(false);
+  const provideInfo = useRef();
+  const chooseAddressRef = useRef();
+  const chooseDeliveryPartnerRef = useRef();
   const toast = useToast();
   const history = useHistory();
   const subTotalPrice = storeProducts.reduce((accumulator, currentValue) => {
@@ -35,34 +44,74 @@ const Checkout = () => {
       setStoreProducts(data.data);
     } catch (error) {}
   };
+  const fetchDeliveryPartners = async () => {
+    try {
+      const { data } = await axios.get(`${BACKEND_URL}/api/delivery-partners`);
+      setDeliveryPartners(data.data.content);
+    } catch (error) {}
+  };
 
   const handleCheckout = async () => {
-    try {
-      await axios.post(`${BACKEND_URL}/api/customer/checkout`, {}, config);
-      toast({
-        title: "Checkout successful",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom",
-      });
-      history.push("/");
-    } catch (error) {
-      toast({
-        title: "An error occurred checking out",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom",
-      });
+    if (currentUser.addresses.length === 0 || !currentUser.phoneNumber) {
+      setOpenProvideInfo(true);
+      return;
+    } else {
+      try {
+        await axios.post(`${BACKEND_URL}/api/customer/checkout`, {
+          deliveryPartnerId: selectedDeliveryPartnerId,
+          destinationAddress: selectedAddress
+        }, config);
+        toast({
+          title: "Checkout successful",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "bottom",
+        });
+        history.push("/");
+      } catch (error) {
+        toast({
+          title: "An error occurred checking out",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "bottom",
+        });
+      }
     }
   };
+
   useEffect(() => {
     fetchCart();
+    fetchDeliveryPartners();
     document.title = "Checkout | BazaarBay";
   }, []);
+  console.log(selectedAddress);
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        chooseAddressRef.current &&
+        !chooseAddressRef.current.contains(event.target)
+      ) {
+        setOpenChooseAddress(false);
+      }
+      if (
+        chooseDeliveryPartnerRef.current &&
+        !chooseDeliveryPartnerRef.current.contains(event.target)
+      ) {
+        setOpenChooseDeliveryPartner(false);
+      }
+      if (provideInfo.current && !provideInfo.current.contains(event.target)) {
+        setOpenProvideInfo(false);
+      }
+    }
 
-  console.log(storeProducts);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [chooseAddressRef, chooseDeliveryPartnerRef, provideInfo]);
+
   return (
     <div
       className="checkout"
@@ -141,28 +190,52 @@ const Checkout = () => {
                 ))}
               </tbody>
             </table>
-            <div className="deliveryOption">
-              <div className="deliveryPartner">
-                <span className="deliveryHeading">Delivery Partner: </span>
-                <span className="deliveryPartnerName">Giao hang nhanh vcl</span>
-                <span className="deliveryChangeText">Change</span>
-              </div>
-              <div className="deliveryPrice">50k</div>
-            </div>
+
             <div className="totalProductPrice">
-              <span>{`Total price (2 products): `}</span>
+              <span>{`Total price (${product.items.reduce(
+                (accumulator, item) => {
+                  return accumulator + item.quantity;
+                },
+                0
+              )} product${
+                product.items.reduce((accumulator, item) => {
+                  return accumulator + item.quantity;
+                }, 0) > 1
+                  ? "s"
+                  : ""
+              }): `}</span>
               <span>
                 <span className="price-symbol">₫</span>
 
                 {formatNumber(
                   product.items.reduce((accumulator, item) => {
                     return accumulator + item.product.price * item.quantity;
-                  }, 0) + 50000
+                  }, 0)
                 )}
               </span>
             </div>
           </div>
         ))}
+
+        <div className="deliveryOption">
+          <div className="deliveryPartner">
+            <span className="deliveryHeading">Delivery Partner: </span>
+            <span className="deliveryPartnerName">
+              {
+                deliveryPartners.length > 0 && deliveryPartners.filter(
+                  (deliveryPartner) =>
+                    deliveryPartner.id === selectedDeliveryPartnerId
+                )[0].name
+              }
+            </span>
+            <button
+              className="button"
+              onClick={() => setOpenChooseDeliveryPartner(true)}
+            >
+              Change
+            </button>
+          </div>
+        </div>
 
         <div className="cartTotal">
           <div className="cartTotalContainer">
@@ -226,7 +299,7 @@ const Checkout = () => {
           openChooseAddress ? "chooseAddress open" : "chooseAddress close"
         }
       >
-        <div className="chooseAddressContainer">
+        <div className="chooseAddressContainer" ref={chooseAddressRef}>
           <h2>My Address</h2>
           <ul>
             {currentUser.addresses.map((a, i) => (
@@ -256,6 +329,68 @@ const Checkout = () => {
               Confirm
             </button>
           </div>
+        </div>
+      </div>
+      <div
+        className={
+          openChooseDeliveryPartner
+            ? "chooseDeliveryPartner open"
+            : "chooseDeliveryPartner close"
+        }
+      >
+        <div
+          className="chooseDeliveryPartnerContainer"
+          ref={chooseDeliveryPartnerRef}
+        >
+          <h2 className="chooseDeliveryPartnerHeading">
+            Choose Delivery Partner
+          </h2>
+          <ul>
+            {deliveryPartners.map((deliveryPartner) => (
+              <li
+                key={deliveryPartner.id}
+                onClick={() => {
+                  setSelectedDeliveryPartnerId(deliveryPartner.id);
+                  setOpenChooseDeliveryPartner(false);
+                }}
+              >
+                <div className="deliveryPartnerLeft">
+                  <div className="deliveryPartnerAvatar">
+                    <img src={deliveryPartner.avatar} alt="" />
+                  </div>
+                  <div className="deliveryPartnerInfo">
+                    <h2>{deliveryPartner.name}</h2>
+                    <span>{deliveryPartner.description}</span>
+                  </div>
+                </div>
+                <div className="deliveryPartnerRight">
+                  <span>
+                    <span className="price-symbol">₫</span>
+                    {formatNumber(deliveryPartner.shippingFee)}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <div
+        className={openProvideInfo ? "provideInfo popup" : "provideInfo hide"}
+      >
+        <div className="provideInfoContainer" ref={provideInfo}>
+          <img src={WarningIcon} alt="" />
+          <h2>Your account does not have phone number or address!</h2>
+          <span>Please provide phone number and address</span>
+          <button
+            className="button"
+            onClick={() => {
+              if (!currentUser.phoneNumber) history.push("/account/profile");
+              else if (currentUser.addresses.length === 0)
+                history.push("/account/address");
+            }}
+          >
+            OK
+          </button>
         </div>
       </div>
     </div>

@@ -1,27 +1,17 @@
-import {
-  faChevronLeft,
-  faChevronRight,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState, useRef, useContext, useEffect } from "react";
+
+import React, { useState, useContext, useEffect } from "react";
 import { capitalize } from "../../longFunctions";
 import "./categoryFilter.css";
 
 import axios from "axios";
-import {
-  handleDisplayCategoryImage,
-} from "./categoryFilterLogic";
+import { handleDisplayCategoryImage } from "./categoryFilterLogic";
 import { AuthContext } from "../../../context/AuthContext";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const CategoryFilter = () => {
   const { BACKEND_URL } = useContext(AuthContext);
-  const [left, setLeft] = useState(0);
   const [loading, setLoading] = useState(false);
-  const categoryList = useRef();
 
-  // categoryList && console.log(categoryList.current.offsetWidth)
-  // const categoryWidth = categoryList.current && categoryList.current.offsetWidth;
   const [categories, setCategories] = useState([]);
   const history = useHistory();
   const fetchCategories = async () => {
@@ -35,7 +25,6 @@ const CategoryFilter = () => {
     }
   };
 
-
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -46,12 +35,7 @@ const CategoryFilter = () => {
         <div className="categoryFilterHeading">Category</div>
         {!loading && (
           <div className="categories">
-            <ul
-              style={{
-                marginLeft: `-${left}px`,
-                marginRight: `${left}px`,
-              }}
-            >
+            <ul>
               {categories.map((category, i) => (
                 <li
                   key={i}

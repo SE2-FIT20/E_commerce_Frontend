@@ -3,7 +3,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  height: 70px;
+  height: 55px;
   z-index: 999;
 }
 
@@ -42,8 +42,8 @@
 }
 
 .adminNavbarRight .adminInfo .adminImg {
-  width: 45px;
-  height: 45px;
+  width: 35px;
+  height: 35px;
   position: relative;
 }
 
@@ -60,7 +60,8 @@
 }
 
 .adminNavbarRight .adminInfo .adminImg ul {
-  left: 0;
+  right: 0;
+  top: 30px;
   position: absolute;
 }
 
@@ -74,6 +75,6 @@
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 25px;
+  font-size: 20px;
   cursor: pointer;
 }

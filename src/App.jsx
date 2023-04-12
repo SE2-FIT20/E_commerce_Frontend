@@ -27,6 +27,7 @@ import Order from "./pages/Order/Order";
 import AdminNavbar from "./components/Admin/AdminNavbar/AdminNavbar";
 import AdminLeftbar from "./components/Admin/AdminLeftbar/AdminLeftbar";
 import AdminAllUsers from "./components/Admin/AdminAllUsers/AdminAllUsers";
+import AdminAllProducts from "./components/Admin/AdminAllProducts/AdminAllProducts";
 
 function App() {
   const { role, currentUser, BACKEND_URL, config } = useContext(AuthContext);
@@ -117,7 +118,7 @@ function App() {
                 component={StoreAllProducts}
               />
 
-              <Route path="/store/product/new" exact component={AddProduct} />
+              <Route path="/store/new/product" exact component={AddProduct} />
               <Route
                 path="/store/product/update/:productId"
                 exact
@@ -138,6 +139,7 @@ function App() {
             <AdminLeftbar />
             <div className="adminAppContent">
               <Route path="/admin/users/:userType" exact component={AdminAllUsers} />
+              <Route path="/admin/products" exact component={AdminAllProducts} />
             </div>
           </div>
         </>

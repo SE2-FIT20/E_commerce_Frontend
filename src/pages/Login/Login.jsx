@@ -6,6 +6,7 @@ import { useToast } from "@chakra-ui/react";
 import BreadCrumb from "../../components/Customer/BreadCrumb/BreadCrumb";
 import Container from "../../components/Customer/Container/Container";
 import { AuthContext } from "../../context/AuthContext";
+import { StoreContext } from "../../context/StoreContext";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -15,6 +16,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const { setCurrentUser, setToken, setRole, BACKEND_URL, config } =
     useContext(AuthContext);
+  const { setOption } = useContext(StoreContext);
   const toast = useToast();
   const history = useHistory();
 
@@ -38,7 +40,6 @@ const Login = () => {
           },
         }
       );
-      console.log("before toast");
       toast({
         title: "Login successful",
         status: "success",
@@ -47,40 +48,21 @@ const Login = () => {
         position: "bottom",
       });
       const token = response.data.data.token;
-      console.log("after setting token");
-      // setToken(token);
-      console.log("aftetr setting token");
-      console.log(response.data.data.role);
-      if (response.data.data.role === "CUSTOMER") {
-        console.log("hihi");
-        console.log(config);
-        setTimeout(async () => {
-          const { data } = await axios.get(
-              `https://e-commerce-production-5a62.up.railway.app/api/customer/cart`,
-              {
-                headers: {
-                  "Content-type": "application/json",
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            );
-            setCurrentUser(data.data);
-            setRole("CUSTOMER");
-            history.push("/");
-        }, 2000)
+      setToken(token);
 
-        // const { data } = await axios.get(
-        //   `https://e-commerce-production-5a62.up.railway.app/api/customer/account`,
-        //   {
-        //     headers: {
-        //       "Content-type": "application/json",
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //   }
-        // );
-        // setCurrentUser(data.data);
-        // setRole("CUSTOMER");
-        // history.push("/");
+      if (response.data.data.role === "CUSTOMER") {
+        const { data } = await axios.get(
+          `${BACKEND_URL}/api/customer/account`,
+          {
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setCurrentUser(data.data);
+        setRole("CUSTOMER");
+        history.goBack();
       } else if (response.data.data.role === "STORE") {
         const { data } = await axios.get(`${BACKEND_URL}/api/store/account`, {
           headers: {
@@ -90,6 +72,7 @@ const Login = () => {
         });
         setCurrentUser(data.data);
         setRole("STORE");
+        setOption("All Products")
 
         history.push("/store/product/all?pages=1");
       } else if (response.data.data.role === "ADMIN") {
@@ -101,7 +84,8 @@ const Login = () => {
         });
         setCurrentUser(data.data);
         setRole("ADMIN");
-        history.push("/admin/users/all?pages=1");
+        setOption("all")
+        history.push("/admin/users/all?page=1");
       }
     } catch (error) {
       setLoading(false);

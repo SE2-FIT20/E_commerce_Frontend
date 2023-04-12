@@ -39,6 +39,7 @@
   justify-content: space-between;
   width: 100%;
   cursor: pointer;
+  gap: 50px;
 }
 
 .cartPreview .cartPreviewProducts ul li:hover {
@@ -46,6 +47,7 @@
 }
 
 .cartPreview .cartPreviewProducts ul li .cartProductLeft {
+  flex: 3;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -53,8 +55,10 @@
 }
 
 .cartPreview .cartPreviewProducts ul li img {
-  width: 45px;
-  height: 44px;
+  min-width: 45px;
+  max-width: 45px;
+  max-height: 45px;
+  min-height: 45px;
   object-fit: cover;
 }
 
@@ -65,6 +69,7 @@
 }
 
 .cartProductRight {
+  flex: 1;
   color: #000;
   padding-right: 10px;
 }

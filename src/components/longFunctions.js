@@ -43,3 +43,16 @@ export function handleClickOutside(event, setOpen, ref) {
 export const capitalize = (str) => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+export const formatDate = (timestamp) => {
+  const date = new Date(timestamp);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const formattedDate = `${year}-${padNumber(month)}-${padNumber(day)}`;
+  return formattedDate;
+};
+
+const padNumber = (number) => {
+  return number.toString().padStart(2, "0");
+};

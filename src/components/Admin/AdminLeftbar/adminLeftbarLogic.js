@@ -1,43 +1,39 @@
 export const handleChooseOption = (option, setOption, history) => {
   switch (option) {
-    case "All Users":
-      history.push("/admin/users/all?pages=1");
-      setOption("All Orders");
+    case "all":
+      history.push("/admin/users/all?page=1");
+      setOption("all");
       break;
-    case "All Customers":
-      history.push("/admin/users/customers?pages=1");
-      setOption("All Orders");
+    case "customer":
+      history.push("/admin/users/customer?page=1");
+      setOption("customer");
       break;
-    case "All Stores":
-      history.push("/admin/users/stores?pages=1");
-      setOption("Ready Orders");
+    case "store":
+      history.push("/admin/users/store?page=1");
+      setOption("store");
       break;
-    case "All Delivery Partners":
-      history.push("/admin/users/delivery-partners?pages=1");
-      setOption("Delivering Orders");
+    case "delivery-partner":
+      history.push("/admin/users/delivery-partner?page=1");
+      setOption("delivery-partner");
       break;
-    case "All Products":
-      history.push("/admin/product/all?pages=1");
-      setOption("All Products");
-      break;
-    case "Add a Product":
-      history.push("/admin/product/new");
-      setOption("Add a Product");
+    case "product":
+      history.push("/admin/products?page=1");
+      setOption("product");
       break;
   }
 };
 
 export const handleNavigateOption = (location) => {
   if (location.startsWith("/admin/users/all")) {
-    return "All Users";
-  } else if (location.startsWith("/admin/users/customers")) {
-    return "All Customers";
-  } else if (location.startsWith("/admin/users/stores")) {
-    return "All Stores";
-  } else if (location.startsWith("/admin/users/delivery-partners")) {
-    return "All Delivery Partners";
-  } else if (location.startsWith("/admin/order/delivered")) {
-    return "Delivered Orders";
+    return "all";
+  } else if (location.startsWith("/admin/users/customer")) {
+    return "customer";
+  } else if (location.startsWith("/admin/users/store")) {
+    return "store";
+  } else if (location.startsWith("/admin/users/delivery-partner")) {
+    return "delivery-partner";
+  } else if (location.startsWith("/admin/products")) {
+    return "product";
   } else if (location.startsWith("/admin/order/cancelled")) {
     return "Cancelled Orders";
   } else if (

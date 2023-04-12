@@ -1,22 +1,22 @@
 import axios from "axios"
 
-export const handleChangeProductPerPage = (
-  productPerPage,
-  setProductPerPage,
-  setOpenProductPerPageOptions
+export const handleChangeUserPerPage = (
+  userPerPage,
+  setUserPerPage,
+  setOpenUserPerPageOptions
 ) => {
-  setProductPerPage(productPerPage);
-  setOpenProductPerPageOptions(false);
+  setUserPerPage(userPerPage);
+  setOpenUserPerPageOptions(false);
 };
 
 export const handleChangeUserType = (
   e,
   currentPage,
-  setStockType,
+  setUserType,
   history
 ) => {
-  setStockType(e.currentTarget.id);
-  history.push(`/store/product/${e.currentTarget.id}?pages=${currentPage}`);
+  setUserType(e.currentTarget.id);
+  history.push(`/admin/users/${e.currentTarget.id}?page=${currentPage}`);
 };
 
 export const handleClickNext = (setCurrentPage, totalPages) => {

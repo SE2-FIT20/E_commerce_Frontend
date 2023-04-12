@@ -23,3 +23,7 @@
   object-fit: cover;
   cursor: pointer;
 }
+
+.customerReviews .reviewRight .customerName {
+  font-weight: 500;
+}

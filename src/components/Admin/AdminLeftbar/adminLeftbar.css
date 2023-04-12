@@ -2,8 +2,9 @@
   flex: 1.2;
   height: auto;
   background-color: #ffffff;
-  height: calc(100vh - 70px);
+  height: calc(100vh - 55px);
   overflow-y: scroll;
+  min-width: 170px;
 }
 
 .adminLeftbarContainer {
@@ -11,20 +12,24 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
 }
 
 .adminLeftbarContainer > div {
   cursor: pointer;
   padding-bottom: 10px;
   border-bottom: 1px solid #ccc;
-
+  gap: 10px;
 }
 
 .adminLeftbarContainer > div .heading {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
+}
+
+.adminLeftbarContainer > div .heading span {
+  flex: 1;
 }
 
 .adminLeftbarContainer > div .heading:hover span {

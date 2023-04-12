@@ -19,15 +19,15 @@ import {
   handleDisplayStatus,
   handleDisplayStatusButton,
 } from "./storeAllOrdersLogic";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import axios from "axios";
 import { formatNumber } from "../../longFunctions";
 import { useToast } from "@chakra-ui/react";
+import { StoreContext } from "../../../context/StoreContext";
 
 const StoreAllOrders = () => {
   const history = useHistory();
-  const location = useLocation();
   const today = new Date();
   const dateStr = "1/1/2023";
   const [month, day, year] = dateStr.split("/");
@@ -35,11 +35,9 @@ const StoreAllOrders = () => {
   const formattedDateFrom = date.toISOString().substring(0, 10);
   const formattedDateTo = today.toISOString().substring(0, 10);
   const { BACKEND_URL, config } = useContext(AuthContext);
+  const { option, setOption } = useContext(StoreContext);
   const [orders, setOrders] = useState([]);
   const [totalPages, setTotalPages] = useState(0);
-  const [orderType, setOrderType] = useState(
-    handleConvertOrderType(useHistory().location.pathname.split("/")[3])
-  );
   const [loading, setLoading] = useState(false);
   const pageIndex = Math.floor(useHistory().location.search.split("=")[1]);
   const [currentPage, setCurrentPage] = useState(pageIndex);
@@ -56,7 +54,7 @@ const StoreAllOrders = () => {
   const filterOrderRef = useRef();
 
   const handleChangeOrderType = (e) => {
-    setOrderType(e.currentTarget.id);
+    setOption(e.currentTarget.id);
     history.push(
       `/store/order/${handleDisplayOrderType(
         e.currentTarget.id
@@ -65,7 +63,7 @@ const StoreAllOrders = () => {
   };
   useEffect(() => {
     history.push(
-      `/store/order/${handleDisplayOrderType(orderType)}?pages=${currentPage}`
+      `/store/order/${handleDisplayOrderType(option)}?pages=${currentPage}`
     );
   }, [currentPage]);
 
@@ -80,7 +78,7 @@ const StoreAllOrders = () => {
       const { data } = await axios.get(
         `${BACKEND_URL}/api/store/orders?elementsPerPage=${orderPerPage}&page=${
           currentPage - 1
-        }&status=${orderType}&sortBy=${filterOrder}&from=${dateFrom}&to=${dateTo}`,
+        }&status=${handleConvertOrderType(option)}&sortBy=${filterOrder}&from=${dateFrom}&to=${dateTo}`,
         config
       );
       setOrders(data.data.content);
@@ -103,7 +101,7 @@ const StoreAllOrders = () => {
   }, [
     orderPerPage,
     currentPage,
-    orderType,
+    option,
     filterOption,
     filterOrder,
     dateFrom,
@@ -216,53 +214,59 @@ const StoreAllOrders = () => {
         <div className="storeOrdersFilter">
           <ul>
             <li
-              className={orderType === "ALL" ? "all active" : "all"}
-              id="ALL"
+              className={option === "All Orders" ? "all active" : "all"}
+              id="All Orders"
               onClick={handleChangeOrderType}
             >
               All
             </li>
             <li
-              className={orderType === "PENDING" ? "pending active" : "pending"}
-              id="PENDING"
+              className={
+                option === "Pending Orders" ? "pending active" : "pending"
+              }
+              id="Pending Orders"
               onClick={handleChangeOrderType}
             >
               Pending
             </li>
             <li
               className={
-                orderType === "READY_FOR_DELIVERY"
-                  ? "outOfStock active"
-                  : "outOfStock"
+                option === "Ready Orders" ? "outOfStock active" : "outOfStock"
               }
-              id="READY_FOR_DELIVERY"
+              id="Ready Orders"
               onClick={handleChangeOrderType}
             >
               Ready
             </li>
             <li
               className={
-                orderType === "DELIVERING" ? "outOfStock active" : "outOfStock"
+                option === "Delivering Orders"
+                  ? "outOfStock active"
+                  : "outOfStock"
               }
-              id="DELIVERING"
+              id="Delivering Orders"
               onClick={handleChangeOrderType}
             >
               Delivering
             </li>
             <li
               className={
-                orderType === "DELIVERED" ? "outOfStock active" : "outOfStock"
+                option === "Delivered Orders"
+                  ? "outOfStock active"
+                  : "outOfStock"
               }
-              id="DELIVERED"
+              id="Delivered Orders"
               onClick={handleChangeOrderType}
             >
               Delivered
             </li>
             <li
               className={
-                orderType === "CANCELLED" ? "outOfStock active" : "outOfStock"
+                option === "Cancelled Orders"
+                  ? "outOfStock active"
+                  : "outOfStock"
               }
-              id="CANCELLED"
+              id="Cancelled Orders"
               onClick={handleChangeOrderType}
             >
               Cancelled

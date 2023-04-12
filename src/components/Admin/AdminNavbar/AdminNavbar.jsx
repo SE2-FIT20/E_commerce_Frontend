@@ -36,7 +36,7 @@ const AdminNavbar = () => {
                   className="option"
                   onClick={() => history.push("/account/profile")}
                 >
-                  My admin
+                  My Profile
                 </li>
                 <li
                   className="option"

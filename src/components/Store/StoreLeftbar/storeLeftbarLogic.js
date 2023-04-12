@@ -29,7 +29,7 @@ export const handleChooseOption = (option, setOption, history) => {
       setOption("All Products");
       break;
     case "Add a Product":
-      history.push("/store/product/new");
+      history.push("/store/new/product");
       setOption("Add a Product");
       break;
   }
@@ -54,7 +54,7 @@ export const handleNavigateOption = (location) => {
     location.startsWith("/store/product/soldout")
   ) {
     return "All Products";
-  } else if (location.startsWith("/store/product/new")) {
+  } else if (location.startsWith("/store/new/product")) {
     return "Add a Product";
   } else {
     return "";

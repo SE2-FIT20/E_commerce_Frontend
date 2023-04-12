@@ -6,97 +6,67 @@ import {
   faChevronLeft,
   faChevronRight,
   faChevronUp,
+  faEye,
   faLock,
   faLockOpen,
-  faPen,
-  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import axios from "axios";
-import { formatNumber } from "../../longFunctions";
 import { useToast } from "@chakra-ui/react";
 import {
-  handleChangeProductPerPage,
+  handleChangeUserPerPage,
   handleChangeUserType,
   handleClickPrev,
   handleClickNext,
-  deleteProduct,
 } from "./adminAllUsersLogic";
+import { StoreContext } from "../../../context/StoreContext";
+import AdminSeeDetail from "../AdminSeeDetail/AdminSeeDetail";
+import { formatDate } from "../../longFunctions";
+import AdminPopup from "../AdminPopup/AdminPopup";
 
 const AdminAllUsers = () => {
   const history = useHistory();
-  const { BACKEND_URL, config, currentUser } = useContext(AuthContext);
+  const { BACKEND_URL, config } = useContext(AuthContext);
+  const { option, setOption } = useContext(StoreContext);
+
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const [userType, setUserType] = useState(
-    useHistory().location.pathname.split("/")[3]
-  );
-  const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [popupType, setPopupType] = useState(null);
+  const [openPopup, setOpenPopup] = useState(false);
   const [openFilterOptions, setOpenFilterOptions] = useState(false);
   const [openFilterOrder, setOpenFilterOrder] = useState(false);
-  const [productToDelete, setProductToDelete] = useState(0);
+  const [openAdminSeeDetail, setOpenAdminSeeDetail] = useState(false);
   const pageIndex = Math.floor(useHistory().location.search.split("=")[1]);
   const [currentPage, setCurrentPage] = useState(pageIndex);
-  const [openProductPerPageOptions, setOpenProductPerPageOptions] =
-    useState(false);
-  const [userPerPage, setUserPerPage] = useState(10);
+  const [openUserPerPageOptions, setOpenUserPerPageOptions] = useState(false);
+  const [userPerPage, setUserPerPage] = useState(20);
   const [totalPages, setTotalPages] = useState(0);
-  const [filterOption, setFilterOption] = useState("createdAt");
-  const [filterOrder, setFilterOrder] = useState("desc");
-  const confirmDelete = useRef();
+  const [filterOption, setFilterOption] = useState("id");
+  const [filterOrder, setFilterOrder] = useState("asc");
   const filterOptionRef = useRef();
   const filterOrderRef = useRef();
-  const productPerPageOptionRef = useRef();
+  const userPerPageOptionRef = useRef();
   const toast = useToast();
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (
-        confirmDelete.current &&
-        !confirmDelete.current.contains(event.target)
-      ) {
-        setOpenConfirmDelete(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [confirmDelete]);
 
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      if (userType === "all") {
-        const { data } = await axios.get(
-          `${BACKEND_URL}/api/admin/manage-accounts?page=0&elementPerPage=20&role=CUSTOMER&sortBy=asc&filter=name&status=UNLOCKED`,
-          config
-        );
-        setUsers(data.data.content);
-        setTotalPages(data.data.totalPages);
-      } else if (userType === "active") {
-        const { data } = await axios.get(
-          ``,
-          config
-        );
-        setUsers(data.data.content);
-        setTotalPages(data.data.totalPages);
-      } else {
-        const { data } = await axios.get(
-          ``,
-          config
-        );
-        setUsers(data.data.content);
-        setTotalPages(data.data.totalPages);
-      }
+      const { data } = await axios.get(
+        `${BACKEND_URL}/api/admin/manage-accounts?page=${
+          currentPage - 1
+        }&elementsPerPage=${userPerPage}&role=${option.toUpperCase()}&sortBy=${filterOrder}&filter=${filterOption}&status=UNLOCKED`,
+        config
+      );
+      setUsers(data.data.content);
+      setTotalPages(data.data.totalPages);
 
       setLoading(false);
     } catch (error) {
       setLoading(false);
       toast({
-        title: "An error occurred fetching products",
+        title: "An error occurred fetching users",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -112,6 +82,8 @@ const AdminAllUsers = () => {
 
   const handleDisplayFilterOption = (option) => {
     switch (option) {
+      case "id":
+        return "ID";
       case "name":
         return "Name";
       case "createdAt":
@@ -119,10 +91,18 @@ const AdminAllUsers = () => {
     }
   };
 
+  const handleSeeDetail = (user) => {
+    setSelectedUser(user);
+    setOpenAdminSeeDetail(true);
+  };
+
   useEffect(() => {
     fetchUsers();
-  }, [userPerPage, currentPage, filterOption, filterOrder, userType]);
+  }, [userPerPage, currentPage, filterOption, filterOrder, option]);
 
+  useEffect(() => {
+    history.push(`/admin/users/${option}?pages=${currentPage}`);
+  }, [currentPage]);
   useEffect(() => {
     function handleClickOutside(event) {
       if (
@@ -131,37 +111,17 @@ const AdminAllUsers = () => {
       ) {
         setOpenFilterOptions(false);
       }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [filterOptionRef]);
-
-  useEffect(() => {
-    function handleClickOutside(event) {
       if (
         filterOrderRef.current &&
         !filterOrderRef.current.contains(event.target)
       ) {
         setOpenFilterOrder(false);
       }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [filterOrderRef]);
-
-  useEffect(() => {
-    function handleClickOutside(event) {
       if (
-        productPerPageOptionRef.current &&
-        !productPerPageOptionRef.current.contains(event.target)
+        userPerPageOptionRef.current &&
+        !userPerPageOptionRef.current.contains(event.target)
       ) {
-        setOpenProductPerPageOptions(false);
+        setOpenUserPerPageOptions(false);
       }
     }
 
@@ -169,7 +129,7 @@ const AdminAllUsers = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [productPerPageOptionRef]);
+  }, [filterOptionRef, filterOrderRef, userPerPageOptionRef]);
 
   return (
     <div className="adminAllUsers">
@@ -198,6 +158,12 @@ const AdminAllUsers = () => {
                     border: openFilterOptions ? "1px solid #ccc" : "none",
                   }}
                 >
+                  <li
+                    onClick={() => handleChooseFilterOption("id")}
+                    className={filterOption === "id" ? "selected" : ""}
+                  >
+                    ID
+                  </li>
                   <li
                     onClick={() => handleChooseFilterOption("name")}
                     className={filterOption === "name" ? "selected" : ""}
@@ -250,54 +216,51 @@ const AdminAllUsers = () => {
                 </ul>
               </div>
             </div>
-            <div>
-              <h2>Category</h2>
-            </div>
           </div>
         </div>
         <div className="adminUsersFilter">
           <ul>
             <li
-              className={userType === "all" ? "all active" : "all"}
+              className={option === "all" ? "all active" : "all"}
               id="all"
               onClick={(e) =>
-                handleChangeUserType(e, currentPage, setUserType, history)
+                handleChangeUserType(e, currentPage, setOption, history)
               }
             >
               All
             </li>
             <li
-              className={
-                userType === "customers" ? "inStock active" : "inStock"
-              }
-              id="active"
+              className={option === "customer" ? "inStock active" : "inStock"}
+              id="customer"
               onClick={(e) =>
-                handleChangeUserType(e, currentPage, setUserType, history)
+                handleChangeUserType(e, currentPage, setOption, history)
               }
             >
-              Customers
+              Customer
             </li>
             <li
               className={
-                userType === "stores" ? "outOfStock active" : "outOfStock"
+                option === "store" ? "outOfStock active" : "outOfStock"
               }
-              id="soldout"
+              id="store"
               onClick={(e) =>
-                handleChangeUserType(e, currentPage, setUserType, history)
+                handleChangeUserType(e, currentPage, setOption, history)
               }
             >
-              Stores
+              Store
             </li>
             <li
               className={
-                userType === "delivery" ? "outOfStock active" : "outOfStock"
+                option === "delivery-partner"
+                  ? "outOfStock active"
+                  : "outOfStock"
               }
-              id="soldout"
+              id="delivery-partner"
               onClick={(e) =>
-                handleChangeUserType(e, currentPage, setUserType, history)
+                handleChangeUserType(e, currentPage, setOption, history)
               }
             >
-              Delivery Partners
+              Delivery Partner
             </li>
           </ul>
         </div>
@@ -319,17 +282,19 @@ const AdminAllUsers = () => {
                   <th style={{ flex: "0.4" }}>ID</th>
                   <th
                     style={{
-                      flex: "2.5",
+                      flex: "2",
+                      justifyContent: "flex-start",
                     }}
                   >
-                    Name
+                    <span style={{ paddingLeft: "80px" }}>Name</span>
                   </th>
                   <th
                     style={{
-                      flex: "2.5",
+                      flex: "2",
+                      justifyContent: "flex-start",
                     }}
                   >
-                    Email
+                    <span style={{ paddingLeft: "10px" }}>Email</span>
                   </th>
 
                   <th
@@ -339,124 +304,120 @@ const AdminAllUsers = () => {
                   >
                     Addresses
                   </th>
+                  <th style={{ flex: "1.2" }}>Created At</th>
                   <th>Role</th>
                   <th>Locked</th>
-                  <th>Operation</th>
+                  <th style={{ flex: "0.5"}}></th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th style={{ flex: "0.4" }}>1</th>
-                  <th
-                    style={{
-                      flex: "2.5",
-                    }}
-                  >
-                    <div
-                      className="container"
-                      style={{
-                        justifyContent: "flex-start",
-                        paddingLeft: "20px",
-                        display: "flex",
-                        gap: "10px",
-                      }}
+                {users.map((user) => (
+                  <tr key={user.id}>
+                    <th
+                      style={{ flex: "0.4" }}
+                      onClick={() => handleSeeDetail(user)}
                     >
-                      <img
-                        src={currentUser.avatar}
-                        className="userImage"
-                        alt=""
-                      />
-                      <span>Do Minhasjdahdj kashdjkashdkajsd</span>
-                    </div>
-                  </th>
-                  <th
-                    style={{
-                      flex: "2.5",
-                    }}
-                  >
-                    <div className="container">steaky3798213@gmail.com</div>
-                  </th>
-
-                  <th
-                    style={{
-                      flex: "2",
-                    }}
-                  >
-                    <div className="container"> {currentUser.addresses[0]}</div>
-                  </th>
-                  <th>
-                    <div className="container">CUSTOMER</div>
-                  </th>
-                  <th>
-                    <div className="container">1</div>
-                  </th>
-                  <th>
-                    <div className="container">
-                      <div className="userOperationIcon">
-                        <FontAwesomeIcon icon={faLock} />
-                      </div>
-                      <div className="userOperationIcon">
-                        <FontAwesomeIcon icon={faLockOpen} />
-                      </div>
-                    </div>
-                  </th>
-                </tr>
-                <tr>
-                  <th style={{ flex: "0.4" }}>1</th>
-                  <th
-                    style={{
-                      flex: "2.5",
-                    }}
-                  >
-                    <div
-                      className="container"
+                      {user.id}
+                    </th>
+                    <th
                       style={{
-                        justifyContent: "flex-start",
-                        paddingLeft: "20px",
-                        display: "flex",
-                        gap: "10px",
+                        flex: "2",
                       }}
+                      onClick={() => handleSeeDetail(user)}
                     >
-                      <img
-                        src={currentUser.avatar}
-                        className="userImage"
-                        alt=""
-                      />
-                      <span>Do Minhasjdahdj kashdjkashdkajsd</span>
-                    </div>
-                  </th>
-                  <th
-                    style={{
-                      flex: "2.5",
-                    }}
-                  >
-                    <div className="container">steaky3798213@gmail.com</div>
-                  </th>
+                      <div
+                        className="container"
+                        style={{
+                          justifyContent: "flex-start",
+                          paddingLeft: "20px",
+                          display: "flex",
+                          gap: "10px",
+                        }}
+                      >
+                        <img src={user.avatar} className="userImage" alt="" />
+                        <span>{user.name}</span>
+                      </div>
+                    </th>
+                    <th
+                      style={{
+                        flex: "2",
+                      }}
+                      onClick={() => handleSeeDetail(user)}
+                    >
+                      <div
+                        className="container"
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-start",
+                        }}
+                      >
+                        {user.email}
+                      </div>
+                    </th>
 
-                  <th
-                    style={{
-                      flex: "2",
-                    }}
-                  >
-                    <div className="container"> {currentUser.addresses[0]}</div>
-                  </th>
-                  <th>
-                    <div className="container">CUSTOMER</div>
-                  </th>
-                  <th>
-                    <div className="container">1</div>
-                  </th>
-                  <th>
-                    <div className="container">
-                      <div className="userOperationIcon">
-                        <FontAwesomeIcon icon={faLock} />
+                    <th
+                      style={{
+                        flex: "2",
+                      }}
+                      onClick={() => handleSeeDetail(user)}
+                    >
+                      <div className="container">
+                        {user.addresses?.length > 0
+                          ? user.addresses[0]
+                          : "No address"}
                       </div>
-                      <div className="userOperationIcon">
-                        <FontAwesomeIcon icon={faLockOpen} />
+                    </th>
+                    <th
+                      style={{ flex: "1.2" }}
+                      onClick={() => handleSeeDetail(user)}
+                    >
+                      <div className="container">
+                        {formatDate(user.createdAt)}
                       </div>
-                    </div>
-                  </th>
-                </tr>
+                    </th>
+                    <th onClick={() => handleSeeDetail(user)}>
+                      <div className="container">
+                        {user.role === "DELIVERY_PARTNER" ||
+                        user.role === "DELIVERY-PARTNER"
+                          ? "DELIVERY"
+                          : user.role}
+                      </div>
+                    </th>
+                    <th onClick={() => handleSeeDetail(user)}>
+                      <div className="container">
+                        {user.locked ? "True" : "False"}
+                      </div>
+                    </th>
+                    <th style={{ flex: "0.5"}}>
+                      <div className="container">
+                        {user.locked ? (
+                          <div
+                            className="userOperationIcon"
+                            onClick={() => {
+                              setSelectedUser(user);
+                              setPopupType("unlockUser");
+                              setOpenPopup(true);
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faLockOpen} />
+                          </div>
+                        ) : (
+                          <div
+                            className="userOperationIcon"
+                            onClick={() => {
+                              setSelectedUser(user);
+
+                              setPopupType("lockUser");
+                              setOpenPopup(true);
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faLock} />
+                          </div>
+                        )}
+                      </div>
+                    </th>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
@@ -485,15 +446,15 @@ const AdminAllUsers = () => {
                 <div
                   className="productPerPageButton"
                   onClick={() =>
-                    setOpenProductPerPageOptions(!openProductPerPageOptions)
+                    setOpenUserPerPageOptions(!openUserPerPageOptions)
                   }
-                  ref={productPerPageOptionRef}
+                  ref={userPerPageOptionRef}
                 >
                   <span>{`${userPerPage}/page`}</span>
                   <FontAwesomeIcon
                     icon={faChevronUp}
                     className={
-                      openProductPerPageOptions
+                      openUserPerPageOptions
                         ? "openOption rotate"
                         : "openOption"
                     }
@@ -503,18 +464,16 @@ const AdminAllUsers = () => {
                 <div
                   className={"productPerPageOptions"}
                   style={{
-                    border: openProductPerPageOptions
-                      ? "1px solid #ccc"
-                      : "none",
+                    border: openUserPerPageOptions ? "1px solid #ccc" : "none",
                   }}
                 >
-                  <ul className={openProductPerPageOptions ? "open" : ""}>
+                  <ul className={openUserPerPageOptions ? "open" : ""}>
                     <li
                       onClick={() =>
-                        handleChangeProductPerPage(
+                        handleChangeUserPerPage(
                           10,
                           setUserPerPage,
-                          setOpenProductPerPageOptions,
+                          setOpenUserPerPageOptions,
                           setCurrentPage
                         )
                       }
@@ -524,10 +483,10 @@ const AdminAllUsers = () => {
                     </li>
                     <li
                       onClick={() =>
-                        handleChangeProductPerPage(
+                        handleChangeUserPerPage(
                           20,
                           setUserPerPage,
-                          setOpenProductPerPageOptions,
+                          setOpenUserPerPageOptions,
                           setCurrentPage
                         )
                       }
@@ -537,10 +496,10 @@ const AdminAllUsers = () => {
                     </li>
                     <li
                       onClick={() =>
-                        handleChangeProductPerPage(
+                        handleChangeUserPerPage(
                           30,
                           setUserPerPage,
-                          setOpenProductPerPageOptions,
+                          setOpenUserPerPageOptions,
                           setCurrentPage
                         )
                       }
@@ -556,24 +515,19 @@ const AdminAllUsers = () => {
         </div>
       </div>
 
-      <div
-        className={openConfirmDelete ? "confirmDelete" : "confirmDelete hide"}
-      >
-        <div className="confirmDeleteContainer" ref={confirmDelete}>
-          <div className="deleteTitle">
-            <span>Are you sure you want to delete this product?</span>
-          </div>
-          <div className="deleteBtnContainer">
-            <button className="button">Yes</button>
-            <button
-              className="button"
-              onClick={() => setOpenConfirmDelete(false)}
-            >
-              No
-            </button>
-          </div>
-        </div>
-      </div>
+      <AdminPopup
+        open={openPopup}
+        setOpen={setOpenPopup}
+        popupType={popupType}
+        user={selectedUser}
+        refetchUsers={fetchUsers}
+      />
+
+      <AdminSeeDetail
+        user={selectedUser}
+        open={openAdminSeeDetail}
+        setOpen={setOpenAdminSeeDetail}
+      />
     </div>
   );
 };

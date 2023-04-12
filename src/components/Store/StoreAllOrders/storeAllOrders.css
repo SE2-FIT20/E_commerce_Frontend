@@ -423,7 +423,7 @@
   background-color: #f0f2f5;
 }
 
-.storeAllOrders .noItem {
+.noItem {
   min-width: 70%;
   max-width: 70%;
   display: flex;
@@ -432,11 +432,18 @@
   position: relative;
 }
 
-.storeAllOrders .noItem img {
-  object-fit: cover;
+.noItem > th {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.storeAllOrders .noItem .noItemText {
+.noItem img {
+  object-fit: cover;
+  width: 100%;
+}
+
+.noItem .noItemText {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -449,12 +456,12 @@
   gap: 20px;
 }
 
-.storeAllOrders .noItem .noItemText h2 {
+.noItem .noItemText h2 {
   font-weight: bold;
   font-size: 30px;
 }
 
-.storeAllOrders .noItem .noItemText span {
+.noItem .noItemText span {
   font-size: 15px;
   color: #ccc;
 }

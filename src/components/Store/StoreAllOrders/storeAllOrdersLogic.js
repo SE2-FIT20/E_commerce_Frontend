@@ -24,34 +24,34 @@ export const handleClickPrev = (setCurrentPage, totalPages) => {
 
 export  const handleDisplayOrderType = (orderType) => {
   switch (orderType) {
-    case "ALL":
+    case "All Orders":
       return "all";
-    case "PENDING":
+    case "Pending Orders":
       return "pending";
-    case "READY_FOR_DELIVERY":
+    case "Ready Orders":
       return "ready";
-    case "DELIVERING":
+    case "Delivering Orders":
       return "delivering";
-    case "DELIVERED":
+    case "Delivered Orders":
       return "delivered";
-    case "CANCELLED":
+    case "Cancelled Orders":
       return "cancelled";
   }
 };
 
 export const handleConvertOrderType = (orderType) => {
   switch (orderType) {
-    case "all":
+    case "All Orders":
       return "ALL";
-    case "pending":
+    case "Pending Orders":
       return "PENDING";
-    case "ready":
+    case "Ready Orders":
       return "READY_FOR_DELIVERY";
-    case "delivering":
+    case "Delivering Orders":
       return "DELIVERING";
-    case "delivered":
+    case "Delivered Orders":
       return "DELIVERED";
-    case "cancelled":
+    case "Cancelled Orders":
       return "CANCELLED";
   }
 };

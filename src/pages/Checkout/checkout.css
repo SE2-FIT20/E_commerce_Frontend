@@ -3,7 +3,6 @@
   background-color: #f5f5f5;
   overflow: hidden;
   max-height: calc(100vh - 70px);
-
 }
 
 .checkoutContainer {
@@ -13,7 +12,6 @@
   display: flex;
   gap: 20px;
   flex-direction: column;
-
 }
 
 .checkout .deliveryLocation {
@@ -104,8 +102,8 @@
 }
 
 .checkout table thead tr th {
-  font-size: 14px;
-  font-weight: normal;
+  font-size: 15px;
+  font-weight: 500;
   color: #bbb;
 }
 
@@ -130,24 +128,24 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid lightgray;
-  padding-bottom: 15px;
+  padding: 15px;
+  background-color: #fff;
 }
 
 .checkout .deliveryOption .deliveryPartner {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   gap: 20px;
-  
 }
 
 .checkout .deliveryOption .deliveryPartner .deliveryHeading {
   color: #0c1d26;
   font-weight: 500;
+  font-size: 18px;
 }
 
 .checkout .deliveryOption .deliveryPartner .deliveryPartnerName {
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .checkout .deliveryOption .deliveryPartner .deliveryChangeText {
@@ -229,7 +227,8 @@
   color: #ffffff;
 }
 
-.chooseAddress {
+.chooseAddress,
+.chooseDeliveryPartner {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -239,22 +238,23 @@
   justify-content: center;
   background: rgba(0, 0, 0, 0.4);
   z-index: 100;
-  opacity: 0; 
+  opacity: 0;
   display: none;
 }
 
-.chooseAddress.open {
+.chooseAddress.open,
+.chooseDeliveryPartner.open {
   display: flex;
   animation: fade-in 0.2s ease-in-out forwards;
 }
 
-.chooseAddress.close {
+.chooseAddress.close .chooseDeliveryPartner.close {
   animation: fade-out 0.2s ease-in-out forwards;
-
 }
 .chooseAddressContainer {
   width: 500px;
   background-color: #fff;
+  border-radius: 15px;
 }
 
 .chooseAddressContainer h2 {
@@ -262,6 +262,7 @@
   font-size: 20px;
   padding: 15px;
   border-bottom: 1px solid #ccc;
+  text-align: center;
 }
 
 .chooseAddressContainer ul {
@@ -284,7 +285,6 @@
   background-color: #f5f5f5cb;
 }
 
-
 .chooseAddressContainer .chooseAddressButtons {
   padding-bottom: 15px;
   display: flex;
@@ -302,6 +302,116 @@
   font-weight: 600;
 }
 
+.chooseDeliveryPartnerContainer {
+  width: 500px;
+  border-radius: 15px;
+  background-color: #fff;
+}
+
+.chooseDeliveryPartner .chooseDeliveryPartnerHeading {
+  font-weight: 500;
+  font-size: 20px;
+  padding: 15px;
+  border-bottom: 1px solid #ccc;
+}
+
+.chooseDeliveryPartner ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 15px 0;
+}
+.chooseDeliveryPartner ul li {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chooseDeliveryPartner ul li .deliveryPartnerLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 10px 15px;
+}
+
+.chooseDeliveryPartner ul li:hover {
+  background-color: #f0f2f5;
+}
+
+.chooseDeliveryPartner ul li img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.chooseDeliveryPartner ul li h2 {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.chooseDeliveryPartner ul li span {
+  font-size: 14px;
+}
+
+.chooseDeliveryPartner ul li .deliveryPartnerRight {
+  padding: 10px 15px;
+}
+
+.chooseDeliveryPartner ul li .deliveryPartnerRight span {
+  font-size: 18px;
+  font-weight: 500;
+}
+.provideInfo {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.provideInfoContainer {
+  width: 550px;
+  background-color: #fff;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.provideInfo.popup{
+  animation-name: fade-in;
+  animation-duration: 0.3s;
+  animation-timing-function: ease-out;
+}
+
+.provideInfoContainer img {
+  width: 100px;
+  height: 100px;  
+}
+
+.provideInfoContainer h2 {
+  font-size: 20px;
+  font-weight: 500;
+  color: red;
+}
+
+.provideInfoContainer span {
+  font-size: 15px;
+  font-weight: normal;
+}
 
 @keyframes fade-in {
   from {
@@ -318,6 +428,15 @@
   }
   to {
     opacity: 0;
+  }
+}
+
+@keyframes popup {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
   }
 }
 @media screen and (min-width: 1700px) {

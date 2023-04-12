@@ -61,7 +61,8 @@
 }
 
 .storeNavbarRight .storeInfo .storeImg ul {
-  left: 0;
+  right: 0;
+  top: 35px;
   position: absolute;
 }
 

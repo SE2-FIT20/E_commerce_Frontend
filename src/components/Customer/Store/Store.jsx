@@ -135,7 +135,7 @@ const Store = () => {
               {!productLoading && (
                 <ul>
                   {products.map((product) => (
-                    <SingleProduct product={product} />
+                    <SingleProduct product={product} key={product.id}/>
                   ))}
                 </ul>
               )}

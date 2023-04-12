@@ -23,12 +23,53 @@
   padding: 0 0;
 }
 
-.recentSearchHeading {
-  padding-bottom: 15px;
+.recentSearch {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.recentSearch h2 {
   font-weight: bold;
   font-size: 18px;
-  padding-top: 15px;
+  padding: 10px 15px 0 15px;
 }
+
+.recentSearch ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.recentSearch ul li {
+  list-style: none;
+  cursor: pointer;
+  padding: 8px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.recentSearch ul li:hover {
+  background-color: #f0f2f5;
+}
+
+.recentSearch ul li span {
+  width: 90%;
+}
+
+.recentSearch ul li .deleteIcon {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recentSearch ul li .deleteIcon:hover {
+  background-color: lightgray;
+}
+
 .search .searchBody {
   display: flex;
   flex-direction: column;

@@ -6,14 +6,15 @@ import { useHistory } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import "./search.css";
 
-const Search = ({ open, setOpen, keyword, setKeyword }) => {
+const Search = ({ open, setOpen, keyword, setKeyword, searchHistory, fetchSearchHistory }) => {
   const search = useRef();
   const [loading, setLoading] = useState(false);
-
-  const { BACKEND_URL, currentUser } = useContext(AuthContext);
+  const { BACKEND_URL, currentUser, config } = useContext(AuthContext);
   const [searchProducts, setSearchProducts] = useState([]);
   const [searchStores, setSearchStores] = useState([]);
   const history = useHistory();
+
+ 
   const handleSearch = async () => {
     try {
       setLoading(true);
@@ -29,6 +30,15 @@ const Search = ({ open, setOpen, keyword, setKeyword }) => {
     } catch (error) {
       setLoading(false);
     }
+  };
+  const handleDelete = async (searchId) => {
+    try {
+      await axios.delete(
+        `${BACKEND_URL}/api/search-history/${searchId}`,
+        config
+      );
+      fetchSearchHistory();
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -59,9 +69,29 @@ const Search = ({ open, setOpen, keyword, setKeyword }) => {
             </div>
           </div>
         )}
-        {!keyword && !loading && currentUser && (
-          <div className="recentSearchHeading">
-            <span>Recent search</span>
+        {!keyword && !loading && currentUser && searchHistory.length > 0 && (
+          <div className="recentSearch">
+            <h2>Recent search</h2>
+            <ul>
+              {searchHistory.map((item) => (
+                <li key={item.id}>
+                  <span
+                    onClick={() => {
+                      history.push(`/search?keyword=${item.keyword}`);
+                      setOpen(false);
+                    }}
+                  >
+                    {item.keyword}
+                  </span>
+                  <div
+                    className="deleteIcon"
+                    onClick={() => handleDelete(item.id)}
+                  >
+                    <FontAwesomeIcon icon={faTimes} />
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
 
@@ -106,7 +136,13 @@ const Search = ({ open, setOpen, keyword, setKeyword }) => {
                 >
                   <div className="searchStoreHeading">Stores</div>
                   {searchStores.slice(0, 4).map((store) => (
-                    <li key={store.id} onClick={() => {history.push(`/store/${store.id}`); setOpen(false)}}>
+                    <li
+                      key={store.id}
+                      onClick={() => {
+                        history.push(`/store/${store.id}`);
+                        setOpen(false);
+                      }}
+                    >
                       <div className="searchStoreLeft">
                         <img src={store.avatar} alt="" />
                         <h2>{store.name}</h2>

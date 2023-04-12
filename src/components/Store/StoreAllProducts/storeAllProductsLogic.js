@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios from "axios";
 
 export const handleChangeProductPerPage = (
   productPerPage,
@@ -27,7 +27,27 @@ export const handleClickPrev = (setCurrentPage) => {
   setCurrentPage((prev) => (prev === 1 ? prev : prev - 1));
 };
 
-export const deleteProduct = async ( productToDelete, fetchProducts, setOpenConfirmDelete, BACKEND_URL, config, toast) => {
+export const handleDisplayFilterOption = (option) => {
+  switch (option) {
+    case "name":
+      return "Name";
+    case "price":
+      return "Price";
+    case "quantity":
+      return "Quantity";
+    case "createdAt":
+      return "Date";
+  }
+};
+
+export const deleteProduct = async (
+  productToDelete,
+  fetchProducts,
+  setOpenConfirmDelete,
+  BACKEND_URL,
+  config,
+  toast
+) => {
   try {
     await axios.delete(
       `${BACKEND_URL}/api/store/products/${productToDelete.toString()}`,

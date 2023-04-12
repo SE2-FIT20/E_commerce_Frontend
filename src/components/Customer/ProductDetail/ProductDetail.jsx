@@ -11,22 +11,21 @@ import {
 import "./productDetail.css";
 import ProductImage from "../ProductImage/ProductImage";
 import { useHistory } from "react-router-dom";
-import { formatNumber } from "../../longFunctions";
 import axios from "axios";
-import ReactStars from "react-rating-stars-component";
+import StarRatings from "react-star-ratings";
 import { useToast } from "@chakra-ui/react";
 import { AuthContext } from "../../../context/AuthContext";
-import { capitalize } from "../../longFunctions";
+import { capitalize, formatNumber } from "../../longFunctions";
 
 const ProductDetail = ({ product, fetchPreviewCart }) => {
   const { BACKEND_URL, config, currentUser } = useContext(AuthContext);
   const [quantity, setQuantity] = useState(1);
-  const [mainImageWidth, setMainImageWidth] = useState(0);
 
   const [currentImage, setCurrentImage] = useState(product.images[0]);
   const [currentDisplayImage, setCurrentDisplayImage] = useState(currentImage);
   const [otherImageIndex, setOtherImageIndex] = useState(0);
   const [openImage, setOpenImage] = useState(false);
+  const [readMoreDesc, setReadMoreDesc] = useState(false);
   const mainImage = useRef();
   const imageDisplay = useRef();
   const history = useHistory();
@@ -47,7 +46,6 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
       prev === product.images.length - 5 ? product.images.length - 5 : prev + 1
     );
   };
-
   const handleAddToCart = async (productId) => {
     try {
       await axios.post(
@@ -80,9 +78,7 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
   };
   useEffect(() => {
     // document.setTitle("MQSocial")
-    const handleResize = () => {
-      setMainImageWidth(mainImage?.current.offsetWidth);
-    };
+    const handleResize = () => {};
 
     window.addEventListener("resize", handleResize);
 
@@ -156,15 +152,17 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
             <div className="productName">
               <h2>{product.name}</h2>
               <div className="productReviewInfo">
-                <ReactStars
-                  count={5}
-                  size={24}
-                  value={5}
-                  edit={false}
-                  activeColor="#0C1D26"
-                  classNames="reviewStar"
+                <StarRatings
+                  rating={product.rating}
+                  starRatedColor="#ffd700"
+                  numberOfStars={5}
+                  name="rating"
+                  starDimension="20px"
+                  starSpacing="0px"
                 />
-                <span className="reviewCount">100 reviews</span>
+                <span className="reviewCount">{`${
+                  product.reviews.length
+                } review${product.reviews.length > 1 ? "s" : ""}`}</span>
               </div>
             </div>
 
@@ -180,11 +178,13 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
                 <tbody>
                   <tr>
                     <th className="productHeading">Category</th>
-                    <th className="productContent">{capitalize(product.category.toLowerCase())}</th>
+                    <th className="productContent">
+                      {capitalize(product.category.toLowerCase())}
+                    </th>
                   </tr>
                   <tr>
                     <th className="productHeading">Sold </th>
-                    <th className="productContent">{product.quantity}</th>
+                    <th className="productContent">{product.sold}</th>
                   </tr>
                   <tr>
                     <th className="productHeading">In stock </th>
@@ -300,7 +300,16 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
           className="productDescContainer"
           style={{ whiteSpace: "pre-wrap" }}
         >
-          {product.description}
+          {!readMoreDesc
+            ? `${product.description.substring(0, 1000)}${
+                product.description.length > 1000 ? "..." : ""
+              }\n`
+            : `${product.description}\n`}
+          {product.description.length > 1000 && (
+            <span onClick={() => setReadMoreDesc(!readMoreDesc)}>
+              {readMoreDesc ? "Show less" : "Read more"}
+            </span>
+          )}
         </div>
       </div>
     </div>

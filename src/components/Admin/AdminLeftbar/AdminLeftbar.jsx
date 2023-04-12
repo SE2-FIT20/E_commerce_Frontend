@@ -14,7 +14,6 @@ const AdminLeftbar = () => {
   const { option, setOption } = useContext(StoreContext);
   const history = useHistory();
   const location = useLocation();
-
   useEffect(() => {
     setOption(handleNavigateOption(location.pathname));
   }, [location]);
@@ -38,33 +37,33 @@ const AdminLeftbar = () => {
 
           <ul className={openUserManagement ? "options selected" : "options"}>
             <li
-              className={option === "All Users" ? "chosenOption" : ""}
+              className={option === "all" ? "chosenOption" : ""}
               onClick={() =>
-                handleChooseOption("All Users", setOption, history)
+                handleChooseOption("all", setOption, history)
               }
             >
               All users
             </li>
             <li
-              className={option === "All Customers" ? "chosenOption" : ""}
+              className={option === "customer" ? "chosenOption" : ""}
               onClick={() =>
-                handleChooseOption("All Customers", setOption, history)
+                handleChooseOption("customer", setOption, history)
               }
             >
               All customers
             </li>
             <li
-              className={option === "All Stores" ? "chosenOption" : ""}
+              className={option === "store" ? "chosenOption" : ""}
               onClick={() =>
-                handleChooseOption("All Stores", setOption, history)
+                handleChooseOption("store", setOption, history)
               }
             >
               All stores
             </li>
             <li
-              className={option === "All Delivery Partners" ? "chosenOption" : ""}
+              className={option === "delivery-partner" ? "chosenOption" : ""}
               onClick={() =>
-                handleChooseOption("All Delivery Partners", setOption, history)
+                handleChooseOption("delivery-partner", setOption, history)
               }
             >
               All delivery partners
@@ -88,21 +87,14 @@ const AdminLeftbar = () => {
             className={openProductManagement ? "options selected" : "options"}
           >
             <li
-              className={option === "All Products" ? "chosenOption" : ""}
+              className={option === "product" ? "chosenOption" : ""}
               onClick={() =>
-                handleChooseOption("All Products", setOption, history)
+                handleChooseOption("product", setOption, history)
               }
             >
               All Products
             </li>
-            <li
-              className={option === "Add a Product" ? "chosenOption" : ""}
-              onClick={() =>
-                handleChooseOption("Add a Product", setOption, history)
-              }
-            >
-              Add a Product
-            </li>
+  
           </ul>
         </div>
         <div className="promotionSite">

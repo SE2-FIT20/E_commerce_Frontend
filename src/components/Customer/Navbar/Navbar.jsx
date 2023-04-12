@@ -13,33 +13,49 @@ import Search from "../Search/Search";
 import CartPreview from "../CartPreview/CartPreview";
 import axios from "axios";
 
-const Navbar = ({
-  fetchPreviewCart,
-  cartProducts,
-  productResults,
-  storeResults,
-  setProductResults,
-  setStoreResults,
-}) => {
-  const { currentUser, setCurrentUser, setRole, BACKEND_URL } =
+const Navbar = ({ fetchPreviewCart, cartProducts }) => {
+  const { currentUser, setCurrentUser, setRole, BACKEND_URL, config } =
     useContext(AuthContext);
   const [openSetting, setOpenSetting] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
   const [openCartPreview, setOpenCartPreview] = useState(false);
   const [keyword, setKeyword] = useState("");
+  const [searchHistory, setSearchHistory] = useState([]);
+
   const history = useHistory();
 
+  const handleLogout = () => {
+    setCurrentUser(null);
+    setRole("CUSTOMER");
+    if (history.location.pathname.startsWith("/cart") || history.location.pathname.startsWith("/checkout") || history.location.pathname.startsWith("/account")) {
+      history.push("/");
+    } else {
+      return;
+    }
+  };
+  const fetchSearchHistory = async () => {
+    try {
+      const { data } = await axios.get(
+        `${BACKEND_URL}/api/search-history`,
+        config
+      );
+      setSearchHistory(data.data);
+    } catch (error) {}
+  };
   const handleKeyDown = async (e) => {
     if (e.key === "Enter") {
       history.push(`/search?keyword=${keyword}`);
       setOpenSearch(false);
-
       try {
-        const { data } = await axios.get(
-          `${BACKEND_URL}/api/search?keyword=${keyword}`
-        );
-        setProductResults(data.data.products);
-        setStoreResults(data.data.stores);
+        currentUser
+          ? await axios.get(
+              `${BACKEND_URL}/api/search-products?keyword=${keyword}`,
+              config
+            )
+          : await axios.get(
+              `${BACKEND_URL}/api/search-products?keyword=${keyword}`
+            );
+        fetchSearchHistory();
       } catch (error) {
         setOpenSearch(false);
       }
@@ -48,7 +64,8 @@ const Navbar = ({
 
   useEffect(() => {
     fetchPreviewCart();
-  }, []);
+    currentUser && fetchSearchHistory();
+  }, [currentUser]);
   return (
     <>
       <div className="navbar">
@@ -85,8 +102,9 @@ const Navbar = ({
                 setOpen={setOpenSearch}
                 keyword={keyword}
                 setKeyword={setKeyword}
-                products={productResults}
-                stores={storeResults}
+                searchHistory={searchHistory}
+                setSearchHistory={setSearchHistory}
+                fetchSearchHistory={fetchSearchHistory}
               />
             </div>
           </div>
@@ -183,9 +201,7 @@ const Navbar = ({
                     <li
                       className="option"
                       onClick={() => {
-                        setCurrentUser(null);
-                        setRole("CUSTOMER");
-                        history.push("/")
+                        handleLogout();
                       }}
                     >
                       Log out

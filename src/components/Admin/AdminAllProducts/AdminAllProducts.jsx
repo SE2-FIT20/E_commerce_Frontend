@@ -1,92 +1,80 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import "./storeAllProducts.css";
+import "./adminAllProducts.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronDown,
   faChevronLeft,
   faChevronRight,
   faChevronUp,
-  faPen,
+  faEye,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import axios from "axios";
-import NoItem from "../../../images/no-product.webp";
-
-import { formatNumber, capitalize } from "../../longFunctions";
 import { useToast } from "@chakra-ui/react";
 import {
   handleChangeProductPerPage,
-  handleChangeStockType,
   handleClickPrev,
   handleClickNext,
-  handleDisplayFilterOption,
-  deleteProduct,
-} from "./storeAllProductsLogic";
+} from "./adminAllProductsLogic";
+import StarRatings from "react-star-ratings";
 
-const Storepage = () => {
+import { formatNumber, capitalize } from "../../longFunctions";
+import { StoreContext } from "../../../context/StoreContext";
+import AdminSeeDetail from "../AdminSeeDetail/AdminSeeDetail";
+import AdminPopup from "../AdminPopup/AdminPopup";
+
+const AdminAllProducts = () => {
   const history = useHistory();
-  const { BACKEND_URL, config, currentUser } = useContext(AuthContext);
+  const { BACKEND_URL, config } = useContext(AuthContext);
+  const { option } = useContext(StoreContext);
   const [products, setProducts] = useState([]);
-  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [popupType, setPopupType] = useState(null);
 
-  const [stockType, setStockType] = useState(
-    useHistory().location.pathname.split("/")[3]
-  );
-  const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [openAdminSeeDetail, setOpenAdminSeeDetail] = useState(false);
+  const [openFilterCategory, setOpenFilterCategory] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
   const [openFilterOptions, setOpenFilterOptions] = useState(false);
   const [openFilterOrder, setOpenFilterOrder] = useState(false);
-  const [openFilterCategory, setOpenFilterCategory] = useState(false);
-  const [productToDelete, setProductToDelete] = useState(0);
   const pageIndex = Math.floor(useHistory().location.search.split("=")[1]);
   const [currentPage, setCurrentPage] = useState(pageIndex);
   const [openProductPerPageOptions, setOpenProductPerPageOptions] =
     useState(false);
-  const [productPerPage, setProductPerPage] = useState(10);
+  const [productPerPage, setProductPerPage] = useState(20);
   const [totalPages, setTotalPages] = useState(0);
-  const [filterOption, setFilterOption] = useState("createdAt");
-  const [filterOrder, setFilterOrder] = useState("desc");
+  const [filterOption, setFilterOption] = useState("id");
+  const [filterOrder, setFilterOrder] = useState("asc");
   const [filterCategory, setFilterCategory] = useState("all");
-  const confirmDelete = useRef();
+  const productRef = useRef();
+  const deleteIcon = useRef();
   const filterOptionRef = useRef();
   const filterOrderRef = useRef();
+  const filterCategoryRef = useRef();
   const productPerPageOptionRef = useRef();
   const toast = useToast();
+
+  const fetchCategories = async () => {
+    try {
+      const { data } = await axios.get(`${BACKEND_URL}/api/product-categories`);
+      setCategories(data.data);
+    } catch (error) {}
+  };
+
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      if (stockType === "all") {
-        const { data } = await axios.get(
-          `${BACKEND_URL}/api/products?storeId=${
-            currentUser.id
-          }&elementsPerPage=${productPerPage}&page=${
-            currentPage - 1
-          }&filter=${filterOption}&sortBy=${filterOrder}&status=ALL&category=${filterCategory.toLowerCase()}`,
-          config
-        );
-        setProducts(data.data.content);
-        setTotalPages(data.data.totalPages);
-      } else if (stockType === "active") {
-        const { data } = await axios.get(
-          `${BACKEND_URL}/api/products?status=available&elementsPerPage=${productPerPage}&page=${
-            currentPage - 1
-          }&filter=${filterOption}&sortBy=${filterOrder}&category=${filterCategory.toLowerCase()}`,
-          config
-        );
-        setProducts(data.data.content);
-        setTotalPages(data.data.totalPages);
-      } else {
-        const { data } = await axios.get(
-          `${BACKEND_URL}/api/products?status=sold_out&elementsPerPage=${productPerPage}&page=${
-            currentPage - 1
-          }&filter=${filterOption}&sortBy=${filterOrder}&category=${filterCategory.toLowerCase()}`,
-          config
-        );
-        setProducts(data.data.content);
-        setTotalPages(data.data.totalPages);
-      }
+      const { data } = await axios.get(
+        `${BACKEND_URL}/api/products?page=${
+          currentPage - 1
+        }&elementsPerPage=${productPerPage}&role=${option.toUpperCase()}&sortBy=${filterOrder}&filter=${filterOption}&status=UNLOCKED&category=${filterCategory.toLowerCase()}`,
+        config
+      );
+      setProducts(data.data.content);
+      setTotalPages(data.data.totalPages);
 
       setLoading(false);
     } catch (error) {
@@ -101,11 +89,9 @@ const Storepage = () => {
     }
   };
 
-  const fetchCategories = async () => {
-    try {
-      const { data } = await axios.get(`${BACKEND_URL}/api/product-categories`);
-      setCategories(data.data);
-    } catch (error) {}
+  const handleChooseCategoryFilter = (category) => {
+    setFilterCategory(category);
+    setOpenFilterCategory(false);
   };
 
   const handleChooseFilterOption = (option) => {
@@ -113,9 +99,33 @@ const Storepage = () => {
     setOpenFilterOptions(false);
   };
 
-  const handleChooseCategoryFilter = (category) => {
-    setFilterCategory(category);
-    setOpenFilterCategory(false);
+  const handleDisplayFilterOption = (option) => {
+    switch (option) {
+      case "id":
+        return "ID";
+      case "name":
+        return "Name";
+      case "createdAt":
+        return "Date";
+    }
+  };
+
+  const handleSeeDetail = (product) => {
+    setSelectedProduct(product);
+    setOpenAdminSeeDetail(true);
+  };
+
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const formattedDate = `${year}-${padNumber(month)}-${padNumber(day)}`;
+    return formattedDate;
+  };
+
+  const padNumber = (number) => {
+    return number.toString().padStart(2, "0");
   };
 
   useEffect(() => {
@@ -125,20 +135,25 @@ const Storepage = () => {
     currentPage,
     filterOption,
     filterOrder,
-    stockType,
+    option,
     filterCategory,
   ]);
 
   useEffect(() => {
-    history.push(`/store/product/${stockType}?pages=${currentPage}`);
-  }, [currentPage, stockType, history]);
+    history.push(`/admin/products?pages=${currentPage}`);
+  }, [currentPage]);
 
   useEffect(() => {
     fetchCategories();
   }, []);
-
   useEffect(() => {
     function handleClickOutside(event) {
+      if (
+        filterOptionRef.current &&
+        !filterOptionRef.current.contains(event.target)
+      ) {
+        setOpenFilterOptions(false);
+      }
       if (
         filterOrderRef.current &&
         !filterOrderRef.current.contains(event.target)
@@ -152,16 +167,10 @@ const Storepage = () => {
         setOpenProductPerPageOptions(false);
       }
       if (
-        filterOptionRef.current &&
-        !filterOptionRef.current.contains(event.target)
+        filterCategoryRef.current &&
+        !filterCategoryRef.current.contains(event.target)
       ) {
-        setOpenFilterOptions(false);
-      }
-      if (
-        confirmDelete.current &&
-        !confirmDelete.current.contains(event.target)
-      ) {
-        setOpenConfirmDelete(false);
+        setOpenFilterCategory(false);
       }
     }
 
@@ -169,13 +178,18 @@ const Storepage = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [filterOptionRef, filterOrderRef, productPerPageOptionRef, confirmDelete]);
+  }, [
+    filterOptionRef,
+    filterOrderRef,
+    productPerPageOptionRef,
+    filterCategoryRef,
+  ]);
 
   return (
-    <div className="storeAllProducts">
-      <div className="storeAllProductsContainer">
-        <div className="storeFilterOptions">
-          <div className="storeFilterOptionsContainer">
+    <div className="adminAllProducts">
+      <div className="adminAllProductsContainer">
+        <div className="adminFilterOptions">
+          <div className="adminFilterOptionsContainer">
             <div className="filterSelect">
               <h2>Filtered By</h2>
               <div
@@ -199,22 +213,16 @@ const Storepage = () => {
                   }}
                 >
                   <li
+                    onClick={() => handleChooseFilterOption("id")}
+                    className={filterOption === "id" ? "selected" : ""}
+                  >
+                    ID
+                  </li>
+                  <li
                     onClick={() => handleChooseFilterOption("name")}
                     className={filterOption === "name" ? "selected" : ""}
                   >
                     Name
-                  </li>
-                  <li
-                    onClick={() => handleChooseFilterOption("price")}
-                    className={filterOption === "price" ? "selected" : ""}
-                  >
-                    Price
-                  </li>
-                  <li
-                    onClick={() => handleChooseFilterOption("quantity")}
-                    className={filterOption === "quantity" ? "selected" : ""}
-                  >
-                    Quantity
                   </li>
                   <li
                     onClick={() => handleChooseFilterOption("createdAt")}
@@ -267,13 +275,13 @@ const Storepage = () => {
               <div
                 className="filterSelectItem"
                 onClick={() => setOpenFilterCategory(!openFilterCategory)}
-                ref={filterOptionRef}
+                ref={filterCategoryRef}
               >
                 <span>{capitalize(filterCategory.toLowerCase())}</span>
                 <FontAwesomeIcon
                   icon={faChevronDown}
                   className={
-                    openFilterOptions ? "openOption rotate" : "openOption"
+                    openFilterCategory ? "openOption rotate" : "openOption"
                   }
                 />
                 <ul
@@ -292,8 +300,9 @@ const Storepage = () => {
                   >
                     All
                   </li>
-                  {categories.map((category) => (
+                  {categories.map((category, i) => (
                     <li
+                      key={i}
                       onClick={() =>
                         handleChooseCategoryFilter(
                           capitalize(category.toLowerCase())
@@ -314,39 +323,6 @@ const Storepage = () => {
             </div>
           </div>
         </div>
-        <div className="storeProductsFilter">
-          <ul>
-            <li
-              className={stockType === "all" ? "all active" : "all"}
-              id="all"
-              onClick={(e) =>
-                handleChangeStockType(e, currentPage, setStockType, history)
-              }
-            >
-              All
-            </li>
-            <li
-              className={stockType === "active" ? "inStock active" : "inStock"}
-              id="active"
-              onClick={(e) =>
-                handleChangeStockType(e, currentPage, setStockType, history)
-              }
-            >
-              In stock
-            </li>
-            <li
-              className={
-                stockType === "soldout" ? "outOfStock active" : "outOfStock"
-              }
-              id="soldout"
-              onClick={(e) =>
-                handleChangeStockType(e, currentPage, setStockType, history)
-              }
-            >
-              Out of stock
-            </li>
-          </ul>
-        </div>
         {loading && (
           <div className="fullLoading">
             <div className="lds-ellipsis">
@@ -358,131 +334,149 @@ const Storepage = () => {
           </div>
         )}
         {!loading && (
-          <div className="storeProducts">
+          <div className="adminProducts">
             <table>
               <thead>
                 <tr>
+                  <th style={{ flex: "0.4" }}>ID</th>
                   <th
                     style={{
-                      flex: "3.5",
+                      flex: "2.8",
                       justifyContent: "flex-start",
-                      paddingLeft: "10px",
                     }}
                   >
-                    Product name
+                    <span style={{ paddingLeft: "70px" }}>Product Name</span>
                   </th>
-                  <th style={{ flex: "2" }}>Category</th>
-                  <th style={{ flex: "1.5" }}>Price</th>
-                  <th style={{ flex: "1.2" }}>In stock</th>
-                  <th style={{ flex: "1.2" }}>Sales</th>
-                  <th style={{ flex: "1.2" }}>Operation</th>
+                  <th
+                    style={{
+                      justifyContent: "flex-start",
+                      display: "flex",
+                    }}
+                  >
+                    <span style={{ paddingLeft: "30px" }}>Price</span>
+                  </th>
+
+                  <th
+                    style={{
+                      flex: "2",
+                      justifyContent: "flex-start",
+                      display: "flex",
+                    }}
+                  >
+                    <span style={{ paddingLeft: "70px" }}>Store</span>
+                  </th>
+                  <th style={{ flex: "1.2" }}>Category</th>
+                  <th style={{ flex: "1.2" }}>Created At</th>
+                  <th>Rating</th>
+                  <th style={{ flex: "0.5"}}></th>
                 </tr>
               </thead>
-              {products.length > 0 && (
-                <tbody>
-                  {products.map((product, i) => (
-                    <tr key={i}>
-                      <th
+              <tbody>
+                {products.map((product) => (
+                  <tr key={product.id}>
+                    <th
+                      style={{ flex: "0.4" }}
+                      onClick={() => handleSeeDetail(product)}
+                    >
+                      {product.id}
+                    </th>
+                    <th
+                      style={{
+                        flex: "2.8",
+                      }}
+                      onClick={() => handleSeeDetail(product)}
+                    >
+                      <div
+                        className="container"
                         style={{
-                          display: "flex",
-                          flex: "3.5",
-                          gap: "15px",
-                          alignItems: "flex-start",
                           justifyContent: "flex-start",
-                          paddingLeft: "10px",
+                          display: "flex",
+                          gap: "10px",
                         }}
                       >
                         <img
                           src={product.images[0]}
-                          alt=""
                           className="productImage"
+                          alt=""
                         />
-                        <span
-                          className="productName"
-                          onClick={() =>
-                            history.push(`/store/product/${product.id}`)
-                          }
-                        >
-                          {product.name}
-                        </span>
-                      </th>
-                      <th style={{ flex: "2" }}>
-                        <div className="container"> {product.category}</div>
-                      </th>
-                      <th style={{ flex: "1.5" }}>
-                        <div className="container">
-                          <span className="price-symbol">₫</span>
-                          {formatNumber(product.price)}
-                        </div>
-                      </th>
-                      <th style={{ flex: "1.2" }}>
+                        <span>{product.name}</span>
+                      </div>
+                    </th>
+                    <th onClick={() => handleSeeDetail(product)}>
+                      <div
+                        className="container"
+                        style={{
+                          justifyContent: "flex-start",
+                          display: "flex",
+                        }}
+                      >
+                        <span className="price-symbol">₫</span>
+                        {formatNumber(product.price)}
+                      </div>
+                    </th>
+
+                    <th
+                      style={{
+                        flex: "2",
+                      }}
+                      onClick={() => handleSeeDetail(product)}
+                    >
+                      <div
+                        className="container"
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-start",
+                          gap: "10px",
+                        }}
+                      >
+                        <img src={product.store.avatar} alt="" />
+                        <span>{product.store.name}</span>
+                      </div>
+                    </th>
+                    <th
+                      style={{ flex: "1.2" }}
+                      onClick={() => handleSeeDetail(product)}
+                    >
+                      {capitalize(product.category)}
+                    </th>
+                    <th
+                      style={{ flex: "1.2" }}
+                      onClick={() => handleSeeDetail(product)}
+                    >
+                      <div className="container">
+                        {formatDate(product.createdAt)}
+                      </div>
+                    </th>
+                    <th onClick={() => handleSeeDetail(product)}>
+                      <div className="container">
+                        <StarRatings
+                          rating={product.rating}
+                          starRatedColor="#ffd700"
+                          numberOfStars={5}
+                          name="rating"
+                          starDimension="15px"
+                          starSpacing="0px"
+                        />
+                      </div>
+                    </th>
+
+                    <th style={{ flex: "0.2"}}>
+                      <div className="container">
                         <div
-                          className="container"
-                          style={{
-                            color: product.quantity === 0 ? "red" : "#000",
-                            fontWeight:
-                              product.quantity === 0 ? "600" : "normal",
+                          className="productOperationIcon"
+                          onClick={() => {
+                            setSelectedProduct(product);
+                            setPopupType("deleteProduct");
+                            setOpenPopup(true);
                           }}
                         >
-                          {product.quantity === 0
-                            ? "Soldout"
-                            : product.quantity}
+                          <FontAwesomeIcon icon={faTrash} />
                         </div>
-                      </th>
-                      <th style={{ flex: "1.2" }}>
-                        <div className="container">{product.sold}</div>
-                      </th>
-                      <th style={{ flex: "1.2" }}>
-                        <div className="container productButtons">
-                          <div className="productButtonContainer">
-                            <FontAwesomeIcon
-                              icon={faPen}
-                              onClick={() =>
-                                history.push(
-                                  `/store/product/update/${product.id}`
-                                )
-                              }
-                            />
-                          </div>
-                          <div className="productButtonContainer">
-                            <FontAwesomeIcon
-                              icon={faTrash}
-                              onClick={() => {
-                                setOpenConfirmDelete(true);
-                                setProductToDelete(product.id);
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </th>
-                    </tr>
-                  ))}
-                </tbody>
-              )}
-              {products.length === 0 && (
-                <tbody
-                  style={{
-                    overflow: "hidden",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <tr
-                    className="noItem"
-                    style={{ width: "100%", border: "none" }}
-                  >
-                    <th>
-                      <img src={NoItem} alt="" className="noItem" />
-
-                      <div className="noItemText">
-                        <h2>No Items Found!</h2>
-                        <span>Sorry... No items found inside your card</span>
                       </div>
                     </th>
                   </tr>
-                </tbody>
-              )}
+                ))}
+              </tbody>
             </table>
           </div>
         )}
@@ -581,40 +575,20 @@ const Storepage = () => {
         </div>
       </div>
 
-      <div
-        className={openConfirmDelete ? "confirmDelete" : "confirmDelete hide"}
-      >
-        <div className="confirmDeleteContainer" ref={confirmDelete}>
-          <div className="deleteTitle">
-            <span>Are you sure you want to delete this product?</span>
-          </div>
-          <div className="deleteBtnContainer">
-            <button
-              className="button"
-              onClick={() =>
-                deleteProduct(
-                  productToDelete,
-                  fetchProducts,
-                  setOpenConfirmDelete,
-                  BACKEND_URL,
-                  config,
-                  toast
-                )
-              }
-            >
-              Yes
-            </button>
-            <button
-              className="button"
-              onClick={() => setOpenConfirmDelete(false)}
-            >
-              No
-            </button>
-          </div>
-        </div>
-      </div>
+      <AdminPopup
+        open={openPopup}
+        setOpen={setOpenPopup}
+        popupType={popupType}
+        product={selectedProduct}
+        refetchProducts={fetchProducts}
+      />
+      <AdminSeeDetail
+        product={selectedProduct}
+        open={openAdminSeeDetail}
+        setOpen={setOpenAdminSeeDetail}
+      />
     </div>
   );
 };
 
-export default Storepage;
+export default AdminAllProducts;
