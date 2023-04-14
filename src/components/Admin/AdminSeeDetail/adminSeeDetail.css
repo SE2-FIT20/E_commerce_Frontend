@@ -36,14 +36,15 @@
 .adminSeeDetail .userTop .userLeft {
   flex: 1;
   display: flex;
-  align-items: center;
   justify-content: center;
+  position: relative;
+  min-height: 180px;
 }
 
 .adminSeeDetail .userTop .userLeft img {
-  width: 70%;
+  width: 80%;
   border-radius: 50%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .adminSeeDetail .userTop .userRight {
@@ -66,17 +67,52 @@
 
 .adminSeeDetail .userTop .userRight span {
   flex: 1.5;
-  word-wrap: break-word ;
+  word-wrap: break-word;
 }
 
 .adminSeeDetail .userTop li {
   list-style: none;
 }
 
-.adminSeeDetail .productImage 
-{
+.adminSeeDetail .productImage {
   border-radius: 0px !important;
 }
+
+.adminSeeDetail .prevButton, .nextButton {
+  position: absolute;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f2f5;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.adminSeeDetail .prevButton {
+  left: 5px;
+}
+
+.adminSeeDetail .nextButton {
+  right: 5px;
+}
+
+/* .adminSeeDetail .prevButton:hover, .nextButton:hover {
+  animation: hover-scale-up 0.2s forwards;
+} */
+
 .hide {
   display: none;
+}
+
+@keyframes hover-scale-up {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
 }

@@ -18,6 +18,7 @@ import {
   formatTimestamp,
   handleDisplayStatus,
   handleDisplayStatusButton,
+  handleOrder,
 } from "./storeAllOrdersLogic";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
@@ -78,9 +79,12 @@ const StoreAllOrders = () => {
       const { data } = await axios.get(
         `${BACKEND_URL}/api/store/orders?elementsPerPage=${orderPerPage}&page=${
           currentPage - 1
-        }&status=${handleConvertOrderType(option)}&sortBy=${filterOrder}&from=${dateFrom}&to=${dateTo}`,
+        }&status=${handleConvertOrderType(
+          option
+        )}&sortBy=${filterOrder}&from=${dateFrom}&to=${dateTo}`,
         config
       );
+      console.log(data)
       setOrders(data.data.content);
       setTotalPages(data.data.totalPages);
       setLoading(false);
@@ -95,6 +99,7 @@ const StoreAllOrders = () => {
       });
     }
   };
+
 
   useEffect(() => {
     fetchOrders();
@@ -384,9 +389,76 @@ const StoreAllOrders = () => {
 
                                 {formatNumber(order.totalPrice)}
                               </div>
-                              <button className="button">
-                                {handleDisplayStatusButton(order.status)}
-                              </button>
+                              <div className="orderButtons">
+                                {order.status === "PENDING" && (
+                                  <button
+                                    className="button"
+                                    onClick={() =>
+                                      handleOrder(
+                                        "prepare-order",
+                                        order.id,
+                                        fetchOrders,
+                                        BACKEND_URL,
+                                        config,
+                                        toast
+                                      )
+                                    }
+                                  >
+                                    {handleDisplayStatusButton(order.status)}
+                                  </button>
+                                )}
+                                {order.status === "READY_FOR_DELIVERY" && (
+                                  <button
+                                    className="button"
+                                    onClick={() =>
+                                      handleOrder(
+                                        "unprepare-order",
+                                        order.id,
+                                        fetchOrders,
+                                        BACKEND_URL,
+                                        config,
+                                        toast
+                                      )
+                                    }
+                                  >
+                                    {handleDisplayStatusButton(order.status)}
+                                  </button>
+                                )}
+                                {(order.status == "PENDING" || order.status == "READY_FOR_DELIVERY") && (
+                                  <button
+                                    className="button"
+                                    onClick={() =>
+                                      handleOrder(
+                                        "cancel-order",
+                                        order.id,
+                                        fetchOrders,
+                                        BACKEND_URL,
+                                        config,
+                                        toast
+                                      )
+                                    }
+                                  >
+                                    Cancel Order
+                                  </button>
+                                )}
+                                  {(order.status == "CANCELLED") && (
+                                  <button
+                                    className="button"
+                                    onClick={() =>
+                                      handleOrder(
+                                        "unprepare-order",
+                                        order.id,
+                                        fetchOrders,
+                                        BACKEND_URL,
+                                        config,
+                                        toast
+                                      )
+                                    }
+                                  >
+                                    Reprepare Order
+                                  </button>
+                                )}
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -424,7 +496,7 @@ const StoreAllOrders = () => {
             <div className="orderNavContainer">
               <div className="orderNavBtn">
                 <div
-                  className="prevButton"
+                  className="orderPrevButton"
                   onClick={() => handleClickPrev(setCurrentPage)}
                 >
                   <FontAwesomeIcon icon={faChevronLeft} />
@@ -433,7 +505,7 @@ const StoreAllOrders = () => {
                   totalPages !== 0 ? totalPages : 1
                 }`}</span>
                 <div
-                  className="nextButton"
+                  className="orderNextButton"
                   onClick={() => handleClickNext(setCurrentPage, totalPages)}
                 >
                   <FontAwesomeIcon icon={faChevronRight} />

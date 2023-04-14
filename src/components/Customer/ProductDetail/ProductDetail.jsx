@@ -6,6 +6,8 @@ import {
   faChevronLeft,
   faChevronRight,
   faMessage,
+  faMinus,
+  faPlus,
   faShop,
 } from "@fortawesome/free-solid-svg-icons";
 import "./productDetail.css";
@@ -76,16 +78,6 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
       });
     }
   };
-  useEffect(() => {
-    // document.setTitle("MQSocial")
-    const handleResize = () => {};
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   useEffect(() => {
     setCurrentDisplayImage(currentImage);
@@ -152,17 +144,26 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
             <div className="productName">
               <h2>{product.name}</h2>
               <div className="productReviewInfo">
-                <StarRatings
-                  rating={product.rating}
-                  starRatedColor="#ffd700"
-                  numberOfStars={5}
-                  name="rating"
-                  starDimension="20px"
-                  starSpacing="0px"
-                />
-                <span className="reviewCount">{`${
-                  product.reviews.length
-                } review${product.reviews.length > 1 ? "s" : ""}`}</span>
+                <div className="productStar">
+                  {product.reviews.length > 0 && (
+                    <>
+                      <span className="productRating">{product.rating}</span>
+                      <StarRatings
+                        rating={product.rating}
+                        starRatedColor="#ffd700"
+                        numberOfStars={5}
+                        name="rating"
+                        starDimension="20px"
+                        starSpacing="0px"
+                      />
+                      <span className="reviewCount">{`(${product.reviews.length})`}</span>
+                      <span className="sold">{`${product.sold} sold`}</span>
+                    </>
+                  )}
+                  {product.reviews.length === 0 && (
+                    <span style={{ textDecoration: "none" }}>No review</span>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -171,7 +172,6 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
                 <span className="price-symbol">₫</span>
                 {formatNumber(product.price)}
               </div>
-              <span className="writeReviewText">Write a review</span>
             </div>
             <div className="productDescription">
               <table>
@@ -182,10 +182,7 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
                       {capitalize(product.category.toLowerCase())}
                     </th>
                   </tr>
-                  <tr>
-                    <th className="productHeading">Sold </th>
-                    <th className="productContent">{product.sold}</th>
-                  </tr>
+
                   <tr>
                     <th className="productHeading">In stock </th>
                     <th className="productContent">{product.quantity}</th>
@@ -198,11 +195,11 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
                           className="minus"
                           onClick={() => handleClickMinus()}
                         >
-                          -
+                          <FontAwesomeIcon icon={faMinus} />
                         </div>
                         <div className="quantity">{quantity}</div>
                         <div className="plus" onClick={() => handleClickPlus()}>
-                          +
+                          <FontAwesomeIcon icon={faPlus} />
                         </div>
                       </div>
                     </th>
@@ -280,13 +277,13 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
             <h3 className="storeName">{product.store.name}</h3>
             <div className="storeButtons">
               <button
-                className="visitStore"
+                className="button"
                 onClick={() => history.push(`/store/${product.store.id}`)}
               >
                 <FontAwesomeIcon icon={faShop} />
                 <span>Visit store</span>
               </button>
-              <button className="messageStore">
+              <button className="button">
                 <FontAwesomeIcon icon={faMessage} />
                 <span>Message</span>
               </button>

@@ -1,24 +1,25 @@
 .searchResult {
   width: 100%;
-  background-color: #F5F5F5;
-  height: calc(100vh - 70px);
+  background-color: #f5f5f5;
+  min-height: calc(100vh - 70px);
 }
 
 .searchResultContainer {
   width: 80%;
   margin: auto;
   padding: 20px 0;
-  height: auto
+  height: auto;
 }
 
-.searchResult .store {
+.searchResult .searchStore {
   display: flex;
   flex-direction: column;
   gap: 15px;
   height: auto;
+  padding-bottom: 15px;
 }
 
-.searchResult .store > span {
+.searchResult .searchStore > span {
   font-weight: 500;
   font-size: 18px;
 }
@@ -26,6 +27,7 @@
 .searchResult .singleStore {
   display: flex;
   flex-direction: column;
+  
   gap: 10px;
 }
 
@@ -35,6 +37,10 @@
   background-color: #ffffff;
   padding: 25px;
   cursor: pointer;
+  border-radius: 10px;
+  width: 75%;
+  margin: auto;
+  justify-content: space-between;
 }
 
 .searchResult .singleStore li .storeLeft {
@@ -50,11 +56,55 @@
   object-fit: cover;
 }
 
-.searchResult .store .showStoreButtons {
-  width: 40%;
+.searchResult .singleStore li .storeLeft .storeLeftInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.searchResult .singleStore li .storeLeft .storeLeftInfo h2 {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.searchResult .singleStore li .storeLeft .storeLeftInfo > div {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.searchResult .singleStore li .storeLeft .storeLeftInfo span {
+  font-size: 14px;
+  color: gray;
+  line-height: 17px;
+}
+
+.searchResult .singleStore li .storeRight {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.searchResult .singleStore li .storeRightItem {
+  border-left: 1px solid #ccc;
+  padding-left: 20px;
+  padding-right: 5px;
+}
+
+.searchResult .singleStore li .storeRightItem h4 {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  color: #009D7A;
+}
+
+.searchResult .singleStore li .storeRightItem > span {
+  font-size: 14px;
+}
+
+.searchResult .searchStore .showStoreButtons {
   display: flex;
   align-items: center;
-  align-self: center;
   gap: 15px;
   justify-content: center;
 }
@@ -102,7 +152,6 @@
   align-items: center;
   justify-content: center;
   height: calc(100vh - 70px);
-  
 }
 
 @keyframes lds-ellipsis1 {
@@ -127,5 +176,11 @@
   }
   100% {
     transform: translate(24px, 0);
+  }
+}
+
+@media screen and (min-width: 1700px) {
+  .searchResultContainer {
+    width: 70%
   }
 }

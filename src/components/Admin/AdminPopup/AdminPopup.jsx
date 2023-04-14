@@ -118,7 +118,7 @@ const AdminPopup = ({
     };
   }, [popup]);
   return (
-    <div className={open ? "popup" : "popup hide"}>
+    <div className={open ? "popup open" : "popup"}>
       <div className="popupContainer" ref={popup}>
         <div className="deleteTitle">
           {popupType === "lockUser" && (

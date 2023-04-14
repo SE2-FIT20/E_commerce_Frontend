@@ -41,3 +41,7 @@
   cursor: pointer;
 }
 
+.addressRight > div:hover {
+  background-color: #00587c;
+}
+

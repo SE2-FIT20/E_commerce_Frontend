@@ -228,7 +228,7 @@
 }
 
 .chooseAddress,
-.chooseDeliveryPartner {
+.chooseDeliveryPartner, .confirmCheckout {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -243,12 +243,12 @@
 }
 
 .chooseAddress.open,
-.chooseDeliveryPartner.open {
+.chooseDeliveryPartner.open, .confirmCheckout.open {
   display: flex;
   animation: fade-in 0.2s ease-in-out forwards;
 }
 
-.chooseAddress.close .chooseDeliveryPartner.close {
+.chooseAddress.close .chooseDeliveryPartner.close, .confirmCheckout.close {
   animation: fade-out 0.2s ease-in-out forwards;
 }
 .chooseAddressContainer {
@@ -300,6 +300,10 @@
 .checkoutButton {
   padding: 15px 30px !important;
   font-weight: 600;
+}
+
+.checkoutButton:hover {
+  background-color: #00587c !important;
 }
 
 .chooseDeliveryPartnerContainer {
@@ -413,6 +417,62 @@
   font-weight: normal;
 }
 
+.confirmCheckoutContainer {
+  width: 500px;
+  height: 500px;
+  border-radius: 15px;
+  background-color: #fff;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.confirmCheckout .confirmTitle {
+  font-weight: 500;
+  font-size: 30px;
+  padding-bottom: 20px;
+}
+
+.confirmCheckout .confirmImage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.confirmCheckout .confirmImage img {
+  width: 100px;
+  height: 100px;
+
+}
+
+.confirmCheckout .confirmImage .confirmText {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+.confirmCheckout .confirmImage .confirmText h2 {
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.confirmCheckout button {
+  border-radius: 25px;
+  background-color: #0C1D26;
+  color: #fff;
+  font-weight: 500;
+  padding: 15px 25px !important;
+}
+
+.confirmCheckout button:hover {
+  background-color: #00587c;
+}
 @keyframes fade-in {
   from {
     opacity: 0;

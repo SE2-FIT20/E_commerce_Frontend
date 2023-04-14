@@ -170,7 +170,7 @@ const StoreLeftbar = () => {
                 handleChooseOption("All Products", setOption, history)
               }
             >
-              All Products
+              Update Store Information
             </li>
             <li
               className={option === "Add a Product" ? "chosenOption" : ""}
@@ -178,7 +178,7 @@ const StoreLeftbar = () => {
                 handleChooseOption("Add a Product", setOption, history)
               }
             >
-              Add a Product
+              Change Password
             </li>
           </ul>
         </div>

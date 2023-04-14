@@ -76,11 +76,11 @@
 
 .seeCartBtn {
   text-align: right;
-  padding: 0 10px 15px 0;
+  padding: 10px 10px 15px 0;
 }
 
 .seeCartBtn button {
-  border-radius: 0px !important;
+  border-radius: 12px !important;
   padding: 8px 15px !important;
 }
 

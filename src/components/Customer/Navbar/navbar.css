@@ -12,7 +12,7 @@
 }
 
 .navbarContainer {
-	width: 100%;
+	width: 80%;
 	display: flex;
   align-items: center;
 	gap: 15px;
@@ -22,7 +22,6 @@
 	flex: 3;
 	display: flex;
 	align-items: center;
-	padding-left: 25px;
 }
 
 .navbarLogo .logo {
@@ -41,7 +40,6 @@
 	align-items: center;
   gap: 30px;
   justify-content: flex-end;
-  padding-right: 50px;
 }
 
 .navbarMenu .navbarWishlist {
@@ -152,6 +150,22 @@
   cursor: pointer;
 }
 
+.navbar .cartBtn .cartBadge {
+  position: absolute;
+  top: -5px;
+  right: -15px;
+  width: 27px;
+  height: 19px;
+  border-radius: 50%;
+  background-color: #FBBB68;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 12px;
+  color: #0C1D26;
+}
+
 .navbar .cartBtn:hover .cartPreview {
   display: block;
 }
@@ -171,7 +185,6 @@
   }
 
   .navbarLogo {
-    padding-left: 10px;
     padding-top: 4px;
   }
 
@@ -190,5 +203,11 @@
 
   .navbarMenu > div > a{
     gap: 5px !important;
+  }
+}
+
+@media screen and (min-width: 1700px) {
+  .navbarContainer {
+    width: 70%;
   }
 }

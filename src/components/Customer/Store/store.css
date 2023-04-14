@@ -2,46 +2,127 @@
   width: 100%;
   height: calc(100vh - 70px);
   overflow-y: scroll;
-  background-color: #F5F5F5;
+  background-color: #fff;
 }
 
 .storeContainer {
-  padding: 20px;
+  margin: auto;
 }
 
 .store .storeInfo {
-  padding-bottom: 20px;
+  background-color: #fff;
+}
+
+.store .storeInfoContainer {
+  width: 80%;
+  display: flex;
 }
 
 .store .storeInfoLeft {
   display: flex;
   gap: 15px;
   align-items: center;
+  background-color: #f0f2f5;
+  padding: 15px;
+  border-radius: 15px;
+  flex: 1;
 }
 
 .store .storeInfoLeft img {
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.storeContainer .storeProducts {
+.store .storeInfoLeft .storeName {
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+}
 
+.store .storeInfoLeft .storeName h2 {
+  font-weight: 500;
+  font-size: 23px;
+}
+
+.store .storeInfoLeft .storeName span {
+  font-weight: normal;
+  font-size: 16px;
+}
+
+.store .storeInfoRight {
+  flex: 2;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  padding-left: 20px;
+}
+
+.store .storeInfoRightCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+}
+
+.store .storeInfoRightCol .storeInfoIcon {
+  width: 20px;
+}
+
+.store .storeInfoItem {
+  display: flex;
+  gap: 10px;
+}
+
+.store .storeInfoItem span {
+  font-weight: 500;
+}
+
+.store .storeInfoItem span > span {
+  color: #02a07d;
+}
+
+.store .storeDescription {
+  background-color: #fff;
+  width: 80%;
+  margin: auto;
+  padding: 0 15px;
+}
+
+.store .storeDescription h2 {
+  font-weight: 500;
+  font-size: 20px;
+  padding-bottom: 15px;
+}
+
+.store .storeDescriptionContainer {
+  background-color: #f0f2f5;
+  padding: 15px;
+  border-radius: 15px;
+}
+
+.storeContainer .storeProducts {
 }
 
 .storeContainer .storeProducts .filterSection {
-  background-color: #EDEDED;
+  background-color: #fff;
+}
+.storeContainer .storeProducts .filterSectionContainer {
+  width: 80%;
   display: flex;
   gap: 15px;
   padding: 20px;
   align-items: center;
+  margin: auto;
 }
 
-.storeContainer .storeProducts .filterSection > span {
+.storeContainer .storeProducts .filterSectionContainer > span {
   font-weight: 500;
   font-size: 20px;
 }
 
-.storeContainer .storeProducts .filterSection > ul {
+.storeContainer .storeProducts .filterSectionContainer > ul {
   display: flex;
   gap: 15px;
   align-items: center;
@@ -50,6 +131,8 @@
 .filterSection ul li {
   list-style: none;
   background-color: #fff;
+  border-radius: 8px;
+
   cursor: pointer;
 }
 .filterSection ul li button {
@@ -58,6 +141,11 @@
   align-items: center;
   gap: 10px;
   position: relative;
+}
+
+.filterSection ul li button:hover {
+  background-color: #f0f2f5;
+  border-radius: 8px;
 }
 
 .filterSection ul li button .filterOptions {
@@ -69,6 +157,7 @@
   width: 100%;
   border-radius: 0 0 15px 15px;
   border: 1px solid #ccc;
+
   overflow: hidden;
   transition: max-height 0.25s ease-in-out;
   z-index: 20;
@@ -84,7 +173,7 @@
 .filterSection ul li button .filterOptions li {
   cursor: pointer;
   width: 100%;
-  height: 30px
+  height: 30px;
 }
 .filterSection ul li button .filterOptions li:hover {
   background-color: #f0f2f5;
@@ -92,25 +181,41 @@
 
 .storeProductsDisplay {
   padding-top: 20px;
+  background-color: #f5f5f5;
 }
 
 .storeProductsDisplay ul {
-  width: 100%;
+  width: 80%;
   display: flex;
   gap: 15px;
   flex-wrap: wrap;
   justify-content: center;
+  padding-bottom: 25px;
 }
 .storeProducts .selected {
-  background-color: #0C1D26 !important;
+  background-color: #0c1d26 !important;
   color: #fff;
   font-weight: 500 !important;
+  border-radius: 8px;
 }
 
-@media screen and (min-width: 1500px) {
-  
-.storeProductsDisplay ul {
-  width: 80%;
-  margin: auto;
-}
+@media screen and (min-width: 1700px) {
+  .storeProductsDisplay ul {
+    margin: auto;
+  }
+
+  .store .storeDescription {
+    width: 70%;
+  }
+
+  .store .storeInfoContainer {
+    width: 70%;
+  }
+
+  .storeContainer .storeProducts .filterSectionContainer {
+    width: 70%;
+  }
+  .storeProductsDisplay ul {
+    width: 70%;
+  }
 }

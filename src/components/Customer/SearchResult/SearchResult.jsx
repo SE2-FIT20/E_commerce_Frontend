@@ -7,8 +7,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
   faChevronRight,
+  faShirt,
 } from "@fortawesome/free-solid-svg-icons";
 import NoResult from "../../../images/no-result-image.jpg";
+import StarRatings from "react-star-ratings";
+
 import axios from "axios";
 
 const SearchResult = () => {
@@ -25,14 +28,17 @@ const SearchResult = () => {
     setLoading(true);
     try {
       const response1 = await axios.get(
-        `${BACKEND_URL}/api/search-products?keyword=${keyword.replace(/\s/g, "")}&elementsPerPage=10&page=${pageNumber - 1}`
+        `${BACKEND_URL}/api/search-products?keyword=${keyword.replace(
+          /\s/g,
+          ""
+        )}&elementsPerPage=10&page=${pageNumber - 1}`
       );
       const response2 = await axios.get(
         `${BACKEND_URL}/api/search-stores?keyword=${keyword.replace(/\s/g, "")}`
       );
       setProductResults(response1.data.data.content);
       setStoreResults(response2.data.data.content);
-      setTotalPages(response1.data.data.totalPages)
+      setTotalPages(response1.data.data.totalPages);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -94,7 +100,6 @@ const SearchResult = () => {
       </li>
     );
 
-
   const handleClickPrev = () => {
     setPageNumber((prev) => (prev === 1 ? 1 : prev - 1));
   };
@@ -134,7 +139,7 @@ const SearchResult = () => {
             </div>
           )}
         {!loading && storeResults.length > 0 && (
-          <div className="store">
+          <div className="searchStore">
             <span>{`All stores related to "${keyword}"`}</span>
             <ul className="singleStore">
               {storeResults.slice(0, currentStoreShown).map((store) => (
@@ -144,7 +149,53 @@ const SearchResult = () => {
                 >
                   <div className="storeLeft">
                     <img src={store.avatar} alt="" />
-                    <h2>{store.name}</h2>
+                    <div className="storeLeftInfo">
+                      <h2>{store.name}</h2>
+                      <div>
+                        <StarRatings
+                          rating={5}
+                          starRatedColor="#ffd700"
+                          numberOfStars={5}
+                          name="rating"
+                          starDimension="15px"
+                          starSpacing="0px"
+                        />
+                        <span>Hanoi</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="storeRight">
+                    <div className="storeRightItem">
+                      <h4>
+                        <FontAwesomeIcon
+                          icon={faShirt}
+                          style={{ fontWeight: "thin" }}
+                        />
+                        <span>16</span>
+                      </h4>
+                      <span>Products</span>
+                    </div>
+                    <div className="storeRightItem">
+                      <h4>
+                        <FontAwesomeIcon icon={faShirt} />
+                        <span>16</span>
+                      </h4>
+                      <span>Products</span>
+                    </div>
+                    <div className="storeRightItem">
+                      <h4>
+                        <FontAwesomeIcon icon={faShirt} />
+                        <span>16</span>
+                      </h4>
+                      <span>Products</span>
+                    </div>
+                    <div className="storeRightItem">
+                      <h4>
+                        <FontAwesomeIcon icon={faShirt} />
+                        <span>16</span>
+                      </h4>
+                      <span>Products</span>
+                    </div>
                   </div>
                 </li>
               ))}
@@ -177,7 +228,7 @@ const SearchResult = () => {
             <span>{`All products related to "${keyword}"`}</span>
             <ul className="productResults">
               {productResults.map((product) => (
-                <SingleProduct product={product} />
+                <SingleProduct product={product} search={true} />
               ))}
             </ul>
             <div className="productNav">

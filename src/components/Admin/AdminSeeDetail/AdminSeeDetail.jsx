@@ -2,12 +2,29 @@ import React from "react";
 import "./adminSeeDetail.css";
 import { formatDate, formatNumber } from "../../longFunctions";
 import { useRef } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import StarRatings from "react-star-ratings";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronCircleLeft,
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
 
 const AdminSeeDetail = ({ user, product, open, setOpen }) => {
   const adminSeeDetailRef = useRef();
+  console.log(product);
+  const [imageIndex, setImageIndex] = useState(0);
 
+  const handleClickPrev = () => {
+    setImageIndex((prev) => (prev === 0 ? 0 : prev - 1));
+  };
+
+  const handleClickNext = () => {
+    setImageIndex((prev) =>
+      prev === product.images.length - 1 ? prev : prev + 1
+    );
+  };
   useEffect(() => {
     function handleClickOutside(event) {
       if (
@@ -47,22 +64,35 @@ const AdminSeeDetail = ({ user, product, open, setOpen }) => {
               </div>
               <div className="userPhone">
                 <h2>Phone: </h2>
-                <span>{user.name}</span>
+                <span>{user.additionData.phoneNumber}</span>
               </div>
               <div className="userCreatedAt">
                 <h2>Created at: </h2>
                 <span>{formatDate(user.createdAt)}</span>
               </div>
-              <div className="userAddress" style={{ alignItems: "flex-start" }}>
-                <h2>Addresses: </h2>
-                <span>
-                  <ul>
-                    <li>- 445 Au Co</li>
-                    <li>- 445 Au Co</li>
-                    <li>- 445 Au Co</li>
-                  </ul>
-                </span>
-              </div>
+              {user.role === "CUSTOMER" && (
+                <div
+                  className="userAddress"
+                  style={{ alignItems: "flex-start" }}
+                >
+                  <h2>Addresses: </h2>
+                  <span>
+                    <ul>
+                      {user.additionData.addresses.map((address, i) => (
+                        <li key={i}>{`- ${address}`}</li>
+                      ))}
+                    </ul>
+                  </span>
+                </div>
+              )}
+
+              {user.role === "CUSTOMER" && (
+                <div className="userOrderPurchased">
+                  <h2>Success Orders: </h2>
+                  <span>{user.additionData.numberOfOrders}</span>
+                </div>
+              )}
+
               <div className="userCreatedAt">
                 <h2>Locked: </h2>
                 <span>{user.locked ? "True" : "False"}</span>
@@ -76,7 +106,21 @@ const AdminSeeDetail = ({ user, product, open, setOpen }) => {
           <h2 className="userRole">{product.name}</h2>
           <div className="userTop">
             <div className="userLeft">
-              <img src={product.images[0]} alt="" className="productImage" />
+              <img
+                src={product.images[imageIndex]}
+                alt=""
+                className="productImage"
+              />
+              {imageIndex > 0 && (
+                <div className="prevButton" onClick={handleClickPrev}>
+                  <FontAwesomeIcon icon={faChevronLeft} />
+                </div>
+              )}
+              {imageIndex < product.images.length - 1 && (
+                <div className="nextButton" onClick={handleClickNext}>
+                  <FontAwesomeIcon icon={faChevronRight} />
+                </div>
+              )}
             </div>
             <div className="userRight">
               <div className="userId">
@@ -96,7 +140,9 @@ const AdminSeeDetail = ({ user, product, open, setOpen }) => {
               </div>
               <div className="userPhone">
                 <h2>Rating: </h2>
-                <span style={{ display: "flex", alignItems: "center"}}>
+                <span
+                  style={{ display: "flex", alignItems: "center", gap: "10px" }}
+                >
                   <StarRatings
                     rating={product.rating}
                     starRatedColor="#ffd700"
@@ -105,6 +151,7 @@ const AdminSeeDetail = ({ user, product, open, setOpen }) => {
                     starDimension="17px"
                     starSpacing="0px"
                   />
+                  <div>{`(${product.reviewNum})`}</div>
                 </span>
               </div>
               <div className="userPhone">

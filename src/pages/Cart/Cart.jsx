@@ -7,14 +7,23 @@ import { AuthContext } from "../../context/AuthContext";
 import { formatNumber } from "../../components/longFunctions";
 import "./cart.css";
 import EmptyCart from "../../images/cart-empty.webp";
+import { useRef } from "react";
+import { useToast } from "@chakra-ui/react";
 
 const Cart = () => {
   const { BACKEND_URL, config } = useContext(AuthContext);
   const [storeProducts, setStoreProducts] = useState([]);
-
+  const [openPopup, setOpenPopup] = useState(false);
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedProductQuantity, setSelectedProductQuantity] = useState(0);
   const history = useHistory();
+  const popup = useRef();
+  const toast = useToast();
+  console.log(total);
+  console.log(selectedProduct?.price);
+  console.log(selectedProductQuantity);
   const fetchCart = async () => {
     try {
       setLoading(true);
@@ -29,12 +38,49 @@ const Cart = () => {
       setLoading(false);
     }
   };
+  const handleConfirm = async (productId, productPrice, number) => {
+    try {
+      await axios.post(
+        `${BACKEND_URL}/api/customer/remove-from-cart`,
+        { productId },
+        config
+      );
+      toast({
+        title: "Remove product from cart successful",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setTotal((prev) => prev - productPrice * number);
+      window.location.reload();
+    } catch (error) {
+      toast({
+        title: "An error occurred removing product from cart",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  };
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (popup.current && !popup.current.contains(event.target)) {
+        setOpenPopup(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [popup]);
   useEffect(() => {
     fetchCart();
-    document.title = "Cart | BazaarBay "
+    document.title = "Cart | BazaarBay ";
   }, []);
-
-  useEffect(() => {}, []);
 
   return (
     <div
@@ -59,8 +105,16 @@ const Cart = () => {
               storeProducts.map((store) => (
                 <div className="cartStore" key={store.id}>
                   <div className="storeInfo">
-                    <img src={store.store.avatar} alt="" />
-                    <h2>{store.store.name}</h2>
+                    <img
+                      src={store.store.avatar}
+                      alt=""
+                      onClick={() => history.push(`/store/${store.store.id}`)}
+                    />
+                    <h2
+                      onClick={() => history.push(`/store/${store.store.id}`)}
+                    >
+                      {store.store.name}
+                    </h2>
                   </div>
                   <table>
                     <thead>
@@ -73,15 +127,21 @@ const Cart = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {store.items.map((product) => (
-                        <CartProduct
-                          product={product.product}
-                          productQuantity={product.quantity}
-                          key={product.id}
-                          fetchCart={fetchCart}
-                          setTotal={setTotal}
-                          // handleQuantityChange={handleQuantityChange}
-                        />
+                      {store.items.map((product, i) => (
+                        <>
+                          <CartProduct
+                            product={product.product}
+                            productQuantity={product.quantity}
+                            key={i}
+                            fetchCart={fetchCart}
+                            setTotal={setTotal}
+                            setOpenPopup={setOpenPopup}
+                            setSelectedProduct={setSelectedProduct}
+                            setSelectedProductQuantity={
+                              setSelectedProductQuantity
+                            }
+                          />
+                        </>
                       ))}
                     </tbody>
                   </table>
@@ -125,6 +185,30 @@ const Cart = () => {
           </div>
         </div>
       )}
+      <div className={openPopup ? "popup open" : "popup"}>
+        <div className="popupContainer" ref={popup}>
+          <div className="deleteTitle">
+            <span>{`Are you sure you want to remove product "${selectedProduct?.name}" from cart?`}</span>
+          </div>
+          <div className="deleteBtnContainer">
+            <button
+              className="button"
+              onClick={() =>
+                handleConfirm(
+                  selectedProduct.id,
+                  selectedProduct.price,
+                  selectedProductQuantity
+                )
+              }
+            >
+              Yes
+            </button>
+            <button className="button" onClick={() => setOpenPopup(false)}>
+              No
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -21,7 +21,7 @@ const UpdatePassword = () => {
               <input type="password" />
             </li>
           </ul>
-          <button>Save change</button>
+          <button className="button">Save change</button>
         </div>
       </div>
     </div>

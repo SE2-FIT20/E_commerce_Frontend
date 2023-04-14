@@ -434,24 +434,24 @@ const Storepage = () => {
                       </th>
                       <th style={{ flex: "1.2" }}>
                         <div className="container productButtons">
-                          <div className="productButtonContainer">
-                            <FontAwesomeIcon
-                              icon={faPen}
-                              onClick={() =>
-                                history.push(
-                                  `/store/product/update/${product.id}`
-                                )
-                              }
-                            />
+                          <div
+                            className="productButtonContainer"
+                            onClick={() =>
+                              history.push(
+                                `/store/product/update/${product.id}`
+                              )
+                            }
+                          >
+                            <FontAwesomeIcon icon={faPen} />
                           </div>
-                          <div className="productButtonContainer">
-                            <FontAwesomeIcon
-                              icon={faTrash}
-                              onClick={() => {
-                                setOpenConfirmDelete(true);
-                                setProductToDelete(product.id);
-                              }}
-                            />
+                          <div
+                            className="productButtonContainer"
+                            onClick={() => {
+                              setOpenConfirmDelete(true);
+                              setProductToDelete(product.id);
+                            }}
+                          >
+                            <FontAwesomeIcon icon={faTrash} />
                           </div>
                         </div>
                       </th>
@@ -490,7 +490,7 @@ const Storepage = () => {
           <div className="productNavContainer">
             <div className="productNavBtn">
               <div
-                className="prevButton"
+                className="productPrevButton"
                 onClick={() => handleClickPrev(setCurrentPage, totalPages)}
               >
                 <FontAwesomeIcon icon={faChevronLeft} />
@@ -499,7 +499,7 @@ const Storepage = () => {
                 totalPages !== 0 ? totalPages : 1
               }`}</span>
               <div
-                className="nextButton"
+                className="productNextButton"
                 onClick={() => handleClickNext(setCurrentPage, totalPages)}
               >
                 <FontAwesomeIcon icon={faChevronRight} />

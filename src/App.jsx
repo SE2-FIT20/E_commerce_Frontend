@@ -79,6 +79,7 @@ function App() {
           <Navbar
             fetchPreviewCart={fetchPreviewCart}
             cartProducts={cartProducts}
+            setCartProducts={setCartProducts}
           />
           <div className="appBody">
             <Route path="/" exact component={Homepage} />

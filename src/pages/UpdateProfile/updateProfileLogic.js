@@ -24,15 +24,21 @@ export const handleUpdateProfile = async (
     formData.append("upload_preset", "BazaarBay");
     formData.append("cloud_name", "dvvyj75uf");
     try {
-      const res = await axios.post("https://api.cloudinary.com/v1_1/dvvyj75uf/image/upload", formData);
+      const res = await axios.post(
+        "https://api.cloudinary.com/v1_1/dvvyj75uf/image/upload",
+        formData
+      );
       const newAvatar = res.data.url.toString();
-      await axios.put(`${BACKEND_URL}/api/customer/account`, {
-        ...userInfo,
-        phone: userInfo.phoneNumber,
-        avatar: newAvatar,
-      }, config);
-    } catch (error) {
-    }
+      await axios.put(
+        `${BACKEND_URL}/api/customer/account`,
+        {
+          ...userInfo,
+          phone: userInfo.phoneNumber,
+          avatar: newAvatar,
+        },
+        config
+      );
+    } catch (error) {}
     toast({
       title: "Update info with avatar successful",
       status: "success",
@@ -66,6 +72,84 @@ export const handleUpdateProfile = async (
         `${BACKEND_URL}/api/customer/account`,
         config
       );
+      setCurrentUser(data.data);
+    } catch (error) {
+      toast({
+        title: "An error occurred while trying to update profile",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  }
+};
+
+export const handleUpdateStore = async (
+  e,
+  storeInfo,
+  newAvatar,
+  setCurrentUser,
+  BACKEND_URL,
+  config,
+  toast
+) => {
+  e.preventDefault();
+  if (newAvatar) {
+    const formData = new FormData();
+    formData.append("file", newAvatar);
+    formData.append("upload_preset", "BazaarBay");
+    formData.append("cloud_name", "dvvyj75uf");
+    try {
+      const res = await axios.post(
+        "https://api.cloudinary.com/v1_1/dvvyj75uf/image/upload",
+        formData
+      );
+      const newAvatar = res.data.url.toString();
+      await axios.put(
+        `${BACKEND_URL}/api/store/account`,
+        {
+          ...storeInfo,
+          phone: storeInfo.phoneNumber,
+          avatar: newAvatar,
+        },
+        config
+      );
+    } catch (error) {}
+    toast({
+      title: "Update store with avatar successful",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+      position: "bottom",
+    });
+    const { data } = await axios.get(
+      `${BACKEND_URL}/api/store/account`,
+      config
+    );
+    setCurrentUser(data.data);
+  } else {
+    try {
+      await axios.put(
+        `${BACKEND_URL}/api/store/account`,
+        {
+          ...storeInfo,
+          phone: storeInfo.phoneNumber,
+        },
+        config
+      );
+      toast({
+        title: "Update store without avatar successful",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+      const { data } = await axios.get(
+        `${BACKEND_URL}/api/store/account`,
+        config
+      );
+      console.log(storeInfo)
       setCurrentUser(data.data);
     } catch (error) {
       toast({

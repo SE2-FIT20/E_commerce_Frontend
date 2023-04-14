@@ -1,6 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import {
+  faMinus,
+  faPlus,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { formatNumber } from "../../longFunctions";
 import "./cartProduct.css";
 import { AuthContext } from "../../../context/AuthContext";
@@ -8,7 +12,15 @@ import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 
-const CartProduct = ({ product, productQuantity, fetchCart, setTotal }) => {
+const CartProduct = ({
+  product,
+  productQuantity,
+  fetchCart,
+  setTotal,
+  setOpenPopup,
+  setSelectedProduct,
+  setSelectedProductQuantity,
+}) => {
   const { BACKEND_URL, config } = useContext(AuthContext);
   const [quantity, setQuantity] = useState(productQuantity);
   const toast = useToast();
@@ -22,7 +34,7 @@ const CartProduct = ({ product, productQuantity, fetchCart, setTotal }) => {
   };
 
   useEffect(() => {
-    setTotal((prev) => prev + (product.price * quantity));
+    setTotal((prev) => prev + product.price * quantity);
   }, []);
   const handleProductQuantity = async (productId, productPrice, number) => {
     if (quantity + number === 0) number = 0;
@@ -48,32 +60,6 @@ const CartProduct = ({ product, productQuantity, fetchCart, setTotal }) => {
       });
     }
   };
-  const handleRemoveProduct = async (productId, productPrice, number) => {
-    try {
-      await axios.post(
-        `${BACKEND_URL}/api/customer/remove-from-cart`,
-        { productId },
-        config
-      );
-      toast({
-        title: "Remove product from cart successful",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom",
-      });
-      setTotal((prev) => prev - productPrice * number);
-      fetchCart();
-    } catch (error) {
-      toast({
-        title: "An error occurred removing product from cart",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom",
-      });
-    }
-  };
 
   return (
     <tr>
@@ -83,7 +69,9 @@ const CartProduct = ({ product, productQuantity, fetchCart, setTotal }) => {
           alt=""
           onClick={() => history.push(`/product/${product.id}`)}
         />
-        <h2>{product.name}</h2>
+        <h2 onClick={() => history.push(`/product/${product.id}`)}>
+          {product.name}
+        </h2>
       </td>
       <td className="cartProductPrice">
         <span className="price-symbol">₫</span>
@@ -98,7 +86,7 @@ const CartProduct = ({ product, productQuantity, fetchCart, setTotal }) => {
               handleProductQuantity(product.id, product.price, -1);
             }}
           >
-            -
+            <FontAwesomeIcon icon={faMinus} />
           </div>
           <div className="quantity">{quantity < 1 ? 1 : quantity}</div>
           <div
@@ -108,7 +96,7 @@ const CartProduct = ({ product, productQuantity, fetchCart, setTotal }) => {
               handleProductQuantity(product.id, product.price, 1);
             }}
           >
-            +
+            <FontAwesomeIcon icon={faPlus} />
           </div>
         </div>
       </td>
@@ -116,11 +104,17 @@ const CartProduct = ({ product, productQuantity, fetchCart, setTotal }) => {
         <span className="price-symbol">₫</span>
         {formatNumber(product.price * quantity)}
       </td>
-      <td
-        className="cartProductDelete"
-        onClick={() => handleRemoveProduct(product.id, product.price, quantity)}
-      >
-        <FontAwesomeIcon icon={faTrash} />
+      <td className="cartProductDeleteContainer">
+        <div
+          className="cartProductDelete"
+          onClick={() => {
+            setOpenPopup(true);
+            setSelectedProduct(product);
+            setSelectedProductQuantity(productQuantity);
+          }}
+        >
+          <FontAwesomeIcon icon={faTrash} />
+        </div>
       </td>
     </tr>
   );

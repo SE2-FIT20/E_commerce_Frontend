@@ -49,13 +49,14 @@
 .productRight .productName {
   text-align: left;
   border-bottom: 1px solid #dee2e6;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
 }
 
 .productRight .productName h2 {
-  font-size: 23px;
+  font-size: 25px;
   font-weight: bolder;
   color: #1c1c1b;
+  padding-bottom: 8px;
 }
 
 .productRight .productName .productReviewInfo {
@@ -64,11 +65,26 @@
   align-items: center;
 }
 
-.productRight .productName .productReviewInfo .reviewCount {
-  font-weight: 500;
-  padding-left: 20px;
+.productRight .productName .productReviewInfo .productStar {
+  display: flex;
+  gap: 5px;
+}
+
+
+.productRight .productName .productReviewInfo .productStar .productRating {
+  font-size: 20px;
+  text-decoration: underline;
+}
+
+.productRight .productName .productReviewInfo .productStar .sold {
   border-left: 1px solid #ccc;
+  padding-left: 15px;
   font-size: 18px;
+}
+
+.productRight .productName .productReviewInfo .reviewCount {
+  font-size: 18px;
+  padding-right: 10px;
 }
 
 .productRight .productPrice {
@@ -76,10 +92,11 @@
   flex-direction: column;
   padding: 20px 0;
   border-bottom: 1px solid #dee2e6;
+  color: red;
 }
 
 .productRight .productPrice .price {
-  font-size: 24px;
+  font-size: 28px;
   line-height: 20px;
   margin-bottom: 10px;
 }
@@ -146,7 +163,6 @@
 .productRight .productDescription .productQuantity {
   display: flex;
   border: 1px solid #ccc;
-  width: 115px;
 }
 
 .productRight .productDescription .productQuantity:hover {
@@ -156,12 +172,16 @@
 .productRight .productDescription .productQuantity .minus,
 .plus {
   padding: 5px 10px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .productRight .productDescription .productQuantity .quantity {
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
-  padding: 5px 25px;
+  padding: 5px 23px;
 }
 
 .productRight .productDescription .productButtons {
@@ -202,14 +222,16 @@
   padding: 20px;
   gap: 15px;
   background-color: #fff;
+  border-radius: 8px;
+
 }
 
 .storeInfo .storeInfoContainer .storeLeft {
 }
 
 .storeInfo .storeInfoContainer .storeLeft img {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -220,23 +242,29 @@
   gap: 10px;
 }
 
+.storeInfo .storeInfoContainer .storeRight .storeName {
+  font-size: 17px;
+}
+
 .storeInfo .storeInfoContainer .storeRight .storeButtons {
   display: flex;
   gap: 10px;
 }
 
 .storeInfo .storeInfoContainer .storeRight .storeButtons button {
-  border: 1px solid black;
-  padding: 8px 12px;
+  padding: 12px 16px;
   display: flex;
-  gap: 5px;
-  border-radius: 15px;
+  gap: 7px;
+  border-radius: 12px;
   align-items: center;
+  background-color: #003140;
+  color: #fff;
+  font-weight: normal;
+  font-size: 15px;
 }
 
 .storeInfo .storeInfoContainer .storeRight .storeButtons button:hover {
-  background-color: #0C1D26;
-  color: #fff;
+  background-color: #00587c;
 }
 
 .storeName {
@@ -245,6 +273,7 @@
 
 .product .productDesc {
   padding: 20px 0;
+
 }
 
 .product .productDesc .descText {
@@ -257,6 +286,8 @@
   padding: 15px;
   margin-top: 15px;
   font-size: 16px;
+  border-radius: 8px;
+
 }
 
 .productDesc .productDescContainer span {
@@ -296,7 +327,7 @@
     transform: translateX(0);
   }
   to {
-    transform: translateX(50px);
+    transform: translateX(40px);
   }
 }
 

@@ -7,6 +7,7 @@
 .cartContainer {
   width: 80%;
   margin: auto;
+
 }
 
 .cartBody {
@@ -14,11 +15,13 @@
   flex-direction: column;
   gap: 30px;
   padding: 20px 0;
+
 }
 
 .cartBody .cartStore {
   background-color: #ffffff;
   padding: 20px;
+  border-radius: 8px;
 
 }
 
@@ -40,11 +43,13 @@ tbody {
 .cartBody .storeInfo img {
   border-radius: 50%;
   object-fit: cover;
+  cursor: pointer;
 }
 
 .cartBody .storeInfo h2 {
   font-size: 18px;
   font-weight: 500;
+  cursor: pointer;
 }
 .cartBody .cartProductTitle {
   width: 100%;

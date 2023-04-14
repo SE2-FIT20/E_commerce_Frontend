@@ -22,7 +22,7 @@ import {
 } from "./adminAllUsersLogic";
 import { StoreContext } from "../../../context/StoreContext";
 import AdminSeeDetail from "../AdminSeeDetail/AdminSeeDetail";
-import { formatDate } from "../../longFunctions";
+import { capitalize, formatDate } from "../../longFunctions";
 import AdminPopup from "../AdminPopup/AdminPopup";
 
 const AdminAllUsers = () => {
@@ -37,6 +37,7 @@ const AdminAllUsers = () => {
   const [openPopup, setOpenPopup] = useState(false);
   const [openFilterOptions, setOpenFilterOptions] = useState(false);
   const [openFilterOrder, setOpenFilterOrder] = useState(false);
+  const [openFilterStatus, setOpenFilterStatus] = useState(false);
   const [openAdminSeeDetail, setOpenAdminSeeDetail] = useState(false);
   const pageIndex = Math.floor(useHistory().location.search.split("=")[1]);
   const [currentPage, setCurrentPage] = useState(pageIndex);
@@ -45,18 +46,19 @@ const AdminAllUsers = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [filterOption, setFilterOption] = useState("id");
   const [filterOrder, setFilterOrder] = useState("asc");
+  const [filterStatus, setFilterStatus] = useState("all");
   const filterOptionRef = useRef();
   const filterOrderRef = useRef();
+  const filterStatusRef = useRef();
   const userPerPageOptionRef = useRef();
   const toast = useToast();
-
   const fetchUsers = async () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
         `${BACKEND_URL}/api/admin/manage-accounts?page=${
           currentPage - 1
-        }&elementsPerPage=${userPerPage}&role=${option.toUpperCase()}&sortBy=${filterOrder}&filter=${filterOption}&status=UNLOCKED`,
+        }&elementsPerPage=${userPerPage}&role=${option.toUpperCase()}&sortBy=${filterOrder}&filter=${filterOption}&status=${filterStatus.toUpperCase()}`,
         config
       );
       setUsers(data.data.content);
@@ -98,7 +100,14 @@ const AdminAllUsers = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, [userPerPage, currentPage, filterOption, filterOrder, option]);
+  }, [
+    userPerPage,
+    currentPage,
+    filterOption,
+    filterOrder,
+    filterStatus,
+    option,
+  ]);
 
   useEffect(() => {
     history.push(`/admin/users/${option}?pages=${currentPage}`);
@@ -123,13 +132,19 @@ const AdminAllUsers = () => {
       ) {
         setOpenUserPerPageOptions(false);
       }
+      if (
+        filterStatusRef.current &&
+        !filterStatusRef.current.contains(event.target)
+      ) {
+        setOpenFilterStatus(false);
+      }
     }
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [filterOptionRef, filterOrderRef, userPerPageOptionRef]);
+  }, [filterOptionRef, filterOrderRef, userPerPageOptionRef, filterStatusRef]);
 
   return (
     <div className="adminAllUsers">
@@ -212,6 +227,49 @@ const AdminAllUsers = () => {
                     className={filterOrder === "desc" ? "selected" : ""}
                   >
                     Z-A
+                  </li>
+                </ul>
+              </div>
+              <div
+                className="filterSelectItem"
+                style={{
+                  width: "100px",
+                }}
+                onClick={() => setOpenFilterStatus(!openFilterStatus)}
+                ref={filterStatusRef}
+              >
+                <span>{capitalize(filterStatus)}</span>
+                <FontAwesomeIcon
+                  icon={faChevronDown}
+                  className={
+                    openFilterStatus ? "openOption rotate" : "openOption"
+                  }
+                />
+                <ul
+                  className={
+                    openFilterStatus ? "filterOptions open" : "filterOptions"
+                  }
+                  style={{
+                    border: openFilterStatus ? "1px solid #ccc" : "none",
+                  }}
+                >
+                  <li
+                    onClick={() => setFilterStatus("all")}
+                    className={filterStatus === "all" ? "selected" : ""}
+                  >
+                    All
+                  </li>
+                  <li
+                    onClick={() => setFilterStatus("unlocked")}
+                    className={filterStatus === "unlocked" ? "selected" : ""}
+                  >
+                    Unlocked
+                  </li>
+                  <li
+                    onClick={() => setFilterStatus("locked")}
+                    className={filterStatus === "locked" ? "selected" : ""}
+                  >
+                    Locked
                   </li>
                 </ul>
               </div>
@@ -307,7 +365,7 @@ const AdminAllUsers = () => {
                   <th style={{ flex: "1.2" }}>Created At</th>
                   <th>Role</th>
                   <th>Locked</th>
-                  <th style={{ flex: "0.5"}}></th>
+                  <th style={{ flex: "0.5" }}></th>
                 </tr>
               </thead>
               <tbody>
@@ -388,7 +446,7 @@ const AdminAllUsers = () => {
                         {user.locked ? "True" : "False"}
                       </div>
                     </th>
-                    <th style={{ flex: "0.5"}}>
+                    <th style={{ flex: "0.5" }}>
                       <div className="container">
                         {user.locked ? (
                           <div

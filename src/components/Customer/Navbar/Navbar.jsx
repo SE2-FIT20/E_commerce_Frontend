@@ -1,19 +1,16 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./navbar.css";
-import { NavLink, Link, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
-import compare from "../../../images/compare.svg";
 import logo from "../../../images/image-removebg-preview.png";
-import wishlist from "../../../images/wishlist.svg";
 import user from "../../../images/user.svg";
 import cart from "../../../images/cart.svg";
-import menu from "../../../images/menu.svg";
 import { AuthContext } from "../../../context/AuthContext";
 import Search from "../Search/Search";
 import CartPreview from "../CartPreview/CartPreview";
 import axios from "axios";
 
-const Navbar = ({ fetchPreviewCart, cartProducts }) => {
+const Navbar = ({ fetchPreviewCart, cartProducts, setCartProducts }) => {
   const { currentUser, setCurrentUser, setRole, BACKEND_URL, config } =
     useContext(AuthContext);
   const [openSetting, setOpenSetting] = useState(false);
@@ -27,12 +24,19 @@ const Navbar = ({ fetchPreviewCart, cartProducts }) => {
   const handleLogout = () => {
     setCurrentUser(null);
     setRole("CUSTOMER");
-    if (history.location.pathname.startsWith("/cart") || history.location.pathname.startsWith("/checkout") || history.location.pathname.startsWith("/account")) {
+    if (
+      history.location.pathname.startsWith("/cart") ||
+      history.location.pathname.startsWith("/checkout") ||
+      history.location.pathname.startsWith("/account")
+    ) {
       history.push("/");
     } else {
       return;
     }
+    setCartProducts([]);
   };
+
+  console.log(cartProducts);
   const fetchSearchHistory = async () => {
     try {
       const { data } = await axios.get(
@@ -146,6 +150,10 @@ const Navbar = ({ fetchPreviewCart, cartProducts }) => {
                       : history.push("/login");
                   }}
                 />
+                {cartProducts.length > 0 && (
+                  <div className="cartBadge">{cartProducts.length}</div>
+                )}
+
                 <CartPreview
                   open={openCartPreview}
                   setOpen={setOpenCartPreview}
@@ -172,7 +180,7 @@ const Navbar = ({ fetchPreviewCart, cartProducts }) => {
                       className="option"
                       onClick={() => history.push("/account/profile")}
                     >
-                      My Account
+                      My Profile
                     </li>
                     <li
                       className="option"

@@ -5,6 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { formatNumber } from "../../components/longFunctions";
 import axios from "axios";
 import WarningIcon from "../../images/warning-icon.png";
+import ConfirmCheckout from "../../images/confirm-checkout.png";
 import BreadCrumb from "../../components/Customer/BreadCrumb/BreadCrumb";
 import "./checkout.css";
 import { useToast } from "@chakra-ui/react";
@@ -22,6 +23,7 @@ const Checkout = () => {
     useState(37);
   const [openProvideInfo, setOpenProvideInfo] = useState(false);
   const [openChooseAddress, setOpenChooseAddress] = useState(false);
+  const [openConfirmCheckout, setOpenConfirmCheckout] = useState(false);
   const [openChooseDeliveryPartner, setOpenChooseDeliveryPartner] =
     useState(false);
   const provideInfo = useRef();
@@ -68,7 +70,7 @@ const Checkout = () => {
           isClosable: true,
           position: "bottom",
         });
-        history.push("/");
+        setOpenConfirmCheckout(true);
       } catch (error) {
         toast({
           title: "An error occurred checking out",
@@ -86,7 +88,6 @@ const Checkout = () => {
     fetchDeliveryPartners();
     document.title = "Checkout | BazaarBay";
   }, []);
-  console.log(selectedAddress);
   useEffect(() => {
     function handleClickOutside(event) {
       if (
@@ -221,12 +222,11 @@ const Checkout = () => {
           <div className="deliveryPartner">
             <span className="deliveryHeading">Delivery Partner: </span>
             <span className="deliveryPartnerName">
-              {
-                deliveryPartners.length > 0 && deliveryPartners.filter(
+              {deliveryPartners.length > 0 &&
+                deliveryPartners.filter(
                   (deliveryPartner) =>
                     deliveryPartner.id === selectedDeliveryPartnerId
-                )[0].name
-              }
+                )[0].name}
             </span>
             <button
               className="button"
@@ -269,23 +269,6 @@ const Checkout = () => {
                     </tr>
                   </tbody>
                 </table>
-                {/* <div className="productPrice">
-                  <h2>Product price</h2>
-                  <span>
-                    <span className="price-symbol">₫</span>
-                    {formatNumber(subTotalPrice)}
-                  </span>
-                </div>
-                <div className="shipmentFee">
-                  <h2>Shipment fee</h2>
-                  <span>{formatNumber(50000)}</span>
-                </div>
-                <div className="totalPrice">
-                  <h2>Total price:</h2>
-                  <span style={{ fontSize: "25px" }}>
-                    {formatNumber(subTotalPrice + 50000)}
-                  </span>
-                </div> */}
                 <button className="checkoutButton" onClick={handleCheckout}>
                   Checkout
                 </button>
@@ -391,6 +374,20 @@ const Checkout = () => {
           >
             OK
           </button>
+        </div>
+      </div>
+      <div className={openConfirmCheckout ? "confirmCheckout open" : "confirmCheckout close"}>
+        <div className="confirmCheckoutContainer">
+          <h2 className="confirmTitle">Your order has been received</h2>
+          <div className="confirmImage">
+            <img src={ConfirmCheckout} alt="" />
+            <div className="confirmText">
+              <h2>{`Hey ${currentUser.name},`}</h2>
+              <span className="thankText">Thanks for your purchase!</span>
+              <span className="orderIDText">Your order ID is: 123456</span>
+            </div>
+          </div>
+          <button className="confirmButton">Continue Shopping</button>
         </div>
       </div>
     </div>

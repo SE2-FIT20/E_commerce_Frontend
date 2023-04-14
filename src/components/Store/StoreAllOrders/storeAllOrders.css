@@ -278,7 +278,7 @@
 
 .storeAllOrders table tbody tr .products .totalContainer {
   border-top: 1px solid #ccc;
-  margin: 0 100px;
+  margin: 0 70px;
   padding: 15px 0;
   gap: 15px;
   display: flex;
@@ -306,8 +306,14 @@
   margin-right: 150px;
 }
 
+.storeAllOrders table tbody tr .products .totalContainer .orderButtons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
 .storeAllOrders table tbody tr .products .totalContainer button {
-  width: 180px;
+  
   height: 50px;
 }
 

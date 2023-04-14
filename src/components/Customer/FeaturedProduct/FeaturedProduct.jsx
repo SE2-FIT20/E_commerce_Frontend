@@ -3,7 +3,6 @@ import React, { useState, useEffect, useContext, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import "./featuredProduct.css";
-import { formatNumber } from "../../longFunctions";
 import SingleProduct from "../SingleProduct/SingleProduct";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,10 +10,6 @@ import {
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { capitalize } from "../../longFunctions";
-import {
-  handleDisplayCategoryImage,
-  handleDisplayCategoryName,
-} from "../CategoryFilter/categoryFilterLogic";
 
 const FeaturedProduct = ({ category, setCategory }) => {
   const [loading, setLoading] = useState(false);
