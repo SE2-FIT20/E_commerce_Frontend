@@ -18,6 +18,7 @@ const UpdateProfile = () => {
     name: currentUser.name || "",
     phoneNumber: currentUser.phoneNumber || "",
     avatar: newAvatar || null,
+    email: currentUser.email
   });
   const [storeInfo, setStoreInfo] = useState({
     name: currentUser.name,

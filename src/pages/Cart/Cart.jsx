@@ -21,9 +21,6 @@ const Cart = () => {
   const history = useHistory();
   const popup = useRef();
   const toast = useToast();
-  console.log(total);
-  console.log(selectedProduct?.price);
-  console.log(selectedProductQuantity);
   const fetchCart = async () => {
     try {
       setLoading(true);
@@ -110,11 +107,14 @@ const Cart = () => {
                       alt=""
                       onClick={() => history.push(`/store/${store.store.id}`)}
                     />
-                    <h2
-                      onClick={() => history.push(`/store/${store.store.id}`)}
-                    >
-                      {store.store.name}
-                    </h2>
+                    <div>
+                      <h2
+                        onClick={() => history.push(`/store/${store.store.id}`)}
+                      >
+                        {store.store.name}
+                      </h2>
+                      <span>{store.store.city}</span>
+                    </div>
                   </div>
                   <table>
                     <thead>

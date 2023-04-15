@@ -157,7 +157,7 @@ const Store = () => {
                   <img src={store.avatar} alt="" />
                   <div className="storeName">
                     <h2>{store.name}</h2>
-                    <span>{store.email + "@gmail.com"}</span>
+                    <span>{store.email}</span>
                   </div>
                 </div>
                 <div className="storeInfoRight">
@@ -168,7 +168,7 @@ const Store = () => {
                         className="storeInfoIcon"
                       />
                       <span>
-                        Products: <span>{`16`}</span>
+                        Products: <span>{`${store.numberOfProducts}`}</span>
                       </span>
                     </div>
                     <div className="storeInfoItem">
@@ -177,7 +177,7 @@ const Store = () => {
                         className="storeInfoIcon"
                       />
                       <span>
-                        Address: <span>445 Au Co</span>
+                        Address: <span>{store.address}</span>
                       </span>
                     </div>
                     <div className="storeInfoItem">
@@ -186,7 +186,7 @@ const Store = () => {
                         className="storeInfoIcon"
                       />
                       <span>
-                        Phone: <span>0825134034</span>
+                        Phone: <span>{store.phoneNumber}</span>
                       </span>
                     </div>
                   </div>
@@ -197,7 +197,7 @@ const Store = () => {
                         className="storeInfoIcon"
                       />
                       <span>
-                        Rating: <span>5.0</span>
+                        Rating: <span>{store.averageProductRating}</span>
                       </span>
                     </div>
                     <div className="storeInfoItem">

@@ -9,6 +9,7 @@
   width: 80%;
   margin: auto;
   background-color: #ffffff;
+  border-radius: 8px;
 }
 
 .updateAddressTitle {
@@ -100,6 +101,10 @@
   flex-direction: column;
   gap: 5px;
   width: 100%;
+}
+
+.updateAddressBody ul > div {
+  padding-top: 15px;
 }
 
 

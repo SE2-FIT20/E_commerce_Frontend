@@ -6,8 +6,6 @@ import { AuthContext } from "../../../context/AuthContext";
 import { handleDisplayCategoryImage } from "../../Customer/CategoryFilter/categoryFilterLogic";
 import { capitalize } from "../../longFunctions";
 import { useRef } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const ChooseCategory = ({ open, setOpen, setProduct }) => {
   const { BACKEND_URL } = useContext(AuthContext);

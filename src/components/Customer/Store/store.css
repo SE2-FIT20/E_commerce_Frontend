@@ -49,6 +49,7 @@
 .store .storeInfoLeft .storeName span {
   font-weight: normal;
   font-size: 16px;
+  width: fit-content;
 }
 
 .store .storeInfoRight {
@@ -191,6 +192,7 @@
   flex-wrap: wrap;
   justify-content: center;
   padding-bottom: 25px;
+  margin: auto;
 }
 .storeProducts .selected {
   background-color: #0c1d26 !important;

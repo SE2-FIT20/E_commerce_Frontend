@@ -45,6 +45,7 @@ const SearchResult = () => {
     }
   };
 
+  console.log(storeResults);
   const pageNumberList = [];
   pageNumberList.push(
     <li
@@ -153,14 +154,14 @@ const SearchResult = () => {
                       <h2>{store.name}</h2>
                       <div>
                         <StarRatings
-                          rating={5}
+                          rating={store.averageProductRating}
                           starRatedColor="#ffd700"
                           numberOfStars={5}
                           name="rating"
                           starDimension="15px"
                           starSpacing="0px"
                         />
-                        <span>Hanoi</span>
+                        <span>{store.city}</span>
                       </div>
                     </div>
                   </div>
@@ -171,7 +172,7 @@ const SearchResult = () => {
                           icon={faShirt}
                           style={{ fontWeight: "thin" }}
                         />
-                        <span>16</span>
+                        <span>{`${store.numberOfProducts}`}</span>
                       </h4>
                       <span>Products</span>
                     </div>

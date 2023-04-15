@@ -13,7 +13,6 @@ import {
 
 const AdminSeeDetail = ({ user, product, open, setOpen }) => {
   const adminSeeDetailRef = useRef();
-  console.log(product);
   const [imageIndex, setImageIndex] = useState(0);
 
   const handleClickPrev = () => {
@@ -64,7 +63,7 @@ const AdminSeeDetail = ({ user, product, open, setOpen }) => {
               </div>
               <div className="userPhone">
                 <h2>Phone: </h2>
-                <span>{user.additionData.phoneNumber}</span>
+                <span>{user.additionalData.phoneNumber}</span>
               </div>
               <div className="userCreatedAt">
                 <h2>Created at: </h2>
@@ -78,7 +77,7 @@ const AdminSeeDetail = ({ user, product, open, setOpen }) => {
                   <h2>Addresses: </h2>
                   <span>
                     <ul>
-                      {user.additionData.addresses.map((address, i) => (
+                      {user.additionalData.addresses.map((address, i) => (
                         <li key={i}>{`- ${address}`}</li>
                       ))}
                     </ul>
@@ -89,8 +88,26 @@ const AdminSeeDetail = ({ user, product, open, setOpen }) => {
               {user.role === "CUSTOMER" && (
                 <div className="userOrderPurchased">
                   <h2>Success Orders: </h2>
-                  <span>{user.additionData.numberOfOrders}</span>
+                  <span>{user.additionalData.numberOfOrders}</span>
                 </div>
+              )}
+              {user.role === "STORE" && (
+                <>
+                  <div className="userOrderPurchased">
+                    <h2>City: </h2>
+                    <span>{user.additionalData.city}</span>
+                  </div>
+                  <div className="userOrderPurchased">
+                    <h2>Products: </h2>
+                    <span>
+                      {user.additionalData.numberOfProductsInInventory}
+                    </span>
+                  </div>
+                  <div className="userOrderPurchased">
+                    <h2>Total Selling: </h2>
+                    <span>{user.additionalData.numberOfProductsSold}</span>
+                  </div>
+                </>
               )}
 
               <div className="userCreatedAt">

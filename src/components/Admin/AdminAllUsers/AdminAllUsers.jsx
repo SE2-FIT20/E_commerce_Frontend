@@ -52,6 +52,7 @@ const AdminAllUsers = () => {
   const filterStatusRef = useRef();
   const userPerPageOptionRef = useRef();
   const toast = useToast();
+  console.log(users);
   const fetchUsers = async () => {
     try {
       setLoading(true);
@@ -358,9 +359,10 @@ const AdminAllUsers = () => {
                   <th
                     style={{
                       flex: "2",
+                      justifyContent: "flex-start",
                     }}
                   >
-                    Addresses
+                    <span style={{ paddingLeft: "15px" }}> Address</span>
                   </th>
                   <th style={{ flex: "1.2" }}>Created At</th>
                   <th>Role</th>
@@ -419,9 +421,15 @@ const AdminAllUsers = () => {
                       }}
                       onClick={() => handleSeeDetail(user)}
                     >
-                      <div className="container">
-                        {user.addresses?.length > 0
-                          ? user.addresses[0]
+                      <div
+                        className="container"
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-start",
+                        }}
+                      >
+                        {user.additionalData.addresses?.length > 0
+                          ? user.additionalData.addresses[0]
                           : "No address"}
                       </div>
                     </th>

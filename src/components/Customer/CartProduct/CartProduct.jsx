@@ -1,10 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faMinus,
-  faPlus,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
+import { faMinus, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { formatNumber } from "../../longFunctions";
 import "./cartProduct.css";
 import { AuthContext } from "../../../context/AuthContext";
@@ -25,13 +21,6 @@ const CartProduct = ({
   const [quantity, setQuantity] = useState(productQuantity);
   const toast = useToast();
   const history = useHistory();
-  const handleClickPlus = () => {
-    setQuantity((prev) => prev + 1);
-  };
-
-  const handleClickMinus = () => {
-    setQuantity((prev) => (prev === 1 ? 1 : prev - 1));
-  };
 
   useEffect(() => {
     setTotal((prev) => prev + product.price * quantity);
@@ -61,6 +50,36 @@ const CartProduct = ({
     }
   };
 
+  const handleClickPlus = () => {
+    setQuantity((prev) => {
+      if (prev === product.quantity) {
+        toast({
+          title: "You have reached the limit number of this product",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "bottom",
+        });
+        return prev;
+      } else {
+        handleProductQuantity(product.id, product.price, 1);
+
+        return prev + 1;
+      }
+    });
+  };
+
+  const handleClickMinus = () => {
+    setQuantity((prev) => {
+      if (prev === 1) {
+        return 1;
+      } else {
+        handleProductQuantity(product.id, product.price, -1);
+        return prev - 1;
+      }
+    });
+  };
+
   return (
     <tr>
       <td className="cartProductName">
@@ -83,7 +102,6 @@ const CartProduct = ({
             className="minus"
             onClick={() => {
               handleClickMinus(-1);
-              handleProductQuantity(product.id, product.price, -1);
             }}
           >
             <FontAwesomeIcon icon={faMinus} />
@@ -93,7 +111,6 @@ const CartProduct = ({
             className="plus"
             onClick={() => {
               handleClickPlus(1);
-              handleProductQuantity(product.id, product.price, 1);
             }}
           >
             <FontAwesomeIcon icon={faPlus} />

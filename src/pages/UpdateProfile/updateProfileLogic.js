@@ -110,7 +110,7 @@ export const handleUpdateStore = async (
         `${BACKEND_URL}/api/store/account`,
         {
           ...storeInfo,
-          phone: storeInfo.phoneNumber,
+          phoneNumber: storeInfo.phoneNumber,
           avatar: newAvatar,
         },
         config
@@ -134,7 +134,7 @@ export const handleUpdateStore = async (
         `${BACKEND_URL}/api/store/account`,
         {
           ...storeInfo,
-          phone: storeInfo.phoneNumber,
+          phoneNumber: storeInfo.phoneNumber,
         },
         config
       );

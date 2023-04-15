@@ -145,7 +145,7 @@ const AddProduct = () => {
                       image={image}
                       product={product}
                       setProduct={setProduct}
-                      index={i}
+                      key={i}
                     />
                   ))}
                   <label htmlFor="file">

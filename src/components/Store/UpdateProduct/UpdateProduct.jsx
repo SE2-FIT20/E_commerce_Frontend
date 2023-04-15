@@ -167,7 +167,6 @@ const UpdateProduct = () => {
                       value={product.description}
                       onChange={handleChange}
                       id="description"
-
                     /> */}
 
                     <span className="textareaCharacter">{`${product.description.length}/10000`}</span>

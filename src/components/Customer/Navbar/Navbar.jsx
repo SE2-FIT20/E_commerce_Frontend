@@ -24,6 +24,8 @@ const Navbar = ({ fetchPreviewCart, cartProducts, setCartProducts }) => {
   const handleLogout = () => {
     setCurrentUser(null);
     setRole("CUSTOMER");
+    setCartProducts([]);
+
     if (
       history.location.pathname.startsWith("/cart") ||
       history.location.pathname.startsWith("/checkout") ||
@@ -33,10 +35,8 @@ const Navbar = ({ fetchPreviewCart, cartProducts, setCartProducts }) => {
     } else {
       return;
     }
-    setCartProducts([]);
   };
 
-  console.log(cartProducts);
   const fetchSearchHistory = async () => {
     try {
       const { data } = await axios.get(
