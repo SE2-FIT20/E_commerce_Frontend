@@ -93,22 +93,26 @@ const OtherProducts = ({ product }) => {
               .filter((p) => p.id !== product.id)
               .filter((p) => p.quantity !== 0)
               .map((product) => (
-                <SingleProduct product={product} key={product.id}/>
+                <SingleProduct product={product} key={product.id} />
               ))}
           </ul>
         </div>
-        <div
-          className="otherProductPrevBtn"
-          onClick={() => handleClickPrev("storeOtherProducts")}
-        >
-          <FontAwesomeIcon icon={faChevronLeft} />
-        </div>
-        <div
-          className="otherProductNextBtn"
-          onClick={() => handleClickNext("storeOtherProducts")}
-        >
-          <FontAwesomeIcon icon={faChevronRight} />
-        </div>
+        {position1 > 0 && (
+          <div
+            className="otherProductPrevBtn"
+            onClick={() => handleClickPrev("storeOtherProducts")}
+          >
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </div>
+        )}
+        {position1 < maxWidth1 && (
+          <div
+            className="otherProductNextBtn"
+            onClick={() => handleClickNext("storeOtherProducts")}
+          >
+            <FontAwesomeIcon icon={faChevronRight} />
+          </div>
+        )}
       </div>
       <div className="storeOtherProduct">
         <div className="otherProductText">Related Products</div>
@@ -124,22 +128,26 @@ const OtherProducts = ({ product }) => {
               .filter((p) => p.quantity !== 0)
 
               .map((product) => (
-                <SingleProduct product={product} key={product.id}/>
+                <SingleProduct product={product} key={product.id} />
               ))}
           </ul>
         </div>
-        <div
-          className="otherProductPrevBtn"
-          onClick={() => handleClickPrev("relatedProducts")}
-        >
-          <FontAwesomeIcon icon={faChevronLeft} />
-        </div>
-        <div
-          className="otherProductNextBtn"
-          onClick={() => handleClickNext("relatedProducts")}
-        >
-          <FontAwesomeIcon icon={faChevronRight} />
-        </div>
+        {position2 > 0 && (
+          <div
+            className="otherProductPrevBtn"
+            onClick={() => handleClickPrev("relatedProducts")}
+          >
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </div>
+        )}
+        {position2 < maxWidth2 && (
+          <div
+            className="otherProductNextBtn"
+            onClick={() => handleClickNext("relatedProducts")}
+          >
+            <FontAwesomeIcon icon={faChevronRight} />
+          </div>
+        )}
       </div>
     </div>
   );

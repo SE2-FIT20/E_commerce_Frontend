@@ -114,6 +114,13 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
               onClick={() => setOpenImage(true)}
             >
               <img src={currentImage} alt="" />
+              {product.quantity === 0 && (
+                <div className="soldoutImage">
+                  <div className="soldoutImageContainer">
+                    <span>Out Of Stock</span>
+                  </div>
+                </div>
+              )}
             </div>
             <div className="productOtherImages">
               {product.images
@@ -190,47 +197,66 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
                   <tr>
                     <th className="productHeading">Quantity </th>
                     <th className="productContent">
-                      <div className="productQuantity">
+                      <div
+                        className="productQuantity"
+                        style={{
+                          cursor: product.quantity === 0 && "not-allowed",
+                        }}
+                      >
                         <div
                           className="minus"
-                          onClick={() => handleClickMinus()}
+                          onClick={() =>
+                            product.quantity > 0 ? handleClickMinus() : null
+                          }
                         >
                           <FontAwesomeIcon icon={faMinus} />
                         </div>
-                        <div className="quantity">{quantity}</div>
-                        <div className="plus" onClick={() => handleClickPlus()}>
+                        <div className="quantity">
+                          {product.quantity > 0 ? quantity : 0}
+                        </div>
+                        <div
+                          className="plus"
+                          onClick={() =>
+                            product.quantity > 0 ? handleClickPlus() : null
+                          }
+                        >
                           <FontAwesomeIcon icon={faPlus} />
                         </div>
                       </div>
+                      {product.quantity === 0 && (
+                        <span className="soldoutText">Out of stock</span>
+                      )}
                     </th>
                   </tr>
-                  <tr>
-                    <th className="productHeading"></th>
-                    <th className="productContent productButtons">
-                      <button
-                        className="addToCartBtn"
-                        onClick={() => {
-                          currentUser
-                            ? handleAddToCart(product.id)
-                            : history.push("/login");
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faCartPlus} />
-                        <span>Add to cart</span>
-                      </button>
-                      <button className="buyNowBtn">
-                        <span>Buy Now</span>
-                        <FontAwesomeIcon
-                          icon={faArrowRight}
-                          className="alternativeBuyNowIcon"
-                        />
-                        <FontAwesomeIcon
-                          icon={faArrowRight}
-                          className="buyNowIcon"
-                        />
-                      </button>
-                    </th>
-                  </tr>
+                  {product.quantity > 0 && (
+                    <tr>
+                      <th className="productHeading"></th>
+                      <th className="productContent productButtons">
+                        <button
+                          className="addToCartBtn"
+                          onClick={() => {
+                            currentUser
+                              ? handleAddToCart(product.id)
+                              : history.push("/login");
+                          }}
+                        >
+                          <FontAwesomeIcon icon={faCartPlus} />
+                          <span>Add to cart</span>
+                        </button>
+                        <button className="buyNowBtn">
+                          <span>Buy Now</span>
+                          <FontAwesomeIcon
+                            icon={faArrowRight}
+                            className="alternativeBuyNowIcon"
+                          />
+                          <FontAwesomeIcon
+                            icon={faArrowRight}
+                            className="buyNowIcon"
+                          />
+                        </button>
+                      </th>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>

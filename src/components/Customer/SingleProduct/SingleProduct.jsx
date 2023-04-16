@@ -22,6 +22,13 @@ const SingleProduct = ({ product, search }) => {
           alt="singleProduct"
           className="singleProductImage"
         />
+        {product.quantity === 0 && (
+          <div className="soldoutImage">
+            <div className="soldoutImageContainer">
+              <span>Out Of Stock</span>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="singleProductInfo">
@@ -42,7 +49,10 @@ const SingleProduct = ({ product, search }) => {
           </span>
         )}
         {search && <span className="singleProductCity">Ha Noi</span>}
-        <div className="singleProductRating" style={{ bottom: search ? "30px" : "0"}}>
+        <div
+          className="singleProductRating"
+          style={{ bottom: search ? "30px" : "0" }}
+        >
           <div className="singleProductStar">
             <StarRatings
               rating={product.rating}

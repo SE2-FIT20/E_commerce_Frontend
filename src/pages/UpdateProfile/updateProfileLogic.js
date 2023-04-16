@@ -51,6 +51,8 @@ export const handleUpdateProfile = async (
       config
     );
     setCurrentUser(data.data);
+    window.location.reload();
+
   } else {
     try {
       await axios.put(
@@ -73,6 +75,8 @@ export const handleUpdateProfile = async (
         config
       );
       setCurrentUser(data.data);
+      window.location.reload();
+
     } catch (error) {
       toast({
         title: "An error occurred while trying to update profile",
@@ -128,6 +132,7 @@ export const handleUpdateStore = async (
       config
     );
     setCurrentUser(data.data);
+    window.location.reload();
   } else {
     try {
       await axios.put(
@@ -151,6 +156,8 @@ export const handleUpdateStore = async (
       );
       console.log(storeInfo)
       setCurrentUser(data.data);
+      window.location.reload();
+
     } catch (error) {
       toast({
         title: "An error occurred while trying to update profile",

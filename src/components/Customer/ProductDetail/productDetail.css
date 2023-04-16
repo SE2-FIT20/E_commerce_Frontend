@@ -24,6 +24,7 @@
   min-height: 350px;
   max-height: 350px;
   cursor: pointer;
+  position: relative;
 }
 
 .productLeft .productLeftContainer .productCurrentImage img {
@@ -34,6 +35,31 @@
   max-height: 350px;
 
   object-fit: contain;
+}
+
+.productLeft .productLeftContainer .productCurrentImage .soldoutImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.productLeft .productLeftContainer .productCurrentImage .soldoutImageContainer {
+  width: 150px;
+  height: 150px;
+  background: rgba(0, 0, 0, 0.4);
+
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 500;
+  font-size: 22px;
 }
 
 .productBody .productRight {
@@ -134,8 +160,14 @@
   flex: 2.5;
   font-weight: normal;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  gap: 20px;
   font-size: 14px;
+}
+
+.productRight .productDescription tbody tr .productContent .soldoutText {
+  font-size: 15px;
+  font-weight: 500;
 }
 
 .productRight .productDescription ul li {

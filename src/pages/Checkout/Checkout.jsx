@@ -18,9 +18,10 @@ const Checkout = () => {
   const [address, setAddress] = useState(
     currentUser.addresses[currentUser.addresses.length - 1]
   );
+  const [loading, setLoading] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(address);
-  const [selectedDeliveryPartnerId, setSelectedDeliveryPartnerId] =
-    useState(37);
+  const [selectedDeliveryPartnerId, setSelectedDeliveryPartnerId] = useState(0);
+  const [shippingFee, setShippingFee] = useState(0);
   const [openProvideInfo, setOpenProvideInfo] = useState(false);
   const [openChooseAddress, setOpenChooseAddress] = useState(false);
   const [openConfirmCheckout, setOpenConfirmCheckout] = useState(false);
@@ -50,19 +51,26 @@ const Checkout = () => {
     try {
       const { data } = await axios.get(`${BACKEND_URL}/api/delivery-partners`);
       setDeliveryPartners(data.data.content);
+      setSelectedDeliveryPartnerId(8);
     } catch (error) {}
   };
-
+  console.log(selectedDeliveryPartnerId);
+  console.log(selectedAddress);
   const handleCheckout = async () => {
     if (currentUser.addresses.length === 0 || !currentUser.phoneNumber) {
       setOpenProvideInfo(true);
       return;
     } else {
+      setLoading(true);
       try {
-        await axios.post(`${BACKEND_URL}/api/customer/checkout`, {
-          deliveryPartnerId: selectedDeliveryPartnerId,
-          destinationAddress: selectedAddress
-        }, config);
+        await axios.post(
+          `${BACKEND_URL}/api/customer/checkout`,
+          {
+            deliveryPartnerId: selectedDeliveryPartnerId,
+            destinationAddress: selectedAddress,
+          },
+          config
+        );
         toast({
           title: "Checkout successful",
           status: "success",
@@ -70,6 +78,7 @@ const Checkout = () => {
           isClosable: true,
           position: "bottom",
         });
+        setLoading(false);
         setOpenConfirmCheckout(true);
       } catch (error) {
         toast({
@@ -79,6 +88,7 @@ const Checkout = () => {
           isClosable: true,
           position: "bottom",
         });
+        setLoading(false);
       }
     }
   };
@@ -88,6 +98,16 @@ const Checkout = () => {
     fetchDeliveryPartners();
     document.title = "Checkout | BazaarBay";
   }, []);
+
+  useEffect(() => {
+    if (deliveryPartners.length > 0) {
+      setShippingFee(
+        deliveryPartners.filter(
+          (deliveryPartner) => deliveryPartner.id === selectedDeliveryPartnerId
+        )[0].shippingFee
+      );
+    }
+  }, [selectedDeliveryPartnerId]);
   useEffect(() => {
     function handleClickOutside(event) {
       if (
@@ -257,20 +277,31 @@ const Checkout = () => {
                       <td className="priceHeading">Shipment Fee</td>
                       <td className="price">
                         <span className="price-symbol">₫</span>
-                        {formatNumber(50000)}
+                        {formatNumber(shippingFee)}
                       </td>
                     </tr>
                     <tr>
                       <td className="priceHeading">Total Price:</td>
                       <td className="price totalPrice">
                         <span className="price-symbol">₫</span>
-                        {formatNumber(subTotalPrice + 50000)}
+                        {formatNumber(subTotalPrice + shippingFee)}
                       </td>
                     </tr>
                   </tbody>
                 </table>
-                <button className="checkoutButton" onClick={handleCheckout}>
-                  Checkout
+                <button className="checkoutButton" onClick={handleCheckout} style={{ padding: loading ? "15px 55px 15px 63px" : "15px 40px"}}>
+                  {loading ? (
+                    <div className="loginLoading">
+                      <div class="lds-ring">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                    </div>
+                  ) : (
+                    "Checkout"
+                  )}
                 </button>
               </div>
             </div>
@@ -376,7 +407,11 @@ const Checkout = () => {
           </button>
         </div>
       </div>
-      <div className={openConfirmCheckout ? "confirmCheckout open" : "confirmCheckout close"}>
+      <div
+        className={
+          openConfirmCheckout ? "confirmCheckout open" : "confirmCheckout close"
+        }
+      >
         <div className="confirmCheckoutContainer">
           <h2 className="confirmTitle">Your order has been received</h2>
           <div className="confirmImage">

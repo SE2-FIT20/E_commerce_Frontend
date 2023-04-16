@@ -1,7 +1,7 @@
 import { useToast } from "@chakra-ui/react";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import AddProductImage from "../AddProductImage/AddProductImage";
@@ -19,6 +19,22 @@ const AddProduct = () => {
     description: "",
     images: [],
   });
+
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      event.preventDefault();
+
+      event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+  const [loading, setLoading] = useState(false);
+
   const [openChooseCategory, setOpenChooseCategory] = useState(false);
   const toast = useToast();
   const history = useHistory();
@@ -26,7 +42,6 @@ const AddProduct = () => {
   const handleChange = (e) => {
     setProduct((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
-
 
   return (
     <div className="addProduct">
@@ -83,7 +98,6 @@ const AddProduct = () => {
                       type="text"
                       placeholder="Choose product category"
                       id="category"
-                      
                       value={product.category}
                       onClick={() => setOpenChooseCategory(true)}
                     />
@@ -146,6 +160,7 @@ const AddProduct = () => {
                       product={product}
                       setProduct={setProduct}
                       key={i}
+                      addImage={true}
                     />
                   ))}
                   <label htmlFor="file">
@@ -183,20 +198,37 @@ const AddProduct = () => {
                     alignItems: "flex-start",
                   }}
                 ></td>
-                <td style={{ justifySelf: "flex-start" }}>
+                <td
+                  style={{
+                    justifySelf: "flex-start",
+                  }}
+                >
                   <button
                     className="addBtn"
+                    style={{ padding: loading ? "11px 70px" : "13px 40px" }}
                     onClick={() =>
                       handleAddProduct(
                         product,
                         BACKEND_URL,
                         config,
+                        setLoading,
                         toast,
                         history
                       )
                     }
                   >
-                    Add Product
+                    {loading ? (
+                      <div className="loginLoading">
+                        <div class="lds-ring">
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                        </div>
+                      </div>
+                    ) : (
+                      "Add Product"
+                    )}
                   </button>
                 </td>
               </tr>

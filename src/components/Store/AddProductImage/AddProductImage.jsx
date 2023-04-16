@@ -10,6 +10,7 @@ const AddProductImage = ({
   setProduct,
   index,
   productImage,
+  addImage,
 }) => {
   const [openDeleteImg, setOpenDeleteImg] = useState(false);
   return (
@@ -19,9 +20,7 @@ const AddProductImage = ({
       onMouseLeave={() => setOpenDeleteImg(false)}
       key={index}
     >
-      {productImage && (
-        <img src={image} alt="" className="productImg" />
-      )}
+      {productImage && <img src={image} alt="" className="productImg" />}
       {!productImage && (
         <img src={URL.createObjectURL(image)} alt="" className="productImg" />
       )}
@@ -38,13 +37,26 @@ const AddProductImage = ({
           <FontAwesomeIcon icon={faTrash} className="deleteIcon" />
         </div>
       )}
-      {!productImage && openDeleteImg && (
+      {!productImage && openDeleteImg && !addImage && (
         <div
           className="deleteImgContainer"
           onClick={() =>
             setProduct((prev) => ({
               ...prev,
               newImages: product.newImages.filter((img) => img !== image),
+            }))
+          }
+        >
+          <FontAwesomeIcon icon={faTrash} className="deleteIcon" />
+        </div>
+      )}
+      {addImage && (
+        <div
+          className="deleteImgContainer"
+          onClick={() =>
+            setProduct((prev) => ({
+              ...prev,
+              images: product.images.filter((img) => img !== image),
             }))
           }
         >
