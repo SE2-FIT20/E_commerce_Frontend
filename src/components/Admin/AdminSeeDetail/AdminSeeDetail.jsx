@@ -30,6 +30,7 @@ const AdminSeeDetail = ({ user, product, open, setOpen }) => {
         adminSeeDetailRef.current &&
         !adminSeeDetailRef.current.contains(event.target)
       ) {
+        setImageIndex(0);
         setOpen(false);
       }
     }
@@ -43,7 +44,7 @@ const AdminSeeDetail = ({ user, product, open, setOpen }) => {
     <div className={open ? "adminSeeDetail" : "adminSeeDetail hide"}>
       {user && (
         <div className="adminSeeDetailContainer" ref={adminSeeDetailRef}>
-          <h2 className="userRole">{user.role}</h2>
+          <h2 className="userRole">{user.role.replaceAll("_", " ")}</h2>
           <div className="userTop">
             <div className="userLeft">
               <img src={user.avatar} alt="" />
@@ -61,10 +62,18 @@ const AdminSeeDetail = ({ user, product, open, setOpen }) => {
                 <h2>Name: </h2>
                 <span>{user.name}</span>
               </div>
-              <div className="userPhone">
-                <h2>Phone: </h2>
-                <span>{user.additionalData.phoneNumber}</span>
-              </div>
+              {user.role !== "DELIVERY_PARTNER" && (
+                <div className="userPhone">
+                  <h2>Phone: </h2>
+                  <span>{user.additionalData.phoneNumber}</span>
+                </div>
+              )}
+              {user.role == "DELIVERY_PARTNER" && (
+                <div className="userPhone">
+                  <h2>Orders Delivered: </h2>
+                  <span>{user.additionalData.numberOfOrdersDelivered}</span>
+                </div>
+              )}
               <div className="userCreatedAt">
                 <h2>Created at: </h2>
                 <span>{formatDate(user.createdAt)}</span>
@@ -127,6 +136,7 @@ const AdminSeeDetail = ({ user, product, open, setOpen }) => {
                 src={product.images[imageIndex]}
                 alt=""
                 className="productImage"
+                style={{ objectFit: "contain" }}
               />
               {imageIndex > 0 && (
                 <div className="prevButton" onClick={handleClickPrev}>

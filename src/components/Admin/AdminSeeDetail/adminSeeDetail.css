@@ -42,9 +42,10 @@
 }
 
 .adminSeeDetail .userTop .userLeft img {
-  width: 80%;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  object-fit: contain;
+  object-fit: cover;
 }
 
 .adminSeeDetail .userTop .userRight {

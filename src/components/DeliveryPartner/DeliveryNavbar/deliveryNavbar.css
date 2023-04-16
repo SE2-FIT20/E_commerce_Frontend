@@ -1,4 +1,6 @@
-.adminNavbar {
+
+
+.deliveryNavbar {
   width: 100%;
   position: fixed;
   top: 0;
@@ -7,7 +9,7 @@
   z-index: 999;
 }
 
-.adminNavbarContainer {
+.deliveryNavbarContainer {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -16,42 +18,42 @@
   padding: 10px;
 }
 
-.adminNavbarLeft {
+.deliveryNavbarLeft {
   height: 100%;
   display: flex;
   align-items: center;
   padding-left: 25px;
 }
 
-.adminNavbarLeft img {
+.deliveryNavbarLeft img {
   width: 200px;
   cursor: pointer;
 }
 
-.adminNavbarRight {
+.deliveryNavbarRight {
   display: flex;
   align-items: center;
   gap: 30px;
   padding-right: 50px;
 }
 
-.adminNavbarRight .adminInfo {
+.deliveryNavbarRight .deliveryInfo {
   display: flex;
   align-items: center;
   gap: 20px;
 }
 
-.adminNavbarRight .adminInfo .adminImg {
+.deliveryNavbarRight .deliveryInfo .deliveryImg {
   width: 40px;
   height: 40px;
   position: relative;
 }
 
-.adminNavbarRight .adminInfo .adminImg:hover ul {
+.deliveryNavbarRight .deliveryInfo .deliveryImg:hover ul {
   display: block;
 }
 
-.adminNavbarRight .adminInfo .adminImg img {
+.deliveryNavbarRight .deliveryInfo .deliveryImg img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -59,18 +61,18 @@
   cursor: pointer;
 }
 
-.adminNavbarRight .adminInfo .adminImg ul {
+.deliveryNavbarRight .deliveryInfo .deliveryImg ul {
   right: 0;
   top: 30px;
   position: absolute;
 }
 
-.adminNavbarRight .adminInfo span {
+.deliveryNavbarRight .deliveryInfo span {
   color: #ffffff;
   font-size: 18px;
 }
 
-.adminNavbarRight .notification {
+.deliveryNavbarRight .notification {
   display: flex;
   align-items: center;
   justify-content: center;

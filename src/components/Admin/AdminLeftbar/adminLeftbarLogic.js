@@ -20,6 +20,15 @@ export const handleChooseOption = (option, setOption, history) => {
       history.push("/admin/products?page=1");
       setOption("product");
       break;
+    case "registerNewDeliveryPartner":
+      history.push("/admin/new/delivery-partner");
+      break;
+    case "global-vouchers":
+      history.push("/admin/vouchers/all");
+      break;
+    case "new-global-voucher":
+      history.push("/admin/new/vouchers");
+      break;
   }
 };
 
@@ -44,6 +53,12 @@ export const handleNavigateOption = (location) => {
     return "All Products";
   } else if (location.startsWith("/admin/product/new")) {
     return "Add a Product";
+  } else if (location.startsWith("/admin/new/delivery-partner")) {
+    return "registerNewDeliveryPartner";
+  } else if (location.startsWith("/admin/vouchers/all")) {
+    return "global-vouchers";
+  } else if (location.startsWith("/admin/new/vouchers")) {
+    return "new-global-voucher";
   } else {
     return "";
   }

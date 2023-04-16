@@ -114,26 +114,26 @@ const AdminLeftbar = () => {
             className={openPromotionManagement ? "options selected" : "options"}
           >
             <li
-              className={option === "All Promotions" ? "chosenOption" : ""}
+              className={option === "global-vouchers" ? "chosenOption" : ""}
               onClick={() =>
-                handleChooseOption("All Promotions", setOption, history)
+                handleChooseOption("global-vouchers", setOption, history)
               }
             >
-              All Promotions
+              All Vouchers
             </li>
             <li
-              className={option === "Add a Promotion" ? "chosenOption" : ""}
+              className={option === "new-global-voucher" ? "chosenOption" : ""}
               onClick={() =>
-                handleChooseOption("Add a Promotion", setOption, history)
+                handleChooseOption("new-global-voucher", setOption, history)
               }
             >
-              Add a Promotion
+              Create Vouncher
             </li>
           </ul>
         </div>
         <div className="myStoreSite">
           <div className="heading" onClick={() => setOpenMyStore(!openMyStore)}>
-            <span>My Store</span>
+            <span>Delivery Partner Management</span>
             <FontAwesomeIcon
               icon={faChevronUp}
               className={openMyStore ? "openOption" : "openOption rotate"}
@@ -141,20 +141,12 @@ const AdminLeftbar = () => {
           </div>
           <ul className={openMyStore ? "options selected" : "options"}>
             <li
-              className={option === "All Products" ? "chosenOption" : ""}
+              className={option === "registerNewDeliveryPartner" ? "chosenOption" : ""}
               onClick={() =>
-                handleChooseOption("All Products", setOption, history)
+                handleChooseOption("registerNewDeliveryPartner", setOption, history)
               }
             >
-              All Products
-            </li>
-            <li
-              className={option === "Add a Product" ? "chosenOption" : ""}
-              onClick={() =>
-                handleChooseOption("Add a Product", setOption, history)
-              }
-            >
-              Add a Product
+              Register New Delivery Partner
             </li>
           </ul>
         </div>

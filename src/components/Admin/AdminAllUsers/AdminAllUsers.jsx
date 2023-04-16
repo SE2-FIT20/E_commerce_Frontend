@@ -52,7 +52,6 @@ const AdminAllUsers = () => {
   const filterStatusRef = useRef();
   const userPerPageOptionRef = useRef();
   const toast = useToast();
-  console.log(users);
   const fetchUsers = async () => {
     try {
       setLoading(true);
@@ -111,7 +110,7 @@ const AdminAllUsers = () => {
   ]);
 
   useEffect(() => {
-    history.push(`/admin/users/${option}?pages=${currentPage}`);
+    history.push(`/admin/users/${option}?page=${currentPage}`);
   }, [currentPage]);
   useEffect(() => {
     function handleClickOutside(event) {
@@ -492,7 +491,7 @@ const AdminAllUsers = () => {
           <div className="productNavContainer">
             <div className="productNavBtn">
               <div
-                className="prevButton"
+                className="adminPrevButton"
                 onClick={() => handleClickPrev(setCurrentPage, totalPages)}
               >
                 <FontAwesomeIcon icon={faChevronLeft} />
@@ -501,7 +500,7 @@ const AdminAllUsers = () => {
                 totalPages !== 0 ? totalPages : 1
               }`}</span>
               <div
-                className="nextButton"
+                className="adminNextButton"
                 onClick={() => handleClickNext(setCurrentPage, totalPages)}
               >
                 <FontAwesomeIcon icon={faChevronRight} />

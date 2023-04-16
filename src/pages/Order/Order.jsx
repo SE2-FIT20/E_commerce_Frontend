@@ -15,7 +15,7 @@ const Order = () => {
     history.push(
       `/account/order/${handleDisplayOrderType(
         e.currentTarget.id
-      )}?pages=${currentPage}`
+      )}?page=${currentPage}`
     );
   };
   return (
@@ -25,14 +25,14 @@ const Order = () => {
           <ul>
             <li
               className={orderType === "ALL" ? "all active" : "all"}
-              id="ALL"
+              id="all"
               onClick={handleChangeOrderType}
             >
               All
             </li>
             <li
               className={orderType === "PENDING" ? "pending active" : "pending"}
-              id="PENDING"
+              id="pending"
               onClick={handleChangeOrderType}
             >
               Pending
@@ -43,7 +43,7 @@ const Order = () => {
                   ? "outOfStock active"
                   : "outOfStock"
               }
-              id="READY_FOR_DELIVERY"
+              id="ready"
               onClick={handleChangeOrderType}
             >
               Ready
@@ -52,7 +52,7 @@ const Order = () => {
               className={
                 orderType === "DELIVERING" ? "outOfStock active" : "outOfStock"
               }
-              id="DELIVERING"
+              id="delivering"
               onClick={handleChangeOrderType}
             >
               Delivering
@@ -61,7 +61,7 @@ const Order = () => {
               className={
                 orderType === "DELIVERED" ? "outOfStock active" : "outOfStock"
               }
-              id="DELIVERED"
+              id="delivered"
               onClick={handleChangeOrderType}
             >
               Delivered
@@ -70,7 +70,7 @@ const Order = () => {
               className={
                 orderType === "CANCELLED" ? "outOfStock active" : "outOfStock"
               }
-              id="CANCELLED"
+              id="cancelled"
               onClick={handleChangeOrderType}
             >
               Cancelled

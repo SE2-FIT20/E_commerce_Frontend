@@ -190,7 +190,7 @@ const Navbar = ({ fetchPreviewCart, cartProducts, setCartProducts }) => {
                     </li>
                     <li
                       className="option"
-                      onClick={() => history.push("/account/order/all?pages=1")}
+                      onClick={() => history.push("/account/order/all?page=1")}
                     >
                       My Order
                     </li>

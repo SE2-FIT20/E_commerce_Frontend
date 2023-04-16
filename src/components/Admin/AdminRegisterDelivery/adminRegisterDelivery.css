@@ -1,0 +1,107 @@
+.adminRegisterDelivery {
+  background-color: #f5f5f7;
+  width: 100%;
+  padding: 20px 0;
+  height: calc(100vh - 70px);
+  
+}
+
+.adminRegisterDeliveryContainer {
+  width: 80%;
+  margin: auto; 
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.adminRegisterDeliveryTitle {
+  padding: 20px;
+  border-bottom: 1px solid lightgray;
+  font-size: 25px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.adminRegisterDeliveryBody {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.adminRegisterDeliveryLeft {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.adminRegisterDeliveryLeft tbody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.adminRegisterDeliveryLeft tr {
+  display: flex;
+  gap: 25px;
+}
+
+.adminRegisterDeliveryLeft tr .updateHeading {
+  width: 150px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+
+.adminRegisterDeliveryLeft tr td input:focus, textarea:focus {
+  outline: none;
+}
+
+.adminRegisterDeliveryLeft tr td .inputField {
+  padding: 8px;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  width: 300px;
+  display: flex;
+}
+
+.adminRegisterDeliveryLeft tr td .inputField input {
+  width: 80%;
+  padding-left: 5px;
+}
+
+.adminRegisterDeliveryLeft tr td .inputField .inputCharacter {
+  border-left: 1px solid lightgray;
+  padding-left: 10px;
+  padding-right: 5px;
+}
+
+.adminRegisterDeliveryLeft tr td textarea {
+  border: 1px solid lightgray;
+  padding: 10px 60px 50px 10px;
+  border-radius: 8px;
+  width: 350px;
+}
+
+.adminRegisterDeliveryLeft .saveBtn {
+  width: 130px;
+  background-color: #232f3e;
+  padding: 10px 15px;
+  color: white;
+  border-radius: 6px;
+  font-weight: 400;
+}
+
+.adminRegisterDeliveryLeft .saveBtn:hover {
+  background-color: #00587c;
+}
+
+
+
+@media screen and (min-width: 1200px) {
+  .updateProfileContainer {
+    width: 65% !important;
+  }
+}

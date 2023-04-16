@@ -86,6 +86,17 @@ const Login = () => {
         setRole("ADMIN");
         setOption("all")
         history.push("/admin/users/all?page=1");
+      } else if (response.data.data.role === "DELIVERY_PARTNER") {
+        const { data } = await axios.get(`${BACKEND_URL}/api/delivery-partner/account`, {
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setCurrentUser(data.data);
+        setRole("DELIVERY_PARTNER");
+        setOption("all")
+        history.push("/delivery-partner/all?page=1")
       }
     } catch (error) {
       setLoading(false);

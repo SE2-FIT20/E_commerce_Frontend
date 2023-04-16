@@ -9,9 +9,11 @@
   min-width: 1200px;
 }
 
+
+
 .adminAllUsersContainer {
   background-color: #fff;
-  width: 85%;
+  width: 90%;
   height: calc(100vh - 55px);
   border: 1px solid #ccc;
   position: relative;
@@ -172,10 +174,29 @@
 .adminAllUsers table tbody tr {
   display: flex;
   align-items: center;
-  width: 96%;
+  max-width: 100%;
   border-bottom: 1px solid #ccc;
   padding: 8px 0;
   margin: 0 30px;
+}
+
+.adminAllUsers tbody::-webkit-scrollbar {
+  height: 5px;
+  background-color: #fff;
+}
+
+/* Define thumb styles */
+.adminAllUsers tbody::-webkit-scrollbar-thumb {
+  background-color: #0C1D26;
+  width: 5px;
+  border-radius: 5px;
+}
+
+/* Define track styles */
+.adminAllUsers tbody::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+  width: 5px;
+  border-radius: 5px;
 }
 
 .adminAllUsers table tbody tr th {

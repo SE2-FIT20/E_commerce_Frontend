@@ -28,6 +28,9 @@ import AdminNavbar from "./components/Admin/AdminNavbar/AdminNavbar";
 import AdminLeftbar from "./components/Admin/AdminLeftbar/AdminLeftbar";
 import AdminAllUsers from "./components/Admin/AdminAllUsers/AdminAllUsers";
 import AdminAllProducts from "./components/Admin/AdminAllProducts/AdminAllProducts";
+import DeliveryNavbar from "./components/DeliveryPartner/DeliveryNavbar/DeliveryNavbar";
+import DeliveryAllOrders from "./components/DeliveryPartner/DeliveryAllOrders/DeliveryAllOrders";
+import AdminRegisterDelivery from "./components/Admin/AdminRegisterDelivery/AdminRegisterDelivery";
 
 function App() {
   const { role, currentUser, BACKEND_URL, config } = useContext(AuthContext);
@@ -141,10 +144,17 @@ function App() {
             <div className="adminAppContent">
               <Route path="/admin/users/:userType" exact component={AdminAllUsers} />
               <Route path="/admin/products" exact component={AdminAllProducts} />
+              <Route path="/admin/new/delivery-partner" exact component={AdminRegisterDelivery} />
             </div>
           </div>
         </>
       )}
+      {role === "DELIVERY_PARTNER" && !error && (<>
+        <DeliveryNavbar/>
+        <div className="deliveryAppBody">
+          <Route path="/delivery-partner/:status" exact component={DeliveryAllOrders}/>
+        </div>
+      </>)}
     </div>
   );
 }

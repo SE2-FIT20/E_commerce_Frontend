@@ -484,7 +484,7 @@ const AdminAllProducts = () => {
           <div className="productNavContainer">
             <div className="productNavBtn">
               <div
-                className="prevButton"
+                className="adminPrevButton"
                 onClick={() => handleClickPrev(setCurrentPage, totalPages)}
               >
                 <FontAwesomeIcon icon={faChevronLeft} />
@@ -493,7 +493,7 @@ const AdminAllProducts = () => {
                 totalPages !== 0 ? totalPages : 1
               }`}</span>
               <div
-                className="nextButton"
+                className="adminNextButton"
                 onClick={() => handleClickNext(setCurrentPage, totalPages)}
               >
                 <FontAwesomeIcon icon={faChevronRight} />
