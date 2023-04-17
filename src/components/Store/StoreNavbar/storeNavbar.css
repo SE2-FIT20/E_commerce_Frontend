@@ -3,7 +3,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  height: 55px;
+  height: 60px;
   z-index: 999;
 }
 
@@ -43,8 +43,8 @@
 }
 
 .storeNavbarRight .storeInfo .storeImg {
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   position: relative;
 }
 
@@ -62,7 +62,7 @@
 
 .storeNavbarRight .storeInfo .storeImg ul {
   right: 0;
-  top: 35px;
+  top: 25px;
   position: absolute;
 }
 

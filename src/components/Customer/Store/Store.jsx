@@ -5,6 +5,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import { useLocation } from "react-router-dom";
 import SingleProduct from "../SingleProduct/SingleProduct";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { formatDaysAgo } from "../../longFunctions";
 import {
   faChevronDown,
   faChevronLeft,
@@ -24,6 +25,7 @@ const Store = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const location = useLocation();
+  const [readMore, setReadMore] = useState(false);
   const [loading, setLoading] = useState(false);
   const [productLoading, setProductLoading] = useState(false);
   const [filterOption, setFilterOption] = useState("sold");
@@ -127,6 +129,7 @@ const Store = () => {
       block: "start",
     });
   };
+  console.log(store);
   const handleClickPrev = () => {
     setPageNumber((prev) => (prev === 1 ? 1 : prev - 1));
     handleScroll();
@@ -143,7 +146,7 @@ const Store = () => {
   useEffect(() => {
     fetchStore();
   }, [storeId]);
-
+  console.log(store)
   if (store) document.title = `${store.name} | BazaarBay`;
 
   return (
@@ -206,7 +209,7 @@ const Store = () => {
                         className="storeInfoIcon"
                       />
                       <span>
-                        City: <span>Hanoi</span>
+                        City: <span>{store.city}</span>
                       </span>
                     </div>
                     <div className="storeInfoItem">
@@ -215,7 +218,8 @@ const Store = () => {
                         className="storeInfoIcon"
                       />
                       <span>
-                        Created At: <span>1 year ago</span>
+                        Created At:{" "}
+                        <span>{formatDaysAgo(store.createdAt)}</span>
                       </span>
                     </div>
                   </div>
@@ -225,20 +229,28 @@ const Store = () => {
           )}
           <div className="storeDescription">
             <h2>Description</h2>
-            <div className="storeDescriptionContainer">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Iusto
-              qui, eum maxime distinctio consequuntur in facilis numquam,
-              sapiente totam ipsum aliquam praesentium ipsam fugiat id laborum
-              dolorem quam iste quod modi. Quasi eligendi explicabo voluptatem
-              impedit quisquam eius laboriosam, voluptates labore! Aperiam
-              quisquam neque odit debitis soluta, ducimus accusamus omnis. Autem
-              cum nam officiis dolor, magni, ab ad veniam, vitae optio et error
-              dignissimos asperiores blanditiis iste magnam? Sapiente ipsum
-              reiciendis eligendi praesentium cupiditate ut natus veritatis
-              laboriosam itaque pariatur, officiis vero facere ipsa delectus
-              fugiat neque doloremque nobis tenetur nemo omnis debitis repellat!
-              Est earum ex sit voluptatem reiciendis.
-            </div>
+            {store?.description && (
+              <div
+                className="storeDescriptionContainer"
+                style={{ whiteSpace: "pre-wrap" }}
+              >
+                {store &&
+                  (readMore
+                    ? store.description + "\n"
+                    : store.description.substring(0, 600)) + "\n"}
+                {store.description.length > 600 && (
+                  <span
+                    className="readMoreText"
+                    onClick={() => setReadMore(!readMore)}
+                  >
+                    {readMore ? "Show less" : "Read more"}
+                  </span>
+                )}
+              </div>
+            )}
+            {!store?.description && (
+              <div className="storeDescriptionContainer">No description</div>
+            )}
           </div>
           <div className="storeProducts">
             <div className="filterSection">

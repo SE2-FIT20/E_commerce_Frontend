@@ -65,10 +65,12 @@
   flex-direction: column;
   justify-content: center;
   gap: 15px;
+  flex: 1;
 }
 
 .store .storeInfoRightCol .storeInfoIcon {
   width: 20px;
+  flex: 1;
 }
 
 .store .storeInfoItem {
@@ -78,6 +80,7 @@
 
 .store .storeInfoItem span {
   font-weight: 500;
+  flex: 9;
 }
 
 .store .storeInfoItem span > span {
@@ -142,6 +145,7 @@
   align-items: center;
   gap: 10px;
   position: relative;
+  min-width: 80px;
 }
 
 .filterSection ul li button:hover {
@@ -201,6 +205,13 @@
   border-radius: 8px;
 }
 
+.store .readMoreText {
+  font-weight: 500;
+  font-size: 18px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 @media screen and (min-width: 1700px) {
   .storeProductsDisplay ul {
     margin: auto;
@@ -219,5 +230,28 @@
   }
   .storeProductsDisplay ul {
     width: 70%;
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .storeInfoLeft {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .storeInfoLeft .storeName {
+    align-self: center !important;
+    justify-content: center;
+  }
+
+  .storeInfoLeft .storeName h2 {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .storeContainer .storeProducts .filterSectionContainer > ul {
+    flex-wrap: wrap;
   }
 }

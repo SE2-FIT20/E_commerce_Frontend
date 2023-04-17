@@ -181,11 +181,20 @@
 
 @media screen and (max-width: 768px) { 
   .navbarContainer {
-    gap: 2px;
+    gap: 15px;
   }
 
   .navbarLogo {
+    flex: 2;
     padding-top: 4px;
+  }
+
+  .navbarLogo .logo {
+    width: 150px;
+  }
+
+  .navbarMenu {
+    flex: 2;
   }
 
   /* .navbarSearch .input-group input {
@@ -198,11 +207,22 @@
 
   .navbarMenu {
     padding-right: 0;
-    justify-content: space-between;
+    justify-content: flex-end;
+    gap: 20px;
+  }
+
+  .navbarSearch {
+    max-height: 45px;
   }
 
   .navbarMenu > div > a{
     gap: 5px !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .navbarLogo {
+    display: none;
   }
 }
 

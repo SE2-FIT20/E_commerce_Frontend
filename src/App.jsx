@@ -58,11 +58,11 @@ function App() {
     if (role === "CUSTOMER") {
       document.title = " BazaarBay";
     } else if (role === "STORE") {
-      document.title = " BazaarBay | Store";
+      document.title = "Store | BazaarBay";
     } else if (role === "ADMIN") {
-      document.title = "BazaarBay | Admin";
+      document.title = "Admin | BazaarBay ";
     } else {
-      document.title = "BazaarBay | Delivery";
+      document.title = "Delivery | BazaarBay";
     }
   }, [role]);
   return (

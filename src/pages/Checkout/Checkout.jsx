@@ -172,6 +172,8 @@ const Checkout = () => {
                       color: "#222",
                       fontSize: "18px",
                       fontWeight: "600",
+                      paddingRight: "15px"
+
                     }}
                   >
                     Product
@@ -190,6 +192,7 @@ const Checkout = () => {
                         display: "flex",
                         alignItems: "center",
                         gap: "15px",
+                        paddingRight: "15px"
                       }}
                     >
                       <img src={item.product.images[0]} alt="" />
@@ -419,10 +422,9 @@ const Checkout = () => {
             <div className="confirmText">
               <h2>{`Hey ${currentUser.name},`}</h2>
               <span className="thankText">Thanks for your purchase!</span>
-              <span className="orderIDText">Your order ID is: 123456</span>
             </div>
           </div>
-          <button className="confirmButton">Continue Shopping</button>
+          <button className="confirmButton" onClick={() => history.push("/")}>Continue Shopping</button>
         </div>
       </div>
     </div>

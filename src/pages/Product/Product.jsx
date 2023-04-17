@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import "./product.css";
-import NoReview from "../../images/no-review.webp";
+import NoReview from "../../images/no-review.png";
 import ProductDetail from "../../components/Customer/ProductDetail/ProductDetail";
 import ProductReview from "../../components/Customer/ProductReview/ProductReview";
 import OtherProducts from "../../components/Customer/OtherProducts/OtherProducts";
@@ -182,12 +182,17 @@ const Product = ({ fetchPreviewCart }) => {
               <div className="customerReviews">
                 <ul>
                   {reviews.map((review) => (
-                    <ProductReview review={review} key={review.id}/>
+                    <ProductReview review={review} key={review.id} />
                   ))}
                 </ul>
               </div>
             )}
-
+            {product && product.reviews.length === 0 && (
+              <div className="noReview">
+                <img src={NoReview} alt="" />
+                <span>No Review Found</span>
+              </div>
+            )}
             {/* write review */}
             {currentUser && (
               <div className="writeReview">
@@ -275,12 +280,6 @@ const Product = ({ fetchPreviewCart }) => {
               </div>
             )}
           </div>
-
-          {product && product.reviews.length === 0 && (
-            <div className="noReviews">
-              {/* <img src={NoReview} alt="" /> */}
-            </div>
-          )}
 
           {/* store other product */}
           <OtherProducts product={product} />

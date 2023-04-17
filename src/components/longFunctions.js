@@ -56,3 +56,16 @@ export const formatDate = (timestamp) => {
 const padNumber = (number) => {
   return number.toString().padStart(2, "0");
 };
+
+export const formatDaysAgo = (timestampString) => {
+  const timestamp = new Date(timestampString);
+  const seconds = Math.floor((new Date() - timestamp) / 1000);
+  const interval = Math.floor(seconds / 86400);
+  if (interval === 0) {
+    return "today";
+  } else if (interval === 1) {
+    return "yesterday";
+  } else {
+    return `${interval} days ago`;
+  }
+}

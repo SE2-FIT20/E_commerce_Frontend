@@ -58,7 +58,7 @@ const AdminAllUsers = () => {
       const { data } = await axios.get(
         `${BACKEND_URL}/api/admin/manage-accounts?page=${
           currentPage - 1
-        }&elementsPerPage=${userPerPage}&role=${option.toUpperCase()}&sortBy=${filterOrder}&filter=${filterOption}&status=${filterStatus.toUpperCase()}`,
+        }&elementsPerPage=${userPerPage}&role=${option.replaceAll("-", "_").toUpperCase()}&sortBy=${filterOrder}&filter=${filterOption}&status=${filterStatus.toUpperCase()}`,
         config
       );
       setUsers(data.data.content);

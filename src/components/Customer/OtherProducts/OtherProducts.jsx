@@ -11,6 +11,7 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import NoProduct from "../../../images/no-product.png";
 import { useRef } from "react";
 
 const OtherProducts = ({ product }) => {
@@ -33,7 +34,7 @@ const OtherProducts = ({ product }) => {
       setStoreOtherProducts(data.data.content);
     } catch (error) {}
   };
-
+  console.log(product);
   const fetchRelatedProducts = async () => {
     try {
       const { data } = await axios.get(
@@ -81,72 +82,94 @@ const OtherProducts = ({ product }) => {
   return (
     <div className="otherProducts">
       <div className="storeOtherProduct">
-        <div className="otherProductText">MQShop's other products</div>
-        <div className="storeOtherProductContainer">
-          <ul
-            style={{
-              transform: `translateX(-${position1}px)`,
-            }}
-            ref={storeOtherProductsRef}
-          >
-            {storeOtherProducts
-              .filter((p) => p.id !== product.id)
-              .filter((p) => p.quantity !== 0)
-              .map((product) => (
-                <SingleProduct product={product} key={product.id} />
-              ))}
-          </ul>
-        </div>
-        {position1 > 0 && (
-          <div
-            className="otherProductPrevBtn"
-            onClick={() => handleClickPrev("storeOtherProducts")}
-          >
-            <FontAwesomeIcon icon={faChevronLeft} />
+        <div className="otherProductText">{`${
+          product && product.store.name
+        }'s other products`}</div>
+        {storeOtherProducts.length === 1 && (
+          <div className="noProduct">
+            <img src={NoProduct} alt="" />
+            <span>No Product Found</span>
           </div>
         )}
-        {position1 < maxWidth1 && (
-          <div
-            className="otherProductNextBtn"
-            onClick={() => handleClickNext("storeOtherProducts")}
-          >
-            <FontAwesomeIcon icon={faChevronRight} />
-          </div>
+        {storeOtherProducts.length > 1 && (
+          <>
+            <div className="storeOtherProductContainer">
+              <ul
+                style={{
+                  transform: `translateX(-${position1}px)`,
+                }}
+                ref={storeOtherProductsRef}
+              >
+                {storeOtherProducts
+                  .filter((p) => p.id !== product.id)
+                  .filter((p) => p.quantity !== 0)
+                  .map((product) => (
+                    <SingleProduct product={product} key={product.id} />
+                  ))}
+              </ul>
+            </div>
+            {position1 > 0 && (
+              <div
+                className="otherProductPrevBtn"
+                onClick={() => handleClickPrev("storeOtherProducts")}
+              >
+                <FontAwesomeIcon icon={faChevronLeft} />
+              </div>
+            )}
+            {position1 < maxWidth1 && (
+              <div
+                className="otherProductNextBtn"
+                onClick={() => handleClickNext("storeOtherProducts")}
+              >
+                <FontAwesomeIcon icon={faChevronRight} />
+              </div>
+            )}
+          </>
         )}
       </div>
       <div className="storeOtherProduct">
         <div className="otherProductText">Related Products</div>
-        <div className="storeOtherProductContainer">
-          <ul
-            style={{
-              transform: `translateX(-${position2}px)`,
-            }}
-            ref={relatedProductsRef}
-          >
-            {relatedProducts
-              .filter((p) => p.id !== product.id)
-              .filter((p) => p.quantity !== 0)
-
-              .map((product) => (
-                <SingleProduct product={product} key={product.id} />
-              ))}
-          </ul>
-        </div>
-        {position2 > 0 && (
-          <div
-            className="otherProductPrevBtn"
-            onClick={() => handleClickPrev("relatedProducts")}
-          >
-            <FontAwesomeIcon icon={faChevronLeft} />
+        {relatedProducts.length === 1 && (
+          <div className="noProduct">
+            <img src={NoProduct} alt="" />
+            <span>No Product Found</span>
           </div>
         )}
-        {position2 < maxWidth2 && (
-          <div
-            className="otherProductNextBtn"
-            onClick={() => handleClickNext("relatedProducts")}
-          >
-            <FontAwesomeIcon icon={faChevronRight} />
-          </div>
+        {relatedProducts.length > 1 && (
+          <>
+            <div className="storeOtherProductContainer">
+              <ul
+                style={{
+                  transform: `translateX(-${position2}px)`,
+                }}
+                ref={relatedProductsRef}
+              >
+                {relatedProducts
+                  .filter((p) => p.id !== product.id)
+                  .filter((p) => p.quantity !== 0)
+
+                  .map((product) => (
+                    <SingleProduct product={product} key={product.id} />
+                  ))}
+              </ul>
+            </div>
+            {position2 > 0 && (
+              <div
+                className="otherProductPrevBtn"
+                onClick={() => handleClickPrev("relatedProducts")}
+              >
+                <FontAwesomeIcon icon={faChevronLeft} />
+              </div>
+            )}
+            {position2 < maxWidth2 && (
+              <div
+                className="otherProductNextBtn"
+                onClick={() => handleClickNext("relatedProducts")}
+              >
+                <FontAwesomeIcon icon={faChevronRight} />
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

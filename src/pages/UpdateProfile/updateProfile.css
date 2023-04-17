@@ -2,12 +2,12 @@
   background-color: #f5f5f7;
   width: 100%;
   padding: 20px 0;
-  height: calc(100vh - 70px);
+  min-height: calc(100vh - 70px);
   
 }
 
 .updateProfileContainer {
-  width: 80%;
+  width: 90%;
   margin: auto; 
   background-color: #ffffff;
   border-radius: 8px;
@@ -27,7 +27,7 @@
 }
 
 .updateProfileLeft {
-  flex: 6;
+  flex:6;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -70,7 +70,7 @@
 
 .updateProfileLeft tr td textarea {
   border: 1px solid lightgray;
-  padding: 10px 60px 50px 10px;
+  padding: 10px 20px 50px 10px;
   border-radius: 8px;
   width: 350px;
 }
@@ -110,7 +110,7 @@
 }
 
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1700px) {
   .updateProfileContainer {
     width: 65% !important;
   }

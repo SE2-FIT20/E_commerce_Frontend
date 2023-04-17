@@ -70,7 +70,7 @@ const Storepage = () => {
         setTotalPages(data.data.totalPages);
       } else if (stockType === "active") {
         const { data } = await axios.get(
-          `${BACKEND_URL}/api/products?status=available&elementsPerPage=${productPerPage}&page=${
+          `${BACKEND_URL}/api/products?&storeId=${currentUser.id}&status=available&elementsPerPage=${productPerPage}&page=${
             currentPage - 1
           }&filter=${filterOption}&sortBy=${filterOrder}&category=${filterCategory.toLowerCase()}`,
           config
@@ -79,7 +79,7 @@ const Storepage = () => {
         setTotalPages(data.data.totalPages);
       } else {
         const { data } = await axios.get(
-          `${BACKEND_URL}/api/products?status=sold_out&elementsPerPage=${productPerPage}&page=${
+          `${BACKEND_URL}/api/products?&storeId=${currentUser.id}&status=sold_out&elementsPerPage=${productPerPage}&page=${
             currentPage - 1
           }&filter=${filterOption}&sortBy=${filterOrder}&category=${filterCategory.toLowerCase()}`,
           config
@@ -100,7 +100,7 @@ const Storepage = () => {
       });
     }
   };
-
+  console.log(productPerPage)
   const fetchCategories = async () => {
     try {
       const { data } = await axios.get(`${BACKEND_URL}/api/product-categories`);
@@ -369,7 +369,7 @@ const Storepage = () => {
                       paddingLeft: "10px",
                     }}
                   >
-                    Product name
+                    Name
                   </th>
                   <th style={{ flex: "2" }}>Category</th>
                   <th style={{ flex: "1.5" }}>Price</th>
@@ -514,7 +514,7 @@ const Storepage = () => {
                   }
                   ref={productPerPageOptionRef}
                 >
-                  <span>{`${productPerPage}/page`}</span>
+                  <span>{`${productPerPage} products/page`}</span>
                   <FontAwesomeIcon
                     icon={faChevronUp}
                     className={
@@ -549,12 +549,17 @@ const Storepage = () => {
                     </li>
                     <li
                       onClick={() =>
-                        handleChangeProductPerPage(
-                          20,
-                          setProductPerPage,
-                          setOpenProductPerPageOptions,
-                          setCurrentPage
-                        )
+                        {
+                          console.log(20)
+
+                          handleChangeProductPerPage(
+                            20,
+                            setProductPerPage,
+                            setOpenProductPerPageOptions,
+                            setCurrentPage
+                          )
+                        }
+                    
                       }
                       className={productPerPage === 20 ? "selected" : ""}
                     >

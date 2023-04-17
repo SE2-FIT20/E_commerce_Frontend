@@ -174,7 +174,7 @@ const UpdateProduct = () => {
                 </td>
               </tr>
               <tr>
-                <td className="productHeading">Product Image</td>
+                <td className="productHeading" style={{ alignItems: "flex-start"}}>Product Image</td>
                 <td style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
                   {product.images.map((image, i) => (
                     <AddProductImage

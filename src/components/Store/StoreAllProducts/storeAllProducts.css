@@ -15,7 +15,7 @@
   height: calc(100vh - 55px);
   border: 1px solid #ccc;
   position: relative;
-
+  min-width: 700px;
 }
 
 .storeAllProducts .storeFilterOptions {
@@ -417,3 +417,22 @@
     margin-bottom: 10px;
   } */
 }
+
+@media screen and (max-width: 1440px) {
+  .storeAllProducts {
+    padding: 0;
+  }
+  .storeAllProductsContainer {
+    width: 90%;
+  }
+
+  .storeAllProducts table tbody {
+    min-height: 50vh;
+    max-height: 50vh;
+  }
+  /* .storeAllProducts table tbody {
+    margin-bottom: 10px;
+  } */
+}
+
+
