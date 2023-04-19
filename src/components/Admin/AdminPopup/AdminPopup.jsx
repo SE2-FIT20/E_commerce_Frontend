@@ -14,6 +14,8 @@ const AdminPopup = ({
   product,
   refetchUsers,
   refetchProducts,
+  voucher,
+  refetchVouchers,
 }) => {
   const popup = useRef();
   const toast = useToast();
@@ -84,7 +86,7 @@ const AdminPopup = ({
           config
         );
         toast({
-          title: "Delete product user successful",
+          title: "Delete product successful",
           status: "success",
           duration: 3000,
           isClosable: true,
@@ -101,6 +103,29 @@ const AdminPopup = ({
           position: "bottom",
         });
         setOpen(false);
+      }
+    } else if (popupType === "deleteVoucher") {
+      try {
+        await axios.delete(`${BACKEND_URL}/api/admin/voucher-sets/${voucher.id}`, config);
+        toast({
+          title: "Delete voucher successful",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "bottom",
+        });
+        setOpen(false);
+        refetchVouchers();
+      } catch (error) {
+        toast({
+          title: "An error occurred deleting vouchers",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "bottom",
+        });
+        setOpen(false);
+
       }
     }
   };
@@ -137,6 +162,9 @@ const AdminPopup = ({
           )}
           {popupType === "deleteProduct" && (
             <span>{`Are you sure you want to delete product" ${product.name}"?`}</span>
+          )}
+          {popupType === "deleteVoucher" && (
+            <span>{`Are you sure you want to delete this vouncher?`}</span>
           )}
         </div>
         <div className="deleteBtnContainer">

@@ -11,7 +11,7 @@
 
 .adminAllProductsContainer {
   background-color: #fff;
-  width: 85%;
+  width: 95%;
   height: calc(100vh - 55px);
   border: 1px solid #ccc;
   position: relative;
@@ -73,7 +73,7 @@
 }
 
 .adminAllProducts .filterSelectItem ul::-webkit-scrollbar {
-  display: none; 
+  display: none;
 }
 .adminAllProducts .filterSelectItem ul.open {
   max-height: 200px;
@@ -151,7 +151,6 @@
   width: 100%;
   padding: 12px 30px;
   background-color: #f6f6f6;
-  
 }
 
 .adminAllProducts table thead tr th {
@@ -172,7 +171,6 @@
   overflow-y: scroll;
   margin-bottom: 60px;
   overflow-x: hidden;
-
 }
 
 .adminAllProducts table tbody tr {
@@ -217,17 +215,15 @@
   justify-content: center;
   scrollbar-width: none;
   -ms-overflow-style: none;
+}*/
+.adminAllProducts table tbody tr th .container .productName {
+  height: 50px;
+  overflow-y: scroll;
 }
 
-.adminAllProducts
-  table
-  tbody
-  tr
-  th
-  .container
-  .productLongInfo::-webkit-scrollbar {
+.adminAllProducts table tbody tr th .container .productName::-webkit-scrollbar {
   display: none;
-} */
+}
 
 .adminAllProducts table tbody tr th .container .productOperationIcon {
   width: 30px;
@@ -431,8 +427,8 @@
   }
 
   .adminAllProducts table tbody {
-    min-height: 50vh;
-    max-height: 50vh;
+    /* min-height: 50vh;
+    max-height: 50vh; */
   }
   /* .storeAllProducts table tbody {
     margin-bottom: 10px;

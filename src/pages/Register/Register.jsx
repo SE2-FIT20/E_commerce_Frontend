@@ -10,10 +10,12 @@ import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
 import { handleRegister } from "../../components/longFunctions";
+import { StoreContext } from "../../context/StoreContext";
 
 const Register = () => {
-  const { BACKEND_URL, setCurrentUser, setToken } = useContext(AuthContext);
-  const [role, setRole] = useState("CUSTOMER");
+  const { BACKEND_URL, setCurrentUser, setToken, setRole } = useContext(AuthContext);
+  const { setOption } = useContext(StoreContext);
+  const [registerRole, setRegisterRole] = useState("CUSTOMER");
   const [credentials, setCredentials] = useState({
     name: "",
     email: "",
@@ -59,7 +61,7 @@ const Register = () => {
           name: credentials.name,
           email: credentials.email,
           password: credentials.password,
-          role: role,
+          role: registerRole,
         },
         config
       );
@@ -73,9 +75,11 @@ const Register = () => {
       const response = await axios.post(
         `${BACKEND_URL}/api/auth/login`,
         { email: credentials.email, password: credentials.password },
+        `${BACKEND_URL}/api/auth/login`,
+        { email: "mqshirt@gmail.com", password: "1" },
         config
       );
-
+        console.log(response.data.data)
       const token = response.data.data.token;
       setToken(token);
       if (response.data.data.role === "CUSTOMER") {
@@ -92,6 +96,7 @@ const Register = () => {
         setRole("CUSTOMER");
         history.push("/");
       } else if (response.data.data.role === "STORE") {
+        console.log(1)
         const { data } = await axios.get(`${BACKEND_URL}/api/store/account`, {
           headers: {
             "Content-type": "application/json",
@@ -100,7 +105,8 @@ const Register = () => {
         });
         setCurrentUser(data.data);
         setRole("STORE");
-        history.push("/store/product/all?pages=1");
+        setOption("All Products")
+        history.push("/store/product/all?page=1");
       }
     } catch (error) {
       return toast({
@@ -115,7 +121,7 @@ const Register = () => {
 
   const handleChooseRole = (e) => {
     e.preventDefault();
-    setRole(e.currentTarget.id);
+    setRegisterRole(e.currentTarget.id);
   };
 
   const handleChange = (e) => {
@@ -178,7 +184,7 @@ const Register = () => {
                     >
                       <img
                         className={
-                          role === "CUSTOMER"
+                          registerRole === "CUSTOMER"
                             ? "customerImg selected"
                             : "customerImg"
                         }
@@ -193,7 +199,7 @@ const Register = () => {
                     >
                       <img
                         className={
-                          role === "STORE" ? "storeImg selected" : "storeImg"
+                          registerRole === "STORE" ? "storeImg selected" : "storeImg"
                         }
                         src={StoreIcon}
                       ></img>
@@ -209,7 +215,7 @@ const Register = () => {
                         handleRegister(
                           e,
                           credentials,
-                          role,
+                          registerRole,
                           config,
                           toast,
                           history

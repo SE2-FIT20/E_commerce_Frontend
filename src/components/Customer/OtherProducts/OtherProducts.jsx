@@ -34,7 +34,6 @@ const OtherProducts = ({ product }) => {
       setStoreOtherProducts(data.data.content);
     } catch (error) {}
   };
-  console.log(product);
   const fetchRelatedProducts = async () => {
     try {
       const { data } = await axios.get(

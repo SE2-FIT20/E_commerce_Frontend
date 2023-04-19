@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
   faChevronRight,
-  faShirt,
+  faShirt
 } from "@fortawesome/free-solid-svg-icons";
 import NoResult from "../../../images/no-result-image.jpg";
 import StarRatings from "react-star-ratings";
@@ -45,7 +45,6 @@ const SearchResult = () => {
     }
   };
 
-  console.log(storeResults);
   const pageNumberList = [];
   pageNumberList.push(
     <li

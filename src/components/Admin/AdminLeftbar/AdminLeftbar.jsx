@@ -102,7 +102,7 @@ const AdminLeftbar = () => {
             className="heading"
             onClick={() => setOpenPromotionManagement(!openPromotionManagement)}
           >
-            <span>Promotion Management</span>
+            <span>Voucher Management</span>
             <FontAwesomeIcon
               icon={faChevronUp}
               className={

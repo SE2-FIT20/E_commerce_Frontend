@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./updateProfile.css";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
@@ -7,7 +7,8 @@ import {
   handleUpdateProfile,
   handleChange,
   handleChooseImage,
-  handleUpdateStore
+  handleUpdateStore,
+  handleUpdateDelivery
 } from "./updateProfileLogic.js";
 
 const UpdateProfile = () => {
@@ -18,7 +19,7 @@ const UpdateProfile = () => {
     name: currentUser.name || "",
     phoneNumber: currentUser.phoneNumber || "",
     avatar: newAvatar || null,
-    email: currentUser.email
+    email: currentUser.email,
   });
   const [storeInfo, setStoreInfo] = useState({
     name: currentUser.name,
@@ -28,6 +29,11 @@ const UpdateProfile = () => {
     city: currentUser.city || "",
     description: currentUser.description || "",
   });
+  const [deliveryInfo, setDeliveryInfo] = useState({
+    shippingFee: currentUser.shippingFee || "",
+    description: currentUser.description || "",
+    avatar : newAvatar || null
+  })
   const toast = useToast();
   const nothingChanged =
     currentUser.name === userInfo.name &&
@@ -36,7 +42,10 @@ const UpdateProfile = () => {
     currentUser.image === userInfo.image &&
     currentUser.email === userInfo.email &&
     userInfo.avatar === (newAvatar ? newAvatar : currentUser.avatar);
-  console.log(storeInfo);
+
+  useEffect(() => {
+    document.title = "My Profile | BazaarBay";
+  }, []);
   return (
     <div className="updateProfile">
       {role === "CUSTOMER" && (
@@ -181,7 +190,12 @@ const UpdateProfile = () => {
                     </td>
                   </tr>
                   <tr>
-                    <td className="updateHeading" style={{ alignItems: "flex-start"}}>Description</td>
+                    <td
+                      className="updateHeading"
+                      style={{ alignItems: "flex-start" }}
+                    >
+                      Description
+                    </td>
                     <td>
                       <textarea
                         type="text"
@@ -202,6 +216,98 @@ const UpdateProfile = () => {
                           handleUpdateStore(
                             e,
                             storeInfo,
+                            newAvatar,
+                            setCurrentUser,
+                            BACKEND_URL,
+                            config,
+                            toast
+                          )
+                        }
+                      >
+                        Save Change
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div className="updateProfileRight">
+              <img
+                src={
+                  !newAvatar
+                    ? currentUser.avatar
+                    : URL.createObjectURL(newAvatar)
+                }
+                alt=""
+              />
+              <label htmlFor="file">
+                <div className="choosePictureBtn">Choose Picture</div>
+                <input
+                  type="file"
+                  style={{ display: "none" }}
+                  id="file"
+                  accept=".png,.jpeg,.jpg,.gif"
+                  onChange={(e) => handleChooseImage(e, setNewAvatar)}
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+      )}
+      {role === "DELIVERY_PARTNER" && (
+        <div className="updateProfileContainer">
+          <div className="updateProfileTitle">My Store</div>
+          <div className="updateProfileBody">
+            <div className="updateProfileLeft">
+              <table>
+                <tbody>
+                  <tr style={{ paddingBottom: "10px" }}>
+                    <td className="updateHeading">Email</td>
+                    <td>{currentUser.email}</td>
+                  </tr>
+                  <tr>
+                    <td className="updateHeading">Name</td>
+                    <td>{currentUser.name}</td>
+                  </tr>
+                  <tr>
+                    <td className="updateHeading">Shipping Fee</td>
+                    <td>
+                      <input
+                        type="number"
+                        id="shippingFee"
+                        value={deliveryInfo.shippingFee}
+                        placeholder="Your shipping fee"
+                        onChange={(e) => handleChange(e, setDeliveryInfo)}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      className="updateHeading"
+                      style={{ alignItems: "flex-start" }}
+                    >
+                      Description
+                    </td>
+                    <td>
+                      <textarea
+                        type="text"
+                        wrap="soft"
+                        id="description"
+                        value={deliveryInfo.description}
+                        placeholder="Your description..."
+                        onChange={(e) => handleChange(e, setDeliveryInfo)}
+                      />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="updateHeading"></td>
+                    <td>
+                      <button
+                        className="saveBtn"
+                        onClick={(e) =>
+                          handleUpdateDelivery(
+                            e,
+                            deliveryInfo,
                             newAvatar,
                             setCurrentUser,
                             BACKEND_URL,

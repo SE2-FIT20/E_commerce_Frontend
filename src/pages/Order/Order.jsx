@@ -6,7 +6,8 @@ import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import { useToast } from "@chakra-ui/react";
 import { formatNumber, capitalize } from "../../components/longFunctions";
-import NoOrder from "../../images/no-order-icon.png"
+import NoOrder from "../../images/no-order-icon.png";
+import { useRef } from "react";
 
 const Order = () => {
   const history = useHistory();
@@ -14,24 +15,29 @@ const Order = () => {
   const { BACKEND_URL, config } = useContext(AuthContext);
   const pageIndex = Math.floor(0);
   const [orders, setOrders] = useState([]);
-  const [currentPage, setCurrentPage] = useState(pageIndex);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const [orderType, setOrderType] = useState("all");
   const [loading, setLoading] = useState(false);
-
+  const [orderTypeCount, setOrderTypeCount] = useState(null);
+  const orderRef = useRef();
+  const [moreOrderLoading, setMoreOrderLoading] = useState(false);
   const handleChangeOrderType = (e) => {
     setOrderType(e.target.id);
+    setCurrentPage(0)
   };
-
+  console.log(currentPage);
   const fetchOrders = async () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `${BACKEND_URL}/api/customer/orders?page=0&elementsPerPage=20&sortBy=desc&filter=createdAt&status=${handleConvertOrderType(
+        `${BACKEND_URL}/api/customer/orders?page=${currentPage}&elementsPerPage=5&sortBy=desc&filter=createdAt&status=${handleConvertOrderType(
           orderType
         )}`,
         config
       );
       setOrders(data.data.content);
+      setTotalPages(data.data.totalPages);
       setLoading(false);
     } catch (error) {
       toast({
@@ -45,67 +51,135 @@ const Order = () => {
     }
   };
 
+  const fetchOrderTypeCount = async () => {
+    try {
+      const { data } = await axios.get(
+        `${BACKEND_URL}/api/customer/orders-count`,
+        config
+      );
+      setOrderTypeCount(data.data);
+    } catch (error) {}
+  };
+
+  const handleScroll = async (event) => {
+    const { scrollTop, scrollHeight, clientHeight } = event.target;
+    if (
+      scrollHeight - scrollTop === clientHeight &&
+      currentPage < totalPages - 1
+    ) {
+      setCurrentPage((prev) => prev + 1);
+
+      try {
+        setMoreOrderLoading(true);
+
+        setTimeout(async () => {
+          const { data } = await axios.get(
+            `${BACKEND_URL}/api/customer/orders?page=${
+              currentPage + 1
+            }&elementsPerPage=5&sortBy=desc&filter=createdAt&status=${handleConvertOrderType(
+              orderType
+            )}`,
+            config
+          );
+          setOrders((prevOrders) => [...prevOrders, ...data.data.content]);
+          setMoreOrderLoading(false);
+        }, [1000]);
+      } catch (error) {
+        toast({
+          title: "An error occured while fetching orders!",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "bottom",
+        });
+        setLoading(false);
+        setMoreOrderLoading(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchOrderTypeCount();
+    document.title = "My Order | BazaarBay";
+  }, []);
+
   useEffect(() => {
     fetchOrders();
     history.push(`/account/order/${orderType}`);
   }, [orderType]);
 
   return (
-    <div className="order">
+    <div className="order" ref={orderRef} onScroll={(e) => handleScroll(e)}>
       <div className="orderContainer">
         <div className="ordersFilter">
-          <ul>
-            <li
-              className={orderType === "all" ? "all active" : "all"}
-              id="all"
-              onClick={handleChangeOrderType}
-            >
-              All
-            </li>
-            <li
-              className={orderType === "pending" ? "pending active" : "pending"}
-              id="pending"
-              onClick={handleChangeOrderType}
-            >
-              Pending
-            </li>
-            <li
-              className={
-                orderType === "ready" ? "outOfStock active" : "outOfStock"
-              }
-              id="ready"
-              onClick={handleChangeOrderType}
-            >
-              Ready
-            </li>
-            <li
-              className={
-                orderType === "delivering" ? "outOfStock active" : "outOfStock"
-              }
-              id="delivering"
-              onClick={handleChangeOrderType}
-            >
-              Delivering
-            </li>
-            <li
-              className={
-                orderType === "delivered" ? "outOfStock active" : "outOfStock"
-              }
-              id="delivered"
-              onClick={handleChangeOrderType}
-            >
-              Delivered
-            </li>
-            <li
-              className={
-                orderType === "cancelled" ? "outOfStock active" : "outOfStock"
-              }
-              id="cancelled"
-              onClick={handleChangeOrderType}
-            >
-              Cancelled
-            </li>
-          </ul>
+          {orderTypeCount && (
+            <ul>
+              <li
+                className={orderType === "all" ? "all active" : "all"}
+                id="all"
+                onClick={handleChangeOrderType}
+              >
+                All
+              </li>
+              <li
+                className={
+                  orderType === "pending" ? "pending active" : "pending"
+                }
+                id="pending"
+                onClick={handleChangeOrderType}
+              >
+                {orderTypeCount.PENDING > 0
+                  ? `Pending (${orderTypeCount.PENDING})`
+                  : "Pending"}
+              </li>
+              <li
+                className={
+                  orderType === "ready" ? "outOfStock active" : "outOfStock"
+                }
+                id="ready"
+                onClick={handleChangeOrderType}
+              >
+                {orderTypeCount.READY_FOR_DELIVER > 0
+                  ? `Ready (${orderTypeCount.READY_FOR_DELIVER})`
+                  : "Ready"}
+              </li>
+              <li
+                className={
+                  orderType === "delivering"
+                    ? "outOfStock active"
+                    : "outOfStock"
+                }
+                id="delivering"
+                onClick={handleChangeOrderType}
+              >
+                {orderTypeCount.DELIVERING > 0
+                  ? `Delivering (${orderTypeCount.DELIVERING})`
+                  : "Delivering"}
+              </li>
+              <li
+                className={
+                  orderType === "delivered" ? "outOfStock active" : "outOfStock"
+                }
+                id="delivered"
+                onClick={handleChangeOrderType}
+              >
+                {orderTypeCount.DELIVERED > 0
+                  ? `Delivered (${orderTypeCount.DELIVERED})`
+                  : "Delivered"}
+              </li>
+              <li
+                className={
+                  orderType === "cancelled" ? "outOfStock active" : "outOfStock"
+                }
+                id="cancelled"
+                onClick={handleChangeOrderType}
+              >
+                {orderTypeCount.CANCELLED > 0
+                  ? `Cancelled (${orderTypeCount.CANCELLED})`
+                  : "Cancelled"}
+              </li>
+            </ul>
+          )}
         </div>
         {!loading && (
           <div className="orders">
@@ -132,7 +206,9 @@ const Order = () => {
                         <span>
                           Order Code: <span>{order.orderCode}</span>
                         </span>
-                        <span className="orderStatus">{order.status}</span>
+                        <span className="orderStatus">
+                          {handleDisplayOrderType(order.status)}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -181,7 +257,14 @@ const Order = () => {
                       <span>{"₫" + formatNumber(order.totalPrice)}</span>
                     </div>
                     <div className="orderButtons">
-                      <button className="button" onClick={() => window.location.href=`/product/${order.items[0].product.id}`}>Review Product</button>
+                      <button
+                        className="button"
+                        onClick={() =>
+                          (window.location.href = `/product/${order.items[0].product.id}`)
+                        }
+                      >
+                        Review Product
+                      </button>
                       <button className="button purchaseAgain">
                         Purchase Again
                       </button>
@@ -189,9 +272,20 @@ const Order = () => {
                   </div>
                 </div>
               ))}
-            {orders.length === 0 && (
+            {moreOrderLoading && (
+              <div className="partialLoading">
+                <div className="lds-ellipsis">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
+            )}
+
+            {orders.length === 0 && !loading && (
               <div className="noOrder">
-                <img src={NoOrder}/>
+                <img src={NoOrder} />
                 <span>No Orders</span>
               </div>
             )}

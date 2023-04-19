@@ -9,6 +9,7 @@ import {
   faEye,
   faLock,
   faLockOpen,
+  faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 import { useHistory, useLocation } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
@@ -38,6 +39,7 @@ const AdminAllUsers = () => {
   const [openFilterOptions, setOpenFilterOptions] = useState(false);
   const [openFilterOrder, setOpenFilterOrder] = useState(false);
   const [openFilterStatus, setOpenFilterStatus] = useState(false);
+  const [openFilterInputOptions, setOpenFilterInputOptions] = useState(false);
   const [openAdminSeeDetail, setOpenAdminSeeDetail] = useState(false);
   const pageIndex = Math.floor(useHistory().location.search.split("=")[1]);
   const [currentPage, setCurrentPage] = useState(pageIndex);
@@ -47,9 +49,11 @@ const AdminAllUsers = () => {
   const [filterOption, setFilterOption] = useState("id");
   const [filterOrder, setFilterOrder] = useState("asc");
   const [filterStatus, setFilterStatus] = useState("all");
+  const [filterInput, setFilterInput] = useState("email");
   const filterOptionRef = useRef();
   const filterOrderRef = useRef();
   const filterStatusRef = useRef();
+  const filterInputRef = useRef();
   const userPerPageOptionRef = useRef();
   const toast = useToast();
   const fetchUsers = async () => {
@@ -58,7 +62,9 @@ const AdminAllUsers = () => {
       const { data } = await axios.get(
         `${BACKEND_URL}/api/admin/manage-accounts?page=${
           currentPage - 1
-        }&elementsPerPage=${userPerPage}&role=${option.replaceAll("-", "_").toUpperCase()}&sortBy=${filterOrder}&filter=${filterOption}&status=${filterStatus.toUpperCase()}`,
+        }&elementsPerPage=${userPerPage}&role=${option
+          .replaceAll("-", "_")
+          .toUpperCase()}&sortBy=${filterOrder}&filter=${filterOption}&status=${filterStatus.toUpperCase()}`,
         config
       );
       setUsers(data.data.content);
@@ -138,13 +144,25 @@ const AdminAllUsers = () => {
       ) {
         setOpenFilterStatus(false);
       }
+      if (
+        filterInputRef.current &&
+        !filterInputRef.current.contains(event.target)
+      ) {
+        setOpenFilterInputOptions(false);
+      }
     }
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [filterOptionRef, filterOrderRef, userPerPageOptionRef, filterStatusRef]);
+  }, [
+    filterOptionRef,
+    filterOrderRef,
+    userPerPageOptionRef,
+    filterStatusRef,
+    filterInputRef,
+  ]);
 
   return (
     <div className="adminAllUsers">
@@ -273,6 +291,48 @@ const AdminAllUsers = () => {
                   </li>
                 </ul>
               </div>
+            </div>
+            <div className="filterInput">
+              <div className="searchInput">
+                <div
+                  className="filterInputOption"
+                  onClick={() =>
+                    setOpenFilterInputOptions(!openFilterInputOptions)
+                  }
+                  ref={filterInputRef}
+                >
+                  <h2>{capitalize(filterInput)}</h2>
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    className="openOption"
+                  />
+                  <ul
+                    className={openFilterInputOptions ? "open" : ""}
+                    style={{ border: !openFilterInputOptions && "none" }}
+                  >
+                    <li
+                      onClick={() => setFilterInput("email")}
+                      className={filterInput === "email" ? "selected" : ""}
+                    >
+                      Email
+                    </li>
+                    <li
+                      onClick={() => setFilterInput("name")}
+                      className={filterInput === "name" ? "selected" : ""}
+                    >
+                      Name
+                    </li>
+                  </ul>
+                </div>
+                <input type="text" placeholder={`Search by ${filterInput}...`} />
+                <div className="searchIconContainer">
+                  <FontAwesomeIcon
+                    icon={faMagnifyingGlass}
+                    className="searchIcon"
+                  />
+                </div>
+              </div>
+              <button className="button">Search</button>
             </div>
           </div>
         </div>

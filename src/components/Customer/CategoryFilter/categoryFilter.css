@@ -1,7 +1,8 @@
 .categoryFilter {
   width: 100%;
-  padding-bottom: 20px;
-  padding-top: 20px;
+  margin-bottom: 40px;
+  padding-top: 10px;
+  background-color: #ffffff !important;
 }
 
 .categoryFilter .categoryFilterContainer {
@@ -12,7 +13,9 @@
 .categoryFilter .categoryFilterHeading {
   font-size: 30px;
   font-weight: 600;
-  padding-bottom: 20px;
+  padding: 10px 20px 20px 20px;
+  background-color: #fff;
+
 }
 
 .categoryFilter .categories {
@@ -25,8 +28,9 @@
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
-  padding-left: 5px;
   justify-content: center;
+  padding: 0 10px;
+  background-color: #fff;
   /* display: grid;
   grid-template-columns: repeat(5, 17%); */
 }
@@ -159,5 +163,4 @@
 }
 
 @media screen and (max-width: 1500px) {
-  
 }

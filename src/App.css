@@ -21,12 +21,12 @@
   margin-bottom: 30px;
 }
 .card-wrapper {
-  background-color: white;
   box-shadow: 0 0 10px #0000001a;
   padding: 15px;
 }
 body {
   font-family: "Rubik", sans-serif;
+  background-color: #f0f2f5;
 }
 a {
   text-decoration: none;
@@ -61,14 +61,17 @@ a {
 .app {
   overflow-x: hidden;
   width: 100%;
-
+  height: 100vh;
+  overflow-y: auto;
 }
 
 .app .appBody {
   position: absolute;
   top: 70px;
   width: 100%;
-  height: calc(100vh - 70px);
+  height: 100%;
+  background-color: #f0f2f5;
+
 }
 
 .app .storeAppBody,.adminAppBody,.deliveryAppBody {
@@ -101,7 +104,7 @@ a {
 }
 
 .noInternet .buttonContainer {
-  width: 50%;
+  width: 100%;
   height: 20%;
   position: absolute;
   background-color: #FFFFFF;

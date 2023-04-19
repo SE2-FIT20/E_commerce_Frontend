@@ -154,7 +154,85 @@ export const handleUpdateStore = async (
         `${BACKEND_URL}/api/store/account`,
         config
       );
-      console.log(storeInfo)
+      setCurrentUser(data.data);
+      window.location.reload();
+
+    } catch (error) {
+      toast({
+        title: "An error occurred while trying to update profile",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  }
+};
+
+export const handleUpdateDelivery = async (
+  e,
+  deliveryInfo,
+  newAvatar,
+  setCurrentUser,
+  BACKEND_URL,
+  config,
+  toast
+) => {
+  e.preventDefault();
+  if (newAvatar) {
+    console.log(deliveryInfo)
+    const formData = new FormData();
+    formData.append("file", newAvatar);
+    formData.append("upload_preset", "BazaarBay");
+    formData.append("cloud_name", "dvvyj75uf");
+    try {
+      const res = await axios.post(
+        "https://api.cloudinary.com/v1_1/dvvyj75uf/image/upload",
+        formData
+      );
+      const newAvatar = res.data.url.toString();
+      await axios.put(
+        `${BACKEND_URL}/api/delivery-partner/account`,
+        {
+          ...deliveryInfo,
+          avatar: newAvatar,
+        },
+        config
+      );
+    } catch (error) {}
+    toast({
+      title: "Update delivery with avatar successful",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+      position: "bottom",
+    });
+    const { data } = await axios.get(
+      `${BACKEND_URL}/api/delivery-partner/account`,
+      config
+    );
+    setCurrentUser(data.data);
+    window.location.reload();
+  } else {
+    try {
+      await axios.put(
+        `${BACKEND_URL}/api/delivery-partner/account`,
+        {
+          ...deliveryInfo,
+        },
+        config
+      );
+      toast({
+        title: "Update delivery without avatar successful",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+      const { data } = await axios.get(
+        `${BACKEND_URL}/api/delivery-partner/account`,
+        config
+      );
       setCurrentUser(data.data);
       window.location.reload();
 

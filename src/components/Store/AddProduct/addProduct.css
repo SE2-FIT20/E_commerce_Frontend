@@ -3,7 +3,6 @@
   height: 100%;
   max-height: calc(100vh - 70px);
   overflow-y: scroll;
-
 }
 
 .addProductContainer {
@@ -11,10 +10,11 @@
   margin: auto;
   background-color: #ffffff;
   padding: 15px 25px;
+  border-radius: 12px;
+  margin-top: 20px;
 }
 
 .addProduct .productInfo {
-
 }
 
 .productInfo h2 {
@@ -25,7 +25,6 @@
 
 .productInfo table {
   width: 100%;
-
 }
 
 .productInfo table tbody {
@@ -129,5 +128,5 @@
 }
 
 .addBtn:hover {
-  background-color: #00587C;
+  background-color: #00587c;
 }

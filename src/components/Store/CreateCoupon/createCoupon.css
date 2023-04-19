@@ -1,0 +1,207 @@
+.storeCreateCoupon {
+  background-color: #f5f5f7;
+  width: 100%;
+  padding: 20px 0;
+  min-height: calc(100vh - 70px);
+}
+
+.storeCreateCouponContainer {
+  width: 80%;
+  margin: auto;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.storeCreateCouponTitle {
+  padding: 20px;
+  border-bottom: 1px solid lightgray;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.storeCreateCouponBody {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 20px 150px;
+  gap: 20px;
+}
+
+.storeCreateCouponLeft {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.storeCreateCouponLeft tbody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.storeCreateCouponLeft tr {
+  display: flex;
+  gap: 25px;
+}
+
+.storeCreateCouponLeft tr .updateHeading {
+  width: 150px;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.storeCreateCouponLeft tr td input:focus,
+textarea:focus {
+  outline: none;
+}
+
+.storeCreateCouponLeft tr td .inputField {
+  padding: 8px;
+  border: 1px solid lightgray;
+  border-radius: 8px;
+  width: 300px;
+  display: flex;
+}
+
+.storeCreateCouponLeft tr td .inputField input {
+  width: 80%;
+  padding-left: 5px;
+}
+
+.storeCreateCouponLeft tr td .inputField .inputCharacter {
+  border-left: 1px solid lightgray;
+  padding-left: 10px;
+  padding-right: 5px;
+}
+
+.storeCreateCouponLeft tr td textarea {
+  border: 1px solid lightgray;
+  padding: 10px 60px 50px 10px;
+  border-radius: 8px;
+  width: 350px;
+}
+
+.storeCreateCouponLeft .saveBtn {
+  width: 130px;
+  background-color: #232f3e;
+  padding: 10px 15px;
+  color: white;
+  border-radius: 6px;
+  font-weight: 400;
+}
+
+.storeCreateCouponLeft .saveBtn:hover {
+  background-color: #00587c;
+}
+
+.storeCreateCouponRight {
+  flex: 4;
+}
+
+.storeCreateCoupon .voucher {
+  width: 420px;
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
+  margin: auto;
+}
+
+.storeCreateCoupon .voucherLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 9;
+}
+
+.storeCreateCoupon .voucherImage {
+  max-width: 110px !important;
+  min-width: 110px !important;
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #9dd8f1;
+  gap: 5px;
+}
+
+.storeCreateCoupon .voucherImage img {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+.storeCreateCoupon .voucherImage span {
+  font-weight: 500;
+  color: #fff;
+  font-size: 15px;
+}
+
+.storeCreateCoupon .voucherInfo {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+  gap: 10px;
+  height: 100%;
+}
+
+.storeCreateCoupon .voucherBasicInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.storeCreateCoupon .voucherInfo .voucherPercent {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.storeCreateCoupon .voucherInfo .voucherDescription {
+  font-size: 13px;
+  color: gray;
+  line-height: 1.2;
+}
+
+.storeCreateCoupon .voucherInfo .voucherExpired {
+  color: red;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.storeCreateCoupon .voucherRight {
+  flex: 2;
+  display: flex;
+  align-self: flex-start;
+  justify-self: flex-end;
+  padding: 10px;
+}
+
+.storeCreateCoupon .voucherRight span {
+  text-align: right;
+  font-size: 14px;
+  color: gray;
+}
+@media screen and (max-width: 1400px) {
+  .storeCreateCouponBody {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .storeCreateCouponContainer {
+    width: 100%;
+  }
+}

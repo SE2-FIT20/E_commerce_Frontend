@@ -31,6 +31,11 @@ import AdminAllProducts from "./components/Admin/AdminAllProducts/AdminAllProduc
 import DeliveryNavbar from "./components/DeliveryPartner/DeliveryNavbar/DeliveryNavbar";
 import DeliveryAllOrders from "./components/DeliveryPartner/DeliveryAllOrders/DeliveryAllOrders";
 import AdminRegisterDelivery from "./components/Admin/AdminRegisterDelivery/AdminRegisterDelivery";
+import AdminCreateVoucher from "./components/Admin/AdminCreateVoucher/AdminCreateVoucher";
+import AdminAllVouchers from "./components/Admin/AdminAllVouchers/AdminAllVouchers";
+import AdminUpdateVoucher from "./components/Admin/AdminUpdateVoucher/AdminUpdateVoucher";
+import CreateCoupon from "./components/Store/CreateCoupon/CreateCoupon";
+import StoreAllCoupons from "./components/Store/StoreAllCoupons/StoreAllCoupons";
 
 function App() {
   const { role, currentUser, BACKEND_URL, config } = useContext(AuthContext);
@@ -47,12 +52,12 @@ function App() {
         setCartProducts(data.data);
         setError(false);
       } catch (error) {
-        setError(true);
+        // setError(true);
       }
     }
   };
   useEffect(() => {
-    fetchPreviewCart();
+    if (role === "CUSTOMER") fetchPreviewCart();
   }, [history]);
   useEffect(() => {
     if (role === "CUSTOMER") {
@@ -128,10 +133,10 @@ function App() {
                 exact
                 component={UpdateProduct}
               />
-              <Route path="/cart" component={Cart} />
-              <Route path="/checkout" component={Checkout} />
               <Route path="/account/profile" component={UpdateProfile} />
               <Route path="/account/password" component={UpdatePassword} />
+              <Route path="/store/coupon/:couponStatus" component={StoreAllCoupons} />
+              <Route path="/store/new/coupon" component={CreateCoupon} />
             </div>
           </div>
         </>
@@ -145,6 +150,9 @@ function App() {
               <Route path="/admin/users/:userType" exact component={AdminAllUsers} />
               <Route path="/admin/products" exact component={AdminAllProducts} />
               <Route path="/admin/new/delivery-partner" exact component={AdminRegisterDelivery} />
+              <Route path="/admin/vouchers/:voucherStatus" exact component={AdminAllVouchers} />
+              <Route path="/admin/vouchers/update/:voucherId" exact component={AdminUpdateVoucher} />
+              <Route path="/admin/new/vouchers" exact component={AdminCreateVoucher} />
             </div>
           </div>
         </>
@@ -153,6 +161,8 @@ function App() {
         <DeliveryNavbar/>
         <div className="deliveryAppBody">
           <Route path="/delivery-partner/:status" exact component={DeliveryAllOrders}/>
+          <Route path="/account/profile" component={UpdateProfile} />
+
         </div>
       </>)}
     </div>

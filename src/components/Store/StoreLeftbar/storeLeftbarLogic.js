@@ -32,6 +32,14 @@ export const handleChooseOption = (option, setOption, history) => {
       history.push("/store/new/product");
       setOption("Add a Product");
       break;
+    case "All Coupons":
+      history.push("/store/coupon/all");
+      setOption("All Coupons");
+      break;
+    case "Create Coupon":
+      history.push("/store/new/coupon");
+      setOption("Create Coupon");
+      break;
   }
 };
 
@@ -56,6 +64,10 @@ export const handleNavigateOption = (location) => {
     return "All Products";
   } else if (location.startsWith("/store/new/product")) {
     return "Add a Product";
+  } else if (location.startsWith("/store/coupon")) {
+    return "All Coupons";
+  } else if (location.startsWith("/store/new/coupon")) {
+    return "Create Coupon";
   } else {
     return "";
   }

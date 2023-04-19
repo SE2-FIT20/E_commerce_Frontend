@@ -1,0 +1,319 @@
+.adminAllVouchers {
+  width: 100%;
+  max-height: calc(100vh - 55px);
+  background-color: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: hidden;
+  min-width: 1200px;
+}
+
+.adminAllVouchersContainer {
+  background-color: #fff;
+  width: 50%;
+  height: calc(100vh - 55px);
+  border: 1px solid #ccc;
+  position: relative;
+}
+
+.adminAllVouchers .adminFilterOptions {
+  width: 100%;
+}
+
+.adminAllVouchers .adminFilterOptionsContainer {
+  padding: 10px 20px;
+  display: flex;
+}
+
+.adminAllVouchers .adminFilterOptionsContainer > div {
+  flex: 1;
+}
+
+.adminAllVouchers .adminFilterOptions h2 {
+  font-size: 19px;
+  font-weight: 500;
+}
+
+.adminAllVouchers .filterSelect {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.adminAllVouchers .filterSelectItem {
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 110px;
+  font-size: 14px;
+}
+
+.adminAllVouchers .filterSelectItem ul {
+  position: absolute;
+  top: 37px;
+  left: 0;
+  max-height: 0;
+  background-color: #fff;
+  width: 100%;
+  border-radius: 0 0 15px 15px;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+  z-index: 20;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.adminAllVouchers .filterSelectItem ul::-webkit-scrollbar {
+  display: none;
+}
+.adminAllVouchers .filterSelectItem ul.open {
+  max-height: 200px;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.adminAllVouchers .filterSelectItem ul li {
+  text-align: left;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.adminAllVouchers .filterSelectItem ul li:hover {
+  background-color: #f0f2f5;
+}
+
+.adminAllVouchers .selected {
+  background-color: #f0f2f5;
+}
+
+.openOption {
+  cursor: pointer;
+  transform: rotate(0deg);
+  transition: transform 0.25s ease-in-out;
+}
+
+.openOption.rotate {
+  transform: rotate(-180deg);
+  transition: transform 0.25s ease-in-out;
+}
+
+.adminVouchersFilter {
+  border-bottom: 1px solid #ccc;
+  padding: 0 30px;
+}
+
+.adminVouchersFilter ul {
+  display: flex;
+  gap: 5px;
+}
+
+.adminVouchersFilter ul li {
+  list-style: none;
+  cursor: pointer;
+  padding: 15px 20px;
+  cursor: pointer;
+}
+
+.active {
+  border-bottom: 3px solid #3a9cc5;
+  color: #3a9cc5;
+  font-weight: 500;
+}
+
+.adminAllVouchers .adminVouchers {
+  width: 100%;
+  height: fit-content;
+  max-height: 70%;
+  padding-bottom: 60px;
+}
+
+.adminAllVouchers table {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.adminAllVouchers table thead,
+.tbody {
+  width: 100%;
+}
+
+.adminAllVouchers table thead tr {
+  display: flex;
+  width: 100%;
+  background-color: #f6f6f6;
+  padding: 12px 0;
+}
+
+.adminAllVouchers table thead tr th {
+  flex: 1;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.adminAllVouchers table tbody {
+  display: flex;
+  flex-direction: column;
+  padding-top: 15px;
+  gap: 15px;
+  width: 100%;
+  min-height: 80vh;
+  max-height: 80vh;
+  overflow-y: scroll;
+  margin-bottom: 60px;
+  overflow-x: hidden;
+}
+
+.adminAllVouchers table tbody tr {
+  display: flex;
+}
+
+.adminAllVouchers table tbody tr th {
+  flex: 1;
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.adminAllVouchers table tbody tr th .container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 45px;
+  width: 100%;
+}
+
+.adminAllVouchers .voucherQuantityContainer {
+  display: flex;
+  border: 1px solid #ccc;
+}
+
+.adminAllVouchers .voucherQuantityContainer .voucherMinus, .voucherPlus {
+  padding: 5px 10px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.adminAllVouchers .voucherQuantityContainer .voucherMinus {
+  border-right: 1px solid #ccc;
+}
+
+.adminAllVouchers .voucherQuantityContainer .voucherPlus {
+  border-left: 1px solid #ccc;
+}
+
+.adminAllVouchers .voucherQuantityContainer .voucherQuantity {
+  padding: 5px 0;
+  width: 50px;
+  text-align: center;
+}
+
+.adminAllVouchers .voucherDeleteIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.adminAllVouchers .voucherDeleteIcon:hover {
+  background-color: #f0f2f5;
+}
+
+.confirmDelete {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 100;
+}
+.confirmDeleteContainer {
+  width: 500px;
+  height: 120px;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 15px;
+}
+
+.confirmDelete .deleteTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 18px;
+  padding-bottom: 20px;
+}
+
+.confirmDelete .deleteBtnContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.hide {
+  display: none;
+}
+
+.adminAllVouchers .noItem {
+  object-fit: contain;
+  max-width: 50%;
+}
+
+@media screen and (max-width: 1400px) {
+  .adminAllVouchers table tbody {
+    min-height: 55vh;
+    max-height: 55vh;
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  .adminAllVouchersContainer {
+    width: 100%;
+    padding: 15px 0 !important  ;
+  }
+
+  .adminAllVouchers table tbody {
+    min-height: 75vh;
+    max-height: 75vh;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .adminAllVouchers {
+    padding: 0;
+  }
+  .adminAllVouchersContainer {
+    width: 100%;
+  }
+
+  .adminAllVouchers table tbody {
+    /* min-height: 50vh;
+    max-height: 50vh; */
+  }
+  /* .storeAllVouchers table tbody {
+    margin-bottom: 10px;
+  } */
+}

@@ -24,19 +24,18 @@ export const handleClickPrev = (setCurrentPage, totalPages) => {
 
 export const handleDisplayOrderType = (orderType) => {
   switch (orderType) {
-    case "ALL":
-      return "ALL";
-    case "PENDING":
-      return "PENDING";
-    case "READY_FOR_DELIVERY":
-      return "READY";
-    case "DELIVERING":
-      return "DELIVERING";
-    case "DELIVERED":
-      return "DELIVERED";
-    case "CANCELLED":
-      return "CANCELLED";
-    default: return "";
+    case "all":
+      return "all";
+    case "Pending Orders":
+      return "pending";
+    case "Ready Orders":
+      return "ready";
+    case "Delivering Orders":
+      return "delivering";
+    case "Delivered Orders":
+      return "delivered";
+    case "Cancelled Orders":
+      return "cancelled";
   }
 };
 
@@ -44,15 +43,15 @@ export const handleConvertOrderType = (orderType) => {
   switch (orderType) {
     case "all":
       return "ALL";
-    case "pending":
+    case "Pending Orders":
       return "PENDING";
-    case "ready":
+    case "Ready Orders":
       return "READY_FOR_DELIVERY";
-    case "delivering":
+    case "Delivering Orders":
       return "DELIVERING";
-    case "delivered":
+    case "Delivered Orders":
       return "DELIVERED";
-    case "cancelled":
+    case "Cancelled Orders":
       return "CANCELLED";
   }
 };
@@ -106,12 +105,10 @@ export const handleDisplayStatus = (status) => {
 
 export const handleDisplayStatusButton = (status) => {
   switch (status) {
-    case "PENDING":
-      return "Prepare Order";
     case "READY_FOR_DELIVERY":
-      return "Unprepare Order";
+      return "Deliver Order";
     case "DELIVERING":
-      return "Delivering";
+      return "Delivered";
     case "DELIVERED":
       return "Delivered";
     case "CANCELLED":
@@ -125,44 +122,47 @@ export const handleOrder = async (
   orderType,
   orderId,
   fetchOrders,
+  fetchOrderTypeCount,
+
   BACKEND_URL,
   config,
   toast
 ) => {
-  if (orderType === "prepare-order") {
+  if (orderType === "delivering-order") {
     try {
       await axios.put(
-        `${BACKEND_URL}/api/store/orders`,
+        `${BACKEND_URL}/api/delivery-partner/update-status-order`,
         {
           orderId,
-          status: "READY_FOR_DELIVERY",
+          status: "DELIVERING",
         },
         config
       );
       toast({
-        title: "Prepare order successful",
+        title: "Deliver order successful",
         status: "success",
         duration: 3000,
         isClosable: true,
         position: "bottom",
       });
       fetchOrders();
+      fetchOrderTypeCount();
     } catch (error) {
       toast({
-        title: "An error occurred preparing orders",
+        title: "An error occurred delivering orders",
         status: "error",
         duration: 3000,
         isClosable: true,
         position: "bottom",
       });
     }
-  } else if (orderType === "unprepare-order") {
+  } else if (orderType === "delivered-order") {
     try {
       await axios.put(
-        `${BACKEND_URL}/api/store/orders`,
+        `${BACKEND_URL}/api/delivery-partner/update-status-order`,
         {
           orderId,
-          status: "PENDING",
+          status: "DELIVERED",
         },
         config
       );
@@ -174,6 +174,7 @@ export const handleOrder = async (
         position: "bottom",
       });
       fetchOrders();
+      fetchOrderTypeCount();
     } catch (error) {
       toast({
         title: "An error occurred unpreparing orders",

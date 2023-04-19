@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import "./updateAddress.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -92,6 +92,10 @@ const UpdateAddress = () => {
   const handleChange = (e) => {
     setAddressText(e.target.value);
   };
+
+  useEffect(() => {
+    document.title = "My Address | BazaarBay"
+  }, [])
   return (
     <div className="updateAddress">
       <div className="updateAddressContainer">

@@ -3,6 +3,8 @@
 }
 
 .featuredProduct .featuredProductContainer {
+  background-color: #fff;
+  padding-bottom: 10px;
 }
 
 
@@ -11,6 +13,9 @@
   font-size: 30px;
   font-weight: 600;
   padding-bottom: 20px;
+  padding: 10px 20px 20px 20px;
+
+
 }
 
 .featuredProduct ul {
@@ -19,6 +24,7 @@
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 20px;
+  background-color: #fff !important;
 }
 
 .productNav {

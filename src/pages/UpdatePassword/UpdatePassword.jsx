@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./updatePassword.css";
 
 const UpdatePassword = () => {
+  useEffect(() => {
+    document.title = "Change Password | BazaarBay"
+  }, [])
   return (
     <div className="updatePassword">
       <div className="updatePasswordContainer">

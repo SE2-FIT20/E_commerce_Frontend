@@ -9,15 +9,12 @@
   min-width: 1200px;
 }
 
-
-
 .adminAllUsersContainer {
   background-color: #fff;
   width: 90%;
   height: calc(100vh - 55px);
   border: 1px solid #ccc;
   position: relative;
-
 }
 
 .adminAllUsers .adminFilterOptions {
@@ -27,6 +24,9 @@
 .adminAllUsers .adminFilterOptionsContainer {
   padding: 10px 20px;
   display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .adminAllUsers .adminFilterOptionsContainer > div {
@@ -37,7 +37,6 @@
   font-size: 19px;
   font-weight: 500;
 }
-
 
 .adminAllUsers .filterSelect {
   display: flex;
@@ -88,6 +87,85 @@
   background-color: #f0f2f5;
 }
 
+.adminAllUsers .filterInput {
+  display: flex;
+  gap: 20px;
+  width: 80%;
+}
+
+.adminAllUsers .filterInput .searchInput {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 90%;
+}
+
+.adminAllUsers .filterInput .filterInputOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  flex: 1;
+  cursor: pointer;
+  position: relative;
+}
+
+.adminAllUsers .filterInput .filterInputOption ul {
+  position: absolute;
+  left: 0;
+  top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  border-radius: 0 0 8px 8px;
+  border: 1px solid #ccc;
+  z-index: 20;
+  background-color: #fff;
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.adminAllUsers .filterInput .filterInputOption ul.open {
+  max-height: 200px;
+  transition: max-height 0.25s ease-in-out;
+}
+
+.adminAllUsers .filterInput .filterInputOption ul li {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  cursor: pointer;
+}
+
+.adminAllUsers .filterInput .filterInputOption ul li:hover {
+  background-color: #f0f2f5;
+}
+
+.adminAllUsers .filterInput h2 {
+  font-weight: 500;
+  font-size: 19px;
+  width: 100px;
+}
+
+.adminAllUsers .filterInput input {
+  flex: 8;
+  border-left: 1px solid #ccc;
+  padding: 5px 10px;
+}
+
+.adminAllUsers .filterInput input:focus {
+  outline: none;
+}
+
+.adminAllUsers .filterInput .searchIconContainer {
+  flex: 0.5;
+  cursor: pointer;
+}
 .adminAllUsers .selected {
   background-color: #f0f2f5;
 }
@@ -150,7 +228,6 @@
   width: 100%;
   padding: 12px 30px;
   background-color: #f6f6f6;
-
 }
 
 .adminAllUsers table thead tr th {
@@ -165,8 +242,8 @@
 .adminAllUsers table tbody {
   display: flex;
   flex-direction: column;
-  min-height: 70vh;
-  max-height: 70vh;
+  min-height: 65vh;
+  max-height: 65vh;
   overflow-y: scroll;
   margin-bottom: 60px;
 }
@@ -187,7 +264,7 @@
 
 /* Define thumb styles */
 .adminAllUsers tbody::-webkit-scrollbar-thumb {
-  background-color: #0C1D26;
+  background-color: #0c1d26;
   width: 5px;
   border-radius: 5px;
 }
@@ -244,7 +321,6 @@
 
 .adminAllUsers table tbody tr th .container .userOperationIcon:hover {
   background-color: #f0f2f5;
-
 }
 
 .adminAllUsers table tbody tr .productButtons {
@@ -298,7 +374,6 @@
   padding: 5px 10px;
   cursor: pointer;
   position: relative;
-
 }
 
 .adminAllUsers .productNav .productPerPageOptions {
@@ -328,13 +403,11 @@
   max-height: 0px;
   overflow: hidden;
   transition: max-height 0.25s ease-in-out;
-
 }
 
 .adminAllUsers .productNav .productPerPageOptions ul.open {
   max-height: 150px;
   transition: max-height 0.25s ease-in-out;
-
 }
 
 .adminAllUsers .productNav .productPerPageOptions ul li {
@@ -364,8 +437,6 @@
 .adminAllUsers .productNav input:focus {
   outline: none;
 }
-
-
 
 .hide {
   display: none;

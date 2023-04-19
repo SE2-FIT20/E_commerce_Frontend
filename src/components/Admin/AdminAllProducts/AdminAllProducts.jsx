@@ -70,7 +70,7 @@ const AdminAllProducts = () => {
       const { data } = await axios.get(
         `${BACKEND_URL}/api/products?page=${
           currentPage - 1
-        }&elementsPerPage=${productPerPage}&role=${option.toUpperCase()}&sortBy=${filterOrder}&filter=${filterOption}&status=UNLOCKED&category=${filterCategory.toLowerCase()}`,
+        }&elementsPerPage=${productPerPage}&sortBy=${filterOrder}&filter=${filterOption}&category=${filterCategory.toLowerCase()}`,
         config
       );
       setProducts(data.data.content);
@@ -140,7 +140,7 @@ const AdminAllProducts = () => {
   ]);
 
   useEffect(() => {
-    history.push(`/admin/products?pages=${currentPage}`);
+    history.push(`/admin/products?page=${currentPage}`);
   }, [currentPage]);
 
   useEffect(() => {
@@ -358,7 +358,7 @@ const AdminAllProducts = () => {
 
                   <th
                     style={{
-                      flex: "2",
+                      flex: "1.5",
                       justifyContent: "flex-start",
                       display: "flex",
                     }}
@@ -399,7 +399,7 @@ const AdminAllProducts = () => {
                           className="productImage"
                           alt=""
                         />
-                        <span>{product.name}</span>
+                        <span className="productName">{product.name}</span>
                       </div>
                     </th>
                     <th onClick={() => handleSeeDetail(product)}>
@@ -417,7 +417,7 @@ const AdminAllProducts = () => {
 
                     <th
                       style={{
-                        flex: "2",
+                        flex: "1.5",
                       }}
                       onClick={() => handleSeeDetail(product)}
                     >

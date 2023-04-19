@@ -1,0 +1,93 @@
+.storeAllCoupon .voucher {
+  width: 420px;
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ccc;
+  -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
+  margin: auto;
+}
+
+.storeAllCoupon .voucherLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 9;
+}
+
+.storeAllCoupon .voucherImage {
+  max-width: 110px !important;
+  min-width: 110px !important;
+  height: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #9dd8f1;
+  gap: 5px;
+}
+
+.storeAllCoupon .voucherImage img {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+.storeAllCoupon .voucherImage span {
+  font-weight: 500;
+  color: #fff;
+  font-size: 15px;
+}
+
+.storeAllCoupon .voucherInfo {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+  gap: 10px;
+  height: 100%;
+}
+
+.storeAllCoupon .voucherBasicInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.storeAllCoupon .voucherInfo .voucherPercent {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.storeAllCoupon .voucherInfo .voucherDescription {
+  font-size: 13px;
+  color: gray;
+  line-height: 1.2;
+}
+
+.storeAllCoupon .voucherInfo .voucherExpired {
+  color: red;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.storeAllCoupon .voucherRight {
+  flex: 2;
+  display: flex;
+  align-self: flex-start;
+  justify-self: flex-end;
+  padding: 10px;
+}
+
+.storeAllCoupon .voucherRight span {
+  text-align: right;
+  font-size: 14px;
+  color: gray;
+}

@@ -16,7 +16,7 @@ const DeliveryNavbar = () => {
     <div className="deliveryNavbar">
       <div className="deliveryNavbarContainer">
         <div className="deliveryNavbarLeft">
-          <img src={logo} alt="" onClick={() => history.push(`/delivery/product/all?pages=1`)}/>
+          <img src={logo} alt="" onClick={() => history.push(`/delivery-partner/all?page=1`)}/>
         </div>
         <div className="deliveryNavbarRight">
           <div className="deliveryInfo">

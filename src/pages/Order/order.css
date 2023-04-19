@@ -1,7 +1,9 @@
 .order {
   width: 100%;
   background-color: #f5f5f5;
-  min-height: calc(100vh - 70px);
+  height: calc(100vh - 70px);
+  overflow-y: scroll;
+  padding-bottom: 50px;
 }
 
 .orderContainer {

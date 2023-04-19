@@ -126,7 +126,7 @@ const StoreLeftbar = () => {
             className="heading"
             onClick={() => setOpenPromotionManagement(!openPromotionManagement)}
           >
-            <span>Promotion Management</span>
+            <span>Coupon Management</span>
             <FontAwesomeIcon
               icon={faChevronUp}
               className={
@@ -138,47 +138,20 @@ const StoreLeftbar = () => {
             className={openPromotionManagement ? "options selected" : "options"}
           >
             <li
-              className={option === "All Promotions" ? "chosenOption" : ""}
+              className={option === "All Coupons" ? "chosenOption" : ""}
               onClick={() =>
-                handleChooseOption("All Promotions", setOption, history)
+                handleChooseOption("All Coupons", setOption, history)
               }
             >
-              All Promotions
+              All Coupons
             </li>
             <li
-              className={option === "Add a Promotion" ? "chosenOption" : ""}
+              className={option === "Create Coupon" ? "chosenOption" : ""}
               onClick={() =>
-                handleChooseOption("Add a Promotion", setOption, history)
+                handleChooseOption("Create Coupon", setOption, history)
               }
             >
-              Add a Promotion
-            </li>
-          </ul>
-        </div>
-        <div className="myStoreSite">
-          <div className="heading" onClick={() => setOpenMyStore(!openMyStore)}>
-            <span>My Store</span>
-            <FontAwesomeIcon
-              icon={faChevronUp}
-              className={openMyStore ? "openOption" : "openOption rotate"}
-            />
-          </div>
-          <ul className={openMyStore ? "options selected" : "options"}>
-            <li
-              className={option === "All Products" ? "chosenOption" : ""}
-              onClick={() =>
-                handleChooseOption("All Products", setOption, history)
-              }
-            >
-              Update Store Information
-            </li>
-            <li
-              className={option === "Add a Product" ? "chosenOption" : ""}
-              onClick={() =>
-                handleChooseOption("Add a Product", setOption, history)
-              }
-            >
-              Change Password
+              Create Coupon
             </li>
           </ul>
         </div>

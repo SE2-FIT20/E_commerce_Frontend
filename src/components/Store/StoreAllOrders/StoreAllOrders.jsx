@@ -50,6 +50,8 @@ const StoreAllOrders = () => {
   const [filterOrder, setFilterOrder] = useState("desc");
   const [dateFrom, setDateFrom] = useState(formattedDateFrom);
   const [dateTo, setDateTo] = useState(formattedDateTo);
+  const [orderTypeCount, setOrderTypeCount] = useState(null);
+
   const toast = useToast();
   const filterOptionRef = useRef();
   const filterOrderRef = useRef();
@@ -84,7 +86,7 @@ const StoreAllOrders = () => {
         )}&sortBy=${filterOrder}&from=${dateFrom}&to=${dateTo}`,
         config
       );
-      console.log(data)
+      console.log(data);
       setOrders(data.data.content);
       setTotalPages(data.data.totalPages);
       setLoading(false);
@@ -100,6 +102,19 @@ const StoreAllOrders = () => {
     }
   };
 
+  const fetchOrderTypeCount = async () => {
+    try {
+      const { data } = await axios.get(
+        `${BACKEND_URL}/api/store/orders-count`,
+        config
+      );
+      setOrderTypeCount(data.data);
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    fetchOrderTypeCount();
+  }, []);
 
   useEffect(() => {
     fetchOrders();
@@ -217,66 +232,78 @@ const StoreAllOrders = () => {
           </div>
         </div>
         <div className="storeOrdersFilter">
-          <ul>
-            <li
-              className={option === "All Orders" ? "all active" : "all"}
-              id="All Orders"
-              onClick={handleChangeOrderType}
-            >
-              All
-            </li>
-            <li
-              className={
-                option === "Pending Orders" ? "pending active" : "pending"
-              }
-              id="Pending Orders"
-              onClick={handleChangeOrderType}
-            >
-              Pending
-            </li>
-            <li
-              className={
-                option === "Ready Orders" ? "outOfStock active" : "outOfStock"
-              }
-              id="Ready Orders"
-              onClick={handleChangeOrderType}
-            >
-              Ready
-            </li>
-            <li
-              className={
-                option === "Delivering Orders"
-                  ? "outOfStock active"
-                  : "outOfStock"
-              }
-              id="Delivering Orders"
-              onClick={handleChangeOrderType}
-            >
-              Delivering
-            </li>
-            <li
-              className={
-                option === "Delivered Orders"
-                  ? "outOfStock active"
-                  : "outOfStock"
-              }
-              id="Delivered Orders"
-              onClick={handleChangeOrderType}
-            >
-              Delivered
-            </li>
-            <li
-              className={
-                option === "Cancelled Orders"
-                  ? "outOfStock active"
-                  : "outOfStock"
-              }
-              id="Cancelled Orders"
-              onClick={handleChangeOrderType}
-            >
-              Cancelled
-            </li>
-          </ul>
+          {orderTypeCount && (
+            <ul>
+              <li
+                className={option === "All Orders" ? "all active" : "all"}
+                id="All Orders"
+                onClick={handleChangeOrderType}
+              >
+                All
+              </li>
+              <li
+                className={
+                  option === "Pending Orders" ? "pending active" : "pending"
+                }
+                id="Pending Orders"
+                onClick={handleChangeOrderType}
+              >
+                {orderTypeCount.PENDING > 0
+                  ? `Pending (${orderTypeCount.PENDING})`
+                  : "Pending"}
+              </li>
+              <li
+                className={
+                  option === "Ready Orders" ? "outOfStock active" : "outOfStock"
+                }
+                id="Ready Orders"
+                onClick={handleChangeOrderType}
+              >
+                {orderTypeCount.READY_FOR_DELIVER > 0
+                  ? `Ready (${orderTypeCount.READY_FOR_DELIVER})`
+                  : "Ready"}
+              </li>
+              <li
+                className={
+                  option === "Delivering Orders"
+                    ? "outOfStock active"
+                    : "outOfStock"
+                }
+                id="Delivering Orders"
+                onClick={handleChangeOrderType}
+              >
+                {orderTypeCount.ĐELIVERING > 0
+                  ? `Delivering (${orderTypeCount.DELIVERING})`
+                  : "Delivering"}
+              </li>
+              <li
+                className={
+                  option === "Delivered Orders"
+                    ? "outOfStock active"
+                    : "outOfStock"
+                }
+                id="Delivered Orders"
+                onClick={handleChangeOrderType}
+              >
+                {orderTypeCount.DELIVERED > 0
+                  ? `Delivered (${orderTypeCount.DELIVERED})`
+                  : "Delivered"}
+              </li>
+              <li
+                className={
+                  option === "Cancelled Orders"
+                    ? "outOfStock active"
+                    : "outOfStock"
+                }
+                id="Cancelled Orders"
+                onClick={handleChangeOrderType}
+              >
+                {orderTypeCount.CANCELLED > 0
+                  ? `Cancelled (${orderTypeCount.CANCELLED})`
+                  : "Cancelled"}
+              </li>
+            </ul>
+          )}
         </div>
         {loading && (
           <div className="fullLoading">
@@ -424,7 +451,8 @@ const StoreAllOrders = () => {
                                     {handleDisplayStatusButton(order.status)}
                                   </button>
                                 )}
-                                {(order.status == "PENDING" || order.status == "READY_FOR_DELIVERY") && (
+                                {(order.status == "PENDING" ||
+                                  order.status == "READY_FOR_DELIVERY") && (
                                   <button
                                     className="button"
                                     onClick={() =>
@@ -441,7 +469,7 @@ const StoreAllOrders = () => {
                                     Cancel Order
                                   </button>
                                 )}
-                                  {(order.status == "CANCELLED") && (
+                                {order.status == "CANCELLED" && (
                                   <button
                                     className="button"
                                     onClick={() =>

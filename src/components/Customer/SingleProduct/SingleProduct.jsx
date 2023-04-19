@@ -35,16 +35,16 @@ const SingleProduct = ({ product, search }) => {
         <div className="singleProductTitle">
           <h2 className="singleProductName">{`${product.name.substring(
             0,
-            50
-          )} ${product.name.length > 50 ? "..." : ""}`}</h2>
+            40
+          )} ${product.name.length > 40 ? "..." : ""}`}</h2>
         </div>
         <span className="singleProductPrice">{`đ${formatNumber(
           product.price
         )}`}</span>
         {!search && (
           <span className="singleProductDesc">
-            {`${product.description.substring(0, 55)}${
-              product.description.length > 55 ? "..." : ""
+            {`${product.description.substring(0, 50)}${
+              product.description.length > 50 ? "..." : ""
             }`}
           </span>
         )}

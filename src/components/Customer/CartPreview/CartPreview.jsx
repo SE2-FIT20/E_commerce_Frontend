@@ -30,7 +30,9 @@ const CartPreview = ({ open, setOpen, products }) => {
                   {/* <Link to={`/product/${item.product.id}`}> */}
                   <div className="cartProductLeft">
                     <img src={item.product.images[0]} alt="" />
-                    <span>{item.product.name}</span>
+                    <span>{`${item.product.name.substring(0, 50)}${
+                      item.product.name.length > 50 ? "..." : ""
+                    }`}</span>
                   </div>
                   <div className="cartProductRight">
                     <span className="price-symbol">₫</span>
@@ -54,7 +56,7 @@ const CartPreview = ({ open, setOpen, products }) => {
           </div>
         </div>
       )}
-      {((currentUser && products.length === 0) || (!currentUser))&& (
+      {((currentUser && products.length === 0) || !currentUser) && (
         <div className="cartPreviewContainer">
           <img src={EmptyCart} alt="" className="emptyCart" />
           <div className="emptyCartText">
@@ -66,7 +68,6 @@ const CartPreview = ({ open, setOpen, products }) => {
           </div>
         </div>
       )}
-      
     </div>
   );
 };
