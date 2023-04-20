@@ -83,7 +83,7 @@ const AdminCreateVoucher = () => {
         await axios.post(
           `${BACKEND_URL}/api/admin/create-voucher-set`,
           {
-            precent: parseInt(voucher.percent),
+            precent: parseFloat(voucher.percent),
             quantity: parseInt(voucher.quantity),
             description: voucher.description,
             startAt: voucher.startAt,

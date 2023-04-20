@@ -9,6 +9,7 @@ import {
   faMinus,
   faPlus,
   faShop,
+  faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import "./productDetail.css";
 import ProductImage from "../ProductImage/ProductImage";
@@ -17,7 +18,7 @@ import axios from "axios";
 import StarRatings from "react-star-ratings";
 import { useToast } from "@chakra-ui/react";
 import { AuthContext } from "../../../context/AuthContext";
-import { capitalize, formatNumber } from "../../longFunctions";
+import { capitalize, formatDaysAgo, formatNumber } from "../../longFunctions";
 
 const ProductDetail = ({ product, fetchPreviewCart }) => {
   const { BACKEND_URL, config, currentUser } = useContext(AuthContext);
@@ -48,6 +49,8 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
       prev === product.images.length - 5 ? product.images.length - 5 : prev + 1
     );
   };
+
+
   const handleAddToCart = async (productId) => {
     try {
       await axios.post(
@@ -84,7 +87,7 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
     setCurrentImage(product.images[0]);
     document.title = `${product.name} | BazaarBay`;
   }, [product]);
-  console.log(product.store)
+  console.log(product.store);
   useEffect(() => {
     function handleClickOutside(event) {
       if (
@@ -296,23 +299,47 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
       </div>
       <div className="storeInfo">
         <div className="storeInfoContainer">
-          <div className="storeLeft">
-            <img src={product.store.avatar} alt="" />
+          <div className="storeBasicInfo">
+            <div className="storeLeft">
+              <img src={product.store.avatar} alt="" />
+            </div>
+            <div className="storeRight">
+              <h3 className="storeName">{product.store.name}</h3>
+              <div className="storeButtons">
+                <button
+                  className="button"
+                  onClick={() => history.push(`/store/${product.store.id}`)}
+                >
+                  <FontAwesomeIcon icon={faShop} />
+                  <span>Visit store</span>
+                </button>
+                <button className="button">
+                  <FontAwesomeIcon icon={faMessage} />
+                  <span>Message</span>
+                </button>
+              </div>
+            </div>
           </div>
-          <div className="storeRight">
-            <h3 className="storeName">{product.store.name}</h3>
-            <div className="storeButtons">
-              <button
-                className="button"
-                onClick={() => history.push(`/store/${product.store.id}`)}
-              >
-                <FontAwesomeIcon icon={faShop} />
-                <span>Visit store</span>
-              </button>
-              <button className="button">
-                <FontAwesomeIcon icon={faMessage} />
-                <span>Message</span>
-              </button>
+          <div className="storeMoreInfo">
+            <div className="storeMoreInfoCol">
+              <div className="storeMoreInfoItem">
+                <h2>Rating: </h2>
+                <span>{product.store.averageRating}</span>
+              </div>
+              <div className="storeMoreInfoItem">
+                <h2>Products: </h2>
+                <span>{product.store.numberOfProducts}</span>
+              </div>
+            </div>
+            <div className="storeMoreInfoCol">
+              <div className="storeMoreInfoItem">
+                <h2>Review: </h2>
+                <span>1000</span>
+              </div>
+              <div className="storeMoreInfoItem">
+                <h2>Created At: </h2>
+                <span>{formatDaysAgo(product.store.createdAt)}</span>
+              </div>
             </div>
           </div>
         </div>

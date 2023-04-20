@@ -252,10 +252,15 @@
   display: flex;
   margin: auto;
   padding: 20px;
-  gap: 15px;
   background-color: #fff;
   border-radius: 8px;
 
+}
+
+.storeInfo .storeBasicInfo {
+  display: flex;
+  gap: 15px;
+  flex: 4;
 }
 
 .storeInfo .storeInfoContainer .storeLeft {
@@ -301,6 +306,39 @@
 
 .storeName {
   font-weight: bold !important;
+}
+
+.storeInfo .storeMoreInfo {
+  flex: 7;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.storeInfo .storeMoreInfoCol {
+  border-left: 1px solid #ccc;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.storeInfo .storeMoreInfoItem {
+  display: flex;
+  align-items: center;
+  gap: 30px;  
+  justify-content: space-between;
+}
+
+.storeInfo .storeMoreInfoItem h2 {
+  color: gray;
+  font-size: 14px;
+}
+
+.storeInfo .storeMoreInfoItem span {
+  color: #26b99a;
+  font-weight: 500;
 }
 
 .product .productDesc {

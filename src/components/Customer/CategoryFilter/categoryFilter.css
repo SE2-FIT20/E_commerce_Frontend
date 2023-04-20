@@ -1,13 +1,14 @@
 .categoryFilter {
   width: 100%;
+  margin-top: 20px;
   margin-bottom: 40px;
   padding-top: 10px;
   background-color: #ffffff !important;
+  border-radius: 8px;
 }
 
 .categoryFilter .categoryFilterContainer {
   max-width: 100%;
-  overflow: hidden;
 }
 
 .categoryFilter .categoryFilterHeading {
@@ -15,12 +16,16 @@
   font-weight: 600;
   padding: 10px 20px 20px 20px;
   background-color: #fff;
-
 }
 
 .categoryFilter .categories {
   position: relative;
-  overflow: visible;
+
+
+}
+
+.categoryFilter .categoriesContainer {
+  overflow: hidden;
 }
 
 .categoryFilter .categories ul {
@@ -28,11 +33,48 @@
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
-  justify-content: center;
-  padding: 0 10px;
   background-color: #fff;
+  min-width: 1200px;
+  max-width: 1200px;
+  max-height: 300px;
+  transition: transform 0.5s ease;
+
   /* display: grid;
   grid-template-columns: repeat(5, 17%); */
+}
+
+.categoryFilter .categories .categoryFilterPrevBtn,
+.categoryFilterNextBtn {
+  position: absolute;
+  top: 50%;
+  z-index: 20;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  background-color: lightgray;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.categoryFilter .categories .categoryFilterPrevBtn {
+  left: 0;
+  transform: translate(-50%, -50%);
+}
+
+.categoryFilter .categories .categoryFilterNextBtn {
+  right: 0;
+  transform: translate(50%, -50%);
+}
+
+.categoryFilter .categories .categoryFilterPrevBtn:hover {
+  animation: hover-scale-up-prev 0.2s forwards;
+}
+
+.categoryFilter .categories .categoryFilterNextBtn:hover {
+  animation: hover-scale-up-next 0.2s forwards;
 }
 
 .categoryFilter .categories ul li {
@@ -109,19 +151,12 @@
 }
 .categoryFilter .categories ul li span {
   font-weight: 500;
+  text-align: center;
+  line-height: 1.2;
 }
 
-.categoryFilter .categories > div {
-  border: 1px solid #ccc;
-  border-radius: 50%;
-  background-color: lightgray;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.5;
-  cursor: pointer;
+.categoryFilter .categories  {
+
 }
 
 .categoryFilter .categories .prevBtn {
@@ -162,5 +197,22 @@
   background: #555;
 }
 
+@keyframes hover-scale-up-prev {
+  0% {
+    transform: scale(1) translate(-50%, -50%);
+  }
+  100% {
+    transform: scale(1.2) translate(-50%, -50%);
+  }
+}
+
+@keyframes hover-scale-up-next {
+  0% {
+    transform: scale(1) translate(50%, -50%);
+  }
+  100% {
+    transform: scale(1.2) translate(50%, -50%);
+  }
+}
 @media screen and (max-width: 1500px) {
 }

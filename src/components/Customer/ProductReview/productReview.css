@@ -1,5 +1,10 @@
 .customerReviews ul li {
   display: flex;
+  justify-content: space-between;
+}
+
+.customerReviews ul li .reviewInfo {
+  display: flex;
   gap: 15px;
 }
 
@@ -27,3 +32,33 @@
 .customerReviews .reviewRight .customerName {
   font-weight: 500;
 }
+
+.customerReviews ul li .reviewOptions {
+  display: flex;
+}
+
+.customerReviews ul li .reviewOptions .reviewButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.customerReviews ul li .reviewOptions .reviewButton:hover {
+  background-color: #f0f2f5;
+}
+
+.customerReviews .editReviewInput {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  margin-top: 5px;
+}
+
+.customerReviews .editReviewInput:focus {
+  outline: none;
+}
+

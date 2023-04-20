@@ -24,14 +24,12 @@ const SearchResult = () => {
   const [loading, setLoading] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(100);
+  console.log(keyword)
   const fetchSearchResult = async () => {
     setLoading(true);
     try {
       const response1 = await axios.get(
-        `${BACKEND_URL}/api/search-products?keyword=${keyword.replace(
-          /\s/g,
-          ""
-        )}&elementsPerPage=10&page=${pageNumber - 1}`
+        `${BACKEND_URL}/api/search-products?keyword=${keyword.trim()}&elementsPerPage=10&page=${pageNumber - 1}`
       );
       const response2 = await axios.get(
         `${BACKEND_URL}/api/search-stores?keyword=${keyword.replace(/\s/g, "")}`
