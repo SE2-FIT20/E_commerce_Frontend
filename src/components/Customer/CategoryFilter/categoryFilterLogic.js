@@ -12,6 +12,12 @@ import Travel from "../../../images/travel-icon.png"
 import Shoes from "../../../images/shoes-icon.png"
 import Bag from "../../../images/bag-icon.png"
 import Toy from "../../../images/toy-icon.png"
+import Pet from "../../../images/pet-icon.png"
+import Watch from "../../../images/watch-icon.png"
+import Motorbike from "../../../images/motorbike-icon.png"
+import Camera from "../../../images/camera-icon.png"
+import Phone from "../../../images/phone-icon.png"
+import Other from "../../../images/other-icon.png"
 
 export const handleDisplayCategoryImage = (category) => {
   switch (category) {
@@ -43,6 +49,19 @@ export const handleDisplayCategoryImage = (category) => {
       return Bag;
     case "TOYS":
       return Toy;
+    case "PETS":
+      return Pet;
+    case "WATCHES":
+      return Watch;
+    case "CARS_MOTORBIKES":
+      return Motorbike;
+    case "CAMERAS":
+      return Camera;
+    case "PHONES":
+      return Phone;
+    case "OTHERS":
+      return Other;
+    default: return "";
   }
 };
 

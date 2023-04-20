@@ -245,7 +245,6 @@
   min-height: 65vh;
   max-height: 65vh;
   overflow-y: scroll;
-  margin-bottom: 60px;
 }
 
 .adminAllUsers table tbody tr {
@@ -454,19 +453,19 @@
   }
 }
 
-@media screen and (max-width: 1400px) {
+@media screen and (max-height: 1000px) {
   .adminAllUsersContainer {
     width: 100%;
     padding: 15px 0 !important  ;
   }
 
   .adminAllUsers table tbody {
-    min-height: 60vh;
-    max-height: 60vh;
+    min-height: 65vh;
+    max-height: 65vh;
   }
 }
 
-@media screen and (max-width: 1400px) {
+@media screen and (max-height: 700px) {
   .adminAllUsers {
     padding: 0;
   }
@@ -475,8 +474,8 @@
   }
 
   .adminAllUsers table tbody {
-    min-height: 50vh;
-    max-height: 50vh;
+    min-height: 40vh;
+    max-height: 40vh;
   }
   /* .storeAllUsers table tbody {
     margin-bottom: 10px;

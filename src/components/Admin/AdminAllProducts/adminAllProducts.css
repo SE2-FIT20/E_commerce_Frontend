@@ -9,6 +9,8 @@
   min-width: 1200px;
 }
 
+
+
 .adminAllProductsContainer {
   background-color: #fff;
   width: 95%;
@@ -281,7 +283,7 @@
   align-items: center;
   position: absolute;
   right: 30px;
-  top: 0;
+  bottom: 0;
 }
 
 .adminAllProducts .productNav .productPerPageContainer {
@@ -413,8 +415,8 @@
   }
 
   .adminAllProducts table tbody {
-    min-height: 75vh;
-    max-height: 75vh;
+    /* min-height: 60vh;
+    max-height: 60vh; */
   }
 }
 
@@ -433,4 +435,28 @@
   /* .storeAllProducts table tbody {
     margin-bottom: 10px;
   } */
+}
+
+@media screen and (max-height: 1000px) {
+
+
+  .adminAllProducts table tbody {
+    min-height: 70vh;
+    max-height: 70vh;
+  }
+  .storeAllProducts table tbody {
+    margin-bottom: 10px;
+  }
+}
+
+@media screen and (max-height: 700px) {
+
+
+  .adminAllProducts table tbody {
+    min-height: 60vh;
+    max-height: 60vh;
+  }
+  .storeAllProducts table tbody {
+    margin-bottom: 10px;
+  }
 }

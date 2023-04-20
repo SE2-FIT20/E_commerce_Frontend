@@ -26,7 +26,6 @@ const Order = () => {
     setOrderType(e.target.id);
     setCurrentPage(0)
   };
-  console.log(currentPage);
   const fetchOrders = async () => {
     try {
       setLoading(true);
@@ -68,7 +67,7 @@ const Order = () => {
       currentPage < totalPages - 1
     ) {
       setCurrentPage((prev) => prev + 1);
-
+      console.log(true)
       try {
         setMoreOrderLoading(true);
 

@@ -19,6 +19,8 @@ const Product = ({ fetchPreviewCart }) => {
   const location = useLocation();
   const productId = location.pathname.split("/")[2];
   const [product, setProduct] = useState(null);
+  const [reviewable, setReviewable] = useState(false);
+
   const [reviews, setReviews] = useState([]);
   const [writeReview, setWriteReview] = useState({
     rating: 5,
@@ -28,6 +30,15 @@ const Product = ({ fetchPreviewCart }) => {
   });
 
   const toast = useToast();
+
+  const getReviewable = async () => {
+    try {
+      const { data } = await axios.get(`${BACKEND_URL}/api/customer/check-eligible-to-review/${productId}`, config);
+      setReviewable(data.data.eligible)
+    } catch (error) {
+      
+    }
+  }
   const fetchProduct = async () => {
     try {
       const response = await axios.get(
@@ -157,6 +168,7 @@ const Product = ({ fetchPreviewCart }) => {
   useEffect(() => {
     fetchProduct();
     fetchReviews();
+    getReviewable();
   }, [location]);
 
   return (
@@ -194,7 +206,7 @@ const Product = ({ fetchPreviewCart }) => {
               </div>
             )}
             {/* write review */}
-            {currentUser && (
+            {currentUser && reviewable && (
               <div className="writeReview">
                 <div className="writeReviewText">Write your review</div>
                 <div className="reviewVote">

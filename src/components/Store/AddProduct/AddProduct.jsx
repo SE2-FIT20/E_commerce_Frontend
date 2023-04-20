@@ -62,11 +62,11 @@ const AddProduct = () => {
                     <input
                       type="text"
                       placeholder="Your product name"
-                      maxLength="100"
+                      maxLength="200"
                       id="name"
                       onChange={handleChange}
                     />
-                    <span className="inputCharacter">{`${product.name.length}/100`}</span>
+                    <span className="inputCharacter">{`${product.name.length}/200`}</span>
                   </div>
                 </td>
               </tr>

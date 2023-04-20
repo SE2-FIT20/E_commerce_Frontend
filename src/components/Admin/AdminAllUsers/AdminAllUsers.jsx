@@ -50,6 +50,7 @@ const AdminAllUsers = () => {
   const [filterOrder, setFilterOrder] = useState("asc");
   const [filterStatus, setFilterStatus] = useState("all");
   const [filterInput, setFilterInput] = useState("email");
+  const [keyword, setKeyword] = useState("");
   const filterOptionRef = useRef();
   const filterOrderRef = useRef();
   const filterStatusRef = useRef();
@@ -82,7 +83,29 @@ const AdminAllUsers = () => {
       });
     }
   };
+  const searchUser = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(
+        `${BACKEND_URL}/api/admin/search-user-by-${filterInput}?${filterInput}=${keyword}&page=${currentPage}`,
+        config
+      );
+      filterInput === "email" && setUsers(data.data);
+      filterInput === "name" && setUsers(data.data.content)
+      filterInput === "name" && setTotalPages(data.data.totalPages)
 
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      toast({
+        title: "An error occurred fetching users",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  };
   const handleChooseFilterOption = (option) => {
     setFilterOption(option);
     setOpenFilterOptions(false);
@@ -104,6 +127,13 @@ const AdminAllUsers = () => {
     setOpenAdminSeeDetail(true);
   };
 
+  const handleChange = (e) => {
+    setKeyword(e.target.value);
+  };
+
+  useEffect(() => {
+    searchUser();
+  }, [keyword]);
   useEffect(() => {
     fetchUsers();
   }, [
@@ -324,7 +354,12 @@ const AdminAllUsers = () => {
                     </li>
                   </ul>
                 </div>
-                <input type="text" placeholder={`Search by ${filterInput}...`} />
+                <input
+                  type="text"
+                  placeholder={`Search by ${filterInput}...`}
+                  value={keyword}
+                  onChange={handleChange}
+                />
                 <div className="searchIconContainer">
                   <FontAwesomeIcon
                     icon={faMagnifyingGlass}

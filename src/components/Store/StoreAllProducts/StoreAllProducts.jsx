@@ -100,7 +100,6 @@ const Storepage = () => {
       });
     }
   };
-  console.log(productPerPage)
   const fetchCategories = async () => {
     try {
       const { data } = await axios.get(`${BACKEND_URL}/api/product-categories`);

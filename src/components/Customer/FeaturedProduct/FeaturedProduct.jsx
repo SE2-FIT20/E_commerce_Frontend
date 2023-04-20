@@ -38,7 +38,6 @@ const FeaturedProduct = ({ category, setCategory }) => {
     }
   };
 
-
   const pageNumberList = [];
   pageNumberList.push(
     <li
@@ -112,23 +111,28 @@ const FeaturedProduct = ({ category, setCategory }) => {
     handleScroll();
   };
 
-
   useEffect(() => {
     setCategory(currentCategory);
-  }, [])
-  
+  }, []);
+
   useEffect(() => {
     fetchProducts();
     document.title = "BazaarBay";
   }, [pageNumber, category]);
-
+  console.log(category)
   return (
     <div className="featuredProduct" ref={featuredProduct}>
       <div className="featuredProductContainer">
         {category === "all" && (
           <div className="featuredTitle">Featured products</div>
         )}
-        {category !== "all" && <div className="featuredTitle">{`${capitalize(category)}`}</div>}
+        {category !== "all" && (
+          <div className="featuredTitle">
+            {category === "cars_motorbikes"
+              ? "Cars & Motorbikes"
+              : `${capitalize(category)}`}
+          </div>
+        )}
         {loading && (
           <div className="partialLoading">
             <div className="lds-ellipsis">
@@ -142,9 +146,11 @@ const FeaturedProduct = ({ category, setCategory }) => {
         {!loading && (
           <>
             <ul>
-              {products.filter(product => product.quantity !== 0).map((product) => (
-                <SingleProduct product={product} key={product.id} />
-              ))}
+              {products
+                .filter((product) => product.quantity !== 0)
+                .map((product) => (
+                  <SingleProduct product={product} key={product.id} />
+                ))}
             </ul>
             <div className="productNav">
               <ul>

@@ -3,7 +3,6 @@
   height: auto;
   background-color: #ffffff;
   min-height: calc(100vh - 60px);
-  overflow-y: scroll;
 }
 
 .storeLeftbarContainer {

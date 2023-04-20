@@ -19,7 +19,7 @@ const Search = ({ open, setOpen, keyword, setKeyword, searchHistory, fetchSearch
     try {
       setLoading(true);
       const response1 = await axios.get(
-        `${BACKEND_URL}/api/search-products?keyword=${keyword}`
+        `${BACKEND_URL}/api/search-products?keyword=${keyword.replace(/\s/g, "%20")}`
       );
       const response2 = await axios.get(
         `${BACKEND_URL}/api/search-stores?keyword=${keyword.replace(/\s/g, "")}`
