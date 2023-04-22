@@ -1,4 +1,4 @@
-.writeReview .addProductImage {
+.addProductImage {
   position: relative;
   display: flex;
   gap: 10px;
@@ -6,14 +6,14 @@
   height: 80px;
 }
 
-.writeReview .productImg {
+.productImg {
   width: 100%;
   height: 100%;
   border-radius: 8px;
   object-fit: cover;
 }
 
-.writeReview .addProductImage .deleteImgContainer {
+.addProductImage .deleteImgContainer {
   width: 100%;
   height: 30px;
   position: absolute;
@@ -29,7 +29,7 @@
   border-radius: 0 0 8px 8px;
 }
 
-.writeReview .addProductImage .deleteImgContainer .deleteIcon {
+.addProductImage .deleteImgContainer .deleteIcon {
   font-weight: 20;
   color: #ffffff;
   opacity: 1;

@@ -23,11 +23,11 @@ const CategoryFilter = () => {
   const categoryRef = useRef();
 
   const handleClickPrev = () => {
-    setPosition(Math.max(position - 250, 0));
+    setPosition(Math.max(position - 200, 0));
   };
 
   const handleClickNext = () => {
-    setPosition(Math.min(position + 250, maxWidth));
+    setPosition(Math.min(position + 200, maxWidth));
   };
   const fetchCategories = async () => {
     try {
@@ -39,10 +39,9 @@ const CategoryFilter = () => {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     if (categoryRef.current) {
-      setMaxWidth(Math.abs(categoryRef.current.offsetWidth - 1200));
+      setMaxWidth(Math.abs(categoryRef.current.offsetWidth - 1400));
     }
     fetchCategories();
   }, []);
@@ -50,7 +49,7 @@ const CategoryFilter = () => {
   useEffect(() => {
     const handleResize = () => {
       if (categoryRef.current) {
-        setMaxWidth(Math.abs(categoryRef.current.offsetWidth - 1200));
+        setMaxWidth(Math.abs(categoryRef.current.offsetWidth - 1400));
       }
     };
 

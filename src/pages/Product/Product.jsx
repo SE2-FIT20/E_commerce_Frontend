@@ -20,7 +20,7 @@ const Product = ({ fetchPreviewCart }) => {
   const productId = location.pathname.split("/")[2];
   const [product, setProduct] = useState(null);
   const [reviewable, setReviewable] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [writeReview, setWriteReview] = useState({
     rating: 5,
@@ -33,14 +33,16 @@ const Product = ({ fetchPreviewCart }) => {
 
   const getReviewable = async () => {
     try {
-      const { data } = await axios.get(`${BACKEND_URL}/api/customer/check-eligible-to-review/${productId}`, config);
-      setReviewable(data.data.eligible)
-    } catch (error) {
-      
-    }
-  }
+      const { data } = await axios.get(
+        `${BACKEND_URL}/api/customer/check-eligible-to-review/${productId}`,
+        config
+      );
+      setReviewable(data.data.eligible);
+    } catch (error) {}
+  };
   const fetchProduct = async () => {
     try {
+      setLoading(true);
       const response = await axios.get(
         `${BACKEND_URL}/api/product/${productId}`,
         {
@@ -49,8 +51,11 @@ const Product = ({ fetchPreviewCart }) => {
           },
         }
       );
+      setLoading(false);
       setProduct(response.data.data);
     } catch (error) {
+      setLoading(false);
+
       toast({
         title: "An error occurred fetching product",
         status: "error",
@@ -174,143 +179,133 @@ const Product = ({ fetchPreviewCart }) => {
   return (
     <div className="product">
       <BreadCrumb title="Product" />
-
-      <div className="productContainer">
-        {product && (
-          <ProductDetail
-            product={product}
-            fetchPreviewCart={fetchPreviewCart}
-          />
-        )}
-
-        {/* store Infomation */}
-
-        {/* product description */}
-
-        <div className="productReview">
-          <span className="reviewText">Review</span>
-          <div className="productReviewContainer">
-            {reviews.length > 0 && (
-              <div className="customerReviews">
-                <ul>
-                  {reviews.map((review) => (
-                    <ProductReview review={review} key={review.id} />
-                  ))}
-                </ul>
-              </div>
-            )}
-            {product && product.reviews.length === 0 && (
-              <div className="noReview">
-                <img src={NoReview} alt="" />
-                <span>No Review Found</span>
-              </div>
-            )}
-            {/* write review */}
-            {currentUser && reviewable && (
-              <div className="writeReview">
-                <div className="writeReviewText">Write your review</div>
-                <div className="reviewVote">
-                  <ReactStars
-                    count={5}
-                    size={24}
-                    value={writeReview.rating}
-                    edit={true}
-                    activeColor="#ffd700"
-                    onChange={(rating) =>
-                      setWriteReview((prev) => ({
-                        ...prev,
-                        rating,
-                      }))
-                    }
-                  />
+      {!loading && (
+        <div className="productContainer">
+          {product && (
+            <ProductDetail
+              product={product}
+              fetchPreviewCart={fetchPreviewCart}
+            />
+          )}
+          <div className="productReview">
+            <span className="reviewText">Review</span>
+            <div className="productReviewContainer">
+              {reviews.length > 0 && (
+                <div className="customerReviews">
+                  <ul>
+                    {reviews.map((review) => (
+                      <ProductReview review={review} key={review.id} fetchReviews={fetchReviews}/>
+                    ))}
+                  </ul>
                 </div>
-                <textarea
-                  name="review"
-                  wrap="soft"
-                  id=""
-                  cols="30"
-                  rows="10"
-                  placeholder="Comment..."
-                  value={writeReview.comment}
-                  onChange={(e) =>
-                    setWriteReview((prev) => ({
-                      ...prev,
-                      comment: e.target.value,
-                    }))
-                  }
-                ></textarea>
-                <div className="reviewImages">
-                  {writeReview.images.slice(0, 10).map((image, i) => (
-                    <AddReviewImage
-                      image={image}
-                      index={i}
-                      writeReview={writeReview}
-                      setWriteReview={setWriteReview}
-                    />
-                  ))}
-                  <label htmlFor="file">
-                    <div className="addImage">
-                      <FontAwesomeIcon
-                        icon={faImage}
-                        className="addImageIcon"
-                      />
-                      <span>{`Add image (${
-                        writeReview.images.length > 10
-                          ? 10
-                          : writeReview.images.length
-                      }/10)`}</span>
-                    </div>
-                    <input
-                      type="file"
-                      name=""
-                      id="file"
-                      multiple
-                      accept="image/png, image/jpeg, image/webp"
-                      style={{ display: "none" }}
-                      disabled={writeReview.images.length >= 10}
-                      onChange={(event) =>
+              )}
+              {product && product.reviews.length === 0 && (
+                <div className="noReview">
+                  <img src={NoReview} alt="" />
+                  <span>No Review Found</span>
+                </div>
+              )}
+              {/* write review */}
+              {currentUser && reviewable && (
+                <div className="writeReview">
+                  <div className="writeReviewText">Write your review</div>
+                  <div className="reviewVote">
+                    <ReactStars
+                      count={5}
+                      size={24}
+                      value={writeReview.rating}
+                      edit={true}
+                      activeColor="#ffd700"
+                      onChange={(rating) =>
                         setWriteReview((prev) => ({
                           ...prev,
-                          images: [
-                            ...writeReview.images,
-                            ...event.target.files,
-                          ],
+                          rating,
                         }))
                       }
                     />
-                  </label>
+                  </div>
+                  <textarea
+                    name="review"
+                    wrap="soft"
+                    id=""
+                    cols="30"
+                    rows="10"
+                    placeholder="Comment..."
+                    value={writeReview.comment}
+                    onChange={(e) =>
+                      setWriteReview((prev) => ({
+                        ...prev,
+                        comment: e.target.value,
+                      }))
+                    }
+                  ></textarea>
+                  <div className="reviewImages">
+                    {writeReview.images.slice(0, 10).map((image, i) => (
+                      <AddReviewImage
+                        image={image}
+                        index={i}
+                        writeReview={writeReview}
+                        setWriteReview={setWriteReview}
+                      />
+                    ))}
+                    <label htmlFor="file">
+                      <div className="addImage">
+                        <FontAwesomeIcon
+                          icon={faImage}
+                          className="addImageIcon"
+                        />
+                        <span>{`Add image (${
+                          writeReview.images.length > 10
+                            ? 10
+                            : writeReview.images.length
+                        }/10)`}</span>
+                      </div>
+                      <input
+                        type="file"
+                        name=""
+                        id="file"
+                        multiple
+                        accept="image/png, image/jpeg, image/webp"
+                        style={{ display: "none" }}
+                        disabled={writeReview.images.length >= 10}
+                        onChange={(event) =>
+                          setWriteReview((prev) => ({
+                            ...prev,
+                            images: [
+                              ...writeReview.images,
+                              ...event.target.files,
+                            ],
+                          }))
+                        }
+                      />
+                    </label>
+                  </div>
+
+                  <div className="submitReview">
+                    <button
+                      className="button"
+                      onClick={() => handleSubmitReview()}
+                    >
+                      Submit review
+                    </button>
+                  </div>
                 </div>
-
-                <div className="submitReview">
-                  <button
-                    className="submitReviewBtn"
-                    onClick={() => handleSubmitReview()}
-                  >
-                    Submit review
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* store other product */}
-          <OtherProducts product={product} />
-
-          {/* {product && (
-            <div className="storeOtherProduct">
-              <div className="otherProductText">Related Products</div>
-              <div className="storeOtherProductContainer">
-                <ul>
-                  {shopOtherProducts.map((p) => (
-                    <SingleProduct product={product} />
-                  ))}
-                </ul>
-              </div>
+              )}
             </div>
-          )} */}
-          {/* related products */}
+            <OtherProducts product={product} />
+          </div>
         </div>
-      </div>
+      )}
+      {loading && (
+        <div className="fullLoading">
+          <div className="lds-ellipsis">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

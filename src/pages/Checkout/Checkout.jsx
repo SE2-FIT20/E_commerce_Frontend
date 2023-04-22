@@ -54,8 +54,6 @@ const Checkout = () => {
       setSelectedDeliveryPartnerId(8);
     } catch (error) {}
   };
-  console.log(selectedDeliveryPartnerId);
-  console.log(selectedAddress);
   const handleCheckout = async () => {
     if (currentUser.addresses.length === 0 || !currentUser.phoneNumber) {
       setOpenProvideInfo(true);
@@ -172,8 +170,7 @@ const Checkout = () => {
                       color: "#222",
                       fontSize: "18px",
                       fontWeight: "600",
-                      paddingRight: "15px"
-
+                      paddingRight: "15px",
                     }}
                   >
                     Product
@@ -192,7 +189,7 @@ const Checkout = () => {
                         display: "flex",
                         alignItems: "center",
                         gap: "15px",
-                        paddingRight: "15px"
+                        paddingRight: "15px",
                       }}
                     >
                       <img src={item.product.images[0]} alt="" />
@@ -292,7 +289,13 @@ const Checkout = () => {
                     </tr>
                   </tbody>
                 </table>
-                <button className="checkoutButton" onClick={handleCheckout} style={{ padding: loading ? "15px 55px 15px 63px" : "15px 40px"}}>
+                <button
+                  className="checkoutButton"
+                  onClick={handleCheckout}
+                  style={{
+                    padding: loading ? "15px 55px 15px 63px" : "15px 40px",
+                  }}
+                >
                   {loading ? (
                     <div className="loginLoading">
                       <div class="lds-ring">
@@ -424,7 +427,9 @@ const Checkout = () => {
               <span className="thankText">Thanks for your purchase!</span>
             </div>
           </div>
-          <button className="confirmButton" onClick={() => history.push("/")}>Continue Shopping</button>
+          <button className="confirmButton" onClick={() => history.push("/")}>
+            Continue Shopping
+          </button>
         </div>
       </div>
     </div>

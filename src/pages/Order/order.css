@@ -1,8 +1,11 @@
 .order {
   width: 100%;
   background-color: #f5f5f5;
-  overflow-y: scroll;
+  overflow-y: auto;
   padding-bottom: 50px;
+  /* min-height: calc(100vh - 70px); */
+  height: calc(100vh - 70px);
+
 }
 
 .orderContainer {

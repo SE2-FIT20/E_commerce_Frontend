@@ -1,16 +1,77 @@
 .footer {
+  margin-top: 100px;
+  padding-top: 30px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: rgba(0,0,0,.65);
+  gap: 30px;
+  margin-bottom: 30px;
+  border-top: 4px solid #0C1D26 ;
 }
 
-footer {
-  background-color: var(--color-232f3e);
+.footerContainer {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
 }
 
-footer:not(:first-child) {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+.footerContainer .groupInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
-footer .input-group-text {
-  background-color: var(--color-232f3e);
-  color: white;
-  padding: 8px 17px;
+
+.footerContainer h1 {
+  color: rgba(0,0,0,.87);
+  font-weight: 700;
+}
+
+.footerContainer ul li {
+  list-style: none;
+}
+
+.footerContainer .contactUs {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.footerContainer .payment-delivery {
+  display: flex;
+  flex-direction: column;
+}
+
+.footerContainer .payment-delivery .delivery {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.footerContainer .payment-delivery .deliveryPartnerContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.footerContainer .payment-delivery .deliveryPartnerContainer img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 5px;
+  -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.6);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.footer .finalText {
+  color: rgba(0,0,0,.87);
+  font-weight: 700;
+}
+@media screen and (min-width: 1700px) {
+  .footerContainer {
+    width: 65%;
+  }
 }

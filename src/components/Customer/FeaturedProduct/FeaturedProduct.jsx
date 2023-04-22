@@ -119,7 +119,6 @@ const FeaturedProduct = ({ category, setCategory }) => {
     fetchProducts();
     document.title = "BazaarBay";
   }, [pageNumber, category]);
-  console.log(category)
   return (
     <div className="featuredProduct" ref={featuredProduct}>
       <div className="featuredProductContainer">
@@ -128,7 +127,7 @@ const FeaturedProduct = ({ category, setCategory }) => {
         )}
         {category !== "all" && (
           <div className="featuredTitle">
-            {category === "cars_motorbikes"
+            {category && category === "cars_motorbikes"
               ? "Cars & Motorbikes"
               : `${capitalize(category)}`}
           </div>

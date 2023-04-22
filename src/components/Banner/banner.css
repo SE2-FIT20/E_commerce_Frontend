@@ -1,0 +1,113 @@
+.banner {
+  max-width: 100%;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bannerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 80%;
+  overflow: hidden;
+
+}
+
+.banner .bannerImagesContainer {
+  display: flex;
+  align-items: center;
+  transition: transform 0.4s ease-in-out;
+}
+
+.banner .bannerImage {
+  min-width: 100%;
+  min-height: 450px;
+  max-height: 450px;
+  object-fit: contain;
+}
+
+.banner .bannerPrevBtn,
+.bannerNextBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 30px;
+  height: 80px;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  color: #fff;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.bannerContainer:hover .bannerPrevBtn {
+  opacity: 1;
+}
+
+.bannerContainer:hover .bannerNextBtn {
+  opacity: 1;
+}
+
+.banner .bannerPrevBtn {
+  left: 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.banner .bannerNextBtn {
+  right: 0;
+  border-radius: 8px 0 0 8px;
+}
+
+.banner .navBannerContainer {
+  position: absolute;
+  bottom: 2%;
+  left: 50%;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+
+.banner .navBanner {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 0.25px solid #ccc;
+  cursor: pointer;
+}
+
+.banner .selected {
+  background-color: #26b99a;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@media screen and (min-width: 1700px) {
+  .bannerContainer {
+    width: 65%;
+  }
+}

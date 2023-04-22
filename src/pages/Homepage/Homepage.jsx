@@ -5,6 +5,7 @@ import Footer from "../../components/Customer/Footer/Footer";
 import Navbar from "../../components/Customer/Navbar/Navbar";
 import "./homepage.css";
 import { useLocation } from "react-router-dom";
+import Banner from "../../components/Banner/Banner";
 
 const Homepage = () => {
   const location = useLocation();
@@ -18,8 +19,14 @@ const Homepage = () => {
     <div className="homepage">
       <div className="homepageContainer">
         <div className="homepageBody">
-          <CategoryFilter />
-          <FeaturedProduct category={category} setCategory={setCategory}/>
+          <div className="homepageBanner">
+            <Banner />
+          </div>
+          <div className="homepageProducts">
+            <CategoryFilter />
+            <FeaturedProduct category={category} setCategory={setCategory} />
+          </div>
+
           <Footer />
         </div>
       </div>

@@ -1,6 +1,5 @@
 .homepage {
   width: 100%;
-
 }
 
 .homepageContainer {
@@ -9,17 +8,31 @@
   display: flex;
   justify-content: center;
   min-height: calc(100vh - 70px);
-  background-color: #f0f2f5;
-
 }
 
 .homepageBody {
-  
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  background-color: #f0f2f5;
+}
+
+.homepageBanner {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.homepageProducts {
   width: 80%;
+  background-color: #f0f2f5;
 }
 
 @media screen and (min-width: 1700px) {
-  .homepageBody {
-    width: 70%;
+  .homepageProducts {
+    width: 65%;
   }
 }

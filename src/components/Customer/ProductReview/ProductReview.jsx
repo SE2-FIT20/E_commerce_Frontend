@@ -5,16 +5,31 @@ import { AuthContext } from "../../../context/AuthContext";
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faImage, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
+import AddReviewImage from "../AddReviewImage/AddReviewImage";
 
-const ProductReview = ({ review }) => {
-  const { currentUser, BACKEND_URL } = useContext(AuthContext);
+const ProductReview = ({ review, fetchReviews }) => {
+  const { currentUser, BACKEND_URL, config } = useContext(AuthContext);
   const toast = useToast();
-  console.log(review);
-  const isOwnReview = currentUser ? currentUser.id === review.customer.id : false;
+  const [updatedReview, setUpdatedReview] = useState({
+    comment: review.comment,
+    rating: review.rating,
+    images: review.images,
+  });
+  console.log(updatedReview);
+
+  const [newImages, setNewImages] = useState([]);
+  const isOwnReview = currentUser
+    ? currentUser.id === review.customer.id
+    : false;
   const [openReviewButton, setOpenReviewButton] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const reviewRef = useRef();
+  const disableUpdateReview =
+    updatedReview.comment === review.comment &&
+    updatedReview.rating === review.rating &&
+    newImages.length === 0;
+
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     const year = date.getFullYear();
@@ -26,6 +41,33 @@ const ProductReview = ({ review }) => {
       day
     )} | ${padNumber(hours)}:${padNumber(minutes)}`;
     return formattedDate;
+  };
+
+  const handleUpdateReview = async () => {
+    if (disableUpdateReview) {
+      console.log("unable");
+      return;
+    }
+    if (newImages.length > 0) {
+    } else {
+      try {
+        await axios.put(
+          `${BACKEND_URL}/api/customer/review/${review.id}`,
+          {
+            ...updatedReview,
+          },
+          config
+        );
+        toast({
+          title: "Update review successful",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "bottom",
+        });
+        fetchReviews();
+      } catch (error) {}
+    }
   };
 
   useEffect(() => {
@@ -48,7 +90,7 @@ const ProductReview = ({ review }) => {
     <li
       ref={reviewRef}
       onMouseOver={() => (isOwnReview ? setOpenReviewButton(true) : null)}
-      onMouseLeave={() => isOwnReview ? setOpenReviewButton(false): null}
+      onMouseLeave={() => (isOwnReview ? setOpenReviewButton(false) : null)}
     >
       <div className="reviewInfo">
         <div className="reviewLeft">
@@ -80,16 +122,74 @@ const ProductReview = ({ review }) => {
           {isEditing && (
             <input
               type="text"
-              value={review.comment}
+              value={updatedReview.comment}
               className="editReviewInput"
+              onChange={(e) =>
+                setUpdatedReview({ ...updatedReview, comment: e.target.value })
+              }
             />
           )}
           {!isEditing && <div className="customerReview">{review.comment}</div>}
-          <div className="customerImages">
-            {review.images.map((image, i) => (
-              <img src={image} key={i} />
-            ))}
-          </div>
+          {!isEditing && (
+            <div className="customerImages">
+              {review.images.map((image, i) => (
+                <img src={image} key={i} />
+              ))}
+            </div>
+          )}
+          {isEditing && (
+            <>
+              <div className="customerImages">
+                {updatedReview.images.slice(0, 10).map((image, i) => (
+                  <AddReviewImage
+                    uploadedImage={image}
+                    index={i}
+                    writeReview={updatedReview}
+                    setWriteReview={setUpdatedReview}
+                  />
+                ))}
+                {newImages.slice(0, 10).map((image, i) => (
+                  <AddReviewImage
+                    newImage={image}
+                    index={i}
+                    newImages={newImages}
+                    setNewImages={setNewImages}
+                  />
+                ))}
+                <label htmlFor="file">
+                  <div className="addImage">
+                    <FontAwesomeIcon icon={faImage} className="addImageIcon" />
+                    <span>{`Add image (${
+                      updatedReview.images.length > 10
+                        ? 10
+                        : updatedReview.images.length
+                    }/10)`}</span>
+                  </div>
+                  <input
+                    type="file"
+                    name=""
+                    id="file"
+                    multiple
+                    accept="image/png, image/jpeg, image/webp"
+                    style={{ display: "none" }}
+                    disabled={
+                      updatedReview.images.length + newImages.length >= 10
+                    }
+                    onChange={(e) =>
+                      setNewImages(() => [...newImages, ...e.target.files])
+                    }
+                  />
+                </label>
+              </div>
+              <button
+                className="button"
+                style={{ marginTop: "10px" }}
+                onClick={handleUpdateReview}
+              >
+                Update
+              </button>
+            </>
+          )}
         </div>
       </div>
       {openReviewButton && (
@@ -97,6 +197,7 @@ const ProductReview = ({ review }) => {
           <div
             className="reviewButton"
             onClick={() => setIsEditing(!isEditing)}
+            style={{ backgroundColor: isEditing && "#f0f2f5" }}
           >
             <FontAwesomeIcon icon={faPen} />
           </div>

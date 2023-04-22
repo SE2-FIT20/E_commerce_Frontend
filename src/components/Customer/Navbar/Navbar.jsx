@@ -196,6 +196,12 @@ const Navbar = ({ fetchPreviewCart, cartProducts, setCartProducts }) => {
                     </li>
                     <li
                       className="option"
+                      onClick={() => history.push("/account/wallet")}
+                    >
+                      My Wallet
+                    </li>
+                    <li
+                      className="option"
                       onClick={() => history.push("/account/voucher")}
                     >
                       My Voucher

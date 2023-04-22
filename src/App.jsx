@@ -36,6 +36,7 @@ import AdminAllVouchers from "./components/Admin/AdminAllVouchers/AdminAllVouche
 import AdminUpdateVoucher from "./components/Admin/AdminUpdateVoucher/AdminUpdateVoucher";
 import CreateCoupon from "./components/Store/CreateCoupon/CreateCoupon";
 import StoreAllCoupons from "./components/Store/StoreAllCoupons/StoreAllCoupons";
+import Wallet from "./components/Customer/Wallet/Wallet";
 
 function App() {
   const { role, currentUser, BACKEND_URL, config } = useContext(AuthContext);
@@ -106,6 +107,7 @@ function App() {
             <Route path="/account/address" component={UpdateAddress} />
             <Route path="/account/profile" component={UpdateProfile} />
             <Route path="/account/password" component={UpdatePassword} />
+            <Route path="/account/wallet" component={Wallet} />
             <Route path="/account/order/:status" component={Order} />
           </div>
         </>

@@ -87,7 +87,6 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
     setCurrentImage(product.images[0]);
     document.title = `${product.name} | BazaarBay`;
   }, [product]);
-  console.log(product.store);
   useEffect(() => {
     function handleClickOutside(event) {
       if (
@@ -313,10 +312,10 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
                   <FontAwesomeIcon icon={faShop} />
                   <span>Visit store</span>
                 </button>
-                <button className="button">
+                {/* <button className="button">
                   <FontAwesomeIcon icon={faMessage} />
                   <span>Message</span>
-                </button>
+                </button> */}
               </div>
             </div>
           </div>

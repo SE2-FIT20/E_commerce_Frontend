@@ -24,7 +24,7 @@ const Order = () => {
   const [moreOrderLoading, setMoreOrderLoading] = useState(false);
   const handleChangeOrderType = (e) => {
     setOrderType(e.target.id);
-    setCurrentPage(0)
+    setCurrentPage(0);
   };
   const fetchOrders = async () => {
     try {
@@ -61,13 +61,13 @@ const Order = () => {
   };
 
   const handleScroll = async (event) => {
+    event.preventDefault();
     const { scrollTop, scrollHeight, clientHeight } = event.target;
     if (
       scrollHeight - scrollTop === clientHeight &&
       currentPage < totalPages - 1
     ) {
       setCurrentPage((prev) => prev + 1);
-      console.log(true)
       try {
         setMoreOrderLoading(true);
 
@@ -256,17 +256,31 @@ const Order = () => {
                       <span>{"₫" + formatNumber(order.totalPrice)}</span>
                     </div>
                     <div className="orderButtons">
-                      <button
-                        className="button"
-                        onClick={() =>
-                          (window.location.href = `/product/${order.items[0].product.id}`)
-                        }
-                      >
-                        Review Product
-                      </button>
-                      <button className="button purchaseAgain">
-                        Purchase Again
-                      </button>
+                      {order.status === "PENDING" && (
+                        <button
+                          className="button"
+                          onClick={() =>
+                            (window.location.href = `/product/${order.items[0].product.id}`)
+                          }
+                        >
+                          Cancel Order
+                        </button>
+                      )}
+                      {order.status === "DELIVERED" && (
+                        <>
+                          <button
+                            className="button"
+                            onClick={() =>
+                              (window.location.href = `/product/${order.items[0].product.id}`)
+                            }
+                          >
+                            Review Product
+                          </button>
+                          <button className="button purchaseAgain">
+                            Purchase Again
+                          </button>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
