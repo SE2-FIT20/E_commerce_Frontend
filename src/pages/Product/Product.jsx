@@ -13,6 +13,7 @@ import OtherProducts from "../../components/Customer/OtherProducts/OtherProducts
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AddReviewImage from "../../components/Customer/AddReviewImage/AddReviewImage";
+import Footer from "../../components/Customer/Footer/Footer";
 
 const Product = ({ fetchPreviewCart }) => {
   const { BACKEND_URL, currentUser, config } = useContext(AuthContext);
@@ -194,7 +195,11 @@ const Product = ({ fetchPreviewCart }) => {
                 <div className="customerReviews">
                   <ul>
                     {reviews.map((review) => (
-                      <ProductReview review={review} key={review.id} fetchReviews={fetchReviews}/>
+                      <ProductReview
+                        review={review}
+                        key={review.id}
+                        fetchReviews={fetchReviews}
+                      />
                     ))}
                   </ul>
                 </div>
@@ -306,6 +311,7 @@ const Product = ({ fetchPreviewCart }) => {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 };

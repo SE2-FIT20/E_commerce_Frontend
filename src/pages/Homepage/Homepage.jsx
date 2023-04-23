@@ -26,7 +26,6 @@ const Homepage = () => {
             <CategoryFilter />
             <FeaturedProduct category={category} setCategory={setCategory} />
           </div>
-
           <Footer />
         </div>
       </div>

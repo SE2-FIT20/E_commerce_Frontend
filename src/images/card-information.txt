@@ -1,0 +1,281 @@
+ BRAND : MASTERCARD
+        NUMBER : 5127014651779876
+        BANK : VIETNAM JSCB FOR INDUSTRY AND TRADE
+        NAME : Norimi Stojan
+        ADDRESS : Copacabana 8388
+        COUNTRY : VIET NAM
+        MONEY : $654
+        CVV/CVC : 436
+        EXPIRY : 05/2026
+        PIN : 8127
+
+BRAND : MASTERCARD
+        NUMBER : 5127013285835526
+        BANK : VIETNAM JSCB FOR INDUSTRY AND TRADE
+        NAME : Marija tefanija Lovato
+        ADDRESS : R Carne Azeda 94
+        COUNTRY : VIET NAM
+        MONEY : $601
+        CVV/CVC : 154
+        EXPIRY : 12/2023
+        PIN : 2599
+
+BRAND : MASTERCARD
+        NUMBER : 5484896352935956
+        BANK : VIETNAM JSCB FOR INDUSTRY AND TRADE
+        NAME : Zikoranachukwudimma Kaneda
+        ADDRESS : 58 cours Jean Jaures
+        COUNTRY : VIET NAM
+        MONEY : $973
+        CVV/CVC : 602
+        EXPIRY : 05/2030
+        PIN : 5730
+
+BRAND : MASTERCARD
+        NUMBER : 5127018587782177
+        BANK : VIETNAM JSCB FOR INDUSTRY AND TRADE
+        NAME : Jura Christensen
+        ADDRESS : 153 Block Road
+        COUNTRY : VIET NAM
+        MONEY : $795
+        CVV/CVC : 656
+        EXPIRY : 04/2028
+        PIN : 3624
+
+ BRAND : MASTERCARD
+        NUMBER : 5484896554457932
+        BANK : VIETNAM JSCB FOR INDUSTRY AND TRADE
+        NAME : Feng Eisenhower
+        ADDRESS : 211 Oxford St
+        COUNTRY : VIET NAM
+        MONEY : $979
+        CVV/CVC : 438
+        EXPIRY : 04/2025
+        PIN : 6397
+
+
+THE CARD DETAILS PROVIDED BELOW ARE GENERATED FROM VCCGENERATOR.ORG
+
+ 1. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571992101825130
+    BANK		: DIBA BANK
+    NAME		: Lazar Nazari
+    ADDRESS	: Strandallen 3
+    COUNTRY	: DENMARK
+    MONEY	: $769
+    CVV/CVC	: 725
+    EXPIRY	: 09/2022
+    PIN		: 7803
+    
+ 2. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571994809651495
+    BANK		: DIBA BANK
+    NAME		: Emmi Gamgee
+    ADDRESS	: Marinavejen 23
+    COUNTRY	: DENMARK
+    MONEY	: $551
+    CVV/CVC	: 739
+    EXPIRY	: 10/2022
+    PIN		: 5690
+    
+ 3. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571999316218704
+    BANK		: DIBA BANK
+    NAME		: Petra Tolnay
+    ADDRESS	: Lundsbjergvej 83
+    COUNTRY	: DENMARK
+    MONEY	: $538
+    CVV/CVC	: 447
+    EXPIRY	: 11/2025
+    PIN		: 3670
+    
+ 4. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571994564641640
+    BANK		: DIBA BANK
+    NAME		: Maxwell Iloabuchi
+    ADDRESS	: Havnegade 41
+    COUNTRY	: DENMARK
+    MONEY	: $834
+    CVV/CVC	: 821
+    EXPIRY	: 03/2030
+    PIN		: 9932
+    
+ 5. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571994984420724
+    BANK		: DIBA BANK
+    NAME		: Ranger Chung
+    ADDRESS	: Stationsvej 64
+    COUNTRY	: DENMARK
+    MONEY	: $745
+    CVV/CVC	: 293
+    EXPIRY	: 01/2023
+    PIN		: 6680
+    
+ 6. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571999088678218
+    BANK		: DIBA BANK
+    NAME		: Deborah Tisak
+    ADDRESS	: Algade 58
+    COUNTRY	: DENMARK
+    MONEY	: $960
+    CVV/CVC	: 906
+    EXPIRY	: 08/2023
+    PIN		: 5015
+    
+ 7. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571995490016989
+    BANK		: DIBA BANK
+    NAME		: Zinachukwudi Habte
+    ADDRESS	: Hovbanken 29
+    COUNTRY	: DENMARK
+    MONEY	: $794
+    CVV/CVC	: 448
+    EXPIRY	: 09/2029
+    PIN		: 8772
+    
+ 8. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571991842514359
+    BANK		: DIBA BANK
+    NAME		: Bartalan Chubb-Baggins
+    ADDRESS	: ksendrupvej 88
+    COUNTRY	: DENMARK
+    MONEY	: $885
+    CVV/CVC	: 188
+    EXPIRY	: 04/2029
+    PIN		: 4089
+    
+ 9. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571999394603058
+    BANK		: DIBA BANK
+    NAME		: Luke Pinto
+    ADDRESS	: Strandallen 58
+    COUNTRY	: DENMARK
+    MONEY	: $906
+    CVV/CVC	: 338
+    EXPIRY	: 06/2030
+    PIN		: 6627
+    
+ 10. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571993519063132
+    BANK		: DIBA BANK
+    NAME		: Kae Walker
+    ADDRESS	: Plouggrdsvej 14
+    COUNTRY	: DENMARK
+    MONEY	: $921
+    CVV/CVC	: 794
+    EXPIRY	: 12/2026
+    PIN		: 1326
+    
+ 11. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571997605856952
+    BANK		: DIBA BANK
+    NAME		: Petra Roic
+    ADDRESS	: Gammel Byvej 6
+    COUNTRY	: DENMARK
+    MONEY	: $932
+    CVV/CVC	: 175
+    EXPIRY	: 04/2029
+    PIN		: 3945
+    
+ 12. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571997379522988
+    BANK		: DIBA BANK
+    NAME		: Pansy Kassis
+    ADDRESS	: Skolegade 3
+    COUNTRY	: DENMARK
+    MONEY	: $928
+    CVV/CVC	: 881
+    EXPIRY	: 05/2025
+    PIN		: 1688
+    
+ 13. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571998710577103
+    BANK		: DIBA BANK
+    NAME		: Vin Vasala
+    ADDRESS	: Nyborgvej 6
+    COUNTRY	: DENMARK
+    MONEY	: $634
+    CVV/CVC	: 503
+    EXPIRY	: 12/2026
+    PIN		: 8479
+    
+ 14. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571995863745396
+    BANK		: DIBA BANK
+    NAME		: Quinzia De La Vergne
+    ADDRESS	: Mellemvej 59
+    COUNTRY	: DENMARK
+    MONEY	: $748
+    CVV/CVC	: 449
+    EXPIRY	: 05/2028
+    PIN		: 8494
+    
+ 15. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571999818158283
+    BANK		: DIBA BANK
+    NAME		: Azetbur Kruttschnitt
+    ADDRESS	: Mllevnget 28
+    COUNTRY	: DENMARK
+    MONEY	: $623
+    CVV/CVC	: 267
+    EXPIRY	: 02/2022
+    PIN		: 9540
+    
+ 16. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571995230723589
+    BANK		: DIBA BANK
+    NAME		: Joka Krpti
+    ADDRESS	: Stationsvej 64
+    COUNTRY	: DENMARK
+    MONEY	: $638
+    CVV/CVC	: 199
+    EXPIRY	: 04/2022
+    PIN		: 9542
+    
+ 17. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571992395929572
+    BANK		: DIBA BANK
+    NAME		: Jeanette Artemova
+    ADDRESS	: Havnegade 41
+    COUNTRY	: DENMARK
+    MONEY	: $513
+    CVV/CVC	: 487
+    EXPIRY	: 04/2022
+    PIN		: 3846
+    
+ 18. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571995563331802
+    BANK		: DIBA BANK
+    NAME		: Alicia Chubb
+    ADDRESS	: Espegyden 44
+    COUNTRY	: DENMARK
+    MONEY	: $721
+    CVV/CVC	: 209
+    EXPIRY	: 08/2028
+    PIN		: 6850
+    
+ 19. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571996826316358
+    BANK		: DIBA BANK
+    NAME		: Martim Wieczorek
+    ADDRESS	: Torpegrdsvej 59
+    COUNTRY	: DENMARK
+    MONEY	: $709
+    CVV/CVC	: 952
+    EXPIRY	: 08/2027
+    PIN		: 6798
+    
+ 20. BRAND 	: VISA/DANKORT
+    NUMBER	: 4571995026534646
+    BANK		: DIBA BANK
+    NAME		: Benjamin Antal
+    ADDRESS	: Nrrebrovnget 84
+    COUNTRY	: DENMARK
+    MONEY	: $952
+    CVV/CVC	: 878
+    EXPIRY	: 10/2026
+    PIN		: 3677
+    
+
+
+

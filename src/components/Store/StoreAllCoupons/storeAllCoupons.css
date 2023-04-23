@@ -14,6 +14,7 @@
   height: calc(100vh - 55px);
   border: 1px solid #ccc;
   position: relative;
+  min-width: 900px
 }
 
 .storeAllCoupon .adminFilterOptions {
@@ -290,7 +291,7 @@
 
 @media screen and (max-width: 1400px) {
   .storeAllCouponContainer {
-    width: 60%;
+    width: 75%;
     padding: 15px 0 !important  ;
   }
 
@@ -305,7 +306,7 @@
     padding: 0;
   }
   .storeAllCouponContainer {
-    width: 60%;
+    width: 90%;
   }
 
   .storeAllCoupon table tbody {

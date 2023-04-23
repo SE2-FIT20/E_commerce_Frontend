@@ -8,6 +8,7 @@ import { useToast } from "@chakra-ui/react";
 import { formatNumber, capitalize } from "../../components/longFunctions";
 import NoOrder from "../../images/no-order-icon.png";
 import { useRef } from "react";
+import Footer from "../../components/Customer/Footer/Footer";
 
 const Order = () => {
   const history = useHistory();
@@ -22,6 +23,7 @@ const Order = () => {
   const [orderTypeCount, setOrderTypeCount] = useState(null);
   const orderRef = useRef();
   const [moreOrderLoading, setMoreOrderLoading] = useState(false);
+  console.log(orderTypeCount);
   const handleChangeOrderType = (e) => {
     setOrderType(e.target.id);
     setCurrentPage(0);
@@ -108,8 +110,12 @@ const Order = () => {
   }, [orderType]);
 
   return (
-    <div className="order" ref={orderRef} onScroll={(e) => handleScroll(e)}>
-      <div className="orderContainer">
+    <div className="order">
+      <div
+        className="orderContainer"
+        ref={orderRef}
+        onScroll={(e) => handleScroll(e)}
+      >
         <div className="ordersFilter">
           {orderTypeCount && (
             <ul>
@@ -253,7 +259,7 @@ const Order = () => {
                   <div className="orderTotal">
                     <div className="orderTotalPrice">
                       Total:
-                      <span>{"₫" + formatNumber(order.totalPrice)}</span>
+                      <span>{"₫" + formatNumber(order.totalPrice + order.deliveryPartner.shippingFee)}</span>
                     </div>
                     <div className="orderButtons">
                       {order.status === "PENDING" && (
@@ -315,6 +321,7 @@ const Order = () => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

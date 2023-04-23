@@ -272,7 +272,7 @@ const StoreAllCoupons = () => {
               </thead>
               <tbody onScroll={(e) => handleScroll(e)}>
                 {coupons.map((coupon) => (
-                  <StoreCoupon coupon={coupon} key={coupon.id} />
+                  <StoreCoupon coupon={coupon} key={coupon.id} fetchCoupons={fetchCoupons}/>
                 ))}
                 {moreCouponLoading && (
                   <th>

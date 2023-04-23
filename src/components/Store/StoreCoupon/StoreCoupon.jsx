@@ -21,6 +21,7 @@ import "./storeCoupon.css"
 const StoreCoupon = ({
   coupon,
   setSelectedVoucher,
+  fetchCoupons
 }) => {
   const { BACKEND_URL, config, currentUser } = useContext(AuthContext);
   const toast = useToast();
@@ -35,6 +36,7 @@ const StoreCoupon = ({
         config
       );
       setQuantity((prev) => prev + 1);
+      fetchCoupons()
     } catch (error) {
       toast({
         title: "An error adding voucher to set",
@@ -55,6 +57,8 @@ const StoreCoupon = ({
         config
       );
       setQuantity((prev) => (prev === 1 ? prev : prev - 1));
+      fetchCoupons()
+
     } catch (error) {
       toast({
         title: "An error adding voucher to set",
@@ -69,6 +73,8 @@ const StoreCoupon = ({
   const handleClickDelete = async () => {
     
   };
+
+  console.log(coupon)
   return (
     <tr>
       <th style={{ flex: "4" }}>
@@ -116,7 +122,7 @@ const StoreCoupon = ({
           >
             <FontAwesomeIcon icon={faMinus} />
           </div>
-          <div className="voucherQuantity">100</div>
+          <div className="voucherQuantity">{quantity}</div>
           <div
             className="voucherPlus"
             onClick={() => handleClickPlus(coupon.id)}

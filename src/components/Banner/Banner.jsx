@@ -35,7 +35,6 @@ const Banner = () => {
       clearInterval(slider);
     };
   }, [currentImage]);
-  console.log(currentImage)
   return (
     <div className="banner">
       <div className="bannerContainer">

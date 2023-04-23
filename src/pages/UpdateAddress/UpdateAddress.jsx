@@ -6,6 +6,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import Address from "../../components/Customer/Address/Address";
+import Footer from "../../components/Customer/Footer/Footer";
 
 const UpdateAddress = () => {
   const { currentUser, setCurrentUser, config, BACKEND_URL } =
@@ -145,6 +146,7 @@ const UpdateAddress = () => {
           </ul>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

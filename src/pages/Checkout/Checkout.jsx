@@ -10,6 +10,7 @@ import BreadCrumb from "../../components/Customer/BreadCrumb/BreadCrumb";
 import "./checkout.css";
 import { useToast } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
+import Footer from "../../components/Customer/Footer/Footer";
 
 const Checkout = () => {
   const { BACKEND_URL, config, currentUser } = useContext(AuthContext);
@@ -432,6 +433,7 @@ const Checkout = () => {
           </button>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

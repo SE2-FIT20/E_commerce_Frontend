@@ -37,6 +37,7 @@ import AdminUpdateVoucher from "./components/Admin/AdminUpdateVoucher/AdminUpdat
 import CreateCoupon from "./components/Store/CreateCoupon/CreateCoupon";
 import StoreAllCoupons from "./components/Store/StoreAllCoupons/StoreAllCoupons";
 import Wallet from "./components/Customer/Wallet/Wallet";
+import Minigame from "./components/Customer/Minigame/Minigame";
 
 function App() {
   const { role, currentUser, BACKEND_URL, config } = useContext(AuthContext);
@@ -109,6 +110,7 @@ function App() {
             <Route path="/account/password" component={UpdatePassword} />
             <Route path="/account/wallet" component={Wallet} />
             <Route path="/account/order/:status" component={Order} />
+            <Route path="/minigame" exact component={Minigame} />
           </div>
         </>
       )}

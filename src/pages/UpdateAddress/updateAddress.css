@@ -107,7 +107,9 @@
   padding-top: 15px;
 }
 
-
+.updateAddress .footer {
+  margin-top: 300px;
+}
 
 @media screen and (min-width: 1200px) {
   .updateAddressContainer {

@@ -13,6 +13,7 @@ import NoResult from "../../../images/no-result-image.jpg";
 import StarRatings from "react-star-ratings";
 
 import axios from "axios";
+import Footer from "../Footer/Footer";
 
 const SearchResult = () => {
   const { BACKEND_URL } = useContext(AuthContext);
@@ -24,7 +25,6 @@ const SearchResult = () => {
   const [loading, setLoading] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(100);
-  console.log(keyword)
   const fetchSearchResult = async () => {
     setLoading(true);
     try {
@@ -249,6 +249,7 @@ const SearchResult = () => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

@@ -3,12 +3,11 @@
   width: 100%;
   padding: 20px 0;
   min-height: calc(100vh - 70px);
-  
 }
 
 .updateProfileContainer {
-  width: 90%;
-  margin: auto; 
+  width: 60%;
+  margin: auto;
   background-color: #ffffff;
   border-radius: 8px;
 }
@@ -27,7 +26,7 @@
 }
 
 .updateProfileLeft {
-  flex:6;
+  flex: 6;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -60,11 +59,11 @@
   border: 1px solid lightgray;
   padding: 10px 50px 10px 10px;
   border-radius: 8px;
-    width: 350px;
-
+  width: 300px;
 }
 
-.updateProfileLeft tr td input:focus, textarea:focus {
+.updateProfileLeft tr td input:focus,
+textarea:focus {
   outline: none;
 }
 
@@ -109,9 +108,14 @@
   cursor: pointer;
 }
 
-
+.updateProfile .footer {
+  margin-top: 200px;
+}
 @media screen and (min-width: 1700px) {
   .updateProfileContainer {
     width: 65% !important;
+  }
+  .updateProfileLeft tr td input {
+    width: 350px;
   }
 }

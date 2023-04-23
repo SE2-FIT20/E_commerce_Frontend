@@ -17,6 +17,7 @@ import {
   faStore,
   faUserCheck,
 } from "@fortawesome/free-solid-svg-icons";
+import Footer from "../Footer/Footer";
 
 const Store = () => {
   const { BACKEND_URL } = useContext(AuthContext);
@@ -365,6 +366,7 @@ const Store = () => {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 };

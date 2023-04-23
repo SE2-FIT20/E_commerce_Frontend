@@ -1,0 +1,87 @@
+.wallet {
+  background-color: #f5f5f7;
+  width: 100%;
+  padding: 20px 0;
+  min-height: calc(100vh - 70px);
+  
+}
+
+.walletContainer {
+  width: 60%;
+  margin: auto; 
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.walletTitle {
+  padding: 20px;
+  border-bottom: 1px solid lightgray;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+.walletBody {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.walletCurrentBalance {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.walletCurrentBalance h5 {
+  color: gray;
+  font-weight: 500;
+}
+
+.walletCurrentBalance h2 {
+  font-size: 38px;
+}
+
+.walletCurrentBalance h2 .price-symbol {
+  font-size: 38px;
+}
+
+.walletButtons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.walletButtons .walletButton {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.walletButtons .walletButton:hover {
+  background-color: #f0f2f5;
+}
+
+.walletButtons .walletButton img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+
+
+
+@media screen and (min-width: 1700px) {
+  .walletContainer {
+    width: 65% !important;
+  }
+}

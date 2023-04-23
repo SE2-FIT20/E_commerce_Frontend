@@ -395,10 +395,6 @@
     width: 90%;
   }
 
-  .storeAllProducts table tbody {
-    min-height: 70vh ;
-    max-height: 70vh;
-  }
 }
 
 @media screen and (max-width: 950px) {

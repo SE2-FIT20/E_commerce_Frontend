@@ -2,6 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import "./updateProfile.css";
 import { AuthContext } from "../../context/AuthContext";
 import axios from "axios";
+import Footer from "../../components/Customer/Footer/Footer";
+
 import { useToast } from "@chakra-ui/react";
 import {
   handleUpdateProfile,
@@ -346,6 +348,7 @@ const UpdateProfile = () => {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 };

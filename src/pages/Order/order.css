@@ -3,14 +3,13 @@
   background-color: #f5f5f5;
   overflow-y: auto;
   padding-bottom: 50px;
-  /* min-height: calc(100vh - 70px); */
-  height: calc(100vh - 70px);
-
+  min-height: calc(100vh - 70px);
 }
 
 .orderContainer {
   width: 65%;
   margin: auto;
+  height: auto;
 }
 
 .ordersFilter {
@@ -44,7 +43,6 @@
   padding: 15px 15px 0 15px;
   background-color: #fff;
   border-radius: 8px;
-
 }
 
 .order .orderStoreContainer {
@@ -87,7 +85,7 @@
 .order .orderInfo .orderStatus {
   padding-left: 15px;
   border-left: 1px solid #ccc;
-  color: #26B99A;
+  color: #26b99a;
   font-weight: 500;
 }
 
@@ -175,7 +173,7 @@
 }
 
 .order .orderShippingRight {
-  color: #26B99A
+  color: #26b99a;
 }
 
 .order .orderTotal {
@@ -187,7 +185,6 @@
   flex-direction: column;
   gap: 15px;
   border-radius: 8px;
-
 }
 
 .order .orderTotalPrice {
