@@ -3,12 +3,11 @@
   width: 100%;
   padding: 20px 0;
   min-height: calc(100vh - 70px);
-  
 }
 
 .walletContainer {
   width: 60%;
-  margin: auto; 
+  margin: auto;
   background-color: #ffffff;
   border-radius: 8px;
 }
@@ -48,6 +47,108 @@
   font-size: 38px;
 }
 
+.wallet .creditCards {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wallet .creditCards h1 {
+  font-weight: 500;
+  font-size: 25px;
+  padding-bottom: 20px;
+}
+
+.wallet .creditCardContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 40%;
+  margin: auto;
+  background-color: #f0f2f5;
+  padding: 10px;
+  width: 320px;
+  height: 150px;
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+  border: 0.5px solid lightgray;
+}
+
+.wallet .creditCardContainer .creditCardLeft {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  z-index: 10;
+}
+
+.wallet .creditCardContainer .creditCardLeft .creditCardImage {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 0.25px solid lightgray;
+  background-color: #fff;
+}
+
+.wallet .creditCardContainer .creditCardLeft .creditCardImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.wallet .creditCardContainer .creditCardLeft .creditCardInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.wallet .creditCardContainer .creditCardLeft .creditCardInfo h1 {
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.wallet .creditCardContainer .creditCardLeft .creditCardInfo .creditCardOwner {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.wallet .creditCardContainer .creditCardRight {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 14px 14px 0;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  font-size: 20px;
+  color: #fff;
+  z-index: 30;
+}
+
+.wallet .creditCardContainer .creditCardRight:hover {
+  opacity: 1;
+}
+
+.wallet .bazaarbayText {
+  position: absolute;
+  left: 40%;
+  top: 40%;
+  color: #fff;
+  font-size: 40px;
+  font-weight: 800;
+  transform: rotate(-65deg);
+  opacity: 0.9;
+}
+
 .walletButtons {
   display: flex;
   gap: 10px;
@@ -58,13 +159,14 @@
 
 .walletButtons .walletButton {
   width: 150px;
-  height: 150px;
+  height: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border: 1px solid #ccc;
   cursor: pointer;
+  border-radius: 8px;
 }
 
 .walletButtons .walletButton:hover {
@@ -72,16 +174,194 @@
 }
 
 .walletButtons .walletButton img {
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
   object-fit: cover;
+}
+
+.walletButtons .walletButton span {
+  text-align: center;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.wallet .selectedOption {
+  background-color: #f0f2f5;
+  cursor: pointer;
+}
+
+.wallet .addCreditCard {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 30;
+  opacity: 0;
+  display: none;
+}
+
+.wallet .addCreditCard.open {
+  display: flex;
+  animation: fade-in 0.2s ease-in-out forwards;
+}
+
+.wallet .addCreditCardContainer {
+  width: 550px;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  background-color: #fff;
+  padding: 20px 0;
+  border-radius: 8px;
+}
+
+.wallet .addCreditCardContainer h1 {
+  font-weight: 600;
+  font-size: 30px;
+  padding-bottom: 10px;
+}
+
+.wallet .addCreditCardContainer .creditCardItem {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 30px;
+}
+
+.wallet .addCreditCardContainer .creditCardItem span {
+  font-weight: bolder;
+}
+
+.wallet .addCreditCardContainer .creditCardItem input {
+  border: 1px solid #000;
+  padding: 7px 10px;
+}
+
+.wallet .addCreditCardContainer .creditCardSmallItemContainer {
+  width: 100%;
+  display: flex;
+  gap: 15px;
+  padding: 0 30px;
+}
+
+.wallet .addCreditCardContainer .creditCardSmallItem {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wallet .addCreditCardContainer .creditCardSmallItem span {
+  font-weight: bolder;
+}
+
+.wallet .addCreditCardContainer .creditCardSmallItem input {
+  border: 1px solid #000;
+  padding: 7px 10px;
+  width: 100%;
+}
+
+.wallet .topUpBalance {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 30;
+  opacity: 0;
+  display: none;
+}
+
+.wallet .topUpBalance.open {
+  display: flex;
+  animation: fade-in 0.2s ease-in-out forwards;
+}
+
+.wallet .topUpBalanceContainer {
+  width: 400px;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  background-color: #fff;
+  padding: 20px 0;
+  border-radius: 8px;
+}
+
+.wallet .topUpBalanceContainer h1 {
+  font-weight: 600;
+  font-size: 30px;
+  padding-bottom: 10px;
+}
+
+.wallet .topUpBalanceContainer .creditCardItem {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 30px;
+}
+
+.wallet .topUpBalanceContainer .creditCardItem .chooseCreditCards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+.wallet .topUpBalanceContainer .creditCardItem .chooseCreditCards .creditCard {
+  width: 250px;
+  height: 100px;
+  cursor: pointer;
+}
+
+.wallet .topUpBalanceContainer .creditCardItem span {
+  font-weight: bolder;
+}
+
+.wallet .topUpBalanceContainer .creditCardItem input {
+  border: 1px solid #000;
+  padding: 7px 10px;
 }
 
 
 
 
+
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
 @media screen and (min-width: 1700px) {
   .walletContainer {
-    width: 65% !important;
+    width: 50% !important;
   }
 }

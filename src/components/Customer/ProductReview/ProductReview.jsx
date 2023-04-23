@@ -16,8 +16,6 @@ const ProductReview = ({ review, fetchReviews }) => {
     rating: review.rating,
     images: review.images,
   });
-  console.log(updatedReview);
-
   const [newImages, setNewImages] = useState([]);
   const isOwnReview = currentUser
     ? currentUser.id === review.customer.id
@@ -28,6 +26,7 @@ const ProductReview = ({ review, fetchReviews }) => {
   const disableUpdateReview =
     updatedReview.comment === review.comment &&
     updatedReview.rating === review.rating &&
+    updatedReview.images === review.images &&
     newImages.length === 0;
 
   const formatDate = (timestamp) => {
@@ -49,6 +48,54 @@ const ProductReview = ({ review, fetchReviews }) => {
       return;
     }
     if (newImages.length > 0) {
+      let images = [];
+
+      const promises = newImages.map(async (pic) => {
+        const data = new FormData();
+        data.append(`file`, pic);
+        data.append("upload_preset", "MQSocial");
+        data.append("cloud_name", "dvvyj75uf");
+        try {
+          const response = await fetch(
+            "https://api.cloudinary.com/v1_1/dvvyj75uf/image/upload",
+            {
+              method: "post",
+              body: data,
+            }
+          );
+          const json = await response.json();
+          return json.url.toString();
+        } catch (error) {
+          toast({
+            title: "Error uploading images!",
+            status: "warning",
+            duration: 5000,
+            isClosable: true,
+            position: "bottom",
+          });
+          return;
+        }
+      });
+      images = await Promise.all(promises);
+      try {
+        await axios.put(
+          `${BACKEND_URL}/api/customer/review/${review.id}`,
+          {
+            ...updatedReview,
+            images: [...updatedReview.images, ...images],
+          },
+          config
+        );
+        toast({
+          title: "Update review successful",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "bottom",
+        });
+        setIsEditing(false);
+        fetchReviews();
+      } catch (error) {}
     } else {
       try {
         await axios.put(
@@ -65,6 +112,7 @@ const ProductReview = ({ review, fetchReviews }) => {
           isClosable: true,
           position: "bottom",
         });
+        setIsEditing(false);
         fetchReviews();
       } catch (error) {}
     }
@@ -106,6 +154,12 @@ const ProductReview = ({ review, fetchReviews }) => {
                 value={review.rating}
                 edit={true}
                 activeColor="#ffd700"
+                onChange={(rating) =>
+                  setUpdatedReview((prev) => ({
+                    ...prev,
+                    rating,
+                  }))
+                }
               />
             )}
             {!isEditing && (
@@ -143,7 +197,7 @@ const ProductReview = ({ review, fetchReviews }) => {
                 {updatedReview.images.slice(0, 10).map((image, i) => (
                   <AddReviewImage
                     uploadedImage={image}
-                    index={i}
+                    key={i}
                     writeReview={updatedReview}
                     setWriteReview={setUpdatedReview}
                   />
@@ -151,7 +205,7 @@ const ProductReview = ({ review, fetchReviews }) => {
                 {newImages.slice(0, 10).map((image, i) => (
                   <AddReviewImage
                     newImage={image}
-                    index={i}
+                    key={i}
                     newImages={newImages}
                     setNewImages={setNewImages}
                   />

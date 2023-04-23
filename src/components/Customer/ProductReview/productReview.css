@@ -54,7 +54,7 @@
 .customerReviews .editReviewInput {
   border-radius: 8px;
   border: 1px solid #ccc;
-  padding: 5px 10px;
+  padding: 5px 100px 5px 10px;
   margin-top: 5px;
 }
 

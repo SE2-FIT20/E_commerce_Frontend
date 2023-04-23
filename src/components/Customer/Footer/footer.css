@@ -6,11 +6,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: rgba(0,0,0,.65);
+  color: rgba(0, 0, 0, 0.65);
   gap: 30px;
   margin-bottom: 30px;
-  border-top: 4px solid #0C1D26 ;
-
+  border-top: 4px solid #0c1d26;
 }
 
 .footerContainer {
@@ -26,7 +25,7 @@
 }
 
 .footerContainer h1 {
-  color: rgba(0,0,0,.87);
+  color: rgba(0, 0, 0, 0.87);
   font-weight: 700;
 }
 
@@ -43,6 +42,26 @@
 .footerContainer .payment-delivery {
   display: flex;
   flex-direction: column;
+  gap: 20px;
+}
+
+.footerContainer .payment-delivery .payment {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.footerContainer .payment-delivery .paymentContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.footerContainer .payment-delivery .paymentContainer img {
+  width: 60px;
+  height: 50px;
+  border-radius: 5px;
+
 }
 
 .footerContainer .payment-delivery .delivery {
@@ -62,13 +81,11 @@
   height: 60px;
   object-fit: cover;
   border-radius: 5px;
-  -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.6);
-  -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.6);
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.6);
+
 }
 
 .footer .finalText {
-  color: rgba(0,0,0,.87);
+  color: rgba(0, 0, 0, 0.87);
   font-weight: 700;
 }
 @media screen and (min-width: 1700px) {

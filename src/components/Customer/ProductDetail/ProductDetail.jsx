@@ -50,6 +50,10 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
     );
   };
 
+  const handleClickBuyNow = (productId) => {
+    handleAddToCart(productId);
+    history.push(`/checkout`)
+  }
 
   const handleAddToCart = async (productId) => {
     try {
@@ -245,7 +249,14 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
                           <FontAwesomeIcon icon={faCartPlus} />
                           <span>Add to cart</span>
                         </button>
-                        <button className="buyNowBtn">
+                        <button
+                          className="buyNowBtn"
+                          onClick={() => {
+                            currentUser
+                              ? handleClickBuyNow(product.id)
+                              : history.push("/login");
+                          }}
+                        >
                           <span>Buy Now</span>
                           <FontAwesomeIcon
                             icon={faArrowRight}

@@ -4,6 +4,8 @@ import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { useEffect } from "react";
+import Visa from "../../../images/credit-card-logo.jpg";
+import MasterCard from "../../../images/master-card-logo.png";
 
 const Footer = () => {
   const { BACKEND_URL } = useContext(AuthContext);
@@ -44,7 +46,13 @@ const Footer = () => {
           </ul>
         </div>
         <div className="payment-delivery">
-          <div className="payment"></div>
+          <div className="payment">
+            <h1>Payment Methods</h1>
+            <div className="paymentContainer">
+              <img src={Visa} alt="" />
+              <img src={MasterCard} alt="" />
+            </div>
+          </div>
           <div className="delivery">
             <h1>Delivery Partners</h1>
             <div className="deliveryPartnerContainer">

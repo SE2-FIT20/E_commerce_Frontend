@@ -86,7 +86,7 @@ const Navbar = ({ fetchPreviewCart, cartProducts, setCartProducts }) => {
               <input
                 type="text"
                 className="form-control py-2"
-                placeholder="Search Product Here..."
+                placeholder="Search Here..."
                 aria-label="Search Product Here..."
                 aria-describedby="basic-addon2"
                 value={keyword}

@@ -5,7 +5,7 @@ import Footer from "../../components/Customer/Footer/Footer";
 import Navbar from "../../components/Customer/Navbar/Navbar";
 import "./homepage.css";
 import { useLocation } from "react-router-dom";
-import Banner from "../../components/Banner/Banner";
+import Banner from "../../components/Customer/Banner/Banner";
 
 const Homepage = () => {
   const location = useLocation();

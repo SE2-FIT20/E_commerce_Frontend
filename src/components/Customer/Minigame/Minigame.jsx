@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import "./minigame.css";
 import axios from "axios";
 import { AuthContext } from "../../../context/AuthContext";
-import { Layer, Stage, Wedge } from "react-konva";
 
 const Minigame = () => {
   const { BACKEND_URL, config } = useContext(AuthContext);
