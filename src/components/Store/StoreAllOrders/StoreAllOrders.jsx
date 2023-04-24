@@ -86,7 +86,6 @@ const StoreAllOrders = () => {
         )}&sortBy=${filterOrder}&from=${dateFrom}&to=${dateTo}`,
         config
       );
-      console.log(data);
       setOrders(data.data.content);
       setTotalPages(data.data.totalPages);
       setLoading(false);
@@ -397,7 +396,7 @@ const StoreAllOrders = () => {
                             </div>
                             <div style={{ flex: "1.5" }}>
                               <div
-                                className="container"
+                                className="container orderStatus"
                                 style={{ fontWeight: "bold", fontSize: "20px" }}
                               >
                                 {handleDisplayStatus(order.status)}
@@ -425,6 +424,7 @@ const StoreAllOrders = () => {
                                         "prepare-order",
                                         order.id,
                                         fetchOrders,
+                                        fetchOrderTypeCount,
                                         BACKEND_URL,
                                         config,
                                         toast
@@ -442,6 +442,7 @@ const StoreAllOrders = () => {
                                         "unprepare-order",
                                         order.id,
                                         fetchOrders,
+                                        fetchOrderTypeCount,
                                         BACKEND_URL,
                                         config,
                                         toast
@@ -460,6 +461,7 @@ const StoreAllOrders = () => {
                                         "cancel-order",
                                         order.id,
                                         fetchOrders,
+                                        fetchOrderTypeCount,
                                         BACKEND_URL,
                                         config,
                                         toast
@@ -477,6 +479,7 @@ const StoreAllOrders = () => {
                                         "unprepare-order",
                                         order.id,
                                         fetchOrders,
+                                        fetchOrderTypeCount,
                                         BACKEND_URL,
                                         config,
                                         toast

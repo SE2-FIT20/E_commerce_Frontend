@@ -203,6 +203,30 @@
 .checkout .paymentMethod {
   border-bottom: 1px solid lightgray;
   padding-bottom: 15px;
+  font-weight: 500;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.checkout .paymentMethod .paymentItem {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.checkout .paymentMethod .paymentItem img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+}
+
+.checkout .paymentMethod .paymentItem span {
+  font-size: 15px !important;
 }
 
 .checkout .cartTotalPrice {
@@ -213,6 +237,10 @@
   padding-top: 15px;
 }
 
+.selectedPaymentMethod {
+  background-color: #f0f2f5;
+  border: 2px solid #26b99a !important;
+}
 .checkout .cartTotalPrice div {
   display: flex;
   align-items: center;

@@ -34,9 +34,12 @@ export const handleDisplayOrderType = (orderType) => {
       return "DELIVERING";
     case "DELIVERED":
       return "DELIVERED";
-    case "CANCELLED":
+    case "CANCELLED_BY_CUSTOMER":
       return "CANCELLED";
-    default: return "";
+    case "CANCELLED_BY_STORE":
+      return "CANCELLED";
+    default:
+      return "";
   }
 };
 

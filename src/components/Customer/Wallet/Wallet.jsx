@@ -25,8 +25,8 @@ const Wallet = () => {
   const [selectedCreditCard, setSelectedCreditCard] = useState(null);
   const [openAddCreditCard, setOpenAddCreditCard] = useState(false);
   const [openTopUpBalance, setOpenTopUpBalance] = useState(false);
-  const [chosenCreditCard, setChosenCreditCard] = useState(null);
-  const [chosenCreditCardIndex, setChosenCreditCardIndex] = useState(10000);
+  const [amount, setAmount] = useState(0);
+  const [chosenCreditCardIndex, setChosenCreditCardIndex] = useState(0);
   const [newCreditCard, setNewCreditCard] = useState({
     nameOnCard: "",
     cardNumber: "",
@@ -43,7 +43,6 @@ const Wallet = () => {
   const isValidCardNumberFormat = (str) => {
     return /^\d{16}$/.test(str);
   };
-  console.log(chosenCreditCard);
   const isValidExpiryDateFormat = (str) => {
     if (/^\d{2}\/\d{2}$/.test(str)) {
       const [month, year] = str.split("/");
@@ -55,7 +54,7 @@ const Wallet = () => {
     }
     return false;
   };
-
+  console.log(selectedCreditCard);
   const handleCreditCardIndex = (index) => {
     if (index === chosenCreditCardIndex) {
       return 100;
@@ -161,9 +160,19 @@ const Wallet = () => {
     fetchCreditCards();
   }, []);
 
+  useEffect(() => {
+    setSelectedCreditCard(creditCards[0]);
+  }, [creditCards]);
+
   return (
     <div className="wallet">
-      <div className="walletContainer">
+      <div
+        className="walletContainer"
+        style={{
+          overflow:
+            (openAddCreditCard || openPopup || openTopUpBalance) && "hidden",
+        }}
+      >
         <div className="walletTitle">My Wallet</div>
         <div className="walletBody">
           <div className="walletCurrentBalance">
@@ -313,15 +322,16 @@ const Wallet = () => {
                 openTopUpBalance ? "topUpBalance open" : "topUpBalance"
               }
             >
-              <div className="topUpBalanceContainer" ref={topUpBalance}>
+              <div className="topUpBalanceContainer">
                 <h1>Top up balance</h1>
                 <div className="creditCardItem">
-                  <span>Name</span>
+                  <span>Amount</span>
                   <input
-                    type="text"
-                    placeholder="Name on card"
+                    type="number"
+                    placeholder="Enter amount..."
                     id="nameOnCard"
-                    onChange={handleChangeCreditCard}
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
                   />
                 </div>
                 <div className="creditCardItem">
@@ -331,7 +341,10 @@ const Wallet = () => {
                       <div
                         className="creditCard"
                         key={creditCard.id}
-                        onClick={() => setChosenCreditCardIndex(i)}
+                        onClick={() => {
+                          setChosenCreditCardIndex(i);
+                          setSelectedCreditCard(creditCard);
+                        }}
                         style={{
                           zIndex: handleCreditCardIndex(i),
                           height: i !== chosenCreditCardIndex && "50px",
@@ -342,7 +355,8 @@ const Wallet = () => {
                           style={{
                             border:
                               i === chosenCreditCardIndex && "1px solid red",
-                            marginTop: i > chosenCreditCardIndex && `-${50 + i * 5}px`,
+                            marginTop:
+                              i > chosenCreditCardIndex && `-${50 + i * 5}px`,
                           }}
                         >
                           <div className="creditCardLeft">
@@ -385,9 +399,25 @@ const Wallet = () => {
                     ))}
                   </div>
                 </div>
-                <button className="button" onClick={handleAddNewCreditCard}>
-                  Save
-                </button>
+                <div className="topUpBalanceButtons">
+                  <button
+                    className="button"
+                    onClick={() => {
+                      setOpenPopup(true);
+                      setPopupType("top-up-balance");
+                    }}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className="button"
+                    onClick={() => {
+                      setOpenTopUpBalance(false);
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
             </div>
           )}
@@ -399,8 +429,9 @@ const Wallet = () => {
         popupType={popupType}
         creditCard={selectedCreditCard}
         fetchCreditCards={fetchCreditCards}
+        amount={amount}
       />
-      <Footer />
+      { role === "CUSTOMER" && <Footer />}
     </div>
   );
 };

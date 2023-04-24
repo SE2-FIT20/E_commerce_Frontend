@@ -167,7 +167,7 @@ export const handleOrder = async (
         config
       );
       toast({
-        title: "Unprepare order successful",
+        title: "Deliver order successful",
         status: "success",
         duration: 3000,
         isClosable: true,

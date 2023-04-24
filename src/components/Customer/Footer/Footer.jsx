@@ -39,10 +39,12 @@ const Footer = () => {
         <div className="contactUs">
           <h1>Contact Us</h1>
           <ul>
-            <li className="gmail">Email: </li>
-            <li className="phone">Phone Number:</li>
+            <li className="gmail">Email: quandm11022002@gmail.com</li>
+            <li className="phone">Phone Number: 0825134034</li>
             <li className="university">University: Hanoi University</li>
-            <li className="link">Link: github.com</li>
+            <li className="link">
+              Link: <a href="https://github.com" target="_blank">github.com</a>
+            </li>
           </ul>
         </div>
         <div className="payment-delivery">

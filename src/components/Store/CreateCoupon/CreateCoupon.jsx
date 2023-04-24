@@ -284,7 +284,7 @@ const CreateCoupon = () => {
                   
                 </div>
               </div>
-              <div className="couponRight">
+              <div className="voucherRight">
                 <span>{couponQuantity}</span>
               </div>
             </div>

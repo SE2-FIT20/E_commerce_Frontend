@@ -14,7 +14,11 @@ const StoreNavbar = () => {
     <div className="storeNavbar">
       <div className="storeNavbarContainer">
         <div className="storeNavbarLeft">
-          <img src={logo} alt="" onClick={() => history.push(`/store/product/all?pages=1`)}/>
+          <img
+            src={logo}
+            alt=""
+            onClick={() => history.push(`/store/product/all?pages=1`)}
+          />
         </div>
         <div className="storeNavbarRight">
           <div className="storeInfo">
@@ -47,7 +51,7 @@ const StoreNavbar = () => {
                   onClick={() => {
                     setCurrentUser(null);
                     setRole("CUSTOMER");
-                    history.push("/")
+                    history.push("/");
                   }}
                 >
                   Log out

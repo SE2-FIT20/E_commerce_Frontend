@@ -4,6 +4,8 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { formatNumber } from "../../components/longFunctions";
 import axios from "axios";
+import CashOnDelivery from "../../images/cash-on-delivery-icon.png";
+import WalletBanking from "../../images/wallet-banking-icon.png";
 import WarningIcon from "../../images/warning-icon.png";
 import ConfirmCheckout from "../../images/confirm-checkout.png";
 import BreadCrumb from "../../components/Customer/BreadCrumb/BreadCrumb";
@@ -13,12 +15,13 @@ import { useHistory } from "react-router-dom";
 import Footer from "../../components/Customer/Footer/Footer";
 
 const Checkout = () => {
-  const { BACKEND_URL, config, currentUser } = useContext(AuthContext);
+  const { BACKEND_URL, config, currentUser, setCurrentUser } = useContext(AuthContext);
   const [storeProducts, setStoreProducts] = useState([]);
   const [deliveryPartners, setDeliveryPartners] = useState([]);
   const [address, setAddress] = useState(
     currentUser.addresses[currentUser.addresses.length - 1]
   );
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("CASH_ON_DELIVERY");
   const [loading, setLoading] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(address);
   const [selectedDeliveryPartnerId, setSelectedDeliveryPartnerId] = useState(0);
@@ -67,6 +70,7 @@ const Checkout = () => {
           {
             deliveryPartnerId: selectedDeliveryPartnerId,
             destinationAddress: selectedAddress,
+            paymentMethod: selectedPaymentMethod,
           },
           config
         );
@@ -77,8 +81,14 @@ const Checkout = () => {
           isClosable: true,
           position: "bottom",
         });
+        
         setLoading(false);
         setOpenConfirmCheckout(true);
+        const { data } = await axios.get(
+          `${BACKEND_URL}/api/customer/account`,
+          config
+        );
+        setCurrentUser(data.data);
       } catch (error) {
         toast({
           title: "An error occurred checking out",
@@ -262,6 +272,28 @@ const Checkout = () => {
           <div className="cartTotalContainer">
             <div className="paymentMethod">
               <span>Payment method</span>
+              <div
+                className={
+                  selectedPaymentMethod === "CASH_ON_DELIVERY"
+                    ? "paymentItem selectedPaymentMethod"
+                    : "paymentItem"
+                }
+                onClick={() => setSelectedPaymentMethod("CASH_ON_DELIVERY")}
+              >
+                <img src={CashOnDelivery} alt="" />
+                <span>Cash On Delivery</span>
+              </div>
+              <div
+                className={
+                  selectedPaymentMethod === "ONLINE_PAYMENT"
+                    ? "paymentItem selectedPaymentMethod"
+                    : "paymentItem"
+                }
+                onClick={() => setSelectedPaymentMethod("ONLINE_PAYMENT")}
+              >
+                <img src={WalletBanking} alt="" />
+                <span>Bazaar Wallet</span>
+              </div>
             </div>
             <div className="cartTotalPrice">
               <div className="cartTotalPriceContainer">

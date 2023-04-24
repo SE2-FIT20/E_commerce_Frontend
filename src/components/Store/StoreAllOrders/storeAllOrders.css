@@ -31,6 +31,7 @@
 .storeAllOrders .storeFilterOptionsContainer {
   padding: 10px 20px;
   display: flex;
+  gap: 20px;
 }
 
 .storeAllOrders .storeFilterOptionsContainer > div {
@@ -106,7 +107,7 @@
   gap: 5px;
 }
 
-.storeAllOrders .filterByDate .inputDateContainer > div{
+.storeAllOrders .filterByDate .inputDateContainer > div {
   border: 0.5px solid #ccc;
   padding: 5px 15px;
   border-radius: 15px;
@@ -312,8 +313,13 @@
   gap: 15px;
 }
 
+.storeAllOrders table tbody tr .products .totalContainer .orderButtons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .storeAllOrders table tbody tr .products .totalContainer button {
-  
   height: 50px;
 }
 
@@ -481,10 +487,25 @@
     min-height: 60vh;
     max-height: 60vh;
   }
+
+  .storeAllOrders .filterByDate .inputDateContainer {
+    flex-direction: column;
+  }
 }
 
 @media screen and (max-width: 950px) {
   .storeAllOrdersContainer {
     width: 100%;
+  }
+
+  .storeAllOrders .orderStatus {
+    font-size: 16px !important;
+  }
+}
+
+@media screen and (max-height: 950px) {
+  .storeAllOrders table tbody {
+    min-height: 50vh;
+    max-height: 50vh;
   }
 }

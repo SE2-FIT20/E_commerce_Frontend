@@ -337,7 +337,11 @@
 }
 
 
-
+.wallet .topUpBalanceContainer .topUpBalanceButtons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
 
 
@@ -363,5 +367,15 @@
 @media screen and (min-width: 1700px) {
   .walletContainer {
     width: 50% !important;
+  }
+}
+
+@media screen and (max-height: 950px) {
+  .wallet .topUpBalanceContainer {
+    height: 500px;
+  }
+
+  .wallet .topUpBalanceContainer .creditCardItem .chooseCreditCards {
+    max-height: 200px;
   }
 }

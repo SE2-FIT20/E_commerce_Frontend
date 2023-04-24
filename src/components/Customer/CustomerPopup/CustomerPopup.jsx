@@ -5,6 +5,7 @@ import axios from "axios";
 import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { useToast } from "@chakra-ui/react";
+import { formatNumber } from "../../longFunctions";
 
 const CustomerPopup = ({
   open,
@@ -12,10 +13,14 @@ const CustomerPopup = ({
   popupType,
   creditCard,
   fetchCreditCards,
+  amount,
+  order,
+  fetchOrders,
+  fetchOrderTypeCount,
 }) => {
   const popup = useRef();
   const toast = useToast();
-  const { BACKEND_URL, config } = useContext(AuthContext);
+  const { BACKEND_URL, config, setCurrentUser } = useContext(AuthContext);
   const handleConfirm = async (popupType) => {
     if (popupType === "delete-credit-card") {
       await axios.delete(
@@ -31,9 +36,49 @@ const CustomerPopup = ({
         isClosable: true,
         position: "bottom",
       });
+    } else if (popupType === "top-up-balance") {
+      await axios.put(
+        `${BACKEND_URL}/api/customer/top-up-balance`,
+        {
+          paymentInformationId: creditCard.id,
+          amount,
+        },
+        config
+      );
+      toast({
+        title: `Recharge ₫${formatNumber(amount)} successful!`,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+      const { data } = await axios.get(
+        `${BACKEND_URL}/api/customer/account`,
+        config
+      );
+      setCurrentUser(data.data);
+      window.location.reload();
+    } else if (popupType === "cancel-order") {
+      await axios.put(
+        `${BACKEND_URL}/api/customer/update-status-order`,
+        {
+          orderId: order.id,
+          status: "CANCELLED_BY_CUSTOMER",
+        },
+        config
+      );
+      toast({
+        title: `Cancel order successful!`,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setOpen(false);
+      fetchOrders();
+      fetchOrderTypeCount();
     }
   };
-
   useEffect(() => {
     function handleClickOutside(event) {
       if (popup.current && !popup.current.contains(event.target)) {
@@ -52,6 +97,14 @@ const CustomerPopup = ({
         <div className="deleteTitle">
           {popupType === "delete-credit-card" && (
             <span>{`Are you sure you want to delete this credit card?`}</span>
+          )}
+          {popupType === "top-up-balance" && (
+            <span>{`Are you sure you want to recharge ₫${formatNumber(
+              amount
+            )}?`}</span>
+          )}
+          {popupType === "cancel-order" && (
+            <span>{`Are you sure you want to cancel this order?`}</span>
           )}
         </div>
         <div className="deleteBtnContainer">

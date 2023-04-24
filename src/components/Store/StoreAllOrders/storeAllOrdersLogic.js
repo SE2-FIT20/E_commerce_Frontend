@@ -96,7 +96,9 @@ export const handleDisplayStatus = (status) => {
       return "Delivering";
     case "DELIVERED":
       return "Delivered";
-    case "CANCELLED":
+    case "CANCELLED_BY_CUSTOMER":
+      return "Cancelled";
+    case "CANCELLED_BY_STORE":
       return "Cancelled";
     default:
       return "";
@@ -124,14 +126,16 @@ export const handleOrder = async (
   orderType,
   orderId,
   fetchOrders,
+  fetchOrderTypeCount,
   BACKEND_URL,
   config,
   toast
 ) => {
   if (orderType === "prepare-order") {
     try {
+      console.log(orderId)
       await axios.put(
-        `${BACKEND_URL}/api/store/orders`,
+        `${BACKEND_URL}/api/store/update-status-order`,
         {
           orderId,
           status: "READY_FOR_DELIVERY",
@@ -146,6 +150,7 @@ export const handleOrder = async (
         position: "bottom",
       });
       fetchOrders();
+      fetchOrderTypeCount();
     } catch (error) {
       toast({
         title: "An error occurred preparing orders",
@@ -158,7 +163,7 @@ export const handleOrder = async (
   } else if (orderType === "unprepare-order") {
     try {
       await axios.put(
-        `${BACKEND_URL}/api/store/orders`,
+        `${BACKEND_URL}/api/store/update-status-order`,
         {
           orderId,
           status: "PENDING",
@@ -173,6 +178,8 @@ export const handleOrder = async (
         position: "bottom",
       });
       fetchOrders();
+      fetchOrderTypeCount();
+
     } catch (error) {
       toast({
         title: "An error occurred unpreparing orders",
@@ -185,10 +192,10 @@ export const handleOrder = async (
   } else if (orderType === "cancel-order") {
     try {
       await axios.put(
-        `${BACKEND_URL}/api/store/orders`,
+        `${BACKEND_URL}/api/store/update-status-order`,
         {
           orderId,
-          status: "CANCELLED",
+          status: "CANCELLED_BY_STORE",
         },
         config
       );
@@ -200,6 +207,8 @@ export const handleOrder = async (
         position: "bottom",
       });
       fetchOrders();
+      fetchOrderTypeCount();
+
     } catch (error) {
       toast({
         title: "An error occurred cancelling orders",

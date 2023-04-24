@@ -9,6 +9,7 @@ import { formatNumber, capitalize } from "../../components/longFunctions";
 import NoOrder from "../../images/no-order-icon.png";
 import { useRef } from "react";
 import Footer from "../../components/Customer/Footer/Footer";
+import CustomerPopup from "../../components/Customer/CustomerPopup/CustomerPopup";
 
 const Order = () => {
   const history = useHistory();
@@ -23,7 +24,9 @@ const Order = () => {
   const [orderTypeCount, setOrderTypeCount] = useState(null);
   const orderRef = useRef();
   const [moreOrderLoading, setMoreOrderLoading] = useState(false);
-  console.log(orderTypeCount);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [popupType, setPopupType] = useState("");
+  const [selectedOrder, setSelectedOrder] = useState(null);
   const handleChangeOrderType = (e) => {
     setOrderType(e.target.id);
     setCurrentPage(0);
@@ -98,7 +101,7 @@ const Order = () => {
       }
     }
   };
-
+  console.log(orders[0])
   useEffect(() => {
     fetchOrderTypeCount();
     document.title = "My Order | BazaarBay";
@@ -259,15 +262,22 @@ const Order = () => {
                   <div className="orderTotal">
                     <div className="orderTotalPrice">
                       Total:
-                      <span>{"₫" + formatNumber(order.totalPrice + order.deliveryPartner.shippingFee)}</span>
+                      <span>
+                        {"₫" +
+                          formatNumber(
+                            order.totalPrice + order.deliveryPartner.shippingFee
+                          )}
+                      </span>
                     </div>
                     <div className="orderButtons">
                       {order.status === "PENDING" && (
                         <button
                           className="button"
-                          onClick={() =>
-                            (window.location.href = `/product/${order.items[0].product.id}`)
-                          }
+                          onClick={() => {
+                            setSelectedOrder(order);
+                            setOpenPopup(true);
+                            setPopupType("cancel-order");
+                          }}
                         >
                           Cancel Order
                         </button>
@@ -321,6 +331,14 @@ const Order = () => {
           </div>
         )}
       </div>
+      <CustomerPopup
+        open={openPopup}
+        setOpen={setOpenPopup}
+        popupType={popupType}
+        order={selectedOrder}
+        fetchOrders={fetchOrders}
+        fetchOrderTypeCount={fetchOrderTypeCount}
+      />
       <Footer />
     </div>
   );
