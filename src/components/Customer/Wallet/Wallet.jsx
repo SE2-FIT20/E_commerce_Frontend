@@ -54,7 +54,6 @@ const Wallet = () => {
     }
     return false;
   };
-  console.log(selectedCreditCard);
   const handleCreditCardIndex = (index) => {
     if (index === chosenCreditCardIndex) {
       return 100;

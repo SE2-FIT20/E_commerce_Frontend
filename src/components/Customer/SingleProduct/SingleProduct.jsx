@@ -38,13 +38,13 @@ const SingleProduct = ({ product, search }) => {
             40
           )} ${product.name.length > 40 ? "..." : ""}`}</h2>
         </div>
-        <span className="singleProductPrice">{`đ${formatNumber(
-          product.price
-        )}`}</span>
+        <span className="singleProductPrice">
+          <span>{`đ${formatNumber(product.price)}`}</span>
+        </span>
         {!search && (
           <span className="singleProductDesc">
-            {`${product.description.substring(0, 50)}${
-              product.description.length > 50 ? "..." : ""
+            {`${product.description.substring(0, 45)}${
+              product.description.length > 45 ? "..." : ""
             }`}
           </span>
         )}

@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import "./updateProfile.css";
 import { AuthContext } from "../../context/AuthContext";
-import axios from "axios";
 import Footer from "../../components/Customer/Footer/Footer";
 
 import { useToast } from "@chakra-ui/react";
@@ -37,13 +36,6 @@ const UpdateProfile = () => {
     avatar : newAvatar || null
   })
   const toast = useToast();
-  const nothingChanged =
-    currentUser.name === userInfo.name &&
-    currentUser.phone === userInfo.phone &&
-    currentUser.address === userInfo.address &&
-    currentUser.image === userInfo.image &&
-    currentUser.email === userInfo.email &&
-    userInfo.avatar === (newAvatar ? newAvatar : currentUser.avatar);
 
   useEffect(() => {
     document.title = "My Profile | BazaarBay";

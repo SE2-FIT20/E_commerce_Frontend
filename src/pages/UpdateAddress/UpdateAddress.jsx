@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import "./updateAddress.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPen, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { AuthContext } from "../../context/AuthContext";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";

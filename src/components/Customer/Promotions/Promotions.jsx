@@ -32,10 +32,10 @@ const Promotions = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `${BACKEND_URL}/api/customer/vouchers-coupons-to-add-to-cart`,
+        `${BACKEND_URL}/api/customer/vouchers-coupons`,
         config
       );
-      setVouchers([...data.data.usable, ...data.data.unUsable]);
+      setVouchers([...data.data.vouchers, ...data.data.coupons]);
 
       setLoading(false);
     } catch (error) {

@@ -20,7 +20,7 @@ const CustomerPopup = ({
 }) => {
   const popup = useRef();
   const toast = useToast();
-  const { BACKEND_URL, config, setCurrentUser } = useContext(AuthContext);
+  const { BACKEND_URL, config, setCurrentUser, token } = useContext(AuthContext);
   const handleConfirm = async (popupType) => {
     if (popupType === "delete-credit-card") {
       await axios.delete(
@@ -77,6 +77,13 @@ const CustomerPopup = ({
       setOpen(false);
       fetchOrders();
       fetchOrderTypeCount();
+      const { data } = await axios.get(`${BACKEND_URL}/api/customer/account`, {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setCurrentUser(data.data);
     }
   };
   useEffect(() => {

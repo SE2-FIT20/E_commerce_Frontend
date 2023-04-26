@@ -49,7 +49,7 @@ const Footer = () => {
         </div>
         <div className="payment-delivery">
           <div className="payment">
-            <h1>Payment Methods</h1>
+            <h1>Payment</h1>
             <div className="paymentContainer">
               <img src={Visa} alt="" />
               <img src={MasterCard} alt="" />

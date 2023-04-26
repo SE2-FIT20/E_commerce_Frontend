@@ -1,8 +1,17 @@
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLocationDot,
+  faCheck,
+  faTrashAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { formatNumber } from "../../components/longFunctions";
+import {
+  formatDaysLeft,
+  formatDaysToStart,
+  formatNumber,
+  revertTimeStamp,
+} from "../../components/longFunctions";
 import axios from "axios";
 import CashOnDelivery from "../../images/cash-on-delivery-icon.png";
 import WalletBanking from "../../images/wallet-banking-icon.png";
@@ -13,27 +22,37 @@ import "./checkout.css";
 import { useToast } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
 import Footer from "../../components/Customer/Footer/Footer";
+import BazaarBayIcon from "../../images/bazaarbay-icon.ico";
+import { faClock } from "@fortawesome/free-regular-svg-icons";
 
 const Checkout = () => {
-  const { BACKEND_URL, config, currentUser, setCurrentUser } = useContext(AuthContext);
+  const { BACKEND_URL, config, currentUser, setCurrentUser } =
+    useContext(AuthContext);
   const [storeProducts, setStoreProducts] = useState([]);
   const [deliveryPartners, setDeliveryPartners] = useState([]);
   const [address, setAddress] = useState(
     currentUser.addresses[currentUser.addresses.length - 1]
   );
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("CASH_ON_DELIVERY");
+  const [vouchers, setVouchers] = useState([]);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] =
+    useState("CASH_ON_DELIVERY");
   const [loading, setLoading] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(address);
+  const [selectedVouchers, setSelectedVouchers] = useState([]);
+  const [chosenVouchers, setChosenVouchers] = useState([]);
   const [selectedDeliveryPartnerId, setSelectedDeliveryPartnerId] = useState(0);
   const [shippingFee, setShippingFee] = useState(0);
+  const [totalDiscount, setTotalDiscount] = useState(0);
   const [openProvideInfo, setOpenProvideInfo] = useState(false);
   const [openChooseAddress, setOpenChooseAddress] = useState(false);
   const [openConfirmCheckout, setOpenConfirmCheckout] = useState(false);
+  const [openChooseVoucher, setOpenChooseVoucher] = useState(false);
   const [openChooseDeliveryPartner, setOpenChooseDeliveryPartner] =
     useState(false);
   const provideInfo = useRef();
   const chooseAddressRef = useRef();
   const chooseDeliveryPartnerRef = useRef();
+  const chooseVoucherRef = useRef();
   const toast = useToast();
   const history = useHistory();
   const subTotalPrice = storeProducts.reduce((accumulator, currentValue) => {
@@ -42,6 +61,7 @@ const Checkout = () => {
     }, 0);
     return accumulator + itemTotal;
   }, 0);
+
   const fetchCart = async () => {
     try {
       const { data } = await axios.get(
@@ -51,11 +71,69 @@ const Checkout = () => {
       setStoreProducts(data.data);
     } catch (error) {}
   };
+
+  const fetchVoucher = async () => {
+    try {
+      const { data } = await axios.get(
+        `${BACKEND_URL}/api/customer/vouchers-coupons-to-add-to-cart`,
+        config
+      );
+      setVouchers(data.data.usable);
+    } catch (error) {}
+  };
+
   const fetchDeliveryPartners = async () => {
     try {
       const { data } = await axios.get(`${BACKEND_URL}/api/delivery-partners`);
       setDeliveryPartners(data.data.content);
       setSelectedDeliveryPartnerId(8);
+    } catch (error) {}
+  };
+
+  const handleAddVoucherToCart = async (voucher) => {
+    try {
+      // await axios.put(
+      //   `${BACKEND_URL}/api/customer/add-voucher-coupon-to-cart/${voucher.id}`,
+      //   {},
+      //   config
+      // );
+      toast({
+        title: "Add voucher successful",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+      setSelectedVouchers(chosenVouchers);
+      setOpenChooseVoucher(false);
+    } catch (error) {
+      toast({
+        title: "You can add only 1 voucher and/or 1 coupon!",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  };
+
+  const handleChooseVoucher = (voucher) => {
+    if (chosenVouchers.some((v) => v.id === voucher.id)) {
+      setChosenVouchers(chosenVouchers.filter((v) => v.id !== voucher.id));
+    } else {
+      setChosenVouchers([...chosenVouchers, voucher]);
+    }
+  };
+
+  const handleRemoveVoucherFromCart = async (voucher) => {
+    try {
+      // await axios.put(
+      //   `${BACKEND_URL}/api/customer/remove-voucher-coupon-to-cart/${voucher.id}`,
+      //   {},
+      //   config
+      // );
+      setSelectedVouchers(chosenVouchers.filter((v) => v.id !== voucher.id));
+      setChosenVouchers(chosenVouchers.filter((v) => v.id !== voucher.id));
     } catch (error) {}
   };
   const handleCheckout = async () => {
@@ -81,7 +159,7 @@ const Checkout = () => {
           isClosable: true,
           position: "bottom",
         });
-        
+
         setLoading(false);
         setOpenConfirmCheckout(true);
         const { data } = await axios.get(
@@ -101,9 +179,9 @@ const Checkout = () => {
       }
     }
   };
-
   useEffect(() => {
     fetchCart();
+    fetchVoucher();
     fetchDeliveryPartners();
     document.title = "Checkout | BazaarBay";
   }, []);
@@ -134,13 +212,38 @@ const Checkout = () => {
       if (provideInfo.current && !provideInfo.current.contains(event.target)) {
         setOpenProvideInfo(false);
       }
+      if (
+        chooseVoucherRef.current &&
+        !chooseVoucherRef.current.contains(event.target)
+      ) {
+        setOpenChooseVoucher(false);
+      }
     }
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [chooseAddressRef, chooseDeliveryPartnerRef, provideInfo]);
+  }, [
+    chooseAddressRef,
+    chooseDeliveryPartnerRef,
+    provideInfo,
+    chooseVoucherRef,
+  ]);
+
+  useEffect(() => {
+    setTotalDiscount(
+      selectedVouchers.reduce(
+        (accumulator, currentValue) => accumulator + currentValue.percent,
+        0
+      ) < 100
+        ? selectedVouchers.reduce(
+            (accumulator, currentValue) => accumulator + currentValue.percent,
+            0
+          )
+        : 99
+    );
+  }, [selectedVouchers]);
 
   return (
     <div
@@ -207,7 +310,6 @@ const Checkout = () => {
                       <span>{item.product.name}</span>
                     </td>
                     <td style={{ flex: "1.5" }}>
-                      {" "}
                       <span className="price-symbol">₫</span>
                       {formatNumber(item.product.price)}
                     </td>
@@ -268,6 +370,53 @@ const Checkout = () => {
           </div>
         </div>
 
+        <div className="voucherOption">
+          <div className="voucherOptionContainer">
+            <h2>Voucher / Coupon</h2>
+            <div className="chosenVouchers">
+              {selectedVouchers.map((voucher) => (
+                <div className="voucher" key={voucher.id}>
+                  <div className="voucherLeft">
+                    {voucher.store && (
+                      <div className="voucherOptionImage voucherStore">
+                        <img src={voucher.store.avatar} alt="" />
+                        <span>{voucher.store.name}</span>
+                      </div>
+                    )}
+                    {!voucher.store && (
+                      <div className="voucherOptionImage">
+                        <img src={BazaarBayIcon} alt="" />
+                        <span>BazaarBay</span>
+                      </div>
+                    )}
+
+                    <div className="voucherInfo">
+                      <div className="voucherBasicInfo">
+                        <h2 className="voucherPercent">{`Discount ${voucher.percent}%`}</h2>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="voucherRemove"
+                    onClick={() => handleRemoveVoucherFromCart(voucher)}
+                  >
+                    <FontAwesomeIcon icon={faTrashAlt} />
+                  </div>
+                </div>
+              ))}
+            </div>
+            <button
+              className="button"
+              onClick={() => {
+                setOpenChooseVoucher(true);
+                setChosenVouchers(selectedVouchers);
+              }}
+            >
+              Choose
+            </button>
+          </div>
+        </div>
+
         <div className="cartTotal">
           <div className="cartTotalContainer">
             <div className="paymentMethod">
@@ -300,24 +449,43 @@ const Checkout = () => {
                 <table>
                   <tbody>
                     <tr>
-                      <td className="priceHeading">Product Price</td>
+                      <td className="priceHeading">Product Price:</td>
                       <td className="price">
                         <span className="price-symbol">₫</span>
                         {formatNumber(subTotalPrice)}
                       </td>
                     </tr>
+                    {totalDiscount > 0 && (
+                      <tr>
+                        <td className="priceHeading">Voucher Discount:</td>
+                        <td className="price">
+                          <span className="price-symbol"></span>
+                          {`${totalDiscount}%`}
+                        </td>
+                      </tr>
+                    )}
                     <tr>
-                      <td className="priceHeading">Shipment Fee</td>
+                      <td className="priceHeading">Shipment Fee:</td>
                       <td className="price">
                         <span className="price-symbol">₫</span>
                         {formatNumber(shippingFee)}
                       </td>
                     </tr>
-                    <tr>
+
+                    <tr style={{ paddingTop: "20px" }}>
                       <td className="priceHeading">Total Price:</td>
-                      <td className="price totalPrice">
-                        <span className="price-symbol">₫</span>
-                        {formatNumber(subTotalPrice + shippingFee)}
+                      <td className="priceTotalContainer">
+                        <div className="price initialPrice">
+                          <span className="price-symbol"></span>
+                          {"₫" + formatNumber(subTotalPrice + shippingFee)}
+                        </div>
+                        <div className="price totalPrice">
+                          {"₫" +
+                            formatNumber(
+                              subTotalPrice * ((100 - totalDiscount) / 100) +
+                                shippingFee
+                            )}
+                        </div>
                       </td>
                     </tr>
                   </tbody>
@@ -463,6 +631,86 @@ const Checkout = () => {
           <button className="confirmButton" onClick={() => history.push("/")}>
             Continue Shopping
           </button>
+        </div>
+      </div>
+      <div
+        className={
+          openChooseVoucher ? "chooseVoucher open" : "chooseVoucher close"
+        }
+      >
+        <div className="chooseVoucherContainer" ref={chooseVoucherRef}>
+          <h2>Choose your voucher/coupon</h2>
+          <div className="vouchersToAdd">
+            {vouchers.map((voucher) => (
+              <div
+                className="voucher"
+                style={{ textAlign: "left" }}
+                onClick={() => handleChooseVoucher(voucher)}
+              >
+                <div className="voucherLeft">
+                  {voucher.store && (
+                    <div className="voucherImage storeCoupon">
+                      <img src={voucher.store.avatar} alt="" />
+                      <span>{voucher.store.name}</span>
+                    </div>
+                  )}
+                  {!voucher.store && (
+                    <div className="voucherImage">
+                      <img src={BazaarBayIcon} alt="" />
+                      <span>BazaarBay</span>
+                    </div>
+                  )}
+
+                  <div className="voucherInfo">
+                    <div className="voucherBasicInfo">
+                      <h2 className="voucherPercent">
+                        {`Discount ${voucher.percent}%`}
+                      </h2>
+                      <span className="voucherDescription">
+                        {`${voucher.description.substring(0, 60)}${
+                          voucher.description.length > 60 ? "..." : ""
+                        }`}
+                      </span>
+                    </div>
+                    {revertTimeStamp(voucher.startAt) >=
+                      revertTimeStamp(new Date()) && (
+                      <span className="voucherExpired">
+                        <FontAwesomeIcon icon={faClock} />
+                        <span>{formatDaysToStart(voucher.startAt)}</span>
+                      </span>
+                    )}
+                    {revertTimeStamp(voucher.startAt) <
+                      revertTimeStamp(new Date()) && (
+                      <span className="voucherExpired">
+                        <FontAwesomeIcon icon={faClock} />
+                        <span>{formatDaysLeft(voucher.expiredAt)}</span>
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="voucherCheck">
+                  <div className="voucherCheckContainer">
+                    {chosenVouchers.some((v) => v.id === voucher.id) && (
+                      <FontAwesomeIcon icon={faCheck} />
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="chooseVoucherButtons">
+            <button className="button" onClick={() => handleAddVoucherToCart()}>
+              OK
+            </button>
+            <button
+              className="button cancel"
+              onClick={() => {
+                setOpenChooseVoucher(false);
+              }}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </div>
       <Footer />

@@ -130,7 +130,8 @@ export const handleOrder = async (
   fetchOrders,
   BACKEND_URL,
   config,
-  toast
+  toast,
+  token, setCurrentUser
 ) => {
   if (orderType === "prepare-order") {
     try {
@@ -231,6 +232,7 @@ export const handleOrder = async (
         position: "bottom",
       });
       fetchOrders();
+
     } catch (error) {
       toast({
         title: "An error occurred cancelling orders",
@@ -240,5 +242,5 @@ export const handleOrder = async (
         position: "bottom",
       });
     }
-  } 
+  }
 };

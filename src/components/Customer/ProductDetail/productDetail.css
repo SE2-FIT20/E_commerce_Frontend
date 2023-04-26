@@ -225,6 +225,7 @@
   border: none;
 }
 
+
 .productRight .storeCouponsContainer .voucherLeft .voucherImage {
   background: #9dd8f1;
 }
@@ -273,6 +274,7 @@
   position: relative;
   font-size: 12px;
 }
+
 .productRight
   .productDescription
   tbody

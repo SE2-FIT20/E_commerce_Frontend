@@ -182,6 +182,7 @@ textarea:focus {
   font-size: 13px;
   color: gray;
   line-height: 1.2;
+  padding-right: 10px;
 }
 
 .voucherInfo .voucherExpired {

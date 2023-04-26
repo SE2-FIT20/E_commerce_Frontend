@@ -152,6 +152,83 @@
   color: #4080ee;
 }
 
+.checkout .voucherOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  background-color: #fff;
+}
+
+.checkout .voucherOptionContainer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.checkout .voucherOptionContainer h2 {
+  color: #0c1d26;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.checkout .voucherOptionContainer .chosenVouchers {
+  display: flex;
+  gap: 10px;
+}
+
+.checkout .voucherOptionContainer .voucher {
+  width: 240px;
+  height: 75px;
+}
+.checkout .voucherOptionContainer .voucher .voucherOptionImage {
+  height: 75px;
+  max-width: 75px !important;
+  min-width: 75px;
+  background-color: rgb(43, 223, 186);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.checkout .voucherOptionContainer .voucher .voucherOptionImage.voucherStore {
+  background-color: #9dd8f1 !important;
+}
+
+.checkout .voucherOptionContainer .voucher .voucherOptionImage img {
+  width: 30px;
+  height: 30px;
+}
+
+.checkout
+  .voucherOptionContainer
+  .voucher
+  .voucherOptionImage.voucherStore
+  img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.checkout .voucherOptionContainer .voucher .voucherOptionImage span {
+  color: #fff;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.checkout .voucherOptionContainer .voucherRemove {
+  height: 100%;
+  width: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkout .voucherOptionContainer .voucherRemove:hover {
+  background-color: #f0f2f5;
+}
+
 .checkout .totalProductPrice {
   padding-top: 15px;
   display: flex;
@@ -171,12 +248,11 @@
 .checkout .cartTotalContainer tbody {
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 
 .checkout .cartTotalContainer tbody tr {
   display: flex;
-  gap: 100px;
+  gap: 30px;
   justify-content: space-between;
 }
 
@@ -188,6 +264,20 @@
 .checkout .cartTotalContainer tbody tr .price {
   display: flex;
   justify-self: flex-end !important;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.checkout .cartTotalContainer tbody tr .priceTotalContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.checkout .cartTotalContainer tbody tr .priceTotalContainer .initialPrice {
+  text-decoration: line-through;
+  font-size: 20px;
+  color: gray;
+  font-weight: 500;
 }
 
 .checkout .cartTotalContainer tbody tr .price.totalPrice span {
@@ -198,6 +288,8 @@
 .checkout .cartTotalContainer tbody tr .price.totalPrice {
   font-size: 30px !important;
   color: red;
+  font-weight: 600;
+
 }
 
 .checkout .paymentMethod {
@@ -256,7 +348,9 @@
 }
 
 .chooseAddress,
-.chooseDeliveryPartner, .confirmCheckout {
+.chooseDeliveryPartner,
+.confirmCheckout,
+.chooseVoucher {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -271,12 +365,16 @@
 }
 
 .chooseAddress.open,
-.chooseDeliveryPartner.open, .confirmCheckout.open {
+.chooseDeliveryPartner.open,
+.confirmCheckout.open,
+.chooseVoucher.open {
   display: flex;
   animation: fade-in 0.2s ease-in-out forwards;
 }
 
-.chooseAddress.close .chooseDeliveryPartner.close, .confirmCheckout.close {
+.chooseAddress.close .chooseDeliveryPartner.close,
+.confirmCheckout.close,
+.chooseVoucher.close {
   animation: fade-out 0.2s ease-in-out forwards;
 }
 .chooseAddressContainer {
@@ -426,7 +524,7 @@
   gap: 10px;
 }
 
-.provideInfo.popup{
+.provideInfo.popup {
   animation-name: fade-in;
   animation-duration: 0.3s;
   animation-timing-function: ease-out;
@@ -434,7 +532,7 @@
 
 .provideInfoContainer img {
   width: 100px;
-  height: 100px;  
+  height: 100px;
 }
 
 .provideInfoContainer h2 {
@@ -478,7 +576,6 @@
 .confirmCheckout .confirmImage img {
   width: 100px;
   height: 100px;
-
 }
 
 .confirmCheckout .confirmImage .confirmText {
@@ -495,10 +592,74 @@
 
 .confirmCheckout button {
   border-radius: 25px;
-  background-color: #0C1D26;
+  background-color: #0c1d26;
   color: #fff;
   font-weight: 500;
   padding: 15px 25px !important;
+}
+
+.chooseVoucherContainer {
+  width: 500px;
+  height: 500px;
+  border-radius: 15px;
+  background-color: #fff;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  gap: 20px;
+}
+
+.chooseVoucherContainer > h2 {
+  font-weight: 500;
+  font-size: 25px;
+  padding: 15px;
+  text-align: center;
+  width: 100%;
+}
+.chooseVoucherContainer .vouchersToAdd {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  overflow-y: scroll;
+}
+
+.chooseVoucherContainer .voucherCheck {
+  height: 100%;
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chooseVoucherContainer .voucherCheckContainer {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chooseVoucherContainer .chooseVoucherButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.chooseVoucherContainer .chooseVoucherButtons button {
+  padding: 13px 23px !important;
+}
+
+.chooseVoucherContainer .chooseVoucherButtons button.cancel {
+  background-color: #fff;
+  border: 1px solid #000;
+  color: #000;
+}
+
+.chooseVoucherContainer .chooseVoucherButtons button.cancel:hover {
+  background-color: #f0f2f5;
 }
 
 .confirmCheckout button:hover {

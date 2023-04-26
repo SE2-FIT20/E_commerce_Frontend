@@ -11,6 +11,7 @@ import {
   faShop,
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
+import BazaarBayIcon from "../../../images/bazaarbay-icon.ico";
 import "./productDetail.css";
 import ProductImage from "../ProductImage/ProductImage";
 import { useHistory } from "react-router-dom";
@@ -32,11 +33,14 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
   const { BACKEND_URL, config, currentUser } = useContext(AuthContext);
   const [quantity, setQuantity] = useState(1);
   const [storeCoupons, setStoreCoupons] = useState([]);
+  const [userVouchers, setUserVouchers] = useState([]);
   const [currentImage, setCurrentImage] = useState(product.images[0]);
   const [currentDisplayImage, setCurrentDisplayImage] = useState(currentImage);
   const [otherImageIndex, setOtherImageIndex] = useState(0);
   const [openImage, setOpenImage] = useState(false);
   const [readMoreDesc, setReadMoreDesc] = useState(false);
+  const [openUserVouchers, setOpenUserVouchers] = useState(false);
+
   const [openStoreCoupons, setOpenStoreCoupons] = useState(false);
 
   const mainImage = useRef();
@@ -44,6 +48,7 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
   const history = useHistory();
   const toast = useToast();
   const storeCouponsRef = useRef();
+  const userVouchersRef = useRef();
   const handleClickMinus = () => {
     setQuantity((prev) => (prev === 1 ? prev : prev - 1));
   };
@@ -70,6 +75,16 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
         `${BACKEND_URL}/api/coupon-sets/store/${storeId}`
       );
       setStoreCoupons(data.data.content);
+    } catch (error) {}
+  };
+
+  const fetchUserVouchers = async () => {
+    try {
+      const { data } = await axios.get(
+        `${BACKEND_URL}/api/customer/vouchers-coupons`,
+        config
+      );
+      setUserVouchers(data.data.vouchers);
     } catch (error) {}
   };
   const handleAddToCart = async (productId) => {
@@ -102,7 +117,7 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
       });
     }
   };
-
+  console.log(userVouchers);
   const handleSaveCoupon = async (couponId) => {
     console.log(couponId);
     try {
@@ -131,6 +146,7 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
 
   useEffect(() => {
     fetchStoreCoupons(product.store.id);
+    fetchUserVouchers();
     setCurrentDisplayImage(currentImage);
     setCurrentImage(product.images[0]);
     document.title = `${product.name} | BazaarBay`;
@@ -149,13 +165,19 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
       ) {
         setOpenStoreCoupons(false);
       }
+      if (
+        userVouchersRef.current &&
+        !userVouchersRef.current.contains(event.target)
+      ) {
+        setOpenUserVouchers(false);
+      }
     }
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [imageDisplay, storeCouponsRef]);
+  }, [imageDisplay, storeCouponsRef, userVouchersRef]);
   return (
     <div className="productDetail">
       <div className="productBody">
@@ -243,14 +265,78 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
                 <tbody>
                   <tr>
                     <th className="productHeading">Vouchers</th>
-                    <th className="productContent productVouchers">
-                      <div className="productVoucher">Discount 5%</div>
-                      <div className="productVoucher">Discount 5%</div>
-                      <div className="productVoucher">Discount 5%</div>
-                      <div className="productVoucher">Discount 5%</div>
-                      <div className="productVoucher">Discount 5%</div>
-                      <div className="productVoucher">Discount 5%</div>
-                      <div className="productVoucher">Discount 5%</div>
+                    <th
+                      className="productContent productVouchers"
+                      onMouseOver={() => setOpenUserVouchers(true)}
+                      onMouseLeave={() => setOpenUserVouchers(false)}
+                    >
+                      {userVouchers.map((voucher) => (
+                        <div
+                          className="productCoupon"
+                          key={voucher.id}
+                          style={{ backgroundColor: "rgb(43, 223, 186)" }}
+                        >{`Discount ${voucher.percent}%`}</div>
+                      ))}
+                      {openUserVouchers && (
+                        <div
+                          className="storeCoupons userVouchers"
+                          ref={userVouchersRef}
+                        >
+                          <div className="storeCouponsContainer">
+                            <h2>Your Vouchers</h2>
+                            <div className="storeCouponsList">
+                              {userVouchers.slice(0, 4).map((coupon) => (
+                                <div className="voucher" key={coupon.id}>
+                                  <div className="voucherLeft">
+                                    <div
+                                      className="voucherImage"
+                                      style={{
+                                        backgroundColor: "rgb(43, 223, 186)",
+                                      }}
+                                    >
+                                      <img src={BazaarBayIcon} alt="" style={{ borderRadius: "0", border: "none"}}/>
+                                      <span>BazaarBay</span>
+                                    </div>
+                                    <div className="voucherInfo">
+                                      <div className="voucherBasicInfo">
+                                        <h2 className="voucherPercent">{`Discount ${coupon.percent}%`}</h2>
+                                        <span className="voucherDescription">
+                                          {`${coupon.description.substring(
+                                            0,
+                                            40
+                                          )}${
+                                            coupon.description.length > 40
+                                              ? "..."
+                                              : ""
+                                          }`}
+                                        </span>
+                                      </div>
+                                      {revertTimeStamp(coupon.startAt) >=
+                                        revertTimeStamp(new Date()) && (
+                                        <span className="voucherExpired">
+                                          <FontAwesomeIcon icon={faClock} />
+                                          <span>
+                                            {formatDaysToStart(coupon.startAt)}
+                                          </span>
+                                        </span>
+                                      )}
+                                      {revertTimeStamp(coupon.startAt) <
+                                        revertTimeStamp(new Date()) && (
+                                        <span className="voucherExpired">
+                                          <FontAwesomeIcon icon={faClock} />
+                                          <span>
+                                            {formatDaysLeft(coupon.expiredAt)}
+                                          </span>
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </th>
                   </tr>
 
@@ -261,7 +347,7 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
                       onMouseOver={() => setOpenStoreCoupons(true)}
                       onMouseLeave={() => setOpenStoreCoupons(false)}
                     >
-                      {storeCoupons.map((coupon) => (
+                      {storeCoupons.slice(0, 4).map((coupon) => (
                         <div
                           className="productCoupon"
                           key={coupon.id}

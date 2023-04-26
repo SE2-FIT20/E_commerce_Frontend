@@ -5,11 +5,9 @@ import { Link, useHistory } from "react-router-dom";
 import Container from "../../components/Customer/Container/Container";
 import CustomerIcon from "../../images/customerIcon.png";
 import StoreIcon from "../../images/storeIcon.jpg";
-import DeliveryIcon from "../../images/deliveryIcon.png"
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import { AuthContext } from "../../context/AuthContext";
-import { handleRegister } from "../../components/longFunctions";
 import { StoreContext } from "../../context/StoreContext";
 
 const Register = () => {

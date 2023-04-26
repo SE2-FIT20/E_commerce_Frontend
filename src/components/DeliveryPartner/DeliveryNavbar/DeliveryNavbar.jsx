@@ -7,6 +7,7 @@ import { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../../../context/AuthContext';
 import "./deliveryNavbar.css"
+import { formatNumber } from '../../longFunctions';
 
 const DeliveryNavbar = () => {
   const { currentUser, setRole, setCurrentUser } = useContext(AuthContext);
@@ -57,7 +58,9 @@ const DeliveryNavbar = () => {
               </ul>
             </div>
 
-            <span>{currentUser.name}</span>
+            <span>{`${currentUser.name} - ₫${formatNumber(
+              currentUser.balance
+            )}`}</span>
           </div>
           <div className="notification">
             <FontAwesomeIcon icon={faBell} />
