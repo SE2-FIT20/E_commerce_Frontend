@@ -10,7 +10,8 @@
   margin: auto;
   background-color: #ffffff;
   border-radius: 8px;
-  
+  height: calc(100vh - 250px);
+
 }
 
 .updateAddressTitle {
@@ -108,9 +109,7 @@
   padding-top: 15px;
 }
 
-.updateAddress .footer {
-  margin-top: 300px;
-}
+
 
 @media screen and (min-width: 1200px) {
   .updateAddressContainer {

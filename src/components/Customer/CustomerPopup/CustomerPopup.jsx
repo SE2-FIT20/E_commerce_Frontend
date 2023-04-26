@@ -58,7 +58,7 @@ const CustomerPopup = ({
       );
       setCurrentUser(data.data);
       window.location.reload();
-    } else if (popupType === "cancel-order") {
+    } else if (popupType === "customer-cancel-order") {
       await axios.put(
         `${BACKEND_URL}/api/customer/update-status-order`,
         {
@@ -103,7 +103,7 @@ const CustomerPopup = ({
               amount
             )}?`}</span>
           )}
-          {popupType === "cancel-order" && (
+          {popupType === "customer-cancel-order" && (
             <span>{`Are you sure you want to cancel this order?`}</span>
           )}
         </div>

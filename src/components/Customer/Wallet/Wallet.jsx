@@ -413,6 +413,7 @@ const Wallet = () => {
                     className="button"
                     onClick={() => {
                       setOpenTopUpBalance(false);
+                      setWalletOption("")
                     }}
                   >
                     Cancel

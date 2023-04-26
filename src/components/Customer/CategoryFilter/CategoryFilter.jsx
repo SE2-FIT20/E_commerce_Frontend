@@ -85,9 +85,14 @@ const CategoryFilter = () => {
                   categories.map((category, i) => (
                     <li
                       key={i}
-                      onClick={() =>
-                        history.push(`?category=${category.toLowerCase()}`)
-                      }
+                      onClick={() => {
+                        history.push(`?category=${category.toLowerCase()}`);
+                        window.scrollTo({
+                          top: document.querySelector(".featuredProduct")
+                            .offsetTop,
+                          behavior: "smooth",
+                        });
+                      }}
                     >
                       <div
                         className="categoryContainer"

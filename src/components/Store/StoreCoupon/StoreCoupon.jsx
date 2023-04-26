@@ -20,14 +20,16 @@ import "./storeCoupon.css"
 
 const StoreCoupon = ({
   coupon,
-  setSelectedVoucher,
+  setOpenPopup,
+  setSelectedCoupon,
+  setPopupType,
   fetchCoupons
 }) => {
   const { BACKEND_URL, config, currentUser } = useContext(AuthContext);
   const toast = useToast();
   const history = useHistory();
   const [quantity, setQuantity] = useState(coupon.quantityAvailable);
-
+  console.log(coupon)
   const handleClickPlus = async (couponId) => {
     try {
       await axios.put(
@@ -36,7 +38,6 @@ const StoreCoupon = ({
         config
       );
       setQuantity((prev) => prev + 1);
-      fetchCoupons()
     } catch (error) {
       toast({
         title: "An error adding voucher to set",
@@ -57,7 +58,6 @@ const StoreCoupon = ({
         config
       );
       setQuantity((prev) => (prev === 1 ? prev : prev - 1));
-      fetchCoupons()
 
     } catch (error) {
       toast({
@@ -71,10 +71,11 @@ const StoreCoupon = ({
   };
 
   const handleClickDelete = async () => {
-    
+    setPopupType("delete-coupon")
+    setSelectedCoupon(coupon)
+    setOpenPopup(true);
   };
 
-  console.log(coupon)
   return (
     <tr>
       <th style={{ flex: "4" }}>
@@ -95,20 +96,20 @@ const StoreCoupon = ({
                   }`}
                 </span>
               </div>
-              {/* {revertTimeStamp(coupon.startAt) >=
+              {revertTimeStamp(coupon.startAt) >=
                 revertTimeStamp(new Date()) && (
                 <span className="voucherExpired">
                   <FontAwesomeIcon icon={faClock} />
                   <span>{formatDaysToStart(coupon.startAt)}</span>
                 </span>
-              )} */}
-              {/* {revertTimeStamp(coupon.startAt) <
-                revertTimeStamp(new Date()) && ( */}
+              )} 
+              {revertTimeStamp(coupon.startAt) <
+                revertTimeStamp(new Date()) && ( 
                 <span className="voucherExpired">
                   <FontAwesomeIcon icon={faClock} />
                   <span>{formatDaysLeft(coupon.expiredAt)}</span>
                 </span>
-              {/* )} */}
+              )}
             </div>
           </div>
         </div>
@@ -132,7 +133,7 @@ const StoreCoupon = ({
         </div>
       </th>
       <th>
-        <div className="voucherDeleteIcon" onClick={() => history.push(`/admin/vouchers/update/${coupon.id}`)}>
+        <div className="voucherDeleteIcon" onClick={() => history.push(`/store/update/coupon/${coupon.id}`)}>
           <FontAwesomeIcon icon={faPen} />
         </div>
         <div className="voucherDeleteIcon" onClick={handleClickDelete}>

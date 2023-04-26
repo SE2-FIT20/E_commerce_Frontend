@@ -7,11 +7,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
   faChevronRight,
-  faShirt
+  faShirt,
+  faStar,
+  faUserCheck
 } from "@fortawesome/free-solid-svg-icons";
 import NoResult from "../../../images/no-result-image.jpg";
 import StarRatings from "react-star-ratings";
-
+import { formatDaysAgo } from "../../longFunctions";
 import axios from "axios";
 import Footer from "../Footer/Footer";
 
@@ -32,7 +34,7 @@ const SearchResult = () => {
         `${BACKEND_URL}/api/search-products?keyword=${keyword.trim()}&elementsPerPage=10&page=${pageNumber - 1}`
       );
       const response2 = await axios.get(
-        `${BACKEND_URL}/api/search-stores?keyword=${keyword.replace(/\s/g, "")}`
+        `${BACKEND_URL}/api/search-stores?keyword=${keyword.trim()}`
       );
       setProductResults(response1.data.data.content);
       setStoreResults(response2.data.data.content);
@@ -42,7 +44,7 @@ const SearchResult = () => {
       setLoading(false);
     }
   };
-
+  console.log(storeResults)
   const pageNumberList = [];
   pageNumberList.push(
     <li
@@ -175,10 +177,10 @@ const SearchResult = () => {
                     </div>
                     <div className="storeRightItem">
                       <h4>
-                        <FontAwesomeIcon icon={faShirt} />
-                        <span>16</span>
+                        <FontAwesomeIcon icon={faStar} />
+                        <span>{store.averageProductRating}</span>
                       </h4>
-                      <span>Products</span>
+                      <span>Rating</span>
                     </div>
                     <div className="storeRightItem">
                       <h4>
@@ -189,10 +191,10 @@ const SearchResult = () => {
                     </div>
                     <div className="storeRightItem">
                       <h4>
-                        <FontAwesomeIcon icon={faShirt} />
-                        <span>16</span>
+                        <FontAwesomeIcon icon={faUserCheck} />
+                        <span>{formatDaysAgo(store.createdAt)}</span>
                       </h4>
-                      <span>Products</span>
+                      <span>Created At</span>
                     </div>
                   </div>
                 </li>

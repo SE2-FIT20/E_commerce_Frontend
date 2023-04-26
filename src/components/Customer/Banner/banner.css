@@ -1,6 +1,7 @@
 .banner {
   max-width: 100%;
   margin-top: 15px;
+  margin-bottom: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -79,6 +80,7 @@
   display: flex;
   gap: 5px;
   align-items: center;
+  transform: translateX(-50%);
 }
 
 .banner .navBanner {
@@ -96,7 +98,6 @@
 
 .banner .bannerRight {
   flex: 3;
-
 }
 
 .banner .bannerRight img {
@@ -104,7 +105,6 @@
   height: 320px;
   object-fit: cover;
   border-radius: 15px;
-
 }
 
 @keyframes fadeIn {

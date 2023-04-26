@@ -11,7 +11,7 @@
 
 .adminAllVouchersContainer {
   background-color: #fff;
-  width: 50%;
+  width: 60%;
   height: calc(100vh - 55px);
   border: 1px solid #ccc;
   position: relative;
@@ -283,16 +283,16 @@
   max-width: 50%;
 }
 
-@media screen and (max-width: 1400px) {
-  .adminAllVouchers table tbody {
-    min-height: 55vh;
-    max-height: 55vh;
+@media screen and (max-width: 1700px) {
+  .adminAllVouchersContainer {
+    width: 50%;
+    padding: 15px 0 !important  ;
   }
 }
 
 @media screen and (max-width: 1400px) {
   .adminAllVouchersContainer {
-    width: 70%;
+    width: 80%;
     padding: 15px 0 !important  ;
   }
 

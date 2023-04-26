@@ -2,15 +2,21 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import "./store.css";
 import axios from "axios";
 import { AuthContext } from "../../../context/AuthContext";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import SingleProduct from "../SingleProduct/SingleProduct";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { formatDaysAgo } from "../../longFunctions";
+import {
+  formatDaysAgo,
+  revertTimeStamp,
+  formatDaysLeft,
+  formatDaysToStart,
+} from "../../longFunctions";
 import {
   faChevronDown,
   faChevronLeft,
   faChevronRight,
   faCity,
+  faClock,
   faLocationDot,
   faPhone,
   faStar,
@@ -18,11 +24,13 @@ import {
   faUserCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import Footer from "../Footer/Footer";
+import { useToast } from "@chakra-ui/react";
 
 const Store = () => {
-  const { BACKEND_URL } = useContext(AuthContext);
+  const { BACKEND_URL, config, currentUser } = useContext(AuthContext);
   const [store, setStore] = useState(null);
   const [products, setProducts] = useState([]);
+  const [coupons, setCoupons] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const location = useLocation();
@@ -32,9 +40,13 @@ const Store = () => {
   const [filterOption, setFilterOption] = useState("sold");
   const [filterOrder, setFilterOrder] = useState("desc");
   const [openFilterOrder, setOpenFilterOrder] = useState(false);
+  const [position, setPosition] = useState(0);
+  const [maxWidth, setMaxWidth] = useState(0);
+  const couponsRef = useRef();
   const storeId = location.pathname.split("/")[2];
   const storeProductRef = useRef();
-
+  const toast = useToast();
+  const history = useHistory();
   const fetchStore = async () => {
     try {
       setLoading(true);
@@ -42,13 +54,16 @@ const Store = () => {
         `${BACKEND_URL}/api/store-information/${storeId}`
       );
       setStore(response1.data.data);
-
+      const response2 = await axios.get(
+        `${BACKEND_URL}/api/coupon-sets/store/${storeId}`
+      );
+      setCoupons(response2.data.data.content);
       setLoading(false);
     } catch (error) {
       setLoading(false);
     }
   };
-
+  console.log(coupons)
   const fetchProducts = async () => {
     try {
       setProductLoading(true);
@@ -66,7 +81,13 @@ const Store = () => {
       setProductLoading(false);
     }
   };
-  console.log(store);
+  const handleClickPrevCoupon = () => {
+    setPosition(Math.max(position - 400, 0));
+  };
+
+  const handleClickNextCoupon = () => {
+    setPosition(Math.min(position + 400, maxWidth));
+  };
   const pageNumberList = [];
   pageNumberList.push(
     <li
@@ -124,13 +145,38 @@ const Store = () => {
         </div>
       </li>
     );
+
+  const handleSaveCoupon = async (couponId) => {
+    console.log(couponId)
+    try {
+      await axios.put(
+        `${BACKEND_URL}/api/customer/vouchers-coupons/${couponId}`,
+        {},
+        config
+      );
+      toast({
+        title: "Save coupon successful",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    } catch (error) {
+      toast({
+        title: "You already saved this coupon!",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  };
   const handleScroll = () => {
     storeProductRef.current.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
   };
-  console.log(store);
   const handleClickPrev = () => {
     setPageNumber((prev) => (prev === 1 ? 1 : prev - 1));
     handleScroll();
@@ -147,7 +193,15 @@ const Store = () => {
   useEffect(() => {
     fetchStore();
   }, [storeId]);
-  console.log(store)
+
+  useEffect(() => {
+    if (couponsRef.current) {
+      const maxPos =
+        couponsRef.current.scrollWidth - couponsRef.current.clientWidth;
+      setMaxWidth(maxPos);
+    }
+  });
+
   if (store) document.title = `${store.name} | BazaarBay`;
 
   return (
@@ -228,6 +282,94 @@ const Store = () => {
               </div>
             </div>
           )}
+          {coupons.length > 0 && (
+            <div className="storeCoupons">
+              <div className="storeCouponsContainer">
+                {store && <h2>{`Coupons`}</h2>}
+                <div className="couponListWrapper">
+                  {position > 0 && (
+                    <div
+                      className="couponPrevBtn"
+                      onClick={handleClickPrevCoupon}
+                    >
+                      <FontAwesomeIcon icon={faChevronLeft} />
+                    </div>
+                  )}
+                  {position < maxWidth && (
+                    <div
+                      className="couponNextBtn"
+                      onClick={handleClickNextCoupon}
+                    >
+                      <FontAwesomeIcon icon={faChevronRight} />
+                    </div>
+                  )}
+
+                  <div className="couponList">
+                    <div
+                      className="couponListContainer"
+                      ref={couponsRef}
+                      style={{
+                        transform: `translateX(-${position}px)`,
+                      }}
+                    >
+                      {coupons.map((coupon) => (
+                        <div className="voucher" key={coupon.id}>
+                          <div className="voucherLeft">
+                            <div className="voucherImage">
+                              <img src={coupon.store.avatar} alt="" />
+                              <span>{coupon.store.name}</span>
+                            </div>
+                            <div className="voucherInfo">
+                              <div className="voucherBasicInfo">
+                                <h2 className="voucherPercent">{`Discount ${coupon.percent}%`}</h2>
+                                <span className="voucherDescription">
+                                  {`${coupon.description.substring(0, 40)}${
+                                    coupon.description.length > 40 ? "..." : ""
+                                  }`}
+                                </span>
+                              </div>
+                              {revertTimeStamp(coupon.startAt) >=
+                                revertTimeStamp(new Date()) && (
+                                <span className="voucherExpired">
+                                  <FontAwesomeIcon icon={faClock} />
+                                  <span>
+                                    {formatDaysToStart(coupon.startAt)}
+                                  </span>
+                                </span>
+                              )}
+                              {revertTimeStamp(coupon.startAt) <
+                                revertTimeStamp(new Date()) && (
+                                <span className="voucherExpired">
+                                  <FontAwesomeIcon icon={faClock} />
+                                  <span>
+                                    {formatDaysLeft(coupon.expiredAt)}
+                                  </span>
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                          <div className="voucherRight">
+                            <span>{`${coupon.quantityAvailable} remaining`}</span>
+                            <button
+                              className="button"
+                              onClick={() => {
+                                currentUser
+                                  ? handleSaveCoupon(coupon.id)
+                                  : history.push("/login");
+                              }}
+                            >
+                              Get
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="storeDescription">
             <h2>Description</h2>
             {store?.description && (

@@ -427,4 +427,10 @@
   } */
 }
 
+@media screen and (min-width: 1700px) {
+  .storeAllProducts table tbody tr{
+    width: 96%;
+  }
+}
+
 

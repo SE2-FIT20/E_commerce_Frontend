@@ -68,8 +68,8 @@ const CreateCoupon = () => {
     } else {
       try {
         setLoading(true);
-        await axios.post(`${BACKEND_URL}/api/store/create-coupon-set`, {
-          precent: parseInt(coupon.percent),
+        await axios.post(`${BACKEND_URL}/api/store/coupon-sets`, {
+          percent: parseFloat(coupon.percent),
           quantity: parseInt(coupon.quantity),
           description: coupon.description,
           startAt: coupon.startAt,
@@ -84,7 +84,7 @@ const CreateCoupon = () => {
         });
         setLoading(false);
         setOption("all");
-        history.push(`/admin/users/all?page=1`);
+        history.push(`/store/coupon/all`);
       } catch (error) {
         toast({
           title: "An error occurred while creating coupon set!",

@@ -6,6 +6,7 @@ import Navbar from "../../components/Customer/Navbar/Navbar";
 import "./homepage.css";
 import { useLocation } from "react-router-dom";
 import Banner from "../../components/Customer/Banner/Banner";
+import Minigame from "../../components/Customer/Minigame/Minigame";
 
 const Homepage = () => {
   const location = useLocation();
@@ -24,6 +25,7 @@ const Homepage = () => {
           </div>
           <div className="homepageProducts">
             <CategoryFilter />
+            <Minigame />
             <FeaturedProduct category={category} setCategory={setCategory} />
           </div>
           <Footer />

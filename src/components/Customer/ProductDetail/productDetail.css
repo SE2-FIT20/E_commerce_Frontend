@@ -74,7 +74,6 @@
 
 .productRight .productName {
   text-align: left;
-  border-bottom: 1px solid #dee2e6;
   padding-bottom: 15px;
 }
 
@@ -96,7 +95,6 @@
   gap: 5px;
 }
 
-
 .productRight .productName .productReviewInfo .productStar .productRating {
   font-size: 20px;
   text-decoration: underline;
@@ -114,17 +112,29 @@
 }
 
 .productRight .productPrice {
-  display: flex;
-  flex-direction: column;
-  padding: 20px 0;
-  border-bottom: 1px solid #dee2e6;
   color: red;
+  font-weight: 600;
+}
+
+.productRight .productPriceContainer {
+  height: 100%;
+  background-color: #fafafa;
+  display: flex;
+  align-items: baseline;
+  gap: 15px;
+  padding: 20px 10px;
+}
+.productRight .productPrice .initialPrice {
+  text-decoration: line-through;
+  color: gray;
+  font-weight: normal !important;
 }
 
 .productRight .productPrice .price {
   font-size: 28px;
   line-height: 20px;
-  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .price-symbol {
@@ -151,18 +161,164 @@
 }
 
 .productRight .productDescription tbody tr .productHeading {
-  flex: 1;
   font-size: 18px;
-  width: 70px;
+  width: 150px;
 }
 
 .productRight .productDescription tbody tr .productContent {
-  flex: 2.5;
   font-weight: normal;
   display: flex;
   align-items: center;
   gap: 20px;
   font-size: 14px;
+}
+
+.productRight .productDescription tbody tr .productContent.productVouchers {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  max-width: 70%;
+  position: relative;
+}
+
+.productRight
+  .productDescription
+  tbody
+  tr
+  .productContent.productVouchers
+  .storeCoupons {
+  position: absolute;
+  top: 35px;
+  left: 0;
+  /* width: 100px;
+  height: 100px; */
+  background-color: #fff;
+  z-index: 30;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.productRight .storeCouponsContainer {
+  padding: 10px 15px;
+}
+
+.productRight .storeCouponsContainer h2 {
+  font-weight: 500;
+  font-size: 18px;
+  padding-bottom: 10px;
+}
+
+.productRight .storeCouponsContainer .storeCouponsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 300px;
+  overflow-y: scroll;
+}
+
+.productRight .storeCouponsContainer .voucher {
+  border: 0.25px solid #ccc;
+}
+
+.productRight .storeCouponsContainer .voucherLeft {
+  border: none;
+}
+
+.productRight .storeCouponsContainer .voucherLeft .voucherImage {
+  background: #9dd8f1;
+}
+
+.productRight .storeCouponsContainer .voucherLeft img {
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+}
+
+.productRight .storeCouponsContainer .voucherRight {
+  position: relative;
+  height: 100%;
+}
+
+.productRight .storeCouponsContainer .voucherRight button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 5px;
+  width: 70%;
+}
+
+.productRight .productDescription tbody tr .productContent .productVoucher {
+  border: 1px solid #ccc;
+  padding: 7px 12px;
+  background: rgb(43, 223, 186);
+  background: linear-gradient(
+    90deg,
+    rgba(43, 223, 186, 1) 0%,
+    rgba(36, 213, 176, 1) 19%,
+    rgb(0, 190, 149) 95%
+  );
+  color: #fff;
+  font-weight: 500;
+  position: relative;
+  font-size: 12px;
+}
+
+.productRight .productDescription tbody tr .productContent .productCoupon {
+  border: 1px solid #ccc;
+  padding: 7px 12px;
+  background: #9dd8f1;
+  color: #fff;
+  font-weight: 500;
+  position: relative;
+  font-size: 12px;
+}
+.productRight
+  .productDescription
+  tbody
+  tr
+  .productContent
+  .productVoucher::before,
+.productVoucher::after,
+.productCoupon::before,
+.productCoupon::after {
+  content: "";
+  width: 6px;
+  height: calc(100% - 5px);
+  position: absolute;
+  top: 2.5px;
+  background-image: radial-gradient(#fff 2px, transparent 0);
+  background-size: 6px 6px;
+  background-position-x: -6px;
+}
+
+.productRight
+  .productDescription
+  tbody
+  tr
+  .productContent
+  .productVoucher::before,
+.productCoupon::before {
+  left: -3px;
+}
+
+.productRight
+  .productDescription
+  tbody
+  tr
+  .productContent
+  .productVoucher::after,
+.productCoupon::after {
+  right: -3px;
+}
+
+.productRight .productDescription tbody tr .productContent.productContentBox {
+  border: 1px solid #ccc;
+  padding: 7px 0;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .productRight .productDescription tbody tr .productContent .soldoutText {
@@ -254,7 +410,6 @@
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
-
 }
 
 .storeInfo .storeBasicInfo {
@@ -327,7 +482,7 @@
 .storeInfo .storeMoreInfoItem {
   display: flex;
   align-items: center;
-  gap: 30px;  
+  gap: 30px;
   justify-content: space-between;
 }
 
@@ -343,7 +498,6 @@
 
 .product .productDesc {
   padding: 20px 0;
-
 }
 
 .product .productDesc .descText {
@@ -357,7 +511,6 @@
   margin-top: 15px;
   font-size: 16px;
   border-radius: 8px;
-
 }
 
 .productDesc .productDescContainer span {
@@ -500,7 +653,18 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1380px) { 
+  .productRight
+  .productDescription
+  tbody
+  tr
+  .productContent.productVouchers
+  .storeCoupons {
+    right: 0;
+  }
+}
+
+@media screen and (max-width: 1000px) {
   .productBody {
     display: block;
   }
@@ -532,7 +696,6 @@
 }
 
 @media screen and (max-width: 480px) {
-
   .productCurrentImage {
     min-width: 350px !important;
     max-width: 350px !important;

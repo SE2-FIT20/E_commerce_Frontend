@@ -38,6 +38,8 @@ import CreateCoupon from "./components/Store/CreateCoupon/CreateCoupon";
 import StoreAllCoupons from "./components/Store/StoreAllCoupons/StoreAllCoupons";
 import Wallet from "./components/Customer/Wallet/Wallet";
 import Minigame from "./components/Customer/Minigame/Minigame";
+import UpdateCoupon from "./components/Store/UpdateCoupon/UpdateCoupon";
+import Promotions from "./components/Customer/Promotions/Promotions";
 
 function App() {
   const { role, currentUser, BACKEND_URL, config } = useContext(AuthContext);
@@ -108,9 +110,9 @@ function App() {
             <Route path="/account/address" component={UpdateAddress} />
             <Route path="/account/profile" component={UpdateProfile} />
             <Route path="/account/password" component={UpdatePassword} />
+            <Route path="/account/voucher" component={Promotions} />
             <Route path="/account/wallet" component={Wallet} />
             <Route path="/account/order/:status" component={Order} />
-            <Route path="/minigame" exact component={Minigame} />
           </div>
         </>
       )}
@@ -141,6 +143,7 @@ function App() {
               <Route path="/account/password" component={UpdatePassword} />
               <Route path="/store/coupon/:couponStatus" component={StoreAllCoupons} />
               <Route path="/store/new/coupon" component={CreateCoupon} />
+              <Route path="/store/update/coupon/:couponId" component={UpdateCoupon} />
             </div>
           </div>
         </>

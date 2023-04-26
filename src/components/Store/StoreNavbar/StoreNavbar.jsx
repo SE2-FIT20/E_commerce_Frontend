@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import { AuthContext } from "../../../context/AuthContext";
 import { useHistory } from "react-router-dom";
+import { formatNumber } from "../../longFunctions";
 
 const StoreNavbar = () => {
   const { currentUser, setRole, setCurrentUser } = useContext(AuthContext);
@@ -59,7 +60,9 @@ const StoreNavbar = () => {
               </ul>
             </div>
 
-            <span>{currentUser.name}</span>
+            <span>{`${currentUser.name} - ₫${formatNumber(
+              currentUser.balance
+            )}`}</span>
           </div>
           <div className="notification">
             <FontAwesomeIcon icon={faBell} />

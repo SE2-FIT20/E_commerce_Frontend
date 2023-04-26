@@ -18,21 +18,32 @@ import axios from "axios";
 import StarRatings from "react-star-ratings";
 import { useToast } from "@chakra-ui/react";
 import { AuthContext } from "../../../context/AuthContext";
-import { capitalize, formatDaysAgo, formatNumber } from "../../longFunctions";
+import {
+  capitalize,
+  formatDaysAgo,
+  formatDaysLeft,
+  formatDaysToStart,
+  formatNumber,
+  revertTimeStamp,
+} from "../../longFunctions";
+import { faClock } from "@fortawesome/free-regular-svg-icons";
 
 const ProductDetail = ({ product, fetchPreviewCart }) => {
   const { BACKEND_URL, config, currentUser } = useContext(AuthContext);
   const [quantity, setQuantity] = useState(1);
-
+  const [storeCoupons, setStoreCoupons] = useState([]);
   const [currentImage, setCurrentImage] = useState(product.images[0]);
   const [currentDisplayImage, setCurrentDisplayImage] = useState(currentImage);
   const [otherImageIndex, setOtherImageIndex] = useState(0);
   const [openImage, setOpenImage] = useState(false);
   const [readMoreDesc, setReadMoreDesc] = useState(false);
+  const [openStoreCoupons, setOpenStoreCoupons] = useState(false);
+
   const mainImage = useRef();
   const imageDisplay = useRef();
   const history = useHistory();
   const toast = useToast();
+  const storeCouponsRef = useRef();
   const handleClickMinus = () => {
     setQuantity((prev) => (prev === 1 ? prev : prev - 1));
   };
@@ -49,12 +60,18 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
       prev === product.images.length - 5 ? product.images.length - 5 : prev + 1
     );
   };
-
   const handleClickBuyNow = (productId) => {
     handleAddToCart(productId);
-    history.push(`/checkout`)
-  }
-
+    history.push(`/checkout`);
+  };
+  const fetchStoreCoupons = async (storeId) => {
+    try {
+      const { data } = await axios.get(
+        `${BACKEND_URL}/api/coupon-sets/store/${storeId}`
+      );
+      setStoreCoupons(data.data.content);
+    } catch (error) {}
+  };
   const handleAddToCart = async (productId) => {
     try {
       await axios.post(
@@ -86,7 +103,34 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
     }
   };
 
+  const handleSaveCoupon = async (couponId) => {
+    console.log(couponId);
+    try {
+      await axios.put(
+        `${BACKEND_URL}/api/customer/vouchers-coupons/${couponId}`,
+        {},
+        config
+      );
+      toast({
+        title: "Save coupon successful",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    } catch (error) {
+      toast({
+        title: "You already saved this coupon!",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  };
+
   useEffect(() => {
+    fetchStoreCoupons(product.store.id);
     setCurrentDisplayImage(currentImage);
     setCurrentImage(product.images[0]);
     document.title = `${product.name} | BazaarBay`;
@@ -99,21 +143,24 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
       ) {
         setOpenImage(false);
       }
+      if (
+        storeCouponsRef.current &&
+        !storeCouponsRef.current.contains(event.target)
+      ) {
+        setOpenStoreCoupons(false);
+      }
     }
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [imageDisplay]);
+  }, [imageDisplay, storeCouponsRef]);
   return (
     <div className="productDetail">
       <div className="productBody">
         <div className="productLeft">
           <div className="productLeftContainer">
-            {/* <div className="productImage">
-                <ReactImageZoom {...props}/>
-              </div> */}
             <div
               className="productCurrentImage"
               ref={mainImage}
@@ -160,7 +207,9 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
                 <div className="productStar">
                   {product.reviews.length > 0 && (
                     <>
-                      <span className="productRating">{product.rating}</span>
+                      <span className="productRating">
+                        {product.rating.toFixed(1)}
+                      </span>
                       <StarRatings
                         rating={product.rating}
                         starRatedColor="#ffd700"
@@ -181,24 +230,125 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
             </div>
 
             <div className="productPrice">
-              <div className="price">
-                <span className="price-symbol">₫</span>
-                {formatNumber(product.price)}
+              <div className="productPriceContainer">
+                <div className="initialPrice">
+                  <span className="price-symbol">₫</span>
+                  {formatNumber((product.price * 1.1).toFixed(0))}
+                </div>
+                <div className="price">{"₫" + formatNumber(product.price)}</div>
               </div>
             </div>
             <div className="productDescription">
               <table>
                 <tbody>
                   <tr>
+                    <th className="productHeading">Vouchers</th>
+                    <th className="productContent productVouchers">
+                      <div className="productVoucher">Discount 5%</div>
+                      <div className="productVoucher">Discount 5%</div>
+                      <div className="productVoucher">Discount 5%</div>
+                      <div className="productVoucher">Discount 5%</div>
+                      <div className="productVoucher">Discount 5%</div>
+                      <div className="productVoucher">Discount 5%</div>
+                      <div className="productVoucher">Discount 5%</div>
+                    </th>
+                  </tr>
+
+                  <tr>
+                    <th className="productHeading">Store Coupons</th>
+                    <th
+                      className="productContent productVouchers"
+                      onMouseOver={() => setOpenStoreCoupons(true)}
+                      onMouseLeave={() => setOpenStoreCoupons(false)}
+                    >
+                      {storeCoupons.map((coupon) => (
+                        <div
+                          className="productCoupon"
+                          key={coupon.id}
+                        >{`Discount ${coupon.percent}%`}</div>
+                      ))}
+                      {openStoreCoupons && (
+                        <div className="storeCoupons" ref={storeCouponsRef}>
+                          <div className="storeCouponsContainer">
+                            <h2>Store Coupons</h2>
+                            <div className="storeCouponsList">
+                              {storeCoupons.map((coupon) => (
+                                <div className="voucher" key={coupon.id}>
+                                  <div className="voucherLeft">
+                                    <div className="voucherImage">
+                                      <img src={coupon.store.avatar} alt="" />
+                                      <span>{coupon.store.name}</span>
+                                    </div>
+                                    <div className="voucherInfo">
+                                      <div className="voucherBasicInfo">
+                                        <h2 className="voucherPercent">{`Discount ${coupon.percent}%`}</h2>
+                                        <span className="voucherDescription">
+                                          {`${coupon.description.substring(
+                                            0,
+                                            40
+                                          )}${
+                                            coupon.description.length > 40
+                                              ? "..."
+                                              : ""
+                                          }`}
+                                        </span>
+                                      </div>
+                                      {revertTimeStamp(coupon.startAt) >=
+                                        revertTimeStamp(new Date()) && (
+                                        <span className="voucherExpired">
+                                          <FontAwesomeIcon icon={faClock} />
+                                          <span>
+                                            {formatDaysToStart(coupon.startAt)}
+                                          </span>
+                                        </span>
+                                      )}
+                                      {revertTimeStamp(coupon.startAt) <
+                                        revertTimeStamp(new Date()) && (
+                                        <span className="voucherExpired">
+                                          <FontAwesomeIcon icon={faClock} />
+                                          <span>
+                                            {formatDaysLeft(coupon.expiredAt)}
+                                          </span>
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+                                  <div className="voucherRight">
+                                    <span>{`${coupon.quantityAvailable} remaining`}</span>
+                                    <button
+                                      className="button"
+                                      onClick={() => {
+                                        currentUser
+                                          ? handleSaveCoupon(coupon.id)
+                                          : history.push("/login");
+                                      }}
+                                    >
+                                      Get
+                                    </button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </th>
+                  </tr>
+                  <tr>
                     <th className="productHeading">Category</th>
-                    <th className="productContent">
+                    <th className="productContent productContentBox">
                       {capitalize(product.category.toLowerCase())}
                     </th>
                   </tr>
 
                   <tr>
                     <th className="productHeading">In stock </th>
-                    <th className="productContent">{product.quantity}</th>
+                    <th
+                      className="productContent productContentBox"
+                      style={{ width: "70px" }}
+                    >
+                      {product.quantity}
+                    </th>
                   </tr>
                   <tr>
                     <th className="productHeading">Quantity </th>
@@ -235,7 +385,12 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
                     </th>
                   </tr>
                   {product.quantity > 0 && (
-                    <tr>
+                    <tr
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
                       <th className="productHeading"></th>
                       <th className="productContent productButtons">
                         <button
@@ -343,8 +498,8 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
             </div>
             <div className="storeMoreInfoCol">
               <div className="storeMoreInfoItem">
-                <h2>Review: </h2>
-                <span>1000</span>
+                <h2>Reviews: </h2>
+                <span>{product.store.numbersOfReviews}</span>
               </div>
               <div className="storeMoreInfoItem">
                 <h2>Created At: </h2>

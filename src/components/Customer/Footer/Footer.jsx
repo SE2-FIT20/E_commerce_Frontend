@@ -25,7 +25,7 @@ const Footer = () => {
     <div className="footer">
       <div className="footerContainer">
         <div className="groupInfo">
-          <h1>Group Information</h1>
+          <h1>About Us</h1>
           <ul>
             <li>{`Nguyen Quang Nam (Scrum Master)`}</li>
             <li>{`Do Minh Quan (Front-end Developer)`}</li>

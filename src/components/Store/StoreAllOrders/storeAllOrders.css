@@ -13,7 +13,7 @@
   background-color: #fff;
   width: 70%;
   border: 1px solid #ccc;
-  max-height: calc(100vh - 50px);
+  height: calc(100vh - 50px);
   position: relative;
   scrollbar-width: none; /* Hide scrollbar for Firefox */
   -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
@@ -503,7 +503,7 @@
   }
 }
 
-@media screen and (max-height: 950px) {
+@media screen and (max-height: 700px) {
   .storeAllOrders table tbody {
     min-height: 50vh;
     max-height: 50vh;

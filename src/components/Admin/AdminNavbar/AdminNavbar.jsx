@@ -16,7 +16,7 @@ const AdminNavbar = () => {
     <div className="adminNavbar">
       <div className="adminNavbarContainer">
         <div className="adminNavbarLeft">
-          <img src={logo} alt="" onClick={() => history.push(`/admin/product/all?pages=1`)}/>
+          <img src={logo} alt="" onClick={() => history.push(`/admin/users/all?page=1`)}/>
         </div>
         <div className="adminNavbarRight">
           <div className="adminInfo">

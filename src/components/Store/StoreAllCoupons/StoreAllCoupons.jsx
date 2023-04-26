@@ -8,6 +8,8 @@ import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import { StoreContext } from "../../../context/StoreContext";
 import StoreCoupon from "../StoreCoupon/StoreCoupon";
+import StorePopup from "../StorePopup/StorePopup";
+import NoCoupon from "../../../images/no-coupon.png";
 
 const StoreAllCoupons = () => {
   const history = useHistory();
@@ -15,6 +17,8 @@ const StoreAllCoupons = () => {
   const { option } = useContext(StoreContext);
   const [coupons, setCoupons] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [popupType, setPopupType] = useState("");
   const [selectedCoupon, setSelectedCoupon] = useState(null);
   const [openFilterOptions, setOpenFilterOptions] = useState(false);
   const [openFilterOrder, setOpenFilterOrder] = useState(false);
@@ -103,7 +107,6 @@ const StoreAllCoupons = () => {
         return "";
     }
   };
-  console.log(coupons);
   useEffect(() => {
     fetchCoupons();
   }, [filterOption, filterOrder, option]);
@@ -270,10 +273,27 @@ const StoreAllCoupons = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody onScroll={(e) => handleScroll(e)}>
-                {coupons.map((coupon) => (
-                  <StoreCoupon coupon={coupon} key={coupon.id} fetchCoupons={fetchCoupons}/>
-                ))}
+              <tbody
+                onScroll={(e) => handleScroll(e)}
+                style={{ overflow: coupons.length === 0 && "hidden" }}
+              >
+                {coupons.length > 0 &&
+                  coupons.map((coupon) => (
+                    <StoreCoupon
+                      coupon={coupon}
+                      key={coupon.id}
+                      setOpenPopup={setOpenPopup}
+                      setSelectedCoupon={setSelectedCoupon}
+                      setPopupType={setPopupType}
+                      fetchCoupons={fetchCoupons}
+                    />
+                  ))}
+                {coupons.length === 0 && (
+                  <div className="noCoupon">
+                    <img src={NoCoupon} alt="" />
+                    <span>No Coupon Found</span>
+                  </div>
+                )}
                 {moreCouponLoading && (
                   <th>
                     <div className="partialLoading">
@@ -291,6 +311,13 @@ const StoreAllCoupons = () => {
           </div>
         )}
       </div>
+      <StorePopup
+        open={openPopup}
+        setOpen={setOpenPopup}
+        popupType={popupType}
+        coupon={selectedCoupon}
+        fetchCoupons={fetchCoupons}
+      />
     </div>
   );
 };

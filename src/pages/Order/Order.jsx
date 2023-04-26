@@ -276,7 +276,7 @@ const Order = () => {
                           onClick={() => {
                             setSelectedOrder(order);
                             setOpenPopup(true);
-                            setPopupType("cancel-order");
+                            setPopupType("customer-cancel-order");
                           }}
                         >
                           Cancel Order

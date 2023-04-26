@@ -3,15 +3,20 @@ import { AuthContext } from "../../../context/AuthContext";
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import "./adminUpdateVoucher.css";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { StoreContext } from "../../../context/StoreContext";
 import BazaarBayIcon from "../../../images/bazaarbay-icon.ico";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
 import { useEffect } from "react";
-import { formatDaysLeft, revertTimeStamp, formatDaysToStart } from "../../longFunctions";
+import {
+  formatDaysLeft,
+  revertTimeStamp,
+  formatDaysToStart,
+} from "../../longFunctions";
 
 const AdminUpdateVoucher = () => {
+  const location = useLocation();
   const { BACKEND_URL, config } = useContext(AuthContext);
   const { setOption } = useContext(StoreContext);
   const [loading, setLoading] = useState(false);
@@ -22,6 +27,8 @@ const AdminUpdateVoucher = () => {
     startAt: "",
     expiredAt: "",
   });
+  const [newQuantity, setNewQuantity] = useState(-1);
+  const voucherId = location.pathname.split("/")[4];
   const now = new Date();
   const [voucherPercent, setVoucherPercent] = useState(
     `Discount ${voucher.percent}%`
@@ -33,7 +40,7 @@ const AdminUpdateVoucher = () => {
     `${voucher.quantity} remaining`
   );
 
-  const [voucherStartAt, setVoucherStartAt] = useState(now)
+  const [voucherStartAt, setVoucherStartAt] = useState(now);
 
   const [voucherStart, setVoucherStart] = useState(
     formatDaysToStart(voucher.startAt)
@@ -47,11 +54,27 @@ const AdminUpdateVoucher = () => {
 
   const handleChange = (e) => {
     if (e.target.id === "startAt") {
-      setVoucherStartAt(e.target.value)
+      setVoucherStartAt(e.target.value);
     }
     setVoucher((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
-  const handleRegisterDelivery = async () => {
+
+  const fetchVoucher = async () => {
+    try {
+      const { data } = await axios.get(
+        `${BACKEND_URL}/api/admin/voucher-sets/${voucherId}`,
+        config
+      );
+      setVoucher({
+        percent: data.data.percent,
+        description: data.data.description,
+        startAt: data.data.startAt,
+        expiredAt: data.data.expiredAt,
+        quantity: data.data.quantityAvailable,
+      });
+    } catch (error) {}
+  };
+  const handleUpdateVoucher = async () => {
     if (
       !voucher.percent ||
       !voucher.quantity ||
@@ -68,23 +91,45 @@ const AdminUpdateVoucher = () => {
     } else {
       try {
         setLoading(true);
-        await axios.post(`${BACKEND_URL}/api/admin/create-voucher-set`, {
-          precent: parseInt(voucher.percent),
-          quantity: parseInt(voucher.quantity),
-          description: voucher.description,
-          startAt: voucher.startAt,
-          expiredAt: voucher.expiredAt
-        }, config)
+        await axios.put(
+          `${BACKEND_URL}/api/admin/voucher-sets/${voucherId}`,
+          {
+            percent: parseInt(voucher.percent),
+            quantity: parseInt(voucher.quantity),
+            description: voucher.description,
+            startAt: voucher.startAt,
+            expiredAt: voucher.expiredAt,
+          },
+          config
+        );
+        if (newQuantity >= 0 && newQuantity - voucher.quantity > 0) {
+          await axios.put(
+            `${BACKEND_URL}/api/admin/voucher-sets/${voucherId}/add?quantity=${
+              newQuantity - voucher.quantity
+            }`,
+            {},
+            config
+          );
+        }
+        if (newQuantity >= 0 && newQuantity - voucher.quantity < 0) {
+          await axios.put(
+            `${BACKEND_URL}/api/admin/voucher-sets/${voucherId}/subtract?quantity=${
+              voucher.quantity - newQuantity
+            }`,
+            {},
+            config
+          );
+        }
         toast({
-          title: "Create voucher set successful!",
+          title: "Update voucher set successful!",
           status: "success",
           duration: 3000,
           isClosable: true,
           position: "bottom",
         });
         setLoading(false);
-        setOption("all");
-        history.push(`/admin/users/all?page=1`);
+        setOption("global-vouchers");
+        history.push(`/admin/vouchers/all`);
       } catch (error) {
         toast({
           title: "An error occurred while creating voucher set!",
@@ -93,10 +138,15 @@ const AdminUpdateVoucher = () => {
           isClosable: true,
           position: "bottom",
         });
-        setLoading(false);  
+        setLoading(false);
       }
     }
   };
+
+
+  useEffect(() => {
+    fetchVoucher();
+  }, []);
 
   useEffect(() => {
     setVoucherPercent(`Discount ${voucher.percent}%`);
@@ -147,9 +197,11 @@ const AdminUpdateVoucher = () => {
                       <input
                         type="number"
                         placeholder="Quantity"
-                        value={voucher.quantity}
+                        value={
+                          newQuantity >= 0 ? newQuantity : voucher.quantity
+                        }
                         id="quantity"
-                        onChange={handleChange}
+                        onChange={(e) => setNewQuantity(e.target.value)}
                       />
                     </div>
                   </td>
@@ -232,7 +284,7 @@ const AdminUpdateVoucher = () => {
                   <td>
                     <button
                       className="saveBtn"
-                      onClick={handleRegisterDelivery}
+                      onClick={handleUpdateVoucher}
                       style={{ width: !loading && "150px" }}
                     >
                       {loading ? (
@@ -269,19 +321,20 @@ const AdminUpdateVoucher = () => {
                       }`}
                     </span>
                   </div>
-                  {revertTimeStamp(voucherStartAt) >= revertTimeStamp(new Date()) && (
+                  {revertTimeStamp(voucherStartAt) >=
+                    revertTimeStamp(new Date()) && (
                     <span className="voucherExpired">
                       <FontAwesomeIcon icon={faClock} />
                       <span>{voucherStart}</span>
                     </span>
                   )}
-                  {revertTimeStamp(voucherStartAt) < revertTimeStamp(new Date()) && (
+                  {revertTimeStamp(voucherStartAt) <
+                    revertTimeStamp(new Date()) && (
                     <span className="voucherExpired">
                       <FontAwesomeIcon icon={faClock} />
                       <span>{voucherExpired}</span>
                     </span>
                   )}
-                  
                 </div>
               </div>
               <div className="voucherRight">

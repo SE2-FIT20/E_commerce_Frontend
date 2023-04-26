@@ -1,7 +1,7 @@
 .updateProfile {
   background-color: #f5f5f7;
   width: 100%;
-  padding: 20px 0;
+  padding-top: 20px;
   min-height: calc(100vh - 70px);
 }
 
@@ -10,6 +10,7 @@
   margin: auto;
   background-color: #ffffff;
   border-radius: 8px;
+  height: calc(100vh - 250px);
 }
 
 .updateProfileTitle {
@@ -114,6 +115,15 @@ textarea:focus {
 @media screen and (min-width: 1700px) {
   .updateProfileContainer {
     width: 65% !important;
+  }
+  .updateProfileLeft tr td input {
+    width: 350px;
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .updateProfileContainer {
+    width: 80% !important;
   }
   .updateProfileLeft tr td input {
     width: 350px;

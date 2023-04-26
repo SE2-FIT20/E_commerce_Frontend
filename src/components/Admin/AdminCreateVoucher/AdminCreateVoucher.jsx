@@ -20,7 +20,7 @@ const AdminCreateVoucher = () => {
   const { setOption } = useContext(StoreContext);
   const [loading, setLoading] = useState(false);
   const [voucher, setVoucher] = useState({
-    percent: "",
+    percent: 0,
     quantity: 1,
     description: "",
     startAt: "",
@@ -83,7 +83,7 @@ const AdminCreateVoucher = () => {
         await axios.post(
           `${BACKEND_URL}/api/admin/create-voucher-set`,
           {
-            precent: parseFloat(voucher.percent),
+            percent: parseFloat(voucher.percent),
             quantity: parseInt(voucher.quantity),
             description: voucher.description,
             startAt: voucher.startAt,

@@ -75,6 +75,26 @@
   align-items: center;
   justify-content: center;
 }
+
+.featuredProduct .noProduct {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 8px;
+  padding-bottom: 15px;
+}
+
+.featuredProduct .noProduct img {
+  width: 400px;
+  height: 350px;
+}
+
+.featuredProduct .noProduct span {
+  font-weight: 600;
+  font-size: 27px;
+}
 @media screen and (max-width: 1024px) {
   .featuredProduct ul li {
     max-width: 30%;

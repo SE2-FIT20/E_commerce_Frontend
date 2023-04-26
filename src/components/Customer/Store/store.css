@@ -87,6 +87,103 @@
   color: #02a07d;
 }
 
+.store .storeCoupons {
+  width: 80%;
+  margin: auto;
+  padding: 0 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.store .storeCoupons .couponListWrapper {
+  position: relative;
+}
+
+.store .storeCoupons .couponList {
+  overflow: hidden;
+}
+
+.store .storeCoupons .couponListContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.5s ease;
+  max-width: 100%;
+}
+
+.store .storeCoupons .couponListWrapper .couponPrevBtn,
+.couponNextBtn {
+  position: absolute;
+  top: 40%;
+  z-index: 20;
+  width: 30px;
+  height: 30px;
+  background-color: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.store .storeCoupons .couponListWrapper .couponPrevBtn:hover,
+.couponNextBtn:hover {
+  animation: hover-scale-up 0.2s forwards;
+
+}
+
+.store .storeCoupons .couponListWrapper .couponPrevBtn {
+  left: -13px;
+}
+
+.store .storeCoupons .couponListWrapper .couponNextBtn {
+  right: -13px;
+}
+
+.store .storeCoupons .voucher {
+  border: 0.25px solid #ccc;
+  min-width: 340px;
+  max-width: 340px !important;
+}
+
+.store .storeCoupons .voucher .voucherLeft {
+  border: none;
+}
+
+.store .storeCoupons .voucher .voucherLeft .voucherDescription {
+  height: 27px;
+}
+
+.store .voucherImage {
+  background: #9dd8f1;
+}
+
+.store .voucherImage img {
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.store .voucherRight {
+  position: relative;
+  height: 100%;
+}
+
+.store .voucherRight button {
+  width: 70%;
+  border: 1px solid #ccc;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 5px;
+}
+
+.store .storeCouponsContainer > h2 {
+  font-weight: 500;
+  font-size: 20px;
+  padding-bottom: 15px;
+}
+
 .store .storeDescription {
   background-color: #fff;
   width: 80%;
@@ -214,13 +311,26 @@
 }
 
 .store .footer {
-  background-color: #f0f2f5;
+  background-color: #0c1d26;
   margin-top: 0;
+}
+
+@keyframes hover-scale-up {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.4);
+  }
 }
 
 @media screen and (min-width: 1700px) {
   .storeProductsDisplay ul {
     margin: auto;
+  }
+
+  .store .storeCoupons {
+    width: 70%;
   }
 
   .store .storeDescription {

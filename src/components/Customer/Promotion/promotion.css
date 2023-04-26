@@ -1,0 +1,13 @@
+.promotions .voucher {
+  width: 360px;
+}
+
+
+.storeCoupon {
+  background-color: #9DD8F1 !important;
+}
+
+.storeCoupon img {
+  border-radius: 50%;
+  object-fit: cover;
+}

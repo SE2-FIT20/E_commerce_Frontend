@@ -192,7 +192,7 @@ export const handleOrder = async (
         `${BACKEND_URL}/api/store/orders`,
         {
           orderId,
-          status: "CANCELLED",
+          status: "CANCELLED_BY_STORE",
         },
         config
       );
@@ -213,5 +213,32 @@ export const handleOrder = async (
         position: "bottom",
       });
     }
-  }
+  } else if (orderType === "customer-cancel-order") {
+    try {
+      await axios.put(
+        `${BACKEND_URL}/api/customer/update-status-order`,
+        {
+          orderId,
+          status: "CANCELLED_BY_CUSTOMER",
+        },
+        config
+      );
+      toast({
+        title: "Cancel order successful",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+      fetchOrders();
+    } catch (error) {
+      toast({
+        title: "An error occurred cancelling orders",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+  } 
 };

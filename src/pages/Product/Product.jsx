@@ -174,9 +174,9 @@ const Product = ({ fetchPreviewCart }) => {
   useEffect(() => {
     fetchProduct();
     fetchReviews();
-    getReviewable();
+    if (currentUser) getReviewable();
   }, [location]);
-
+  console.log(reviewable)
   return (
     <div className="product">
       <BreadCrumb title="Product" />

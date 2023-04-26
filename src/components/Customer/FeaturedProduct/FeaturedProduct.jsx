@@ -9,6 +9,8 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import NoProduct from "../../../images/no-product.png";
+
 import { capitalize } from "../../longFunctions";
 
 const FeaturedProduct = ({ category, setCategory }) => {
@@ -142,7 +144,7 @@ const FeaturedProduct = ({ category, setCategory }) => {
             </div>
           </div>
         )}
-        {!loading && (
+        {!loading && products.length > 0 && (
           <>
             <ul>
               {products
@@ -169,6 +171,12 @@ const FeaturedProduct = ({ category, setCategory }) => {
               </ul>
             </div>
           </>
+        )}
+        {!loading && products.length === 0 && (
+          <div className="noProduct">
+            <img src={NoProduct} alt="" />
+            <span>No Product Found</span>
+          </div>
         )}
       </div>
     </div>

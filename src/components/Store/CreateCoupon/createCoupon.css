@@ -108,10 +108,7 @@ textarea:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid #ccc;
-  -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
-  -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
-  box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.5);
+  border: 0.25px solid #ccc;
   margin: auto;
 }
 
@@ -120,6 +117,7 @@ textarea:focus {
   align-items: center;
   gap: 10px;
   flex: 9;
+  border: none;
 }
 
 .storeCreateCoupon .voucherImage {
@@ -139,7 +137,6 @@ textarea:focus {
   height: 45px;
   object-fit: cover;
   border-radius: 50%;
-  border: 2px solid #fff;
 }
 
 .storeCreateCoupon .voucherImage span {

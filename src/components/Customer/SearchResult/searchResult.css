@@ -9,6 +9,8 @@
   margin: auto;
   padding: 20px 0;
   height: auto;
+  min-height: calc(100vh - 70px);
+
 }
 
 .searchResult .searchStore {
