@@ -21,6 +21,8 @@ const Minigame = () => {
   const [wheelItems, setWheelItems] = useState([]);
   const [selectedVoucher, setSelectedVoucher] = useState("");
   const [openVoucherPopup, setOpenVoucherPopup] = useState(false);
+  const [spinnable, setSpinnable] = useState(true);
+  const [timeLeft, setTimeLeft] = useState("");
   const box = useRef();
   const element = useRef();
   const voucherPopupRef = useRef();
@@ -39,6 +41,42 @@ const Minigame = () => {
     return array;
   };
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      const midnight = new Date();
+      midnight.setHours(24, 0, 0, 0);
+      const timeLeft = midnight - now;
+
+      const hoursLeft = Math.floor(timeLeft / 1000 / 60 / 60)
+        .toString()
+        .padStart(2, "0");
+      const minutesLeft = Math.floor((timeLeft / 1000 / 60) % 60)
+        .toString()
+        .padStart(2, "0");
+      const secondsLeft = Math.floor((timeLeft / 1000) % 60)
+        .toString()
+        .padStart(2, "0");
+
+      const timeLeftFormatted =
+        hoursLeft + ":" + minutesLeft + ":" + secondsLeft;
+
+      setTimeLeft(timeLeftFormatted);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const fetchSpinnable = async () => {
+    try {
+      const { data } = await axios.get(
+        `${BACKEND_URL}/api/customer/check-eligible-to-play-mini-game`,
+        config
+      );
+      setSpinnable(data.data.eligible);
+    } catch (error) {}
+  };
+
   const handleSaveVoucher = async (voucherId) => {
     try {
       await axios.put(
@@ -55,7 +93,6 @@ const Minigame = () => {
       });
     } catch (error) {}
   };
-
   const handleSpin = () => {
     if (!currentUser) {
       history.push("/login");
@@ -107,6 +144,7 @@ const Minigame = () => {
       setTimeout(() => {
         box.current.style.transition = "initial";
         box.current.style.transform = `rotate(90deg)`;
+        setSpinnable(false);
       }, 6000);
     }
   };
@@ -134,6 +172,7 @@ const Minigame = () => {
   }, [voucherPopupRef]);
 
   useEffect(() => {
+    if (currentUser) fetchSpinnable();
     fetchVouchers();
   }, []);
 
@@ -207,6 +246,7 @@ const Minigame = () => {
   useEffect(() => {
     console.log(selectedVoucher);
   }, [selectedVoucher]);
+
   return (
     <div className="minigame">
       <div className="minigameContainer">
@@ -254,8 +294,12 @@ const Minigame = () => {
                   </span>
                 </div>
               </div>
-              <button className="spin" onClick={() => handleSpin(vouchers)}>
-                SPIN
+              <button
+                className="spin"
+                onClick={() => spinnable ? handleSpin(vouchers) : null}
+                style={{ fontSize: !spinnable && "12px" }}
+              >
+                {spinnable ? "SPIN" : `Time left: ${timeLeft}`}
               </button>
             </div>
           </div>

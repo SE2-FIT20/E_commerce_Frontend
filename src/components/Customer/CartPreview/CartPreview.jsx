@@ -19,7 +19,7 @@ const CartPreview = ({ open, setOpen, products }) => {
           <div className="cartPreviewHeader">Recently added products</div>
           <div className="cartPreviewProducts">
             <ul>
-              {products.slice(0, 10).map((item) => (
+              {products.slice(0, 5).map((item) => (
                 <li
                   key={item.id}
                   onClick={() => {

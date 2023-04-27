@@ -76,7 +76,7 @@ const Navbar = ({ fetchPreviewCart, cartProducts, setCartProducts }) => {
         <div className="navbarContainer">
           <div className="navbarLogo">
             <div className="logo">
-              <Link to="/">
+              <Link to="/" onClick={() => window.scrollTo(0, 0)}>
                 <img src={logo} alt="logo" />
               </Link>
             </div>

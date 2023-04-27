@@ -47,21 +47,27 @@ const ChooseCategory = ({ open, setOpen, setProduct }) => {
       <div className="chooseCategoryContainer" ref={chooseCategory}>
         <div className="title">
           <h2 className="chooseCategoryTitle">Choose your category</h2>
-      
         </div>
         <ul>
           {categories.map((category, i) => (
             <li
               key={i}
               onClick={() =>
-                handleChooseCategory(capitalize(category.toLowerCase()))
+                handleChooseCategory(
+                  category === "CARS_MOTORBIKES"
+                    ? "Cars & Motorbikes"
+                    : capitalize(category.toLowerCase())
+                )
               }
             >
               <div className="categoryImageBackground">
                 <img src={handleDisplayCategoryImage(category)} alt="" />
               </div>
-              <span>{capitalize(category.toLowerCase())}</span>
-
+              <span>
+                {category === "CARS_MOTORBIKES"
+                  ? "Cars & Motorbikes"
+                  : capitalize(category.toLowerCase())}
+              </span>
             </li>
           ))}
         </ul>

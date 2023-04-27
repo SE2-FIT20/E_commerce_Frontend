@@ -39,6 +39,20 @@
   gap: 20px;
 }
 
+.popup .deleteTitle span {
+  text-align: center;
+}
+
+.popup .cancelButton {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #000;
+}
+
+.popup .cancelButton:hover {
+  background-color: #f0f2f5;
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;

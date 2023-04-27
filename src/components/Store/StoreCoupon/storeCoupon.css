@@ -37,7 +37,8 @@
 .storeAllCoupon .voucherImage span {
   font-weight: 500;
   color: #fff;
-  font-size: 15px;
+  font-size: 13px;
+  text-align: center;
 }
 
 .storeAllCoupon .voucherInfo {

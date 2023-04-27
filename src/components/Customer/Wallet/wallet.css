@@ -379,12 +379,24 @@
   }
 }
 
-@media screen and (max-height: 750px) {
+@media screen and (max-height: 800px) {
   .wallet .topUpBalanceContainer {
-    height: 500px;
+    height: 500px !important;
   }
 
   .wallet .topUpBalanceContainer .creditCardItem .chooseCreditCards {
-    max-height: 200px;
+    min-height: 200px !important;
+    max-height: 200px !important;
+  }
+}
+
+@media screen and (max-height: 1000px) {
+  .wallet .topUpBalanceContainer {
+    height: 600px;
+  }
+
+  .wallet .topUpBalanceContainer .creditCardItem .chooseCreditCards {
+    min-height: 300px;
+    max-height: 300px;
   }
 }

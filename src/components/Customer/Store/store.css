@@ -76,6 +76,7 @@
 .store .storeInfoItem {
   display: flex;
   gap: 10px;
+  align-items: center;
 }
 
 .store .storeInfoItem span {
@@ -240,6 +241,7 @@
   padding: 8px 15px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   position: relative;
   min-width: 80px;

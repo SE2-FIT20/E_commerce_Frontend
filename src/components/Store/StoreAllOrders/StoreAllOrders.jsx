@@ -51,7 +51,7 @@ const StoreAllOrders = () => {
   const [dateFrom, setDateFrom] = useState(formattedDateFrom);
   const [dateTo, setDateTo] = useState(formattedDateTo);
   const [orderTypeCount, setOrderTypeCount] = useState(null);
-
+  console.log(orders)
   const toast = useToast();
   const filterOptionRef = useRef();
   const filterOrderRef = useRef();

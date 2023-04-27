@@ -10,7 +10,7 @@
   margin: auto;
   background-color: #ffffff;
   border-radius: 8px;
-  height: calc(100vh - 250px);
+  min-height: calc(100vh - 250px);
 }
 
 .updateProfileTitle {

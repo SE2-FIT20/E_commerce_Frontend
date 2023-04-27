@@ -9,6 +9,7 @@ import AddProductImage from "../AddProductImage/AddProductImage";
 import "./updateProduct.css";
 import { handleUpdateProduct } from "./updateProductLogic";
 import ChooseCategory from "../ChooseCategory/ChooseCategory";
+import { capitalize } from "../../longFunctions";
 
 const UpdateProduct = () => {
   const { BACKEND_URL, config } = useContext(AuthContext);
@@ -27,7 +28,6 @@ const UpdateProduct = () => {
   const location = useLocation();
   const productId = location.pathname.split("/")[4];
   const [openChooseCategory, setOpenChooseCategory] = useState(false);
-  console.log(product)
   const fetchProduct = async () => {
     try {
       const { data } = await axios.get(
@@ -49,11 +49,9 @@ const UpdateProduct = () => {
   useEffect(() => {
     fetchProduct();
   }, [productId]);
-
   const handleChange = (e) => {
     setProduct((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
-  console.log(product);
 
   return (
     <div className="updateProduct">
@@ -112,7 +110,11 @@ const UpdateProduct = () => {
                       type="text"
                       placeholder="Choose product category"
                       id="category"
-                      value={product.category}
+                      value={
+                        product.category === "CARS_MOTORBIKES"
+                          ? "Cars & Motorbikes"
+                          : capitalize(product.category.toLowerCase())
+                      }
                       onClick={() => setOpenChooseCategory(true)}
                     />
                   </div>
@@ -174,7 +176,12 @@ const UpdateProduct = () => {
                 </td>
               </tr>
               <tr>
-                <td className="productHeading" style={{ alignItems: "flex-start"}}>Product Image</td>
+                <td
+                  className="productHeading"
+                  style={{ alignItems: "flex-start" }}
+                >
+                  Product Image
+                </td>
                 <td style={{ display: "flex", flexWrap: "wrap", gap: "10px" }}>
                   {product.images.map((image, i) => (
                     <AddProductImage

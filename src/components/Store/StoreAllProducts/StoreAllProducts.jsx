@@ -70,7 +70,9 @@ const Storepage = () => {
         setTotalPages(data.data.totalPages);
       } else if (stockType === "active") {
         const { data } = await axios.get(
-          `${BACKEND_URL}/api/products?&storeId=${currentUser.id}&status=available&elementsPerPage=${productPerPage}&page=${
+          `${BACKEND_URL}/api/products?&storeId=${
+            currentUser.id
+          }&status=available&elementsPerPage=${productPerPage}&page=${
             currentPage - 1
           }&filter=${filterOption}&sortBy=${filterOrder}&category=${filterCategory.toLowerCase()}`,
           config
@@ -79,7 +81,9 @@ const Storepage = () => {
         setTotalPages(data.data.totalPages);
       } else {
         const { data } = await axios.get(
-          `${BACKEND_URL}/api/products?&storeId=${currentUser.id}&status=sold_out&elementsPerPage=${productPerPage}&page=${
+          `${BACKEND_URL}/api/products?&storeId=${
+            currentUser.id
+          }&status=sold_out&elementsPerPage=${productPerPage}&page=${
             currentPage - 1
           }&filter=${filterOption}&sortBy=${filterOrder}&category=${filterCategory.toLowerCase()}`,
           config
@@ -405,8 +409,12 @@ const Storepage = () => {
                           {product.name}
                         </span>
                       </th>
-                      <th style={{ flex: "2" }}>
-                        <div className="container"> {product.category}</div>
+                      <th style={{ flex: "2", textAlign: "center" }}>
+                        <div className="container">
+                          {product.category === "CARS_MOTORBIKES"
+                            ? "CARS & MOTORBIKES"
+                            : product.category}
+                        </div>
                       </th>
                       <th style={{ flex: "1.5" }}>
                         <div className="container">
@@ -547,19 +555,16 @@ const Storepage = () => {
                       10
                     </li>
                     <li
-                      onClick={() =>
-                        {
-                          console.log(20)
+                      onClick={() => {
+                        console.log(20);
 
-                          handleChangeProductPerPage(
-                            20,
-                            setProductPerPage,
-                            setOpenProductPerPageOptions,
-                            setCurrentPage
-                          )
-                        }
-                    
-                      }
+                        handleChangeProductPerPage(
+                          20,
+                          setProductPerPage,
+                          setOpenProductPerPageOptions,
+                          setCurrentPage
+                        );
+                      }}
                       className={productPerPage === 20 ? "selected" : ""}
                     >
                       20

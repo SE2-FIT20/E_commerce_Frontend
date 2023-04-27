@@ -9,7 +9,7 @@ import {
   handleChange,
   handleChooseImage,
   handleUpdateStore,
-  handleUpdateDelivery
+  handleUpdateDelivery,
 } from "./updateProfileLogic.js";
 
 const UpdateProfile = () => {
@@ -33,8 +33,8 @@ const UpdateProfile = () => {
   const [deliveryInfo, setDeliveryInfo] = useState({
     shippingFee: currentUser.shippingFee || "",
     description: currentUser.description || "",
-    avatar : newAvatar || null
-  })
+    avatar: newAvatar || null,
+  });
   const toast = useToast();
 
   useEffect(() => {
@@ -340,7 +340,7 @@ const UpdateProfile = () => {
           </div>
         </div>
       )}
-      <Footer />
+      {role === "CUSTOMER" && <Footer />}
     </div>
   );
 };

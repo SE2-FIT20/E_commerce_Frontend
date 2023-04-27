@@ -8,7 +8,7 @@ import Banner5 from "../../../images/banner-5.png";
 import Banner6 from "../../../images/banner-6.png";
 import Banner7 from "../../../images/banner-7.png";
 import Banner8 from "../../../images/banner-8.png";
-import StaticBanner from "../../../images/static-banner.gif"
+import StaticBanner from "../../../images/static-banner.gif";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
@@ -19,7 +19,16 @@ import { useHistory } from "react-router-dom";
 
 const Banner = () => {
   const history = useHistory();
-  const bannerImages = [Banner1, Banner2, Banner3, Banner4, Banner5, Banner6, Banner7, Banner8];
+  const bannerImages = [
+    Banner1,
+    Banner2,
+    Banner3,
+    Banner4,
+    Banner5,
+    Banner6,
+    Banner7,
+    Banner8,
+  ];
   const [currentImage, setCurrentImage] = useState(0);
   const handleClickNext = () => {
     setCurrentImage((prev) =>
@@ -52,7 +61,7 @@ const Banner = () => {
             style={{ transform: `translateX(-${currentImage * 100}%)` }}
           >
             {bannerImages.map((image, i) => (
-              <img src={image} key={i} className="bannerImage"/>
+              <img src={image} key={i} className="bannerImage" />
             ))}
           </div>
           <div className="bannerPrevBtn" onClick={handleClickPrev}>
@@ -72,8 +81,19 @@ const Banner = () => {
             ))}
           </div>
         </div>
-        <div className="bannerRight">
-          <img src={StaticBanner} alt="" onClick={() => history.push(`/minigame`)}/>
+        <div
+          className="bannerRight"
+          onClick={() => {
+            window.scrollTo({
+              top: document.querySelector(".minigame").offsetTop,
+              behavior: "smooth",
+            });
+          }}
+        >
+          <img
+            src={StaticBanner}
+            alt=""
+          />
         </div>
       </div>
     </div>

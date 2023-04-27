@@ -109,7 +109,12 @@ function App() {
             <Route path="/store/:storeId" component={Store} />
             <Route path="/account/address" component={UpdateAddress} />
             <Route path="/account/profile" component={UpdateProfile} />
-            <Route path="/account/password" component={UpdatePassword} />
+            <Route
+              path="/account/password"
+              render={(props) => (
+                <UpdatePassword {...props} setCartProducts={setCartProducts} />
+              )}
+            />
             <Route path="/account/voucher" component={Promotions} />
             <Route path="/account/wallet" component={Wallet} />
             <Route path="/account/order/:status" component={Order} />
@@ -132,7 +137,6 @@ function App() {
                 exact
                 component={StoreAllProducts}
               />
-
               <Route path="/store/new/product" exact component={AddProduct} />
               <Route
                 path="/store/product/update/:productId"
@@ -140,10 +144,24 @@ function App() {
                 component={UpdateProduct}
               />
               <Route path="/account/profile" component={UpdateProfile} />
-              <Route path="/account/password" component={UpdatePassword} />
-              <Route path="/store/coupon/:couponStatus" component={StoreAllCoupons} />
+              <Route
+                path="/account/password"
+                render={(props) => (
+                  <UpdatePassword
+                    {...props}
+                    setCartProducts={setCartProducts}
+                  />
+                )}
+              />{" "}
+              <Route
+                path="/store/coupon/:couponStatus"
+                component={StoreAllCoupons}
+              />
               <Route path="/store/new/coupon" component={CreateCoupon} />
-              <Route path="/store/update/coupon/:couponId" component={UpdateCoupon} />
+              <Route
+                path="/store/update/coupon/:couponId"
+                component={UpdateCoupon}
+              />
             </div>
           </div>
         </>
@@ -154,24 +172,62 @@ function App() {
           <div className="adminAppBody">
             <AdminLeftbar />
             <div className="adminAppContent">
-              <Route path="/admin/users/:userType" exact component={AdminAllUsers} />
-              <Route path="/admin/products" exact component={AdminAllProducts} />
-              <Route path="/admin/new/delivery-partner" exact component={AdminRegisterDelivery} />
-              <Route path="/admin/vouchers/:voucherStatus" exact component={AdminAllVouchers} />
-              <Route path="/admin/vouchers/update/:voucherId" exact component={AdminUpdateVoucher} />
-              <Route path="/admin/new/vouchers" exact component={AdminCreateVoucher} />
+              <Route
+                path="/admin/users/:userType"
+                exact
+                component={AdminAllUsers}
+              />
+              <Route
+                path="/admin/products"
+                exact
+                component={AdminAllProducts}
+              />
+              <Route
+                path="/admin/new/delivery-partner"
+                exact
+                component={AdminRegisterDelivery}
+              />
+              <Route
+                path="/admin/vouchers/:voucherStatus"
+                exact
+                component={AdminAllVouchers}
+              />
+              <Route
+                path="/admin/vouchers/update/:voucherId"
+                exact
+                component={AdminUpdateVoucher}
+              />
+              <Route
+                path="/admin/new/vouchers"
+                exact
+                component={AdminCreateVoucher}
+              />
+              <Route
+                path="/account/password"
+                render={(props) => (
+                  <UpdatePassword
+                    {...props}
+                    setCartProducts={setCartProducts}
+                  />
+                )}
+              />
             </div>
           </div>
         </>
       )}
-      {role === "DELIVERY_PARTNER" && !error && (<>
-        <DeliveryNavbar/>
-        <div className="deliveryAppBody">
-          <Route path="/delivery-partner/:status" exact component={DeliveryAllOrders}/>
-          <Route path="/account/profile" component={UpdateProfile} />
-
-        </div>
-      </>)}
+      {role === "DELIVERY_PARTNER" && !error && (
+        <>
+          <DeliveryNavbar />
+          <div className="deliveryAppBody">
+            <Route
+              path="/delivery-partner/:status"
+              exact
+              component={DeliveryAllOrders}
+            />
+            <Route path="/account/profile" component={UpdateProfile} />
+          </div>
+        </>
+      )}
     </div>
   );
 }

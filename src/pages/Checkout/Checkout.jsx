@@ -24,6 +24,7 @@ import { useHistory } from "react-router-dom";
 import Footer from "../../components/Customer/Footer/Footer";
 import BazaarBayIcon from "../../images/bazaarbay-icon.ico";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
+import CustomerPopup from "../../components/Customer/CustomerPopup/CustomerPopup";
 
 const Checkout = () => {
   const { BACKEND_URL, config, currentUser, setCurrentUser } =
@@ -40,13 +41,17 @@ const Checkout = () => {
   const [selectedAddress, setSelectedAddress] = useState(address);
   const [selectedVouchers, setSelectedVouchers] = useState([]);
   const [chosenVouchers, setChosenVouchers] = useState([]);
+  const [creditCards, setCreditCards] = useState([]);
   const [selectedDeliveryPartnerId, setSelectedDeliveryPartnerId] = useState(0);
   const [shippingFee, setShippingFee] = useState(0);
-  const [totalDiscount, setTotalDiscount] = useState(0);
+  const [voucherDiscount, setVoucherDiscount] = useState(0);
+  const [couponDiscount, setCouponDiscount] = useState(0);
   const [openProvideInfo, setOpenProvideInfo] = useState(false);
   const [openChooseAddress, setOpenChooseAddress] = useState(false);
   const [openConfirmCheckout, setOpenConfirmCheckout] = useState(false);
   const [openChooseVoucher, setOpenChooseVoucher] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [popupType, setPopupType] = useState("");
   const [openChooseDeliveryPartner, setOpenChooseDeliveryPartner] =
     useState(false);
   const provideInfo = useRef();
@@ -61,7 +66,6 @@ const Checkout = () => {
     }, 0);
     return accumulator + itemTotal;
   }, 0);
-
   const fetchCart = async () => {
     try {
       const { data } = await axios.get(
@@ -136,6 +140,25 @@ const Checkout = () => {
       setChosenVouchers(chosenVouchers.filter((v) => v.id !== voucher.id));
     } catch (error) {}
   };
+
+  const fetchCreditCard = async () => {
+    try {
+      const { data } = await axios.get(`${BACKEND_URL}/api/customer/payment-information`, config)
+      setCreditCards(data.data)
+    } catch (error) {
+      
+    }
+  }
+
+  const handleClickOnlinePayment = () => {
+    if (creditCards.length > 0) {
+      setSelectedPaymentMethod("ONLINE_PAYMENT");
+    } else {
+      setOpenPopup(true);
+      setPopupType("nav-credit-card");
+    }
+  }
+
   const handleCheckout = async () => {
     if (currentUser.addresses.length === 0 || !currentUser.phoneNumber) {
       setOpenProvideInfo(true);
@@ -183,8 +206,18 @@ const Checkout = () => {
     fetchCart();
     fetchVoucher();
     fetchDeliveryPartners();
+    fetchCreditCard()
     document.title = "Checkout | BazaarBay";
   }, []);
+  console.log(creditCards)
+  useEffect(() => {
+    setCouponDiscount(
+      selectedVouchers.filter((item) => item.type === "coupon")[0]?.percent || 0
+    );
+    setVoucherDiscount(
+      selectedVouchers.filter((item) => item.type === "voucher")[0]?.percent || 0
+    );
+  }, [selectedVouchers]);
 
   useEffect(() => {
     if (deliveryPartners.length > 0) {
@@ -231,19 +264,6 @@ const Checkout = () => {
     chooseVoucherRef,
   ]);
 
-  useEffect(() => {
-    setTotalDiscount(
-      selectedVouchers.reduce(
-        (accumulator, currentValue) => accumulator + currentValue.percent,
-        0
-      ) < 100
-        ? selectedVouchers.reduce(
-            (accumulator, currentValue) => accumulator + currentValue.percent,
-            0
-          )
-        : 99
-    );
-  }, [selectedVouchers]);
 
   return (
     <div
@@ -438,7 +458,7 @@ const Checkout = () => {
                     ? "paymentItem selectedPaymentMethod"
                     : "paymentItem"
                 }
-                onClick={() => setSelectedPaymentMethod("ONLINE_PAYMENT")}
+                onClick={() => handleClickOnlinePayment() }
               >
                 <img src={WalletBanking} alt="" />
                 <span>Bazaar Wallet</span>
@@ -455,12 +475,21 @@ const Checkout = () => {
                         {formatNumber(subTotalPrice)}
                       </td>
                     </tr>
-                    {totalDiscount > 0 && (
+                    {couponDiscount > 0 && (
+                      <tr>
+                        <td className="priceHeading">Coupon Discount:</td>
+                        <td className="price">
+                          <span className="price-symbol"></span>
+                          {`${couponDiscount}%`}
+                        </td>
+                      </tr>
+                    )}
+                    {voucherDiscount > 0 && (
                       <tr>
                         <td className="priceHeading">Voucher Discount:</td>
                         <td className="price">
                           <span className="price-symbol"></span>
-                          {`${totalDiscount}%`}
+                          {`${voucherDiscount}%`}
                         </td>
                       </tr>
                     )}
@@ -475,15 +504,21 @@ const Checkout = () => {
                     <tr style={{ paddingTop: "20px" }}>
                       <td className="priceHeading">Total Price:</td>
                       <td className="priceTotalContainer">
-                        <div className="price initialPrice">
-                          <span className="price-symbol"></span>
-                          {"₫" + formatNumber(subTotalPrice + shippingFee)}
-                        </div>
+                        {couponDiscount > 0 && voucherDiscount > 0 && (
+                          <div className="price initialPrice">
+                            <span className="price-symbol"></span>
+                            {"₫" + formatNumber(subTotalPrice + shippingFee)}
+                          </div>
+                        )}
                         <div className="price totalPrice">
                           {"₫" +
                             formatNumber(
-                              subTotalPrice * ((100 - totalDiscount) / 100) +
+                              (
+                                subTotalPrice *
+                                  ((100 - couponDiscount) / 100) *
+                                  ((100 - voucherDiscount) / 100) +
                                 shippingFee
+                              ).toFixed(0)
                             )}
                         </div>
                       </td>
@@ -596,7 +631,7 @@ const Checkout = () => {
         </div>
       </div>
       <div
-        className={openProvideInfo ? "provideInfo popup" : "provideInfo hide"}
+        className={openProvideInfo ? "provideInfo open" : "provideInfo close"}
       >
         <div className="provideInfoContainer" ref={provideInfo}>
           <img src={WarningIcon} alt="" />
@@ -713,6 +748,7 @@ const Checkout = () => {
           </div>
         </div>
       </div>
+      <CustomerPopup open={openPopup} setOpen={setOpenPopup} popupType={popupType}/>
       <Footer />
     </div>
   );

@@ -9,7 +9,7 @@ import {
   faChevronRight,
   faShirt,
   faStar,
-  faUserCheck
+  faUserCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import NoResult from "../../../images/no-result-image.jpg";
 import StarRatings from "react-star-ratings";
@@ -31,7 +31,9 @@ const SearchResult = () => {
     setLoading(true);
     try {
       const response1 = await axios.get(
-        `${BACKEND_URL}/api/search-products?keyword=${keyword.trim()}&elementsPerPage=10&page=${pageNumber - 1}`
+        `${BACKEND_URL}/api/search-products?keyword=${keyword.trim()}&elementsPerPage=10&page=${
+          pageNumber - 1
+        }`
       );
       const response2 = await axios.get(
         `${BACKEND_URL}/api/search-stores?keyword=${keyword.trim()}`
@@ -44,7 +46,6 @@ const SearchResult = () => {
       setLoading(false);
     }
   };
-  console.log(storeResults)
   const pageNumberList = [];
   pageNumberList.push(
     <li
@@ -107,9 +108,14 @@ const SearchResult = () => {
   const handleClickNext = () => {
     setPageNumber((prev) => (prev === totalPages ? prev : prev + 1));
   };
+  console.log(storeResults);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [keyword]);
 
   useEffect(() => {
     fetchSearchResult();
+    document.title = `Search for "${keyword}" | BazaarBay`;
   }, [keyword, pageNumber]);
   return (
     <div
@@ -182,13 +188,7 @@ const SearchResult = () => {
                       </h4>
                       <span>Rating</span>
                     </div>
-                    <div className="storeRightItem">
-                      <h4>
-                        <FontAwesomeIcon icon={faShirt} />
-                        <span>16</span>
-                      </h4>
-                      <span>Products</span>
-                    </div>
+
                     <div className="storeRightItem">
                       <h4>
                         <FontAwesomeIcon icon={faUserCheck} />

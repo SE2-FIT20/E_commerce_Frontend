@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import AddReviewImage from "../AddReviewImage/AddReviewImage";
 
-const ProductReview = ({ review, fetchReviews }) => {
+const ProductReview = ({ review, fetchReviews, setSelectedReview, setOpenPopup, setPopupType }) => {
   const { currentUser, BACKEND_URL, config } = useContext(AuthContext);
   const toast = useToast();
   const [updatedReview, setUpdatedReview] = useState({
@@ -118,6 +118,11 @@ const ProductReview = ({ review, fetchReviews }) => {
     }
   };
 
+  const handleClickDelete = () => {
+    setOpenPopup(true);
+    setSelectedReview(review);
+    setPopupType("delete-review")
+  }
   useEffect(() => {
     function handleClickOutside(event) {
       if (reviewRef.current && !reviewRef.current.contains(event.target)) {
@@ -255,7 +260,7 @@ const ProductReview = ({ review, fetchReviews }) => {
           >
             <FontAwesomeIcon icon={faPen} />
           </div>
-          <div className="reviewButton">
+          <div className="reviewButton" onClick={() => handleClickDelete()}>
             <FontAwesomeIcon icon={faTrash} />
           </div>
         </div>

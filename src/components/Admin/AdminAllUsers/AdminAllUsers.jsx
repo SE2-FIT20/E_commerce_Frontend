@@ -57,6 +57,7 @@ const AdminAllUsers = () => {
   const filterInputRef = useRef();
   const userPerPageOptionRef = useRef();
   const toast = useToast();
+  console.log(filterStatus);
   const fetchUsers = async () => {
     try {
       setLoading(true);
@@ -91,8 +92,8 @@ const AdminAllUsers = () => {
         config
       );
       filterInput === "email" && setUsers(data.data);
-      filterInput === "name" && setUsers(data.data.content)
-      filterInput === "name" && setTotalPages(data.data.totalPages)
+      filterInput === "name" && setUsers(data.data.content);
+      filterInput === "name" && setTotalPages(data.data.totalPages);
 
       setLoading(false);
     } catch (error) {
@@ -550,7 +551,7 @@ const AdminAllUsers = () => {
                     </th>
                     <th style={{ flex: "0.5" }}>
                       <div className="container">
-                        {user.locked ? (
+                        {user.locked && user.role !== "ADMIN" && (
                           <div
                             className="userOperationIcon"
                             onClick={() => {
@@ -561,7 +562,8 @@ const AdminAllUsers = () => {
                           >
                             <FontAwesomeIcon icon={faLockOpen} />
                           </div>
-                        ) : (
+                        )}
+                        {!user.locked && user.role !== "ADMIN" && (
                           <div
                             className="userOperationIcon"
                             onClick={() => {

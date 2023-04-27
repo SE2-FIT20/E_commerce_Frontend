@@ -323,8 +323,8 @@ const Store = () => {
                               <div className="voucherBasicInfo">
                                 <h2 className="voucherPercent">{`Discount ${coupon.percent}%`}</h2>
                                 <span className="voucherDescription">
-                                  {`${coupon.description.substring(0, 40)}${
-                                    coupon.description.length > 40 ? "..." : ""
+                                  {`${coupon.description.substring(0, 30)}${
+                                    coupon.description.length > 30 ? "..." : ""
                                   }`}
                                 </span>
                               </div>

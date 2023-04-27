@@ -199,8 +199,10 @@
   border-radius: 8px;
 }
 
-.productRight .storeCouponsContainer {
+.productRight .storeCoupons {
   padding: 10px 15px;
+  min-width: 470px;
+  max-width: 470px;
 }
 
 .productRight .storeCouponsContainer h2 {

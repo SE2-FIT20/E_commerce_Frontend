@@ -59,9 +59,9 @@ const AdminNavbar = () => {
 
             <span>{currentUser.name}</span>
           </div>
-          <div className="notification">
+          {/* <div className="notification">
             <FontAwesomeIcon icon={faBell} />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

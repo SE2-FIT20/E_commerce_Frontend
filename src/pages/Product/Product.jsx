@@ -14,6 +14,7 @@ import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AddReviewImage from "../../components/Customer/AddReviewImage/AddReviewImage";
 import Footer from "../../components/Customer/Footer/Footer";
+import CustomerPopup from "../../components/Customer/CustomerPopup/CustomerPopup";
 
 const Product = ({ fetchPreviewCart }) => {
   const { BACKEND_URL, currentUser, config } = useContext(AuthContext);
@@ -21,8 +22,12 @@ const Product = ({ fetchPreviewCart }) => {
   const productId = location.pathname.split("/")[2];
   const [product, setProduct] = useState(null);
   const [reviewable, setReviewable] = useState(false);
+  const [selectedReview, setSelectedReview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [reviews, setReviews] = useState([]);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [popupType, setPopupType] = useState("");
   const [writeReview, setWriteReview] = useState({
     rating: 5,
     comment: "",
@@ -86,6 +91,7 @@ const Product = ({ fetchPreviewCart }) => {
   const handleSubmitReview = async () => {
     let images = [];
     if (writeReview.images.length > 0) {
+      setSubmitLoading(true);
       const promises = writeReview.images.map(async (pic) => {
         const data = new FormData();
         data.append(`file`, pic);
@@ -129,8 +135,10 @@ const Product = ({ fetchPreviewCart }) => {
           isClosable: true,
           position: "bottom",
         });
+        setSubmitLoading(false);
         window.location.reload();
       } catch (error) {
+        setSubmitLoading(false);
         toast({
           title: "Error submitting reviews with images!",
           status: "warning",
@@ -142,6 +150,8 @@ const Product = ({ fetchPreviewCart }) => {
       }
     } else {
       try {
+        setSubmitLoading(true);
+
         await axios.post(
           `${BACKEND_URL}/api/customer/review`,
           {
@@ -157,8 +167,12 @@ const Product = ({ fetchPreviewCart }) => {
           isClosable: true,
           position: "bottom",
         });
+        setSubmitLoading(false);
+
         window.location.reload();
       } catch (error) {
+        setSubmitLoading(false);
+
         toast({
           title: "Error submitting reviews without images!",
           status: "warning",
@@ -176,7 +190,7 @@ const Product = ({ fetchPreviewCart }) => {
     fetchReviews();
     if (currentUser) getReviewable();
   }, [location]);
-  console.log(reviewable)
+  console.log(reviewable);
   return (
     <div className="product">
       <BreadCrumb title="Product" />
@@ -198,6 +212,9 @@ const Product = ({ fetchPreviewCart }) => {
                       <ProductReview
                         review={review}
                         key={review.id}
+                        setSelectedReview={setSelectedReview}
+                        setOpenPopup={setOpenPopup}
+                        setPopupType={setPopupType}
                         fetchReviews={fetchReviews}
                       />
                     ))}
@@ -290,8 +307,20 @@ const Product = ({ fetchPreviewCart }) => {
                     <button
                       className="button"
                       onClick={() => handleSubmitReview()}
+                      style={{ padding: submitLoading && "10px 65px" }}
                     >
-                      Submit review
+                      {submitLoading ? (
+                        <div className="loginLoading">
+                          <div class="lds-ring">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                          </div>
+                        </div>
+                      ) : (
+                        "Submit Review"
+                      )}
                     </button>
                   </div>
                 </div>
@@ -311,6 +340,13 @@ const Product = ({ fetchPreviewCart }) => {
           </div>
         </div>
       )}
+      <CustomerPopup
+        open={openPopup}
+        setOpen={setOpenPopup}
+        popupType={popupType}
+        review={selectedReview}
+        fetchReviews={fetchReviews}
+      />
       <Footer />
     </div>
   );

@@ -52,7 +52,7 @@ export const handleAddProduct = async (
         `${BACKEND_URL}/api/store/products`,
         {
           ...product,
-          category: product.category.toUpperCase(),
+          category: product.category === "Cars & Motorbikes" ? "CARS_MOTORBIKES" : product.category.toUpperCase(),
           images,
         },
         config

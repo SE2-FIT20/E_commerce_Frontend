@@ -62,9 +62,9 @@ const DeliveryNavbar = () => {
               currentUser.balance
             )}`}</span>
           </div>
-          <div className="notification">
+          {/* <div className="notification">
             <FontAwesomeIcon icon={faBell} />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

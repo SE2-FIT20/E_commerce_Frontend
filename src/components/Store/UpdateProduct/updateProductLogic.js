@@ -11,6 +11,7 @@ export const handleUpdateProduct = async (
 ) => {
   let images = [];
   if (product.newImages.length > 0) {
+    setLoading(true)
     const promises = product.newImages.map(async (pic) => {
       const data = new FormData();
       data.append(`file`, pic);
@@ -40,22 +41,22 @@ export const handleUpdateProduct = async (
     });
     images = await Promise.all(promises);
     try {
-      const data =  {
+      
+      const data = {
         productId: productId,
         name: product.name,
         price: product.price,
         description: product.description,
         quantity: product.quantity,
-        category: product.category.toUpperCase(),
+        category:
+          product.category === "Cars & Motorbikes"
+            ? "CARS_MOTORBIKES"
+            : product.category.toUpperCase(),
         images: [...product.images, ...images],
       };
       const payload = JSON.stringify(data, null, 2);
 
-      await axios.put(
-        `${BACKEND_URL}/api/store/products`,
-        payload,
-        config
-      );
+      await axios.put(`${BACKEND_URL}/api/store/products`, payload, config);
       toast({
         title: "Upload product with images successfully!",
         status: "success",
@@ -78,6 +79,7 @@ export const handleUpdateProduct = async (
     }
   } else {
     try {
+      setLoading(true);
       await axios.put(
         `${BACKEND_URL}/api/store/products`,
         {
@@ -86,7 +88,11 @@ export const handleUpdateProduct = async (
           price: product.price,
           description: product.description,
           quantity: product.quantity,
-          category: product.category.toUpperCase(),
+          category:
+            product.category === "Cars & Motorbikes"
+              ? "CARS_MOTORBIKES"
+              : product.category.toUpperCase(),
+
           images: product.images,
         },
         config

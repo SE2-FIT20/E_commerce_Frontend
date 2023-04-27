@@ -29,7 +29,7 @@ const Footer = () => {
           <ul>
             <li>{`Nguyen Quang Nam (Scrum Master)`}</li>
             <li>{`Do Minh Quan (Front-end Developer)`}</li>
-            <li>{`Tran Viet Hoa (Front-end Developer)`}</li>
+            <li>{`Tran Viet Hoa (Front-end Developer, Document)`}</li>
             <li>{`Nguyen Manh Hai (Back-end Developer)`}</li>
             <li>{`Nguyen Hoang Vy (Back-end Developer, Document)`}</li>
             <li>{`Tran Khac Linh (Back-end Developer, Document)`}</li>

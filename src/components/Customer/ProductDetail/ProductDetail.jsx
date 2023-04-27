@@ -42,7 +42,6 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
   const [openUserVouchers, setOpenUserVouchers] = useState(false);
 
   const [openStoreCoupons, setOpenStoreCoupons] = useState(false);
-
   const mainImage = useRef();
   const imageDisplay = useRef();
   const history = useHistory();
@@ -117,7 +116,6 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
       });
     }
   };
-  console.log(userVouchers);
   const handleSaveCoupon = async (couponId) => {
     console.log(couponId);
     try {
@@ -263,167 +261,182 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
             <div className="productDescription">
               <table>
                 <tbody>
-                  <tr>
-                    <th className="productHeading">Vouchers</th>
-                    <th
-                      className="productContent productVouchers"
-                      onMouseOver={() => setOpenUserVouchers(true)}
-                      onMouseLeave={() => setOpenUserVouchers(false)}
-                    >
-                      {userVouchers.map((voucher) => (
-                        <div
-                          className="productCoupon"
-                          key={voucher.id}
-                          style={{ backgroundColor: "rgb(43, 223, 186)" }}
-                        >{`Discount ${voucher.percent}%`}</div>
-                      ))}
-                      {openUserVouchers && (
-                        <div
-                          className="storeCoupons userVouchers"
-                          ref={userVouchersRef}
-                        >
-                          <div className="storeCouponsContainer">
-                            <h2>Your Vouchers</h2>
-                            <div className="storeCouponsList">
-                              {userVouchers.slice(0, 4).map((coupon) => (
-                                <div className="voucher" key={coupon.id}>
-                                  <div className="voucherLeft">
-                                    <div
-                                      className="voucherImage"
-                                      style={{
-                                        backgroundColor: "rgb(43, 223, 186)",
-                                      }}
-                                    >
-                                      <img src={BazaarBayIcon} alt="" style={{ borderRadius: "0", border: "none"}}/>
-                                      <span>BazaarBay</span>
-                                    </div>
-                                    <div className="voucherInfo">
-                                      <div className="voucherBasicInfo">
-                                        <h2 className="voucherPercent">{`Discount ${coupon.percent}%`}</h2>
-                                        <span className="voucherDescription">
-                                          {`${coupon.description.substring(
-                                            0,
-                                            40
-                                          )}${
-                                            coupon.description.length > 40
-                                              ? "..."
-                                              : ""
-                                          }`}
-                                        </span>
+                  {userVouchers.length > 0 && (
+                    <tr>
+                      <th className="productHeading">Vouchers</th>
+                      <th
+                        className="productContent productVouchers"
+                        onMouseOver={() => setOpenUserVouchers(true)}
+                        onMouseLeave={() => setOpenUserVouchers(false)}
+                      >
+                        {userVouchers.map((voucher) => (
+                          <div
+                            className="productCoupon"
+                            key={voucher.id}
+                            style={{ backgroundColor: "rgb(43, 223, 186)" }}
+                          >{`Discount ${voucher.percent}%`}</div>
+                        ))}
+                        {openUserVouchers && (
+                          <div
+                            className="storeCoupons userVouchers"
+                            ref={userVouchersRef}
+                          >
+                            <div className="storeCouponsContainer">
+                              <h2>Your Vouchers</h2>
+                              <div className="storeCouponsList">
+                                {userVouchers.slice(0, 4).map((coupon) => (
+                                  <div className="voucher" key={coupon.id}>
+                                    <div className="voucherLeft">
+                                      <div
+                                        className="voucherImage"
+                                        style={{
+                                          backgroundColor: "rgb(43, 223, 186)",
+                                        }}
+                                      >
+                                        <img
+                                          src={BazaarBayIcon}
+                                          alt=""
+                                          style={{
+                                            borderRadius: "0",
+                                            border: "none",
+                                          }}
+                                        />
+                                        <span>BazaarBay</span>
                                       </div>
-                                      {revertTimeStamp(coupon.startAt) >=
-                                        revertTimeStamp(new Date()) && (
-                                        <span className="voucherExpired">
-                                          <FontAwesomeIcon icon={faClock} />
-                                          <span>
-                                            {formatDaysToStart(coupon.startAt)}
+                                      <div className="voucherInfo">
+                                        <div className="voucherBasicInfo">
+                                          <h2 className="voucherPercent">{`Discount ${coupon.percent}%`}</h2>
+                                          <span className="voucherDescription">
+                                            {`${coupon.description.substring(
+                                              0,
+                                              40
+                                            )}${
+                                              coupon.description.length > 40
+                                                ? "..."
+                                                : ""
+                                            }`}
                                           </span>
-                                        </span>
-                                      )}
-                                      {revertTimeStamp(coupon.startAt) <
-                                        revertTimeStamp(new Date()) && (
-                                        <span className="voucherExpired">
-                                          <FontAwesomeIcon icon={faClock} />
-                                          <span>
-                                            {formatDaysLeft(coupon.expiredAt)}
+                                        </div>
+                                        {revertTimeStamp(coupon.startAt) >=
+                                          revertTimeStamp(new Date()) && (
+                                          <span className="voucherExpired">
+                                            <FontAwesomeIcon icon={faClock} />
+                                            <span>
+                                              {formatDaysToStart(
+                                                coupon.startAt
+                                              )}
+                                            </span>
                                           </span>
-                                        </span>
-                                      )}
+                                        )}
+                                        {revertTimeStamp(coupon.startAt) <
+                                          revertTimeStamp(new Date()) && (
+                                          <span className="voucherExpired">
+                                            <FontAwesomeIcon icon={faClock} />
+                                            <span>
+                                              {formatDaysLeft(coupon.expiredAt)}
+                                            </span>
+                                          </span>
+                                        )}
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              ))}
+                                ))}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      )}
-                    </th>
-                  </tr>
+                        )}
+                      </th>
+                    </tr>
+                  )}
 
-                  <tr>
-                    <th className="productHeading">Store Coupons</th>
-                    <th
-                      className="productContent productVouchers"
-                      onMouseOver={() => setOpenStoreCoupons(true)}
-                      onMouseLeave={() => setOpenStoreCoupons(false)}
-                    >
-                      {storeCoupons.slice(0, 4).map((coupon) => (
-                        <div
-                          className="productCoupon"
-                          key={coupon.id}
-                        >{`Discount ${coupon.percent}%`}</div>
-                      ))}
-                      {openStoreCoupons && (
-                        <div className="storeCoupons" ref={storeCouponsRef}>
-                          <div className="storeCouponsContainer">
-                            <h2>Store Coupons</h2>
-                            <div className="storeCouponsList">
-                              {storeCoupons.map((coupon) => (
-                                <div className="voucher" key={coupon.id}>
-                                  <div className="voucherLeft">
-                                    <div className="voucherImage">
-                                      <img src={coupon.store.avatar} alt="" />
-                                      <span>{coupon.store.name}</span>
-                                    </div>
-                                    <div className="voucherInfo">
-                                      <div className="voucherBasicInfo">
-                                        <h2 className="voucherPercent">{`Discount ${coupon.percent}%`}</h2>
-                                        <span className="voucherDescription">
-                                          {`${coupon.description.substring(
-                                            0,
-                                            40
-                                          )}${
-                                            coupon.description.length > 40
-                                              ? "..."
-                                              : ""
-                                          }`}
-                                        </span>
+                  {storeCoupons.length > 0 && (
+                    <tr>
+                      <th className="productHeading">Store Coupons</th>
+                      <th
+                        className="productContent productVouchers"
+                        onMouseOver={() => setOpenStoreCoupons(true)}
+                        onMouseLeave={() => setOpenStoreCoupons(false)}
+                      >
+                        {storeCoupons.slice(0, 4).map((coupon) => (
+                          <div
+                            className="productCoupon"
+                            key={coupon.id}
+                          >{`Discount ${coupon.percent}%`}</div>
+                        ))}
+                        {openStoreCoupons && (
+                          <div className="storeCoupons" ref={storeCouponsRef}>
+                            <div className="storeCouponsContainer">
+                              <h2>Store Coupons</h2>
+                              <div className="storeCouponsList">
+                                {storeCoupons.map((coupon) => (
+                                  <div className="voucher" key={coupon.id}>
+                                    <div className="voucherLeft">
+                                      <div className="voucherImage">
+                                        <img src={coupon.store.avatar} alt="" />
+                                        <span>{coupon.store.name}</span>
                                       </div>
-                                      {revertTimeStamp(coupon.startAt) >=
-                                        revertTimeStamp(new Date()) && (
-                                        <span className="voucherExpired">
-                                          <FontAwesomeIcon icon={faClock} />
-                                          <span>
-                                            {formatDaysToStart(coupon.startAt)}
+                                      <div className="voucherInfo">
+                                        <div className="voucherBasicInfo">
+                                          <h2 className="voucherPercent">{`Discount ${coupon.percent}%`}</h2>
+                                          <span className="voucherDescription">
+                                            {`${coupon.description.substring(
+                                              0,
+                                              40
+                                            )}${
+                                              coupon.description.length > 40
+                                                ? "..."
+                                                : ""
+                                            }`}
                                           </span>
-                                        </span>
-                                      )}
-                                      {revertTimeStamp(coupon.startAt) <
-                                        revertTimeStamp(new Date()) && (
-                                        <span className="voucherExpired">
-                                          <FontAwesomeIcon icon={faClock} />
-                                          <span>
-                                            {formatDaysLeft(coupon.expiredAt)}
+                                        </div>
+                                        {revertTimeStamp(coupon.startAt) >=
+                                          revertTimeStamp(new Date()) && (
+                                          <span className="voucherExpired">
+                                            <FontAwesomeIcon icon={faClock} />
+                                            <span>
+                                              {formatDaysToStart(
+                                                coupon.startAt
+                                              )}
+                                            </span>
                                           </span>
-                                        </span>
-                                      )}
+                                        )}
+                                        {revertTimeStamp(coupon.startAt) <
+                                          revertTimeStamp(new Date()) && (
+                                          <span className="voucherExpired">
+                                            <FontAwesomeIcon icon={faClock} />
+                                            <span>
+                                              {formatDaysLeft(coupon.expiredAt)}
+                                            </span>
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
+                                    <div className="voucherRight">
+                                      <span>{`${coupon.quantityAvailable} remaining`}</span>
+                                      <button
+                                        className="button"
+                                        onClick={() => {
+                                          currentUser
+                                            ? handleSaveCoupon(coupon.id)
+                                            : history.push("/login");
+                                        }}
+                                      >
+                                        Get
+                                      </button>
                                     </div>
                                   </div>
-                                  <div className="voucherRight">
-                                    <span>{`${coupon.quantityAvailable} remaining`}</span>
-                                    <button
-                                      className="button"
-                                      onClick={() => {
-                                        currentUser
-                                          ? handleSaveCoupon(coupon.id)
-                                          : history.push("/login");
-                                      }}
-                                    >
-                                      Get
-                                    </button>
-                                  </div>
-                                </div>
-                              ))}
+                                ))}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      )}
-                    </th>
-                  </tr>
+                        )}
+                      </th>
+                    </tr>
+                  )}
                   <tr>
                     <th className="productHeading">Category</th>
-                    <th className="productContent productContentBox">
-                      {capitalize(product.category.toLowerCase())}
+                    <th className="productContent productContentBox" style={{ textAlign: "center"}}>
+                      {product.category === "CARS_MOTORBIKES" ? "Cars & Motorbikes" : capitalize(product.category.toLowerCase())}
                     </th>
                   </tr>
 
@@ -575,7 +588,11 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
             <div className="storeMoreInfoCol">
               <div className="storeMoreInfoItem">
                 <h2>Rating: </h2>
-                <span>{product.store.averageRating}</span>
+                <span>
+                  {product.store.averageRating > 0
+                    ? product.store.averageRating.toFixed(2)
+                    : "0"}
+                </span>
               </div>
               <div className="storeMoreInfoItem">
                 <h2>Products: </h2>

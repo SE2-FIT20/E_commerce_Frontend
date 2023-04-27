@@ -42,7 +42,7 @@ const AddProduct = () => {
   const handleChange = (e) => {
     setProduct((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
-
+  console.log(product.category)
   return (
     <div className="addProduct">
       <div className="addProductContainer">

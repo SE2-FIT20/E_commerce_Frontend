@@ -100,8 +100,9 @@ const Login = () => {
       }
     } catch (error) {
       setLoading(false);
+      
       toast({
-        title: "Wrong username or password!",
+        title: error.response.data.message,
         status: "error",
         duration: 3000,
         isClosable: true,
