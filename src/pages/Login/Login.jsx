@@ -72,7 +72,7 @@ const Login = () => {
         });
         setCurrentUser(data.data);
         setRole("STORE");
-        setOption("All Products")
+        setOption("All Products");
 
         history.push("/store/product/all?pages=1");
       } else if (response.data.data.role === "ADMIN") {
@@ -84,30 +84,46 @@ const Login = () => {
         });
         setCurrentUser(data.data);
         setRole("ADMIN");
-        setOption("all")
+        setOption("all");
         history.push("/admin/users/all?page=1");
       } else if (response.data.data.role === "DELIVERY_PARTNER") {
-        const { data } = await axios.get(`${BACKEND_URL}/api/delivery-partner/account`, {
-          headers: {
-            "Content-type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const { data } = await axios.get(
+          `${BACKEND_URL}/api/delivery-partner/account`,
+          {
+            headers: {
+              "Content-type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setCurrentUser(data.data);
         setRole("DELIVERY_PARTNER");
-        setOption("all")
-        history.push("/delivery-partner/all?page=1")
+        setOption("all");
+        history.push("/delivery-partner/all?page=1");
       }
     } catch (error) {
       setLoading(false);
-      
-      toast({
-        title: error.response.data.message,
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom",
-      });
+      console.log(error.response.data.message)
+      if (
+        error.response.data.message !==
+        "Your account is locked. Please contact admin to unlock"
+      ) {
+        toast({
+          title: "Wrong username or password!",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "bottom",
+        });
+      } else {
+        toast({
+          title: error.response.data.message,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "bottom",
+        });
+      }
     }
   };
 

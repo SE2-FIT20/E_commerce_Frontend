@@ -20,6 +20,7 @@ import {
   handleDisplayStatusButton,
   handleOrder,
 } from "./storeAllOrdersLogic";
+import CustomerPopup from "../../../components/Customer/CustomerPopup/CustomerPopup"
 import { useHistory } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import axios from "axios";
@@ -46,12 +47,14 @@ const StoreAllOrders = () => {
   const [openOrderPerPageOptions, setOpenOrderPerPageOptions] = useState(false);
   const [openFilterOrder, setOpenFilterOrder] = useState(false);
   const [openFilterOptions, setOpenFilterOptions] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [popupType, setPopupType] = useState("");
   const [filterOption, setFilterOption] = useState("createdAt");
   const [filterOrder, setFilterOrder] = useState("desc");
   const [dateFrom, setDateFrom] = useState(formattedDateFrom);
   const [dateTo, setDateTo] = useState(formattedDateTo);
   const [orderTypeCount, setOrderTypeCount] = useState(null);
-  console.log(orders)
+  console.log(orders);
   const toast = useToast();
   const filterOptionRef = useRef();
   const filterOrderRef = useRef();
@@ -91,6 +94,15 @@ const StoreAllOrders = () => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
+      if (
+        error.response.data.message ===
+        "Your account is locked! Please contact admin to unlock your account!"
+      ) {
+        setLoading(false);
+        setPopupType("account-locked");
+        setOpenPopup(true);
+        return;
+      }
       toast({
         title: "An error occurred fetching orders",
         status: "error",
@@ -434,26 +446,8 @@ const StoreAllOrders = () => {
                                     {handleDisplayStatusButton(order.status)}
                                   </button>
                                 )}
-                                {order.status === "READY_FOR_DELIVERY" && (
-                                  <button
-                                    className="button"
-                                    onClick={() =>
-                                      handleOrder(
-                                        "unprepare-order",
-                                        order.id,
-                                        fetchOrders,
-                                        fetchOrderTypeCount,
-                                        BACKEND_URL,
-                                        config,
-                                        toast
-                                      )
-                                    }
-                                  >
-                                    {handleDisplayStatusButton(order.status)}
-                                  </button>
-                                )}
-                                {(order.status == "PENDING" ||
-                                  order.status == "READY_FOR_DELIVERY") && (
+
+                                {(order.status == "PENDING") && (
                                   <button
                                     className="button"
                                     onClick={() =>
@@ -614,6 +608,11 @@ const StoreAllOrders = () => {
           </div>
         )}
       </div>
+      <CustomerPopup
+        open={openPopup}
+        setOpen={setOpenPopup}
+        popupType={popupType}
+      />
     </div>
   );
 };

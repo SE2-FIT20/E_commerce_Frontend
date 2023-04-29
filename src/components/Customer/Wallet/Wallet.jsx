@@ -69,7 +69,23 @@ const Wallet = () => {
         config
       );
       setCreditCards(data.data);
-    } catch (error) {}
+    } catch (error) {
+      if (
+        error.response.data.message ===
+        "Your account is locked! Please contact admin to unlock your account!"
+      ) {
+        setPopupType("account-locked")
+        setOpenPopup(true);
+        return;
+      }
+      toast({
+        title: "An error occured while fetching credit cards!",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
   };
   const handleAddNewCreditCard = async () => {
     if (
@@ -120,6 +136,14 @@ const Wallet = () => {
         position: "bottom",
       });
     } catch (error) {
+      if (
+        error.response.data.message ===
+        "Your account is locked! Please contact admin to unlock your account!"
+      ) {
+        setPopupType("account-locked")
+        setOpenPopup(true);
+        return;
+      }
       return toast({
         title: "Wrong card number!",
         status: "error",
@@ -155,6 +179,10 @@ const Wallet = () => {
   }, [addCreditCard, topUpBalance]);
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
     document.title = "My Wallet | BazaarBay";
     fetchCreditCards();
   }, []);

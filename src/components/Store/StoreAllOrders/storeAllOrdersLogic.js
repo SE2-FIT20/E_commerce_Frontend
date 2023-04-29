@@ -190,6 +190,7 @@ export const handleOrder = async (
       });
     }
   } else if (orderType === "cancel-order") {
+    console.log(orderId)
     try {
       await axios.put(
         `${BACKEND_URL}/api/store/update-status-order`,

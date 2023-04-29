@@ -7,12 +7,14 @@ import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import Address from "../../components/Customer/Address/Address";
 import Footer from "../../components/Customer/Footer/Footer";
+import CustomerPopup from "../../components/Customer/CustomerPopup/CustomerPopup";
 
 const UpdateAddress = () => {
   const { currentUser, setCurrentUser, config, BACKEND_URL } =
     useContext(AuthContext);
   const [addressText, setAddressText] = useState("");
   const [addingNewAddress, setAddingNewAddress] = useState(false);
+  const [openPopup, setOpenPopup] = useState(false);
   const toast = useToast();
   const handleKeyDown = async (e) => {
     if (e.key === "Escape") {
@@ -48,8 +50,15 @@ const UpdateAddress = () => {
       setAddingNewAddress(false);
       setAddressText("");
     } catch (error) {
+      if (
+        error.response.data.message ===
+        "Your account is locked! Please contact admin to unlock your account!"
+      ) {
+        setOpenPopup(true);
+        return;
+      }
       toast({
-        title: "An error occurred while trying to update profile",
+        title: "An error occurred while trying to save new address",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -81,8 +90,15 @@ const UpdateAddress = () => {
       );
       setCurrentUser(data.data);
     } catch (error) {
+      if (
+        error.response.data.message ===
+        "Your account is locked! Please contact admin to unlock your account!"
+      ) {
+        setOpenPopup(true);
+        return;
+      }
       toast({
-        title: "An error occurred while trying to update profile",
+        title: "An error occurred while trying to delete address",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -95,8 +111,8 @@ const UpdateAddress = () => {
   };
 
   useEffect(() => {
-    document.title = "My Address | BazaarBay"
-  }, [])
+    document.title = "My Address | BazaarBay";
+  }, []);
   return (
     <div className="updateAddress">
       <div className="updateAddressContainer">
@@ -134,11 +150,7 @@ const UpdateAddress = () => {
           <ul>
             {currentUser.addresses.length > 0 &&
               currentUser.addresses.map((address, i) => (
-                <Address
-                  address={address}
-                  i={i}
-                  handleDelete={handleDelete}
-                />
+                <Address address={address} i={i} handleDelete={handleDelete} />
               ))}
             {currentUser.addresses.length === 0 && (
               <div>You don't have any address!</div>
@@ -146,6 +158,8 @@ const UpdateAddress = () => {
           </ul>
         </div>
       </div>
+      <CustomerPopup open={openPopup} setOpen={setOpenPopup} popupType="account-locked" />
+
       <Footer />
     </div>
   );

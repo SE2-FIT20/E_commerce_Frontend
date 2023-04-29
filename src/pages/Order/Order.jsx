@@ -44,6 +44,14 @@ const Order = () => {
       setTotalPages(data.data.totalPages);
       setLoading(false);
     } catch (error) {
+      if (
+        error.response.data.message ===
+        "Your account is locked! Please contact admin to unlock your account!"
+      ) {
+        setPopupType("account-locked");
+        setOpenPopup(true);
+        return;
+      }
       toast({
         title: "An error occured while fetching orders!",
         status: "error",
@@ -101,9 +109,9 @@ const Order = () => {
       }
     }
   };
-  console.log(orders[0])
   useEffect(() => {
     fetchOrderTypeCount();
+
     document.title = "My Order | BazaarBay";
   }, []);
 
@@ -114,11 +122,7 @@ const Order = () => {
 
   return (
     <div className="order">
-      <div
-        className="orderContainer"
-        ref={orderRef}
-        onScroll={(e) => handleScroll(e)}
-      >
+      <div className="orderContainer" style={{ maxHeight: orders.length === 0 && "calc(100vh - 70px)"}}>
         <div className="ordersFilter">
           {orderTypeCount && (
             <ul>
@@ -190,7 +194,11 @@ const Order = () => {
           )}
         </div>
         {!loading && (
-          <div className="orders">
+          <div
+            className="orders"
+            ref={orderRef}
+            onScroll={(e) => handleScroll(e)}
+          >
             {orders.length > 0 &&
               orders.map((order) => (
                 <div className="ordersContainer" key={order.id}>
@@ -232,7 +240,11 @@ const Order = () => {
                               {item.product.name}
                             </span>
                             <span className="orderProductCategory">
-                              {capitalize(item.product.category.toLowerCase())}
+                              {item.product.category === "CARS_MOTORBIKES"
+                                ? "Cars & Motorbikes"
+                                : capitalize(
+                                    item.product.category.toLowerCase()
+                                  )}
                             </span>
                             <span className="orderProductQuantity">{`x${item.quantity}`}</span>
                           </div>
@@ -286,13 +298,22 @@ const Order = () => {
                         <>
                           <button
                             className="button"
-                            onClick={() =>
-                              (window.location.href = `/product/${order.items[0].product.id}`)
-                            }
+                            onClick={() => {
+                              history.push(
+                                `/product/${order.items[0].product.id}#productReview`
+                              );
+                            }}
                           >
                             Review Product
                           </button>
-                          <button className="button purchaseAgain">
+                          <button
+                            className="button purchaseAgain"
+                            onClick={() => {
+                              history.push(
+                                `/product/${order.items[0].product.id}`
+                              );
+                            }}
+                          >
                             Purchase Again
                           </button>
                         </>

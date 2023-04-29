@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+  import { useContext, useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import BreadCrumb from "../../components/Customer/BreadCrumb/BreadCrumb";
 import CartProduct from "../../components/Customer/CartProduct/CartProduct";
@@ -9,11 +9,13 @@ import "./cart.css";
 import EmptyCart from "../../images/cart-empty.webp";
 import { useRef } from "react";
 import { useToast } from "@chakra-ui/react";
+import CustomerPopup from "../../components/Customer/CustomerPopup/CustomerPopup";
 
 const Cart = () => {
   const { BACKEND_URL, config } = useContext(AuthContext);
   const [storeProducts, setStoreProducts] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
+  const [openCustomerPopup, setOpenCustomerPopup] = useState(false)
   const [loading, setLoading] = useState(false);
   const [total, setTotal] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -33,6 +35,20 @@ const Cart = () => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
+      if (
+        error.response.data.message ===
+        "Your account is locked! Please contact admin to unlock your account!"
+      ) {
+        setOpenCustomerPopup(true);
+        return;
+      }
+      toast({
+        title: "An error occurred adding product to cart",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
     }
   };
   const handleConfirm = async (productId, productPrice, number) => {
@@ -209,6 +225,7 @@ const Cart = () => {
           </div>
         </div>
       </div>
+      <CustomerPopup open={openCustomerPopup} setOpen={setOpenCustomerPopup} popupType="account-locked" />
     </div>
   );
 };

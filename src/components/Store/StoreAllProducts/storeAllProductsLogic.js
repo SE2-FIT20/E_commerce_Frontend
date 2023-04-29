@@ -44,6 +44,7 @@ export const deleteProduct = async (
   productToDelete,
   fetchProducts,
   setOpenConfirmDelete,
+  setOpenPopup,
   BACKEND_URL,
   config,
   toast
@@ -63,6 +64,13 @@ export const deleteProduct = async (
     setOpenConfirmDelete(false);
     fetchProducts();
   } catch (error) {
+    if (
+      error.response.data.message ===
+      "Your account is locked! Please contact admin to unlock your account!"
+    ) {
+      setOpenPopup(true);
+      return;
+    }
     toast({
       title: "An error occurred deleting products",
       status: "error",

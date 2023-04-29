@@ -13,7 +13,7 @@ import { useHistory } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import axios from "axios";
 import NoItem from "../../../images/no-product.webp";
-
+import CustomerPopup from "../../../components/Customer/CustomerPopup/CustomerPopup"
 import { formatNumber, capitalize } from "../../longFunctions";
 import { useToast } from "@chakra-ui/react";
 import {
@@ -35,6 +35,7 @@ const Storepage = () => {
   const [stockType, setStockType] = useState(
     useHistory().location.pathname.split("/")[3]
   );
+  const [openPopup, setOpenPopup] = useState(false);
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
   const [openFilterOptions, setOpenFilterOptions] = useState(false);
   const [openFilterOrder, setOpenFilterOrder] = useState(false);
@@ -95,6 +96,13 @@ const Storepage = () => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
+      if (
+        error.response.data.message ===
+        "Your account is locked! Please contact admin to unlock your account!"
+      ) {
+        setOpenPopup(true);
+        return;
+      }
       toast({
         title: "An error occurred fetching products",
         status: "error",
@@ -605,6 +613,7 @@ const Storepage = () => {
                   productToDelete,
                   fetchProducts,
                   setOpenConfirmDelete,
+                  setOpenPopup,
                   BACKEND_URL,
                   config,
                   toast
@@ -622,6 +631,8 @@ const Storepage = () => {
           </div>
         </div>
       </div>
+      <CustomerPopup open={openPopup} setOpen={setOpenPopup} popupType="account-locked" />
+
     </div>
   );
 };

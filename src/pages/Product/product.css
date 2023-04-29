@@ -8,42 +8,40 @@
   margin: auto;
 }
 
-
-
-.product .productReview {
+.product #productReview {
   padding: 20px 0;
 }
 
-.product .productReview .reviewText {
+.product #productReview .reviewText {
   font-size: 26px;
   font-weight: 600;
 }
 
-.product .productReview .noReview {
+.product #productReview .noReview {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 }
 
-.product .productReview .noReview img {
+.product #productReview .noReview img {
   width: 150px;
   height: 120px;
 }
 
-.product .productReview .noReview span {
+.product #productReview .noReview span {
   font-weight: 500;
   font-size: 23px;
 }
 
-.product .productReview .productReviewContainer {
+.product #productReview .productReviewContainer {
   background-color: #ffffff;
   padding: 25px 35px;
   margin-top: 15px;
   border-radius: 8px;
 }
 
-.productReview .customerReviews {
+#productReview .customerReviews {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -57,7 +55,6 @@
   padding-bottom: 25px;
 }
 
-
 .product {
   background-color: #f5f5f7;
   width: 100%;
@@ -68,26 +65,23 @@
   margin: auto;
 }
 
-
-
-.product .productReview {
+.product #productReview {
   padding: 20px 0;
 }
 
-.product .productReview .reviewText {
+.product #productReview .reviewText {
   font-size: 26px;
   font-weight: 600;
 }
 
-.product .productReview .productReviewContainer {
+.product #productReview .productReviewContainer {
   background-color: #ffffff;
   padding: 25px 35px;
   margin-top: 15px;
   border-radius: 8px;
-
 }
 
-.productReview .customerReviews {
+#productReview .customerReviews {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -126,31 +120,31 @@
   object-fit: cover;
 }
 
-.productReview .writeReview {
+#productReview #writeReview {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
-.writeReview .writeReviewText {
+#writeReview .writeReviewText {
   font-size: 18px;
   color: #777777;
   font-weight: 600;
 }
 
-.writeReview textarea {
+#writeReview textarea {
   border-radius: 5px;
   border: 1px solid gray;
   height: 150px;
   padding: 10px;
 }
 
-.writeReview .reviewImages {
+#writeReview .reviewImages {
   display: flex;
   gap: 10px;
 }
-.writeReview .addImage {
+#writeReview .addImage {
   width: 80px;
   height: 80px;
   border: 1px dashed lightgray;
@@ -162,30 +156,28 @@
   cursor: pointer;
 }
 
-.writeReview .addImage .addImageIcon {
+#writeReview .addImage .addImageIcon {
   font-size: 21px;
 }
 
-.writeReview .addImage span {
+#writeReview .addImage span {
   font-weight: 500;
   text-align: center;
   font-size: 14px;
 }
 
-.writeReview .submitReview {
+#writeReview .submitReview {
   width: auto;
   display: flex;
   justify-content: flex-end;
 }
 
-.writeReview .submitReview button {
+#writeReview .submitReview button {
   border-radius: 25px;
   padding: 10px 30px;
   /* background-color: #0c1d26;
   color: #ffffff; */
 }
-
-
 
 /* 
 .singleProduct {
@@ -197,15 +189,13 @@
   cursor: pointer;
 } */
 
-
 @media screen and (min-width: 1700px) {
   .productContainer {
     width: 65% !important;
   }
 }
 
-
-@media screen and (max-width: 768px) { 
+@media screen and (max-width: 768px) {
   .productContainer {
     width: 100%;
   }
@@ -243,8 +233,6 @@
   color: #ffffff; */
 }
 
-
-
 /* 
 .singleProduct {
   display: flex;
@@ -255,15 +243,13 @@
   cursor: pointer;
 } */
 
-
 @media screen and (min-width: 1700px) {
   .productContainer {
     width: 65% !important;
   }
 }
 
-
-@media screen and (max-width: 768px) { 
+@media screen and (max-width: 768px) {
   .productContainer {
     width: 100%;
   }

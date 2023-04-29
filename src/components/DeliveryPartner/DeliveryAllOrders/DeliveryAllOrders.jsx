@@ -119,7 +119,7 @@ const DeliveryAllOrders = () => {
     dateTo,
   ]);
 
-  console.log(orders);
+
 
   return (
     <div className="storeAllOrders">
@@ -273,19 +273,7 @@ const DeliveryAllOrders = () => {
                   ? `Delivered (${orderTypeCount.DELIVERED})`
                   : "Delivered"}
               </li>
-              <li
-                className={
-                  option === "Cancelled Orders"
-                    ? "outOfStock active"
-                    : "outOfStock"
-                }
-                id="Cancelled Orders"
-                onClick={handleChangeOrderType}
-              >
-                {orderTypeCount.CANCELLED > 0
-                  ? `Cancelled (${orderTypeCount.CANCELLED})`
-                  : "Cancelled"}
-              </li>
+
             </ul>
           )}
         </div>

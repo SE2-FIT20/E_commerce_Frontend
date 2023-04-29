@@ -89,14 +89,14 @@ export const getOrdinalSuffix = (day) => {
 export const handleDisplayStatus = (status) => {
   switch (status) {
     case "PENDING":
-      return "PENDING";
+      return "Pending";
     case "READY_FOR_DELIVERY":
-      return "READY";
+      return "Ready";
     case "DELIVERING":
       return "Delivering";
     case "DELIVERED":
       return "Delivered";
-    case "CANCELLED":
+    case "CANCELLED_BY_STORE":
       return "Cancelled";
     default:
       return "";

@@ -9,8 +9,10 @@
 }
 
 .customerReviews ul li .reviewLeft img {
-  width: 40px;
-  height: 40px;
+  max-width: 40px;
+  min-width: 40px;
+  max-height: 40px;
+  min-height: 40px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -23,8 +25,10 @@
 }
 
 .customerReviews .customerImages img {
-  width: 80px;
-  height: 80px;
+  min-width: 80px;
+  min-height: 80px;
+  max-width: 80px;
+  max-height: 80px;
   object-fit: cover;
   cursor: pointer;
 }
@@ -54,7 +58,9 @@
 .customerReviews .editReviewInput {
   border-radius: 8px;
   border: 1px solid #ccc;
-  padding: 5px 100px 5px 10px;
+  min-width: 150px;
+  padding: 8px 12px;
+  font-size: 18px;
   margin-top: 5px;
 }
 
