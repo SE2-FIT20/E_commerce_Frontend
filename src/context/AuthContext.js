@@ -13,6 +13,9 @@ export const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState(
     JSON.parse(localStorage.getItem("token")) || ""
   );
+  const [cartProducts, setCartProducts] = useState([]);
+  const [error, setError] = useState(false);
+
   const BACKEND_URL = "https://e-commerce-production-bb2e.up.railway.app";
   const config = {
     headers: {
