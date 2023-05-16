@@ -11,11 +11,13 @@ import {
   handleUpdateStore,
   handleUpdateDelivery,
 } from "./updateProfileLogic.js";
+import CustomerPopup from "../../components/Customer/CustomerPopup/CustomerPopup";
 
 const UpdateProfile = () => {
   const { currentUser, setCurrentUser, BACKEND_URL, config, role } =
     useContext(AuthContext);
   const [newAvatar, setNewAvatar] = useState(null);
+  const [openPopup, setOpenPopup] = useState(false);
   const [userInfo, setUserInfo] = useState({
     name: currentUser.name || "",
     phoneNumber: currentUser.phoneNumber || "",
@@ -38,6 +40,10 @@ const UpdateProfile = () => {
   const toast = useToast();
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
     document.title = "My Profile | BazaarBay";
   }, []);
   return (
@@ -88,6 +94,7 @@ const UpdateProfile = () => {
                             userInfo,
                             newAvatar,
                             setCurrentUser,
+                            setOpenPopup,
                             BACKEND_URL,
                             config,
                             toast
@@ -212,6 +219,7 @@ const UpdateProfile = () => {
                             storeInfo,
                             newAvatar,
                             setCurrentUser,
+                            setOpenPopup,
                             BACKEND_URL,
                             config,
                             toast
@@ -304,6 +312,7 @@ const UpdateProfile = () => {
                             deliveryInfo,
                             newAvatar,
                             setCurrentUser,
+                            setOpenPopup,
                             BACKEND_URL,
                             config,
                             toast
@@ -340,6 +349,7 @@ const UpdateProfile = () => {
           </div>
         </div>
       )}
+      <CustomerPopup open={openPopup} setOpen={setOpenPopup} popupType="account-locked" />
       {role === "CUSTOMER" && <Footer />}
     </div>
   );

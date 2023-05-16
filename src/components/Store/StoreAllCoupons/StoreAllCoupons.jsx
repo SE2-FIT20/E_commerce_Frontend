@@ -10,6 +10,7 @@ import { StoreContext } from "../../../context/StoreContext";
 import StoreCoupon from "../StoreCoupon/StoreCoupon";
 import StorePopup from "../StorePopup/StorePopup";
 import NoCoupon from "../../../images/no-coupon.png";
+import CustomerPopup from "../../../components/Customer/CustomerPopup/CustomerPopup"
 
 const StoreAllCoupons = () => {
   const history = useHistory();
@@ -19,6 +20,7 @@ const StoreAllCoupons = () => {
   const [loading, setLoading] = useState(false);
   const [openPopup, setOpenPopup] = useState(false);
   const [popupType, setPopupType] = useState("");
+  const [openCustomerPopup, setOpenCustomerPopup] = useState(false);
   const [selectedCoupon, setSelectedCoupon] = useState(null);
   const [openFilterOptions, setOpenFilterOptions] = useState(false);
   const [openFilterOrder, setOpenFilterOrder] = useState(false);
@@ -36,7 +38,7 @@ const StoreAllCoupons = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `${BACKEND_URL}/api/store/coupon-sets?page=${currentPage}&elementsPerPage=7&filter=${filterOption}&sortBy=${filterOrder}`,
+        `${BACKEND_URL}/api/store/coupon-sets?page=${currentPage}&elementsPerPage=20&filter=${filterOption}&sortBy=${filterOrder}`,
         config
       );
       setCoupons(data.data.content);
@@ -45,6 +47,14 @@ const StoreAllCoupons = () => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
+      if (
+        error.response.data.message ===
+        "Your account is locked! Please contact admin to unlock your account!"
+      ) {
+        setLoading(false);
+        setOpenCustomerPopup(true);
+        return;
+      }
       toast({
         title: "An error occurred fetching coupons",
         status: "error",
@@ -318,6 +328,7 @@ const StoreAllCoupons = () => {
         coupon={selectedCoupon}
         fetchCoupons={fetchCoupons}
       />
+      <CustomerPopup open={openCustomerPopup} setOpen={setOpenCustomerPopup} popupType="account-locked" />
     </div>
   );
 };

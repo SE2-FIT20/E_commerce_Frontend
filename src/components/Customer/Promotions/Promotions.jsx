@@ -8,6 +8,7 @@ import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import { StoreContext } from "../../../context/StoreContext";
 import Promotion from "../Promotion/Promotion";
+import CustomerPopup from "../CustomerPopup/CustomerPopup";
 
 const Promotions = () => {
   const history = useHistory();
@@ -15,7 +16,7 @@ const Promotions = () => {
   const { option } = useContext(StoreContext);
   const [vouchers, setVouchers] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [popupType, setPopupType] = useState(null);
+  const [popupType, setPopupType] = useState("");
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedVoucher, setSelectedVoucher] = useState(null);
   const [openFilterOptions, setOpenFilterOptions] = useState(false);
@@ -40,6 +41,14 @@ const Promotions = () => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
+      if (
+        error.response.data.message ===
+        "Your account is locked! Please contact admin to unlock your account!"
+      ) {
+        setPopupType("account-locked")
+        setOpenPopup(true);
+        return;
+      }
       toast({
         title: "An error occurred fetching vouchers",
         status: "error",
@@ -97,7 +106,6 @@ const Promotions = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [filterOptionRef, filterOrderRef, productPerPageOptionRef]);
-  console.log(vouchers)
   useEffect(() => {
     if (!currentUser) history.push("/")
     document.title = "My Voucher | BazaarBay"
@@ -253,6 +261,7 @@ const Promotions = () => {
           </div>
         )}
       </div>
+      <CustomerPopup open={openPopup} setOpen={setOpenPopup} popupType={popupType} />
     </div>
   );
 };

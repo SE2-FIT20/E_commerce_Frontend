@@ -63,7 +63,6 @@ const Store = () => {
       setLoading(false);
     }
   };
-  console.log(coupons)
   const fetchProducts = async () => {
     try {
       setProductLoading(true);
@@ -147,7 +146,6 @@ const Store = () => {
     );
 
   const handleSaveCoupon = async (couponId) => {
-    console.log(couponId)
     try {
       await axios.put(
         `${BACKEND_URL}/api/customer/vouchers-coupons/${couponId}`,

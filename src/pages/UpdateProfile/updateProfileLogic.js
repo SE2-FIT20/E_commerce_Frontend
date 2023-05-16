@@ -13,6 +13,7 @@ export const handleUpdateProfile = async (
   userInfo,
   newAvatar,
   setCurrentUser,
+  setOpenPopup,
   BACKEND_URL,
   config,
   toast
@@ -38,21 +39,35 @@ export const handleUpdateProfile = async (
         },
         config
       );
-    } catch (error) {}
-    toast({
-      title: "Update info with avatar successful",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-      position: "bottom",
-    });
-    const { data } = await axios.get(
-      `${BACKEND_URL}/api/customer/account`,
-      config
-    );
-    setCurrentUser(data.data);
-    window.location.reload();
-
+      toast({
+        title: "Update info with avatar successful",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+      const { data } = await axios.get(
+        `${BACKEND_URL}/api/customer/account`,
+        config
+      );
+      setCurrentUser(data.data);
+      window.location.reload();
+    } catch (error) {
+      if (
+        error.response.data.message ===
+        "Your account is locked! Please contact admin to unlock your account!"
+      ) {
+        setOpenPopup(true);
+        return;
+      }
+      toast({
+        title: "An error occurred while trying to update profile",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
   } else {
     try {
       await axios.put(
@@ -76,8 +91,14 @@ export const handleUpdateProfile = async (
       );
       setCurrentUser(data.data);
       window.location.reload();
-
     } catch (error) {
+      if (
+        error.response.data.message ===
+        "Your account is locked! Please contact admin to unlock your account!"
+      ) {
+        setOpenPopup(true);
+        return;
+      }
       toast({
         title: "An error occurred while trying to update profile",
         status: "error",
@@ -94,6 +115,7 @@ export const handleUpdateStore = async (
   storeInfo,
   newAvatar,
   setCurrentUser,
+  setOpenPopup,
   BACKEND_URL,
   config,
   toast
@@ -119,7 +141,22 @@ export const handleUpdateStore = async (
         },
         config
       );
-    } catch (error) {}
+    } catch (error) {
+      if (
+        error.response.data.message ===
+        "Your account is locked! Please contact admin to unlock your account!"
+      ) {
+        setOpenPopup(true);
+        return;
+      }
+      toast({
+        title: "An error occurred while trying to update profile",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
     toast({
       title: "Update store with avatar successful",
       status: "success",
@@ -156,8 +193,14 @@ export const handleUpdateStore = async (
       );
       setCurrentUser(data.data);
       window.location.reload();
-
     } catch (error) {
+      if (
+        error.response.data.message ===
+        "Your account is locked! Please contact admin to unlock your account!"
+      ) {
+        setOpenPopup(true);
+        return;
+      }
       toast({
         title: "An error occurred while trying to update profile",
         status: "error",
@@ -180,7 +223,7 @@ export const handleUpdateDelivery = async (
 ) => {
   e.preventDefault();
   if (newAvatar) {
-    console.log(deliveryInfo)
+    console.log(deliveryInfo);
     const formData = new FormData();
     formData.append("file", newAvatar);
     formData.append("upload_preset", "BazaarBay");
@@ -235,7 +278,6 @@ export const handleUpdateDelivery = async (
       );
       setCurrentUser(data.data);
       window.location.reload();
-
     } catch (error) {
       toast({
         title: "An error occurred while trying to update profile",

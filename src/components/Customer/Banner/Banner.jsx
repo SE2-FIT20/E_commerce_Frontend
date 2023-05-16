@@ -85,15 +85,16 @@ const Banner = () => {
           className="bannerRight"
           onClick={() => {
             window.scrollTo({
-              top: document.querySelector(".minigame").offsetTop,
+              top:
+                document.querySelector(".minigame").offsetTop +
+                document.querySelector(".minigame").offsetHeight / 2 -
+                window.innerHeight / 2,
+
               behavior: "smooth",
             });
           }}
         >
-          <img
-            src={StaticBanner}
-            alt=""
-          />
+          <img src={StaticBanner} alt="" />
         </div>
       </div>
     </div>

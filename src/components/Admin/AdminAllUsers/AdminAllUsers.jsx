@@ -57,7 +57,6 @@ const AdminAllUsers = () => {
   const filterInputRef = useRef();
   const userPerPageOptionRef = useRef();
   const toast = useToast();
-  console.log(filterStatus);
   const fetchUsers = async () => {
     try {
       setLoading(true);
@@ -122,7 +121,7 @@ const AdminAllUsers = () => {
         return "Date";
     }
   };
-
+  console.log(users)
   const handleSeeDetail = (user) => {
     setSelectedUser(user);
     setOpenAdminSeeDetail(true);
@@ -466,7 +465,7 @@ const AdminAllUsers = () => {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user) => (
+                {users.slice(0, userPerPage).map((user) => (
                   <tr key={user.id}>
                     <th
                       style={{ flex: "0.4" }}

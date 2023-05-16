@@ -10,9 +10,17 @@ import Search from "../Search/Search";
 import CartPreview from "../CartPreview/CartPreview";
 import axios from "axios";
 
-const Navbar = ({ fetchPreviewCart, cartProducts, setCartProducts }) => {
-  const { currentUser, setCurrentUser, setRole, BACKEND_URL, config } =
-    useContext(AuthContext);
+const Navbar = () => {
+  const {
+    currentUser,
+    setCurrentUser,
+    setRole,
+    BACKEND_URL,
+    config,
+    fetchPreviewCart,
+    cartProducts,
+    setCartProducts,
+  } = useContext(AuthContext);
   const [openSetting, setOpenSetting] = useState(false);
   const [openSearch, setOpenSearch] = useState(false);
   const [openCartPreview, setOpenCartPreview] = useState(false);

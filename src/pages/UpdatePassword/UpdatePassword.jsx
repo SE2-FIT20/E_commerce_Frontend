@@ -4,12 +4,15 @@ import { AuthContext } from "../../context/AuthContext";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import CustomerPopup from "../../components/Customer/CustomerPopup/CustomerPopup";
 
 const UpdatePassword = ({ setCartProducts }) => {
   const { BACKEND_URL, config, setCurrentUser, setRole } =
     useContext(AuthContext);
   const toast = useToast();
   const history = useHistory();
+  const [openPopup, setOpenPopup] = useState(false);
+
   const [credentials, setCredentials] = useState({
     oldPassword: "",
     newPassword: "",
@@ -57,6 +60,13 @@ const UpdatePassword = ({ setCartProducts }) => {
       history.push("/");
       handleLogout();
     } catch (error) {
+      if (
+        error.response.data.message ===
+        "Your account is locked! Please contact admin to unlock your account!"
+      ) {
+        setOpenPopup(true);
+        return;
+      }
       return toast({
         title: "Wrong password!",
         status: "error",
@@ -67,6 +77,10 @@ const UpdatePassword = ({ setCartProducts }) => {
     }
   };
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
     document.title = "Change Password | BazaarBay";
   }, []);
   return (
@@ -108,6 +122,11 @@ const UpdatePassword = ({ setCartProducts }) => {
           </button>
         </div>
       </div>
+      <CustomerPopup
+        open={openPopup}
+        setOpen={setOpenPopup}
+        popupType="account-locked"
+      />
     </div>
   );
 };

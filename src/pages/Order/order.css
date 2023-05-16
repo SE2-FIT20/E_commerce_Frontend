@@ -2,13 +2,22 @@
   width: 100%;
   background-color: #f5f5f5;
   overflow-y: auto;
-  min-height: calc(100vh - 70px);
+  max-height: calc(100vh - 70px);
+}
+
+.order .orders {
+  max-height: 80vh;
+  overflow-y: scroll;
+  padding-bottom: 60px;
+  
 }
 
 .orderContainer {
   width: 65%;
   margin: auto;
   height: auto;
+  min-height: calc(100vh - 70px);
+
 }
 
 .ordersFilter {

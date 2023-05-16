@@ -121,7 +121,6 @@ const Minigame = () => {
       ninethItem[0],
       tenthItem[0],
     ]);
-    console.log(results[0]);
     if (firstItem.includes(results[0])) setSelectedVoucher(wheelItems[0]);
     if (secondItem.includes(results[0])) setSelectedVoucher(wheelItems[1]);
     if (thirdItem.includes(results[0])) setSelectedVoucher(wheelItems[2]);
@@ -243,9 +242,7 @@ const Minigame = () => {
       setWheelItems([...vouchers, ""]);
     }
   }, [vouchers]);
-  useEffect(() => {
-    console.log(selectedVoucher);
-  }, [selectedVoucher]);
+
 
   return (
     <div className="minigame">

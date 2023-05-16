@@ -18,6 +18,7 @@ import CustomerPopup from "../../components/Customer/CustomerPopup/CustomerPopup
 
 const Product = ({ fetchPreviewCart }) => {
   const { BACKEND_URL, currentUser, config } = useContext(AuthContext);
+  const hash = window.location.hash;
   const location = useLocation();
   const productId = location.pathname.split("/")[2];
   const [product, setProduct] = useState(null);
@@ -34,7 +35,6 @@ const Product = ({ fetchPreviewCart }) => {
     productId,
     images: [],
   });
-
   const toast = useToast();
 
   const getReviewable = async () => {
@@ -184,13 +184,19 @@ const Product = ({ fetchPreviewCart }) => {
       }
     }
   };
+  if (hash) {
+    const section = document.querySelector(hash);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  }
 
   useEffect(() => {
     fetchProduct();
     fetchReviews();
     if (currentUser) getReviewable();
   }, [location]);
-  console.log(reviewable);
+
   return (
     <div className="product">
       <BreadCrumb title="Product" />
@@ -202,7 +208,7 @@ const Product = ({ fetchPreviewCart }) => {
               fetchPreviewCart={fetchPreviewCart}
             />
           )}
-          <div className="productReview">
+          <div id="productReview">
             <span className="reviewText">Review</span>
             <div className="productReviewContainer">
               {reviews.length > 0 && (
@@ -229,7 +235,7 @@ const Product = ({ fetchPreviewCart }) => {
               )}
               {/* write review */}
               {currentUser && reviewable && (
-                <div className="writeReview">
+                <div id="writeReview">
                   <div className="writeReviewText">Write your review</div>
                   <div className="reviewVote">
                     <ReactStars

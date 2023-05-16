@@ -42,27 +42,27 @@ import UpdateCoupon from "./components/Store/UpdateCoupon/UpdateCoupon";
 import Promotions from "./components/Customer/Promotions/Promotions";
 
 function App() {
-  const { role, currentUser, BACKEND_URL, config } = useContext(AuthContext);
-  const [cartProducts, setCartProducts] = useState([]);
-  const [error, setError] = useState(false);
+  const { role, cartProducts, fetchPreviewCart, error, setCartProducts } = useContext(AuthContext);
+  // const [cartProducts, setCartProducts] = useState([]);
+  // const [error, setError] = useState(false);
   const history = useHistory();
-  const fetchPreviewCart = async () => {
-    if (role === "CUSTOMER" && currentUser) {
-      try {
-        const { data } = await axios.get(
-          `${BACKEND_URL}/api/customer/preview-cart`,
-          config
-        );
-        setCartProducts(data.data);
-        setError(false);
-      } catch (error) {
-        // setError(true);
-      }
-    }
-  };
-  useEffect(() => {
-    if (role === "CUSTOMER") fetchPreviewCart();
-  }, [history]);
+  // const fetchPreviewCart = async () => {
+  //   if (role === "CUSTOMER" && currentUser) {
+  //     try {
+  //       const { data } = await axios.get(
+  //         `${BACKEND_URL}/api/customer/preview-cart`,
+  //         config
+  //       );
+  //       setCartProducts(data.data);
+  //       setError(false);
+  //     } catch (error) {
+  //       // setError(true);
+  //     }
+  //   }
+  // };
+  // useEffect(() => {
+  //   if (role === "CUSTOMER") fetchPreviewCart();
+  // }, [history]);
   useEffect(() => {
     if (role === "CUSTOMER") {
       document.title = " BazaarBay";

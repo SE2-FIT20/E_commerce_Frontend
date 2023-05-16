@@ -41,6 +41,7 @@ const Checkout = () => {
   const [selectedAddress, setSelectedAddress] = useState(address);
   const [selectedVouchers, setSelectedVouchers] = useState([]);
   const [chosenVouchers, setChosenVouchers] = useState([]);
+  const [voucherIds, setVoucherIds] = useState([]);
   const [creditCards, setCreditCards] = useState([]);
   const [selectedDeliveryPartnerId, setSelectedDeliveryPartnerId] = useState(0);
   const [shippingFee, setShippingFee] = useState(0);
@@ -73,7 +74,23 @@ const Checkout = () => {
         config
       );
       setStoreProducts(data.data);
-    } catch (error) {}
+    } catch (error) {
+      if (
+        error.response.data.message ===
+        "Your account is locked! Please contact admin to unlock your account!"
+      ) {
+        setOpenPopup(true);
+        setPopupType("account-locked");
+        return;
+      }
+      toast({
+        title: "An error occurred adding product to cart",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
   };
 
   const fetchVoucher = async () => {
@@ -94,32 +111,6 @@ const Checkout = () => {
     } catch (error) {}
   };
 
-  const handleAddVoucherToCart = async (voucher) => {
-    try {
-      // await axios.put(
-      //   `${BACKEND_URL}/api/customer/add-voucher-coupon-to-cart/${voucher.id}`,
-      //   {},
-      //   config
-      // );
-      toast({
-        title: "Add voucher successful",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom",
-      });
-      setSelectedVouchers(chosenVouchers);
-      setOpenChooseVoucher(false);
-    } catch (error) {
-      toast({
-        title: "You can add only 1 voucher and/or 1 coupon!",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom",
-      });
-    }
-  };
 
   const handleChooseVoucher = (voucher) => {
     if (chosenVouchers.some((v) => v.id === voucher.id)) {
@@ -129,26 +120,37 @@ const Checkout = () => {
     }
   };
 
+  const handleAddVoucherToCart = async () => {
+    if (
+      chosenVouchers.filter((v) => v.type === "voucher").length > 1 ||
+      chosenVouchers.filter((v) => v.type === "coupon").length > 1
+    ) {
+      return toast({
+        title: "You may choose only one voucher and/or one coupon!",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
+    setSelectedVouchers(chosenVouchers);
+    setOpenChooseVoucher(false);
+  };
+
   const handleRemoveVoucherFromCart = async (voucher) => {
-    try {
-      // await axios.put(
-      //   `${BACKEND_URL}/api/customer/remove-voucher-coupon-to-cart/${voucher.id}`,
-      //   {},
-      //   config
-      // );
-      setSelectedVouchers(chosenVouchers.filter((v) => v.id !== voucher.id));
-      setChosenVouchers(chosenVouchers.filter((v) => v.id !== voucher.id));
-    } catch (error) {}
+    setSelectedVouchers(chosenVouchers.filter((v) => v.id !== voucher.id));
+    setChosenVouchers(chosenVouchers.filter((v) => v.id !== voucher.id));
   };
 
   const fetchCreditCard = async () => {
     try {
-      const { data } = await axios.get(`${BACKEND_URL}/api/customer/payment-information`, config)
-      setCreditCards(data.data)
-    } catch (error) {
-      
-    }
-  }
+      const { data } = await axios.get(
+        `${BACKEND_URL}/api/customer/payment-information`,
+        config
+      );
+      setCreditCards(data.data);
+    } catch (error) {}
+  };
 
   const handleClickOnlinePayment = () => {
     if (creditCards.length > 0) {
@@ -157,7 +159,7 @@ const Checkout = () => {
       setOpenPopup(true);
       setPopupType("nav-credit-card");
     }
-  }
+  };
 
   const handleCheckout = async () => {
     if (currentUser.addresses.length === 0 || !currentUser.phoneNumber) {
@@ -166,6 +168,14 @@ const Checkout = () => {
     } else {
       setLoading(true);
       try {
+        voucherIds.length > 0 &&
+          (await axios.put(
+            `${BACKEND_URL}/api/customer/add-voucher-coupon-to-cart`,
+            {
+              promotionIds: voucherIds,
+            },
+            config
+          ));
         await axios.post(
           `${BACKEND_URL}/api/customer/checkout`,
           {
@@ -185,12 +195,37 @@ const Checkout = () => {
 
         setLoading(false);
         setOpenConfirmCheckout(true);
+        await axios.put(
+          `${BACKEND_URL}/api/customer/remove-all-voucher-coupon-from-cart`,
+          {},
+          config
+        );
         const { data } = await axios.get(
           `${BACKEND_URL}/api/customer/account`,
           config
         );
         setCurrentUser(data.data);
       } catch (error) {
+        if (
+          error.response.data.message ===
+          "Your account is locked! Please contact admin to unlock your account!"
+        ) {
+          setLoading(false);
+          setPopupType("account-locked");
+          setOpenPopup(true);
+          return;
+        }
+        if (error.response.data.message === "Not enough balance to checkout") {
+          setLoading(false);
+          return toast({
+            title: "Not enough balance to checkout!",
+            status: "error",
+            duration: 3000,
+            isClosable: true,
+            position: "bottom",
+          });
+        }
+
         toast({
           title: "An error occurred checking out",
           status: "error",
@@ -202,23 +237,31 @@ const Checkout = () => {
       }
     }
   };
+
+  window.addEventListener("beforeunload", async function (event) {
+    await axios.put(
+      `${BACKEND_URL}/api/customer/remove-all-voucher-coupon-from-cart`,
+      {},
+      config
+    );
+  });
   useEffect(() => {
     fetchCart();
     fetchVoucher();
     fetchDeliveryPartners();
-    fetchCreditCard()
+    fetchCreditCard();
     document.title = "Checkout | BazaarBay";
   }, []);
-  console.log(creditCards)
   useEffect(() => {
     setCouponDiscount(
       selectedVouchers.filter((item) => item.type === "coupon")[0]?.percent || 0
     );
     setVoucherDiscount(
-      selectedVouchers.filter((item) => item.type === "voucher")[0]?.percent || 0
+      selectedVouchers.filter((item) => item.type === "voucher")[0]?.percent ||
+        0
     );
+    setVoucherIds(selectedVouchers.map((voucher) => voucher.id));
   }, [selectedVouchers]);
-
   useEffect(() => {
     if (deliveryPartners.length > 0) {
       setShippingFee(
@@ -263,7 +306,6 @@ const Checkout = () => {
     provideInfo,
     chooseVoucherRef,
   ]);
-
 
   return (
     <div
@@ -458,7 +500,7 @@ const Checkout = () => {
                     ? "paymentItem selectedPaymentMethod"
                     : "paymentItem"
                 }
-                onClick={() => handleClickOnlinePayment() }
+                onClick={() => handleClickOnlinePayment()}
               >
                 <img src={WalletBanking} alt="" />
                 <span>Bazaar Wallet</span>
@@ -504,7 +546,7 @@ const Checkout = () => {
                     <tr style={{ paddingTop: "20px" }}>
                       <td className="priceHeading">Total Price:</td>
                       <td className="priceTotalContainer">
-                        {couponDiscount > 0 && voucherDiscount > 0 && (
+                        {(couponDiscount > 0 || voucherDiscount > 0) && (
                           <div className="price initialPrice">
                             <span className="price-symbol"></span>
                             {"₫" + formatNumber(subTotalPrice + shippingFee)}
@@ -748,7 +790,11 @@ const Checkout = () => {
           </div>
         </div>
       </div>
-      <CustomerPopup open={openPopup} setOpen={setOpenPopup} popupType={popupType}/>
+      <CustomerPopup
+        open={openPopup}
+        setOpen={setOpenPopup}
+        popupType={popupType}
+      />
       <Footer />
     </div>
   );

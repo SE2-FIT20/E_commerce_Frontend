@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-
+import axios from "axios";
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
@@ -21,7 +21,20 @@ export const AuthContextProvider = ({ children }) => {
     },
   };
   const history = useHistory();
-
+  const fetchPreviewCart = async () => {
+    if (role === "CUSTOMER" && currentUser) {
+      try {
+        const { data } = await axios.get(
+          `${BACKEND_URL}/api/customer/preview-cart`,
+          config
+        );
+        setCartProducts(data.data);
+        setError(false);
+      } catch (error) {
+        // setError(true);
+      }
+    }
+  };
   useEffect(() => {
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
   }, [currentUser]);
@@ -34,6 +47,10 @@ export const AuthContextProvider = ({ children }) => {
     localStorage.setItem("role", JSON.stringify(role));
   }, [role]);
 
+  useEffect(() => {
+    if (role === "CUSTOMER") fetchPreviewCart();
+  }, [history]);
+
   return (
     <AuthContext.Provider
       value={{
@@ -43,6 +60,9 @@ export const AuthContextProvider = ({ children }) => {
         setRole,
         token,
         config,
+        cartProducts,
+        setCartProducts,
+        fetchPreviewCart,
         setToken,
         BACKEND_URL,
       }}

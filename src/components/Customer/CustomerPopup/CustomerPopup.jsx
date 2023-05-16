@@ -20,12 +20,19 @@ const CustomerPopup = ({
   fetchOrderTypeCount,
   review,
   fetchReviews,
+  closable,
 }) => {
   const history = useHistory();
   const popup = useRef();
   const toast = useToast();
-  const { BACKEND_URL, config, setCurrentUser, token } =
-    useContext(AuthContext);
+  const {
+    BACKEND_URL,
+    config,
+    setCurrentUser,
+    token,
+    setRole,
+    setCartProducts,
+  } = useContext(AuthContext);
   const handleConfirm = async (popupType) => {
     if (popupType === "delete-credit-card") {
       await axios.delete(
@@ -112,12 +119,17 @@ const CustomerPopup = ({
       });
       setCurrentUser(data.data);
     } else if (popupType === "nav-credit-card") {
-      history.push("/account/wallet")
+      history.push("/account/wallet");
+    } else if (popupType === "account-locked") {
+      setCurrentUser(null);
+      setRole("CUSTOMER");
+      setCartProducts([]);
+      history.push("/");
     }
   };
   useEffect(() => {
     function handleClickOutside(event) {
-      if (popup.current && !popup.current.contains(event.target)) {
+      if (popup.current && !popup.current.contains(event.target) && closable) {
         setOpen(false);
       }
     }
@@ -148,8 +160,14 @@ const CustomerPopup = ({
           {popupType === "nav-credit-card" && (
             <span>{`Your account is not linked to any credit card. Do you want to add a new one?`}</span>
           )}
+          {popupType === "account-locked" && (
+            <span>{`Your account is locked! Please contact admin to unlock your account!`}</span>
+          )}
         </div>
-        {popupType !== "nav-credit-card" && (
+        {(popupType == "delete-credit-card" ||
+          popupType == "top-up-balance" ||
+          popupType == "customer-cancel-order" ||
+          popupType == "delete-review") && (
           <div className="deleteBtnContainer">
             <button className="button" onClick={() => handleConfirm(popupType)}>
               Yes
@@ -159,17 +177,19 @@ const CustomerPopup = ({
             </button>
           </div>
         )}
-        {popupType == "nav-credit-card" && (
+        {(popupType == "nav-credit-card" || popupType == "account-locked") && (
           <div className="deleteBtnContainer">
             <button className="button" onClick={() => handleConfirm(popupType)}>
               OK
             </button>
-            <button
-              className="button cancelButton"
-              onClick={() => setOpen(false)}
-            >
-              Cancel
-            </button>
+            {popupType !== "account-locked" && (
+              <button
+                className="button cancelButton"
+                onClick={() => setOpen(false)}
+              >
+                Cancel
+              </button>
+            )}
           </div>
         )}
       </div>

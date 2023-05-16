@@ -28,9 +28,10 @@ import {
   revertTimeStamp,
 } from "../../longFunctions";
 import { faClock } from "@fortawesome/free-regular-svg-icons";
+import CustomerPopup from "../CustomerPopup/CustomerPopup";
 
-const ProductDetail = ({ product, fetchPreviewCart }) => {
-  const { BACKEND_URL, config, currentUser } = useContext(AuthContext);
+const ProductDetail = ({ product }) => {
+  const { BACKEND_URL, config, currentUser, fetchPreviewCart } = useContext(AuthContext);
   const [quantity, setQuantity] = useState(1);
   const [storeCoupons, setStoreCoupons] = useState([]);
   const [userVouchers, setUserVouchers] = useState([]);
@@ -40,7 +41,7 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
   const [openImage, setOpenImage] = useState(false);
   const [readMoreDesc, setReadMoreDesc] = useState(false);
   const [openUserVouchers, setOpenUserVouchers] = useState(false);
-
+  const [openPopup, setOpenPopup] = useState(false);
   const [openStoreCoupons, setOpenStoreCoupons] = useState(false);
   const mainImage = useRef();
   const imageDisplay = useRef();
@@ -64,9 +65,43 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
       prev === product.images.length - 5 ? product.images.length - 5 : prev + 1
     );
   };
-  const handleClickBuyNow = (productId) => {
-    handleAddToCart(productId);
-    history.push(`/checkout`);
+  const handleClickBuyNow = async (productId) => {
+    try {
+      await axios.post(
+        `${BACKEND_URL}/api/customer/add-to-cart`,
+        {
+          item: {
+            productId,
+            quantity,
+          },
+        },
+        config
+      );
+      toast({
+        title: "Add to cart successful",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+      fetchPreviewCart();
+      history.push(`/checkout`);
+    } catch (error) {
+      if (
+        error.response.data.message ===
+        "Your account is locked! Please contact admin to unlock your account!"
+      ) {
+        setOpenPopup(true);
+        return;
+      }
+      toast({
+        title: "An error occurred adding product to cart",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+    }
   };
   const fetchStoreCoupons = async (storeId) => {
     try {
@@ -107,6 +142,14 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
       });
       fetchPreviewCart();
     } catch (error) {
+      console.log(error);
+      if (
+        error.response.data.message ===
+        "Your account is locked! Please contact admin to unlock your account!"
+      ) {
+        setOpenPopup(true);
+        return;
+      }
       toast({
         title: "An error occurred adding product to cart",
         status: "error",
@@ -117,7 +160,6 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
     }
   };
   const handleSaveCoupon = async (couponId) => {
-    console.log(couponId);
     try {
       await axios.put(
         `${BACKEND_URL}/api/customer/vouchers-coupons/${couponId}`,
@@ -435,8 +477,13 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
                   )}
                   <tr>
                     <th className="productHeading">Category</th>
-                    <th className="productContent productContentBox" style={{ textAlign: "center"}}>
-                      {product.category === "CARS_MOTORBIKES" ? "Cars & Motorbikes" : capitalize(product.category.toLowerCase())}
+                    <th
+                      className="productContent productContentBox"
+                      style={{ textAlign: "center" }}
+                    >
+                      {product.category === "CARS_MOTORBIKES"
+                        ? "Cars & Motorbikes"
+                        : capitalize(product.category.toLowerCase())}
                     </th>
                   </tr>
 
@@ -630,6 +677,12 @@ const ProductDetail = ({ product, fetchPreviewCart }) => {
           )}
         </div>
       </div>
+      <CustomerPopup
+        open={openPopup}
+        setOpen={setOpenPopup}
+        popupType="account-locked"
+        closable={false}
+      />
     </div>
   );
 };
