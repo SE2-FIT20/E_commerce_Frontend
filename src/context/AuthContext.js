@@ -13,7 +13,7 @@ export const AuthContextProvider = ({ children }) => {
   const [token, setToken] = useState(
     JSON.parse(localStorage.getItem("token")) || ""
   );
-  const BACKEND_URL = "https://e-commerce-production-2185.up.railway.app";
+  const BACKEND_URL = "https://e-commerce-production-bb2e.up.railway.app";
   const config = {
     headers: {
       "Content-type": "application/json",

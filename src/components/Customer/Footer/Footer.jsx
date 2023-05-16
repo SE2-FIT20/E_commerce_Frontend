@@ -27,13 +27,11 @@ const Footer = () => {
         <div className="groupInfo">
           <h1>About Us</h1>
           <ul>
-            <li>{`Nguyen Quang Nam (Scrum Master)`}</li>
-            <li>{`Do Minh Quan (Front-end Developer)`}</li>
-            <li>{`Tran Viet Hoa (Front-end Developer, Document)`}</li>
-            <li>{`Nguyen Manh Hai (Back-end Developer)`}</li>
-            <li>{`Nguyen Hoang Vy (Back-end Developer, Document)`}</li>
-            <li>{`Tran Khac Linh (Back-end Developer, Document)`}</li>
-            <li>{`Tran Nhu Lam (Document)`}</li>
+            <li>{`Nguyen Quang Nam (4C20)`}</li>
+            <li>{`Do Minh Quan (3C20)`}</li>
+            <li>{`Tran Viet Hoa (3C20)`}</li>
+            <li>{`Tran Khac Linh (6C20)`}</li>
+            <li>{`Tran Nhu Lam (3C20)`}</li>
           </ul>
         </div>
         <div className="contactUs">
